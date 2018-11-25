@@ -1,0 +1,12 @@
+Type	Model	UAS
+interleave	random	0.76
+interleave	random	0.78
+interleave	optimized	0.84
+even_odd	random	0.66
+even_odd	random	0.66
+even_odd	random	0.65
+even_odd	optimized	0.79
+inwards	random	0.68
+inwards	random	0.71
+inwards	optimized	0.80
+

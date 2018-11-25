@@ -1,0 +1,14 @@
+Type	Model	LM_Loss
+inwards	random	9.998
+inwards	random	9.93
+inwards	random	9.98
+inwards	optimized	9.82
+even_odd	random	9.91
+even_odd	random	9.96
+even_odd	random	10.01
+even_odd	optimized	9.80	
+interleave	random	9.47
+interleave	random	9.35
+interleave	random	9.51
+interleave	optimized	9.07
+
