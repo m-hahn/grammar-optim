@@ -1,10 +1,10 @@
-data = read.csv("CS_SCR/deps/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(forcats)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancient", "Old_Church_Slavonic" = "Old"))
-languages = read.csv("languages-iso_codes.tsv")
+languages = read.csv("../languages/languages-iso_codes.tsv")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 library("brms")
 dependency = "nmod"

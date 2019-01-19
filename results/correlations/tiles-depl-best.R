@@ -1,3 +1,4 @@
+# Creating the tiles plot
 
 data = read.csv("CS_SCR/deps/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
