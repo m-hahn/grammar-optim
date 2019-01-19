@@ -24,12 +24,12 @@ depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", 
 
 
 
-dataS = read.csv("../../grammars/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS2 = read.csv("../../grammars/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = rbind(dataS, dataS2)
 
-dataP = read.csv("../../grammars/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("../../grammars/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP = rbind(dataP, dataP2)
 
 
