@@ -1,6 +1,6 @@
 
 # _final/
-data = read.csv("CS_SCR/deps/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 library(forcats)
 library(dplyr)
@@ -16,7 +16,7 @@ dryer_greenberg_fine = data
 
 
 
-languages = read.csv("languages-iso_codes.tsv")
+languages = read.csv("../languages/languages-iso_codes.tsv")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -54,12 +54,12 @@ dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "com
 #dependencies = c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
 
 
-
-sink("results-prevalence-parser-best.tsv")
+outpath = "output/results-prevalence-parser-best.tsv"
+sink(outpath)
 cat("")
 sink()
 
-cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="results-prevalence-parser-best.tsv", append=TRUE, sep="\n")
+cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file=outpath, append=TRUE, sep="\n")
 
 
 for(dependency in dependencies) {
@@ -72,7 +72,7 @@ for(dependency in dependencies) {
    posteriorMean = mean(samples)
    posteriorSD = sd(samples)
    satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
-   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file="results-prevalence-parser-best.tsv", append=TRUE, sep="\n")
+   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file=outpath, append=TRUE, sep="\n")
 }
 
 

@@ -1,7 +1,6 @@
 
-data = read.csv("CS_SCR/deps/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../grammars/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
-#/u/scr/mhahn/deps/manual_output_funchead_coarse_depl/
 
 library(forcats)
 library(dplyr)
@@ -10,9 +9,7 @@ library(ggplot2)
 
 dryer_greenberg_fine = data
 
-
-
-languages = read.csv("languages-iso_codes.tsv")
+languages = read.csv("../languages/languages-iso_codes.tsv")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -35,9 +32,7 @@ getCorrPair = function(dependency) {
 }
 
 corr_pair = getCorrPair("lifted_cop")
-#model2 = brm(correlator_s ~ obj_s + (1+obj_s|Family) + (1+obj_s|Language), family="bernoulli", data=corr_pair, iter=5000)
 
-# Simpler analysis for posterior prevalence of correlation
 model3 = brm(agree ~ (1|Family) + (1|Language), family="bernoulli", data=corr_pair)
    samples = posterior_samples(model3, "b_Intercept")[,]
    posteriorOpposite = ecdf(samples)(0.0)
@@ -50,12 +45,12 @@ model3 = brm(agree ~ (1|Family) + (1|Language), family="bernoulli", data=corr_pa
 dependencies = c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
 
 
-
-sink("results-prevalence-depl.tsv")
+outpath = "output/results-prevalence-depl.tsv"
+sink(outpath)
 cat("")
 sink()
 
-cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="results-prevalence-depl.tsv", append=TRUE, sep="\n")
+cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file=outpath, append=TRUE, sep="\n")
 
 
 for(dependency in dependencies) {
@@ -68,7 +63,7 @@ for(dependency in dependencies) {
    posteriorMean = mean(samples)
    posteriorSD = sd(samples)
    satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
-   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file="results-prevalence-depl.tsv", append=TRUE, sep="\n")
+   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file=outpath, append=TRUE, sep="\n")
 }
 
 

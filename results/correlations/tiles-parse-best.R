@@ -1,7 +1,7 @@
 
-data = read.csv("CS_SCR/deps/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
-best = read.csv("best-parse-best-balanced.csv")
+best = read.csv("../strongest_models/best-parse-best-balanced.csv")
 
 library(dplyr)
 library(tidyr)
@@ -20,7 +20,7 @@ data = data
 
 
 
-languages = read.csv("languages-iso_codes.tsv", sep=",")
+languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -49,9 +49,7 @@ for(dependency in dependencies) {
 
 
 ofInterest =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
-#ofInterest =  c("acl",  "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
-# , "amod", "nummod"
 
 
 data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
@@ -81,22 +79,22 @@ plot = ggplot(D, aes(x = CoarseDependency, y = Language)) +
   theme(axis.title=element_blank()) + 
   theme(legend.position="none")
 
-ggsave(file="coverage-parse-best.pdf", plot=plot)
+ggsave(file="figures/coverage-parse-best.pdf", plot=plot)
 
-
-ordered_languages = (read.csv("ordered_languages.csv"))$x
-ordered_deps = (read.csv("ordered_dependencies.csv"))$x
-
-plot = ggplot(D, aes(x = factor(CoarseDependency, levels=ordered_deps), y = factor(Language, levels=ordered_languages))) + 
-  geom_tile(aes(fill=Agree)) + 
-  scale_fill_gradient(low="white", high="red", limits=c(0.5, 1), oob=squish) +
-  theme_bw() + theme(axis.text.x=element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_text(size=9),
-                     plot.title=element_text(size=11)) +
-  theme(axis.title=element_blank()) + 
-  theme(legend.position="none")
-
-ggsave(file="coverage-parse-best-ordered.png", plot=plot)
-
-
-
+#
+#ordered_languages = (read.csv("ordered_languages.csv"))$x
+#ordered_deps = (read.csv("ordered_dependencies.csv"))$x
+#
+#plot = ggplot(D, aes(x = factor(CoarseDependency, levels=ordered_deps), y = factor(Language, levels=ordered_languages))) + 
+#  geom_tile(aes(fill=Agree)) + 
+#  scale_fill_gradient(low="white", high="red", limits=c(0.5, 1), oob=squish) +
+#  theme_bw() + theme(axis.text.x=element_text(size=9, angle=0, vjust=0.3),
+#                     axis.text.y=element_text(size=9),
+#                     plot.title=element_text(size=11)) +
+#  theme(axis.title=element_blank()) + 
+#  theme(legend.position="none")
+#
+#ggsave(file="coverage-parse-best-ordered.png", plot=plot)
+#
+#
+#

@@ -1,3 +1,5 @@
+# Tested this successfully.
+
 data = read.csv("../../grammars/manual_output_funchead_langmod_coarse_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(forcats)
 library(dplyr)

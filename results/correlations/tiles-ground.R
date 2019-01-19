@@ -1,5 +1,5 @@
 
-data = read.csv("CS_SCR/deps/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
 
@@ -13,7 +13,7 @@ data = data %>% mutate(DH_Weight = DH_Mean_NoPunct)
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
 
-languages = read.csv("languages-iso_codes.tsv", sep=",")
+languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -74,31 +74,31 @@ plot = ggplot(D, aes(x = Dependency, y = Language)) +
   theme(axis.title=element_blank()) + 
   theme(legend.position="none")
 
-ggsave(file="coverage-ground.pdf", plot=plot)
+ggsave(file="figures/coverage-ground.pdf", plot=plot)
 
 
-E = D %>% group_by(Language) %>% mutate(AgreeSum = sum(Agree))
-#E = E[order(E$AgreeSum),]
-ordered_languages = unique(E$Language)
-#write.csv(ordered_languages, file="ordered_languages.csv")
-
-E = E %>% group_by(Dependency) %>% mutate(AgreeSumDep = sum(Agree))
-E = E[order(-E$AgreeSumDep),]
-ordered_deps = unique(E$Dependency)
-write.csv(ordered_deps, file="ordered_dependencies.csv")
-
-
-
-plot = ggplot(E, aes(x = factor(Dependency, levels=ordered_deps), y = factor(Language, levels=ordered_languages))) + 
-  geom_tile(aes(fill=Agree)) + 
-  scale_fill_gradient(low="white", high="red", limits=c(0.5, 1), oob=squish) +
-  labs(x="Correlations", y="Languages", title="Matrix") +
-  theme_bw() + theme(axis.text.x=element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_text(size=9),
-                     plot.title=element_text(size=11))
-
-
-ggsave(file="coverage-ground-ordered.png", plot=plot)
-
-
-
+#E = D %>% group_by(Language) %>% mutate(AgreeSum = sum(Agree))
+##E = E[order(E$AgreeSum),]
+#ordered_languages = unique(E$Language)
+##write.csv(ordered_languages, file="ordered_languages.csv")
+#
+#E = E %>% group_by(Dependency) %>% mutate(AgreeSumDep = sum(Agree))
+#E = E[order(-E$AgreeSumDep),]
+#ordered_deps = unique(E$Dependency)
+#write.csv(ordered_deps, file="ordered_dependencies.csv")
+#
+#
+#
+#plot = ggplot(E, aes(x = factor(Dependency, levels=ordered_deps), y = factor(Language, levels=ordered_languages))) + 
+#  geom_tile(aes(fill=Agree)) + 
+#  scale_fill_gradient(low="white", high="red", limits=c(0.5, 1), oob=squish) +
+#  labs(x="Correlations", y="Languages", title="Matrix") +
+#  theme_bw() + theme(axis.text.x=element_text(size=9, angle=0, vjust=0.3),
+#                     axis.text.y=element_text(size=9),
+#                     plot.title=element_text(size=11))
+#
+#
+#ggsave(file="coverage-ground-ordered.png", plot=plot)
+#
+#
+#
