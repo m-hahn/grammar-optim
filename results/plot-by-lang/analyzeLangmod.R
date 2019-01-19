@@ -11,20 +11,20 @@ library(ggplot2)
 
 
 
-dataS = read.csv("CS_SCR/deps/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS2 = read.csv("CS_SCR/deps/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = rbind(dataS, dataS2)
 
-dataP = read.csv("CS_SCR/deps/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("CS_SCR/deps/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP = rbind(dataP, dataP2)
 
 
-bestLangmod = read.csv("best-langmod-best-balanced.csv")$Model
-bestParsing = read.csv("best-parse-best-balanced.csv")$Model
-bestEfficiency = read.csv("best-two-lambda09-best-balanced.csv")$Model
-bestDepl =  read.csv("best-depl.csv")$Model
-bestGround = read.csv("models-mle.csv")$Model
+bestLangmod = read.csv("../strongest_models/best-langmod-best-balanced.csv")$Model
+bestParsing = read.csv("../strongest_models/best-parse-best-balanced.csv")$Model
+bestEfficiency = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv")$Model
+bestDepl =  read.csv("../strongest_models/best-depl.csv")$Model
+bestGround = read.csv("../strongest_models/models-mle.csv")$Model
 
 #dataS = dataS %>% filter(Model %in% c("REAL_REAL", bestLangmod, bestParsing, bestEfficiency, bestDepl, bestGround) | Type %in% c("manual_output_funchead_RANDOM"))
 #dataP = dataP %>% filter(Model %in% c("REAL_REAL", bestLangmod, bestParsing, bestEfficiency, bestDepl, bestGround) | Type %in% c("manual_output_funchead_RANDOM"))

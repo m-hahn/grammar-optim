@@ -81,6 +81,7 @@ English	interleave	manual_output_funchead_RANDOM	5953198	1.038753915844717	0.778
 English	lexicographic	manual_output_funchead_RANDOM	37277	1.385846726936611	0.672128660294
 English	lexicographic	manual_output_funchead_RANDOM	750969	1.2265631562935464	0.734233550802
 English	lexicographic	manual_output_funchead_RANDOM	6285151	1.3742156761823194	0.69063874981
+English	lexicographic	manual_output_funchead_coarse_depl	2189630	0.9476086619128131	0.823066808274
 Japanese	lexicographic	manual_output_funchead_two_coarse_lambda09_best_balanced	6822497466	0.981816525759461	0.801633829889
 Japanese	even_odd	manual_output_funchead_RANDOM	1441803	1.3411473658267035	0.718116290245
 English	lexicographic	manual_output_funchead_RANDOM	37277	1.3727243241121079	0.674910231123

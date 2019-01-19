@@ -1,7 +1,7 @@
 import os
 
 
-path = "CS_SCR/deps/ADVERSARIAL_PARSER/"
+path = "/home/user/CS_SCR/deps/ADVERSARIAL_PARSER/"
 
 files = os.listdir(path)
 
