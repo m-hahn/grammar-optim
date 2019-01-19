@@ -167,13 +167,13 @@ verb    &    manner adverb    &    advmod    &    35    &    61    &    27    & 
 \begin{figure}
     \centering
     
-    \includegraphics[scale=.25]{figures/coverage-langmod-best.pdf}
-    \includegraphics[scale=.25]{figures/coverage-parse-best.pdf}
-    \includegraphics[scale=.25]{figures/coverage-two-lambda09-best.pdf}
+    \includegraphics[scale=.25]{../results/correlations/coverage-langmod-best.pdf}
+    \includegraphics[scale=.25]{../results/correlations/coverage-parse-best.pdf}
+    \includegraphics[scale=.25]{../results/correlations/coverage-two-lambda09-best.pdf}
     
     
-    \includegraphics[scale=.25]{figures/coverage-ground.pdf}
-    \includegraphics[scale=.25]{figures/coverage-depl.pdf}
+    \includegraphics[scale=.25]{../results/correlations/coverage-ground.pdf}
+    \includegraphics[scale=.25]{../results/correlations/coverage-depl.pdf}
 	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
     \label{fig:posterior-prevalence}
 \end{figure}
@@ -191,7 +191,7 @@ To obtain predictions controlling for languages and language families, we plot t
 
 \begin{figure}
     \centering
-    \includegraphics[scale=.7]{figures/posterior_joint_with_ud.pdf}
+    \includegraphics[scale=.7]{../results/correlations/posterior_joint_with_ud.pdf}
 	\caption{Posteriors of the prevalences of the correlations among languages optimized for Predictability (red), parseability (green), and efficiency (blue), controlling for languages and language families, with prevalence in the UD languages.}
     \label{fig:posterior-prevalence}
 \end{figure}
@@ -422,7 +422,7 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 
 \begin{figure}
     \centering
-    \includegraphics[scale=.7]{figures/cky-parse.pdf} 
+    \includegraphics[scale=.7]{../results/cky/cky-parse.pdf} 
 	\caption{Parsability loss $H[T|L_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue).}
     \label{fig:cky-parser}
 \end{figure}
@@ -468,11 +468,11 @@ In all settings, the language optimized for efficiency achieved higher parsing a
     \centering
     English
     
-    \includegraphics[scale=.5]{figures/adversarial-parse-loss-english.pdf}
+    \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-english.pdf}
     
     Japanese
     
-    \includegraphics[scale=.5]{figures/adversarial-parse-loss-japanese.pdf}
+    \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-japanese.pdf}
 	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $H[T|L_\theta(T)]$ (lower is better), for the four distorted orderings, and the actual orderings (`real').}
     \label{fig:distorted-parser}
 \end{figure}
@@ -492,7 +492,7 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 \begin{figure}
     \centering
-    \includegraphics[scale=.4]{figures/bigrams.pdf} 
+    \includegraphics[scale=.4]{../results/bigrams/bigrams.pdf} 
 	\caption{Surprisal (lower is better) computed from Bigram model, on English and Japanese data ordered according to random ordering grammars (red) and ordering grammars optimized for efficiency (blue).}
     \label{fig:bigrams}
 \end{figure}
