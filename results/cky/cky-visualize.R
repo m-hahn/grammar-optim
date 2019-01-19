@@ -1,4 +1,4 @@
-best = read.csv("best-two.csv")
+best = read.csv("../strongest_models/best-two.csv")
 
 library(dplyr)
 library(tidyr)
@@ -21,6 +21,6 @@ plot = ggplot(data=data, aes(x=Loss, group=Directory, color=Directory, fill = Di
 #      geom_histogram(binwidth=0.05)  + facet_grid(~Language) + theme_bw() + theme(legend.position="none")
 
 
-ggsave(plot=plot, filename="figures/cky-parse.pdf")
+ggsave(plot=plot, filename="cky-parse.pdf")
 
 

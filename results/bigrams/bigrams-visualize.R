@@ -1,4 +1,4 @@
-best = read.csv("best-two-lambda09-best-balanced.csv")
+best = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv")
 
 library(dplyr)
 library(tidyr)
@@ -17,6 +17,6 @@ library(ggplot2)
 plot = ggplot(data=data, aes(x=Loss, group=Directory, color=Directory, fill = Directory)) + 
       geom_histogram(binwidth=0.01)  + facet_grid(~Language, , scales="free") + theme_bw() + theme(legend.position="none")
 
-ggsave(plot=plot, filename="figures/bigrams.pdf")
+ggsave(plot=plot, filename="bigrams.pdf")
 
 
