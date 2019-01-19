@@ -39,9 +39,7 @@ getCorrPair = function(dependency) {
 }
 
 corr_pair = getCorrPair("lifted_cop")
-#model2 = brm(correlator_s ~ obj_s + (1+obj_s|Family) + (1+obj_s|Language), family="bernoulli", data=corr_pair, iter=5000)
 
-# Simpler analysis for posterior prevalence of correlation
 model3 = brm(agree ~ (1|Family) + (1|Language), family="bernoulli", data=corr_pair)
    samples = posterior_samples(model3, "b_Intercept")[,]
    posteriorOpposite = ecdf(samples)(0.0)
