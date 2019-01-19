@@ -307,6 +307,11 @@ This unbiased estimator is the ordinary gradient estimator for $\phi$, and the R
 In addition, we estimated maximum-likelihood ordering grammars on the original ordered dependency trees with SGD. For nonprojective trees, we ignore discontinuities.
 %and $\ell_2$ regularization.
 
+A different commonly considered information-theoretic objective function for word order is Uniform Information Density~\citep{jaeger2010redundancy}, formalized as minimizing a superlinear function of per-word surprisal~\citep{levy:2018cogsci}.
+Note that optimizing grammars for this objective faces additional challenges, as the optimization problem cannot be rewritten as joint optimization in the form (\ref{eq:maximize-pred}).
+We thus do not evaluate this objective function here.
+
+
 \section{Implementation Details}
 
 \paragraph{Locality}
@@ -357,7 +362,7 @@ For dependency length and predictability, note that the loss incurred for a spec
 Second, we use a word-dependent moving average of recent per-word losses as control variate \cite{williams1992simple}.
 These two methods reduce the variance of the estimator and thereby increase the speed of optimization and reduce training time, without biasing the results.
 For numerical stability, we represent $a_\tau \in [0,1]$ via its logit $\in \mathbb{R}$.
-Furthermore, to encourage exploration of the parameter space, we add an entropy penalty \citep{xu2015show} for each Direction Parameter $a_\tau$, which penalizes $a_\tau$ values near $0$ or $1$. The weight of the entropy penalty was chosen together with the other hyperparameters.
+Furthermore, to encourage exploration of the parameter space, we add an entropy regularization term \citep{xu2015show} for each Direction Parameter $a_\tau$, which penalizes $a_\tau$ values near $0$ or $1$. The weight of the entropy regularization was chosen together with the other hyperparameters.
 %, adding the negative entropy of the $Bernoulli(a_\tau)$ to the loss $R$. %, weighted with $\alpha$.
 
 
@@ -366,9 +371,9 @@ These techniques for improving (\ref{eq:estimator}) are well-known in the machin
 We update word order grammar parameters $\theta$ using SGD with momentum.
 For the language model parameters $\phi$, we use plain SGD. 
 For the parser parameters $\psi$, we use Adam \citep{kingma2014adam}, following \citet{dozat2017stanford}.
-The learning rates and momentum weight of SGD, and the parameters of Adam were determined together with the other hyperparameters.
+The learning rates and other optimization hyperparameters were determined together with the other hyperparameters.
 
-For each language and objective function, we apply early stopping using a Monte-Carlo estimate of the respective objective functions on the UD development set. We compute an estimate of the objective on the development set in intervals of 50,000 training steps, and stop optimization once the value of the objective deteriorates compared to the last previous estimate. This technique, well known in the machine learning literature, helps prevent overfitting to the specific corpora used.
+For each language and objective function, we apply Early Stopping~\citep{prechelt1998early} as follows. We compute a Monte-Carlo estimate of the objective on the UD development set in intervals of 50,000 training steps, and stop optimization once the value of the objective deteriorates compared to the last previous estimate. This technique, well known in the machine learning literature, helps prevent overfitting to the specific corpora used.
 
 The choice of optimization methods and the stopping criterion were fixed before we investigated word order correlations.
 
