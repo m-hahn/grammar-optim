@@ -11,7 +11,7 @@ library(ggplot2)
 
 
 
-depl = read.csv("CS_SCR/deps/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+depl = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
 depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", ModelName))
@@ -24,12 +24,12 @@ depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", 
 
 
 
-dataS = read.csv("CS_SCR/deps/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS2 = read.csv("CS_SCR/deps/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS = read.csv("../../grammars/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataS2 = read.csv("../../grammars/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = rbind(dataS, dataS2)
 
-dataP = read.csv("CS_SCR/deps/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("CS_SCR/deps/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../grammars/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP2 = read.csv("../../grammars/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP = rbind(dataP, dataP2)
 
 
@@ -124,7 +124,7 @@ dataGround = data %>% filter(grepl("ground", Type)) #%>% group_by(Language) %>% 
 
 
 D = dataGround %>% select(Language, Type, Model)
-write.csv(D, file="models-mle.csv")
+write.csv(D, file="../strongest_models/models-mle.csv")
 
 
 
@@ -133,7 +133,7 @@ dataDepLBest = dataDepL %>% group_by(Language) %>% summarise(AverageLengthPerWor
 dataDepL = merge(dataDepL, dataDepLBest, by=c("Language", "AverageLengthPerWord"))
 
 D = dataDepL %>% select(Language, Type, Model, AverageLengthPerWord)
-write.csv(D, file="best-depl.csv")
+write.csv(D, file="../strongest_models/best-depl.csv")
 
 
 
@@ -166,7 +166,7 @@ D = data %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_bal
 
 
 D = data %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced") %>% select(Language, Type, Model, Surp)
-write.csv(D, file="best-langmod-best-balanced.csv")
+write.csv(D, file="../strongest_models/best-langmod-best-balanced.csv")
 
 
 D = data %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced") %>% select(Language, Type, Model, Pars)
@@ -263,7 +263,7 @@ plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, colo
 
 
 
-iso = read.csv("languages-iso_codes.tsv")
+iso = read.csv("../languages/languages-iso_codes.tsv")
 
 data = merge(data, iso, by=c("Language"))
 
