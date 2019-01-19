@@ -1,5 +1,6 @@
 
-data = read.csv("CS_SCR/deps/manual_output_funchead_two_coarse/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+# _final/
+data = read.csv("CS_SCR/deps/manual_output_funchead_two_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
 
@@ -11,7 +12,7 @@ dryer_greenberg_fine = data
 
 
 
-languages = read.csv("languages.tsv", sep="\t")
+languages = read.csv("languages-iso_codes.tsv")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -24,7 +25,7 @@ dependency = "nmod"
 
 getCorrPair = function(dependency) {
    corr_pair = dryer_greenberg_fine %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
-   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight, ModelName)) %>% spread(CoarseDependency, DH_Weight)
+   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight )) %>% spread(CoarseDependency, DH_Weight)
    corr_pair$correlator = corr_pair[[dependency]]
    corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
    return(corr_pair)

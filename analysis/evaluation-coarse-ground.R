@@ -14,10 +14,36 @@ dryer_greenberg_fine = data %>% mutate(DH_Weight = DH_Mean_NoPunct)
 languages = read.csv("languages.tsv", sep="\t")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
 
+#dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(DH_Weight = quantile(DH_Weight - 2*DH_Sigma_NoPunct,0.999)) %>% print(n=50
+#dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(DH_Weight = quantile(DH_Weight + 2*DH_Sigma_NoPunct,0.001)) %>% print(n=50
 
+
+# Interest in general biases
+#dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(DH_Weight = quantile(DH_Weight,0.1)) %>% print(n=50)
+#dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(DH_Weight = quantile(DH_Weight,0.9)) %>% print(n=50)
+#+
+#advmod
+#clf
+#det
+#expl
+#nsubj
+#nummod
+#
+#- things that come after the head in basically all languages
+#appos
+#conj
+#fixed
+#flat
+#list
+# hist((dryer_greenberg_fine %>% filter(Dependency == "appos"))$DH_Weight) manual inspecton
+
+# dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(Distance_Mean_NoPunct = quantile(Distance_Mean_NoPunct,0.9)) %>% print(n=50
+# dryer_greenberg_fine %>% group_by(Dependency) %>% summarise(Distance_Mean_NoPunct = quantile(Distance_Mean_NoPunct,0.1)) %>% print(n=50)
+
+library("rstan")
 library("brms")
 
-#options(mc.cores = parallel::detectCores())
+options(mc.cores = parallel::detectCores())
 rstan_options(auto_write = TRUE)
 
 dependency = "nmod"
@@ -31,7 +57,7 @@ getCorrPair = function(dependency) {
 }
 
 corr_pair = getCorrPair("nmod")
-model2 = brm(correlator_s ~ obj_s + (1+obj_s|Family) , family="bernoulli", data=corr_pair)
+model2 = brm(correlator_s ~ obj_s + (1+obj_s|Family) , family="bernoulli", data=corr_pair, prior=set_prior("normal(0,10)"))
 
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
