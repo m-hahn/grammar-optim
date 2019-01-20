@@ -80,7 +80,7 @@ plot = ggplot(D, aes(x = Dependency, y = Language)) +
                      axis.text.y=element_text(size=9),
                      plot.title=element_text(size=11)) +
   theme(axis.title=element_blank()) + 
-  theme(legend.position="none")
+  theme(legend.position="none") + ggtitle("Dependency Length")
 
 ggsave(file="figures/coverage-depl.pdf", plot=plot)
 

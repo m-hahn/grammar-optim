@@ -91,7 +91,7 @@ plot = ggplot(D, aes(x = CoarseDependency, y = Language)) +
                      axis.text.y=element_text(size=9),
                      plot.title=element_text(size=11)) +
   theme(axis.title=element_blank()) + 
-  theme(legend.position="none")
+  theme(legend.position="none") + ggtitle("Predictability")
 
 ggsave(file="figures/coverage-langmod-best.pdf", plot=plot)
 

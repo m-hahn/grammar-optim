@@ -1,72 +1,40 @@
-
-data = read.csv("../../grammars/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
-
-#/u/scr/mhahn/deps/manual_output_funchead_coarse_depl/
-
+data = read.csv("CS_SCR/deps/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(forcats)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
-
-dryer_greenberg_fine = data
-
-
-
-languages = read.csv("../languages/languages-iso_codes.tsv")
-dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
-
-
+data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancient", "Old_Church_Slavonic" = "Old"))
+languages = read.csv("languages-iso_codes.tsv")
+data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 library("brms")
-
-#options(mc.cores = parallel::detectCores())
-#rstan_options(auto_write = TRUE)
-
 dependency = "nmod"
-
-getCorrPair = function(dependency) {
-   corr_pair = dryer_greenberg_fine %>% filter((Dependency == dependency) | (Dependency == "obj"))
-   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, Dependency, DH_Weight, ModelName)) %>% spread(Dependency, DH_Weight)
-   corr_pair$correlator = corr_pair[[dependency]]
-   corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
-#   corr_pair = corr_pair %>% mutate(obj_s = obj_s - mean(obj_s))
-   corr_pair = corr_pair %>% mutate(correlator_s = ifelse(correlator == 0, NA, correlator_s)) # special case of actual zero, indicating fully random ordering: has to be excluded from analysis. Such cases occur when a dependency does not occur in the training partition, but does occur in the validation partition.
-   corr_pair$agree = (corr_pair$correlator_s == corr_pair$obj_s)
-   return(corr_pair)
-}
-
-corr_pair = getCorrPair("lifted_cop")
-
-model3 = brm(agree ~ (1|Family) + (1|Language), family="bernoulli", data=corr_pair)
-   samples = posterior_samples(model3, "b_Intercept")[,]
-   posteriorOpposite = ecdf(samples)(0.0)
-
-
-# The full set of UD relations
-#dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
-
-# Relations formalizing Dryer's correlations
 dependencies = c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
+objs = data %>% filter(Dependency == "obj") %>% mutate(obj = pmax(0, sign(DH_Weight))) %>% select(obj, Language, FileName)
+data = data %>% filter((Dependency %in% dependencies))
+data = merge(data, objs, by=c("Language", "FileName"))
+data = data %>% mutate(dir = pmax(0, sign(DH_Weight)))
+data = data %>% mutate(dir = ifelse(DH_Weight == 0, NA, dir))
+data$agree = (data$dir == data$obj)
+data = unique(data %>% select(Family, Language, FileName, Dependency, agree)) %>% spread(Dependency, agree)
+
+model3 = brm(cbind(acl, advmod, aux, lifted_case, lifted_cop, lifted_mark, nmod, nsubj, obl, xcomp) ~ (1|p|Family) + (1|q|Language), family="bernoulli", data=data, iter=5000)
 
 
 
-sink("output/results-prevalence-depl.tsv")
-cat("")
-sink()
-
-cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="output/results-prevalence-depl.tsv", append=TRUE, sep="\n")
+u = posterior_samples(model3) #cbind(posterior_samples(model3, "acl_Intercept"), posterior_samples(model3, "advmod_Intercept"))
+mean(u$b_acl_Intercept < 0 | u$b_advmod_Intercept > 0  | u$b_aux_Intercept > 0  | u$b_liftedcase_Intercept < 0  | u$b_liftedcop_Intercept < 0  | u$b_liftedmark_Intercept < 0  | u$b_nmod_Intercept < 0  | u$b_nsubj_Intercept > 0  | u$b_obl_Intercept < 0  | u$b_xcomp_Intercept < 0 )
 
 
-for(dependency in dependencies) {
-   corr_pair = getCorrPair(dependency)
-   model3 = update(model3, newdata=corr_pair, iter=5000) # potentially add , control=list(adapt_delta=0.9)
-   summary(model3)
-   
-   samples = posterior_samples(model3, "b_Intercept")[,]
-   posteriorOpposite = ecdf(samples)(0.0)
-   posteriorMean = mean(samples)
-   posteriorSD = sd(samples)
-   satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
-   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file="output/results-prevalence-depl.tsv", append=TRUE, sep="\n")
-}
+satisfied = 10 - ((u$b_acl_Intercept < 0) + (u$b_advmod_Intercept > 0)  + (u$b_aux_Intercept > 0 ) + (u$b_liftedcase_Intercept < 0 ) + (u$b_liftedcop_Intercept < 0 ) + (u$b_liftedmark_Intercept < 0 ) + (u$b_nmod_Intercept < 0 ) + (u$b_nsubj_Intercept > 0 ) + (u$b_obl_Intercept < 0 ) + (u$b_xcomp_Intercept < 0 ))
+
+library(ggplot2)
+
+plot = ggplot(data = data.frame(satisfied=satisfied), aes(x=satisfied)) + geom_histogram() + theme_bw() + xlim(1,10.5)
+
+ggsave(plot=plot, filename="figures/posterior-satisfied-universals-depl.pdf")
+
+write.csv(u, file="CS_SCR/posteriors/posterior-10-depl.csv")
+
+
 
 

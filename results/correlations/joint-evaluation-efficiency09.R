@@ -35,6 +35,7 @@ plot = ggplot(data = data.frame(satisfied=satisfied), aes(x=satisfied)) + geom_h
 ggsave(plot=plot, filename="figures/posterior-satisfied-universals-efficiency.pdf")
 
 
+write.csv(u, file="CS_SCR/posteriors/posterior-10-efficiency.csv")
 
 
 
