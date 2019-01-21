@@ -320,7 +320,7 @@ These results are shown in more detail for two typologically distinct languages 
 Finally we demonstrate the relationship between dependency length minimization and the maximization of efficiency. Figure~\ref{fig:deplength} shows average dependency length per sentence length for four typologically distinct languages, showing real languages, random baselines, and languages optimized for dependency length, parseability, predictability, and efficiency. We see that optimizing for efficiency lowers dependency length relative to random baselines, in keeping with the suggestion that dependency length minimization is a by-product of efficiency maximization \cite{futrell2017memory}. In 3/4 of the cases shown, optimizing explicitly for dependency length produces dependencies that overshoot the depenndency length of the real language; in Chinese and Hindi, the real language is best matched by efficiency optimization.
 
 \begin{figure*} % need Efficiency and (maybe) MLE langs on here
-\includegraphics[width=0.98\textwidth]{figures/depLength-facet.pdf}
+\includegraphics[width=0.98\textwidth]{../results/dependency-length/figures/depLength-facet.pdf}
 \caption{Average dependency length as a function of sentence length in four languages. Across languages, real and optimized languages have shorter dependencies than random baseline orderings.}\label{fig:deplength}
 \end{figure*}
 
@@ -427,10 +427,12 @@ For dependency length, the posterior puts much of the probability mass on predic
 
 \begin{figure}
     \centering
-     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-efficiency.pdf}
-     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-langmod.pdf}
-     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-parseability.pdf}
-     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-depl.pdf}
+%     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-efficiency.pdf}
+ %    \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-langmod.pdf}
+  %   \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-parseability.pdf}
+   %  \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-depl.pdf}
+     \includegraphics[scale=.45]{../results/correlations/figures/posterior-satisfied-universals-together.pdf}
+
 	\caption{Posterior of the number of correlations predicted in the direction found in the UD treebanks.}
     \label{fig:posterior-satisfied-count}
 \end{figure}

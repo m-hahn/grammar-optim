@@ -22,9 +22,9 @@ u = NULL
 
 #plot = ggplot(data = data, aes(x=satisfiedCount)) + geom_histogram() + theme_bw() + xlim(0,10.5) + ggtitle("Dependency Length") + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples")
 
-plot = ggplot(data = data2, aes(x=satisfied, y=posterior)) + geom_bar(stat="identity") + theme_bw() + xlim(0,10.5) + ggtitle("Dependency Length") + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples") + geom_text(aes(label=posteriorProb), vjust=0, size=4.3) + ylim(0, 1.1*nrow(data)) +
+plot = ggplot(data = data2, aes(x=satisfied, y=posterior)) + geom_bar(stat="identity") + theme_bw() + xlim(0,10.5) + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples") + geom_text(aes(label=posteriorProb), vjust=0, size=3.3) + ylim(0, 1.1*max(v$SamplesNum)) +
     theme(text = element_text(size=20),
-        axis.text.x = element_text(angle=90, hjust=1)) + facet_grid(~Type)
+        axis.text.x = element_text(angle=90, hjust=1)) + facet_wrap(~Type, ncol=2)
 
 ggsave(plot=plot, filename="figures/posterior-satisfied-universals-together.pdf")
 
