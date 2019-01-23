@@ -41,6 +41,16 @@ data = data %>% mutate(TypeN = fct_recode(Type, "Parseability" = "manual_output_
 
 
 
+
+
+data = data %>% mutate(TypeN = factor(TypeN, levels=c("Parseability", "Predictability", "Efficiency", "Dependency Length", "Real Languages", "Baseline Languages"), ordered=TRUE))
+forColoring  = factor(data$TypeN, levels=c("Real Languages", "Baseline Languages", "Parseability", "Predictability", "Efficiency", "Dependency Length"), ordered=TRUE)
+#Create a custom color scale
+library(RColorBrewer)
+myColors <- brewer.pal(6,"Set1")
+names(myColors) <- levels(forColoring)
+
+
   dodge = position_dodge(width = .9)
   dataL = data %>% filter(Language %in% c("Japanese", "English"))
   dataBars = dataL %>% filter(TypeN != "Baseline Languages") %>% group_by(Language, TypeN) %>% summarise(y=1, Surp=mean(Surp))
@@ -49,11 +59,39 @@ data = data %>% mutate(TypeN = fct_recode(Type, "Parseability" = "manual_output_
   plot1 = ggplot(dataL %>% filter(TypeN == "Baseline Languages"), aes(x=Surp,fill=TypeN)) +
     geom_density(aes(x=Surp, y=..scaled.., fill=TypeN), adjust=3) +
     geom_bar(stat="identity", width=widthOfBars, data=dataBars, aes(x=Surp, y=y, fill=TypeN, group=TypeN), position = position_dodge()) +
+    scale_fill_manual(name = "TypeN",values = myColors) +
     theme_classic() +
     theme(axis.title.y=element_blank(),
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank(),
-          axis.line.y=element_blank()) + facet_grid(~Language, scales="free") + scale_fill_brewer(palette="Set2")
+          axis.line.y=element_blank()) + facet_grid(~Language, scales="free") +
+    theme(legend.title=element_blank()) +
+    xlab("Predictability")
+ 
+
+
+
+
+#plot = ggplot(dataPlot)
+#plot = plot + theme_bw()
+#plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+#plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
+#plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
+#plot = plot + geom_point(data=dataPlot, aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
+#plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+#plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
+#plot = plot + theme(legend.title = element_blank())
+#plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE))
+#plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+#plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+#plot = plot + theme(axis.title.x = element_text(size=17))
+#plot = plot + theme(axis.title.y = element_text(size=17))
+#plot = plot + theme(legend.text = element_text(size=12))
+
+
+
+
+
 
   filename = paste("langmod-optimized-coarse.pdf",sep="")
   ggsave(filename=filename, plot=plot1, width=12, height=3)
@@ -70,15 +108,31 @@ data = data %>% mutate(TypeN = fct_recode(Type, "Parseability" = "manual_output_
     geom_density(aes(x=Pars, y=..scaled.., fill=TypeN), adjust=1) +
     geom_bar(stat="identity", width=widthOfBars, data=dataL %>% filter(TypeN != "Baseline Languages") %>% group_by(TypeN) %>% summarise(y=1, Pars=mean(Pars)), aes(x=Pars, y=y, fill=TypeN, group=TypeN)) +
     theme_classic() +
+    scale_fill_manual(name = "TypeN",values = myColors) +
     theme(axis.title.y=element_blank(),
           axis.text.y=element_blank(),
           axis.ticks.y=element_blank(),
-          axis.line.y=element_blank()) + facet_grid(~Language, scales="free") + scale_fill_brewer(palette="Set2")
+          axis.line.y=element_blank()) + facet_grid(~Language, scales="free") + 
+    theme(legend.title=element_blank()) + xlab("Parseability")
+
 
   filename = paste("parsing-optimized-coarse.pdf",sep="")
   ggsave(filename=filename, plot=plot2, width=12, height=3)
   cat(filename,"\n")
 
+
+
+#  plot1 = ggplot(dataL %>% filter(TypeN == "Baseline Languages"), aes(x=Surp,fill=TypeN)) +
+#    geom_density(aes(x=Surp, y=..scaled.., fill=TypeN), adjust=3) +
+#    geom_bar(stat="identity", width=widthOfBars, data=dataBars, aes(x=Surp, y=y, fill=TypeN, group=TypeN), position = position_dodge()) +
+#    scale_fill_manual(name = "TypeN",values = myColors) +
+#    theme_classic() +
+#    theme(axis.title.y=element_blank(),
+#          axis.text.y=element_blank(),
+#          axis.ticks.y=element_blank(),
+#          axis.line.y=element_blank()) + facet_grid(~Language, scales="free") +
+#    theme(legend.title=element_blank())
+ 
 
 
 

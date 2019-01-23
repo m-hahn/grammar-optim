@@ -109,6 +109,9 @@ Third, we evaluate whether the optimized word order grammars reproduce the desir
 
 \section{Background}
 
+
+% TODO where do we say that we're basing our work on data from 51 languages?
+
 \subsection{Explananda: Word Order Correlations}
 
 Working with a database of 30 languages, Greenberg \cite{greenberg1963universals} proposed 45 universals of language that he determined to be true of most or all languages.
@@ -148,18 +151,18 @@ Arabic has basic order verb-object (VO) and prepositions (\emph{li} `to'), while
    %\depedge[arc angle=50]{7}{6}{ATT}
 \end{dependency}
 
-\begin{dependency}[theme=simple]
-    \begin{deptext}
-    I \& wrote \& a \& letter \& to \& a \& friend \\
-    \end{deptext}
-    \depedge{2}{1}{nsubj}
-    \depedge{2}{4}{obj}
-    \depedge{4}{3}{ }
-    \depedge{4}{3}{ }
-    \depedge{2}{5}{}
-    \depedge{5}{7}{ }
-    \depedge{7}{6}{ }
-\end{dependency}
+%\begin{dependency}[theme=simple]
+%    \begin{deptext}
+%    I \& wrote \& a \& letter \& to \& a \& friend \\
+%    \end{deptext}
+%    \depedge{2}{1}{nsubj}
+%    \depedge{2}{4}{obj}
+%    \depedge{4}{3}{ }
+%    \depedge{4}{3}{ }
+%    \depedge{2}{5}{}
+%    \depedge{5}{7}{ }
+%    \depedge{7}{6}{ }
+%\end{dependency}
 	\caption{A sentence in Arabic (top) and Japanese (bottom), translating to `I wrote a letter to a friend.' Note the reversal of word order: Arabic has verb-object order and prepositions, while Japanese has object-verb order and postpositions.}\label{fig:arabic-japanese}
 \end{figure}
 
@@ -314,10 +317,10 @@ These results are shown in more detail for two typologically distinct languages 
 
 \begin{figure*}
 \includegraphics[width=0.98\textwidth]{../results/plot-by-lang/grid-optimized.pdf} % need MLE langs and Efficiency langs on here
-\caption{Predictability (top) and parseability (bottom) of real, optimized, and random languages, for English (left) and Japanese (right). We provide cross-entropy for predictability (lower is better) and unlabeled attachment scores---a standard metric from natural language processing---for parseability (higher is better).}\label{fig:predict-pars}
+	\caption{Predictability (top) and parseability (bottom) of real, optimized, and random languages, for English (left) and Japanese (right). We provide the entropy $H[L_\theta(T)]$ for predictability (lower is better) and the conditional entropy $H[T|L_\theta(T)]$ for parseability (lower is better). Both measures are normalized by sentence length.}\label{fig:predict-pars}
 \end{figure*}
 
-Finally we demonstrate the relationship between dependency length minimization and the maximization of efficiency. Figure~\ref{fig:deplength} shows average dependency length per sentence length for four typologically distinct languages, showing real languages, random baselines, and languages optimized for dependency length, parseability, predictability, and efficiency. We see that optimizing for efficiency lowers dependency length relative to random baselines, in keeping with the suggestion that dependency length minimization is a by-product of efficiency maximization \cite{futrell2017memory}. In 3/4 of the cases shown, optimizing explicitly for dependency length produces dependencies that overshoot the depenndency length of the real language; in Chinese and Hindi, the real language is best matched by efficiency optimization.
+Finally we demonstrate the relationship between dependency length minimization and the maximization of efficiency. Figure~\ref{fig:deplength} shows average dependency length per sentence length for four typologically distinct languages, showing real languages, random baselines, and languages optimized for dependency length, parseability, predictability, and efficiency. We see that optimizing for efficiency lowers dependency length relative to random baselines, in keeping with the suggestion that dependency length minimization is a by-product of efficiency maximization \cite{futrell2017memory}. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the depenndency length of the real language; in 3/4 of the lanuages shown, the real language is best matched by efficiency optimization.
 
 \begin{figure*} % need Efficiency and (maybe) MLE langs on here
 \includegraphics[width=0.98\textwidth]{../results/dependency-length/figures/depLength-facet.pdf}
@@ -351,11 +354,11 @@ verb    &    manner adverb    &    advmod    &    35    &    51    &    \textbf{
     \multicolumn{6}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
 \end{tabular}
 	\end{center}
-	\caption{Greenbergian Correlations. Following \cite{dryer1992greenbergian}, each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner' (the `Correlate' column), whose relative order correlates with that of verbs and objects.
-	For clarity, we organize the correlations by the category of the `verb patterner'.
-	For each correlation, we give our operationalization in terms of UD. A rightwards arrow indicates that the dependency is predicted to have the same direction as the \textit{obj} dependency; a leftwards arrow indicates an inverse correlation. 
-	For each correlation we report how many of the languages in our sample satisfied it (`Real').
-We then report, for each correlation and each objective function, how many of the optimized grammars satisfy the correlation, with the significance level in a logistic mixed-effects analysis across language families.}\label{table:results-dryer}
+	\caption{Greenbergian Correlations. Following \cite{dryer1992greenbergian}, each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
+%	For clarity, we organize the correlations by the category of the `verb patterner'.
+	For each correlation, we give our operationalization in terms of UD. %A rightwards arrow indicates that the dependency is predicted to have the same direction as the \textit{obj} dependency; a leftwards arrow indicates an inverse correlation. 
+	For each correlation we report what percentage of the languages in our sample satisfied it (`Real').
+	We then report, for each correlation and each objective function, how many (in \%) of the optimized grammars satisfy the correlation, with the significance level in a logistic mixed-effects analysis across language families.}\label{table:results-dryer}
 \end{table*}
 
 %\begin{table*}
@@ -397,7 +400,7 @@ We conducted, for each correlation, a mixed-effects logistic regression model pr
 We are interested in the direction and significance of this effect: 
 If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
 
-We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) in all except four languages, for WALS did not have data.
+We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
 
 \paragraph{Results}
 Results are shown in Table~\ref{table:results-dryer}.
@@ -433,7 +436,7 @@ For dependency length, the posterior puts much of the probability mass on predic
    %  \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-depl.pdf}
      \includegraphics[scale=.45]{../results/correlations/figures/posterior-satisfied-universals-together.pdf}
 
-	\caption{Posterior of the number of correlations predicted in the direction found in the UD treebanks.}
+	\caption{Posterior of the number of correlations predicted in the direction found in the UD treebanks, computed from a mixed-effects logistic regression jointly modeling all ten dependencies. Efficiency predicts all ten correlations with high posterior probability.}
     \label{fig:posterior-satisfied-count}
 \end{figure}
 
@@ -475,7 +478,7 @@ See the SI for details on the neural language models and parsers used, and on th
 
 \showmatmethods{} % Display the Materials and Methods section
 
-\acknow{We thank Ted Gibson, Michael C. Frank, Judith Degen, and audiences at CAMP 2018 for helpful discussion.}
+\acknow{We thank Ted Gibson, Michael C. Frank, Judith Degen, Chris Manning, and audiences at CAMP 2018 for helpful discussion.}
 
 \showacknow{} % Display the acknowledgments section
 
