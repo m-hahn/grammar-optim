@@ -318,4 +318,102 @@ plot = plot + theme(legend.text = element_text(size=12))
 ggsave(plot, file="pareto-plane-iso-best-balanced-legend.pdf")
 
 
+plot = ggplot(dataPlot)  
+plot = plot + theme_bw() 
+#plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
+#plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
+#plot = plot + geom_point(data=dataPlot, aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
+plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+#plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
+#plot = plot + theme(legend.title = element_blank())  
+#plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+#plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+#plot = plot + theme(axis.title.x = element_text(size=17))
+#plot = plot + theme(axis.title.y = element_text(size=17))
+#plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + xlim(-3.2, 1.9)
+plot = plot + ylim(-2.2, 2.2)
+plot = plot + theme(legend.position="none")
+#
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-1.png")
+
+
+
+
+plot = ggplot(dataPlot)  
+plot = plot + theme_bw() 
+#plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
+plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
+plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
+plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+#plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
+#plot = plot + theme(legend.title = element_blank())  
+#plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+#plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+#plot = plot + theme(axis.title.x = element_text(size=17))
+#plot = plot + theme(axis.title.y = element_text(size=17))
+#plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + xlim(-3.2, 1.9)
+plot = plot + ylim(-2.2, 2.2)
+plot = plot + theme(legend.position="none")
+#
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-2.png")
+
+
+
+
+plot = ggplot(dataPlot)  
+plot = plot + theme_bw() 
+#plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
+plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
+plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability", "Dependency Length")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
+plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+#plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
+#plot = plot + theme(legend.title = element_blank())  
+#plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+#plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+#plot = plot + theme(axis.title.x = element_text(size=17))
+#plot = plot + theme(axis.title.y = element_text(size=17))
+#plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + xlim(-3.2, 1.9)
+plot = plot + ylim(-2.2, 2.2)
+plot = plot + theme(legend.position="none")
+#
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-3.png")
+
+
+
+
+plot = ggplot(dataPlot)  
+plot = plot + theme_bw() 
+plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
+plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
+plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability", "Dependency Length")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
+plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
+#plot = plot + theme(legend.title = element_blank())  
+#plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+#plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+#plot = plot + theme(axis.title.x = element_text(size=17))
+#plot = plot + theme(axis.title.y = element_text(size=17))
+#plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + xlim(-3.2, 1.9)
+plot = plot + ylim(-2.2, 2.2)
+plot = plot + theme(legend.position="none")
+#
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-4.png")
+
+
+
+
+
+
 
