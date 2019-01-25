@@ -54,6 +54,44 @@
 \begin{document}
 \maketitle
 
+\section{UD Formalization}
+
+
+\begin{table*}
+	\begin{center}
+\begin{tabular}{|ll|l|l|l|ll|l|}
+	\hline
+	%&
+	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{Operationalization}       &     \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
+	verb & object &      & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+%adp. &
+adposition    &    NP    &    lifted\_case    &    86    &    \textbf{81}$^{***}$    &    47    &    \textbf{76}$^{***}$    &    \textbf{68}$^{***}$   \\
+copula    &    NP    &    lifted\_cop    &    94    &    \textbf{81}$^{***}$    &    53    &    \textbf{79}$^{***}$    &    \textbf{61}$^{**}$   \\
+auxiliary    &    VP    &    aux    &    88    &    \textbf{74}$^{***}$    &    \textbf{84}$^{***}$    &    55    &    \textbf{69}$^{**}$   \\
+noun    &    genitive    &    nmod    &    80    &    \textbf{82}$^{***}$    &    55    &    \textbf{74}$^{***}$    &    \textbf{70}$^{***}$   \\
+noun    &    relative clause    &    acl    &    80    &    \textbf{85}$^{***}$    &    48    &    \textbf{77}$^{**}$    &    \textbf{73}$^{***}$   \\
+complementizer    &    S    &    lifted\_mark    &    76    &    \textbf{85}$^{***}$    &    \textbf{59}$^{**}$    &    \textbf{80}$^{***}$    &    \textbf{74}$^{**}$   \\
+verb    &    PP    &    obl    &    88    &    \textbf{78}$^{***}$    &    \textbf{72}$^{***}$    &    59    &    \textbf{69}$^{**}$   \\
+want    &    VP    &    xcomp    &    88    &    \textbf{90}$^{***}$    &    \textbf{78}$^{**}$    &    \textbf{92}$^{***}$    &    \textbf{92}$^{***}$   \\
+verb    &    subject    &    nsubj    &    33    &    \textbf{29}$^{**}$    &    51    &    \textbf{8}$^{***}$    &    \textbf{13}$^{***}$   \\
+verb    &    manner adverb    &    advmod    &    35    &    51    &    \textbf{21}$^{***}$    &    51    &    \textbf{32}$^{***}$   \\
+ \hline
+%comp. &
+%\multirow{3}{*}{NP}&
+%	AP &
+    \multicolumn{6}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
+\end{tabular}
+	\end{center}
+	\caption{Greenbergian Correlations. Following \cite{dryer1992greenbergian}, each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
+%	For clarity, we organize the correlations by the category of the `verb patterner'.
+	For each correlation, we give our operationalization in terms of UD. %A rightwards arrow indicates that the dependency is predicted to have the same direction as the \textit{obj} dependency; a leftwards arrow indicates an inverse correlation. 
+	For each correlation we report what percentage of the languages in our sample satisfied it (`Real').
+	We then report, for each correlation and each objective function, how many (in \%) of the optimized grammars satisfy the correlation, with the significance level in a logistic mixed-effects analysis across language families.}\label{table:results-dryer}
+\end{table*}
+
+
+
+
 \section{Results on all UD Relations}
 Table~\ref{tab:all-predictions} shows the predicted prevalence of correlations between the \emph{obj} dependency and all UD dependency types, along with the expected prevalence according to typological studies.
 

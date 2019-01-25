@@ -75,7 +75,7 @@ What explains the universal properties of human languages? We present evidence t
 \keywords{language universals $|$ language processing $|$ computational linguistics} 
 
 \begin{abstract}
-The universal properties of human languages have been the subject of intense study across disciplines. We report novel computational and corpus-based evidence for the hypothesis that a prominent subset of these universal properties---those related to word order---result from a process of optimization for efficient communication among humans. We develop a probabilistic, differentiable model of word order grammars: the means by which different languages convert underlying hierarchical structures into strings of words. We show how the parameters of a word order grammar can be optimized for robustness of information transfer, as quantified using mutual information with latent tree structures, and efficiency of processing, as quantified using incremental predictability. Applying these grammars to tree structures found in dependency corpora, we show that optimizing the grammar parameters for efficiency and robustness results in word order patterns that reproduce a large subset of the major word order correlations reported in the linguistic typological literature, and reproduce the predictions of previous heuristic theories such as dependency length minimization.
+The universal properties of human languages have been the subject of intense study across disciplines. We report novel computational and corpus-based evidence for the hypothesis that a prominent subset of these universal properties---those related to word order---result from a process of optimization for efficient communication among humans. We develop a probabilistic, differentiable model of word order grammars: the means by which different languages convert underlying hierarchical structures into strings of words. We show how the parameters of a word order grammar can be optimized for efficiency of information transfer, quantified as a tradeoff between incremental predictability and mutual information with latent tree structures. Applying these grammars to tree structures found in dependency corpora from 51 languages, we show that optimizing the grammar parameters for efficiency results in word order patterns that reproduce a large subset of the major word order correlations reported in the linguistic typological literature, and reproduce the predictions of previous heuristic theories such as dependency length minimization.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -88,18 +88,18 @@ The universal properties of human languages have been the subject of intense stu
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the statistical optimization of grammars for information-theoretic efficiency. % TODO add a cogsci person to citation chain at the beginning
+\dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. In this work we examine this question from a computational perspective, demonstrating a fully formalized framework in which certain syntactic universals can be explained through the statistical optimization of grammars for information-theoretic efficiency. % TODO add a cogsci person to citation chain at the beginning
 
-We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places adjectives before or after nouns, and whether it had prepositions or postpositions \cite{dryer1992greenbergian}. 
+We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
 
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
-Researchers working in the functional paradigm have proposed a range of criteria which languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
+Researchers working in the functional paradigm have proposed a range of criteria that languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
 
 The contribution of this work is (i) to provide a principled formalization of the notion of communicative efficiency in word order, based on related work in information theory \cite{cover2006elements,tishby1999information}, bounded rationality \cite{genewein2015bounded}, and computational neuroscience \cite{friston2009predictive}; (ii) to introduce a computational framework in which we can produce simulated grammars directly optimized for our notion of efficiency, using state-of-the-art machine learning techniques \cite{hochreiter1997long,goldberg2017neural,dozat2017stanford}; and (iii) to demonstrate that in doing so, we reproduce the major word order patterns reported in \cite{greenberg1963universals} and related work \cite{dryer1992greenbergian}, as well as reproducing the predictions of previous heuristic theories of word order optimization \cite{hawkins1994performance,ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
 
-We formalize the notion of communicative efficiency using two terms: one having to do with minimizing the difficulty of linguistic communication, and one having to do with maximizing the information transferred in such communication. We quantify the difficulty of linguistic communication in terms of the word-by-word \key{predictability} of strings, which has been found to be a highly accurate and general predictor of human online comprehension difficulty \cite{hale2001probabilistic,levy2008expectation,smith2013effect}, and which can be justified in terms of predictive coding theories of information processing in the brain \cite{friston2009predictive} as well as the general algorithmic complexity of language generation and comprehension \cite{li2008introduction}. We quantify the information transferred in language as \key{parseability}: the quantity of information contained in linguistic utterances about latent hierarchical tree structures. We also compare the results of optimizing for communicative efficiency to the results of optimizing for dependency length minimization, a previously proposed approximate metric of the amount of memory involved in language production and comprehension \cite{hudson1995measuring,gibson1998linguistic,gibson2000dependency,liu2017dependency,temperley2018minimizing}.
+We formalize the notion of communicative efficiency using two terms: one having to do with minimizing the difficulty of linguistic communication, and one having to do with maximizing the information transferred in such communication. We quantify the difficulty of linguistic communication in terms of the word-by-word \key{predictability} of strings, which has been found to be a highly accurate and general predictor of human online comprehension difficulty \cite{hale2001probabilistic,levy2008expectation,smith2013effect}, and which can be justified in terms of predictive coding theories of information processing in the brain \cite{friston2009predictive} as well as the general algorithmic complexity of language generation and comprehension \cite{li2008introduction}. We quantify the information transferred in language as \key{parseability}: the quantity of information linguistic utterances contain about latent hierarchical tree structures. We also compare the results of optimizing for communicative efficiency to the results of optimizing for dependency length minimization, a previously proposed approximate metric of the amount of memory involved in language production and comprehension \cite{hudson1995measuring,gibson1998linguistic,gibson2000dependency,liu2017dependency,temperley2018minimizing}.
 
 To evaluate whether communicative efficiency can explain word order universals, we apply the following method \cite{gildea2007optimizing}. First, we develop word order grammars: simple, interpretable models of word order, implemented as functions that take in an unordered syntactic dependency tree and output a distribution over possible word orders for that tree. Second, we take dependency treebanks of natural languages and compute word order grammars which are optimized for an objective functions representing communicative efficiency.
 Third, we evaluate whether the optimized word order grammars reproduce the desired word order universals when applied to attested dependency trees from the treebanks across many languages. Our favorable results suggest that it may be possible to generally model human languages as efficient codes for communication among agents with generic human-like cognitive and communicative constraints. %The best way to describe a human language might be as a solution to an equation involving such constraints.
@@ -222,7 +222,7 @@ We formalize predictability as follows. Given a language model $P_\phi$ with par
 \begin{equation*}
 R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
 \end{equation*}
-where the language model parameters $\phi$ are chosen predict the language induced by tree distribution $T$ and word order grammar $\L_\theta$ as accurately as possible (maximizing predictability):
+where the language model parameters $\phi$ are chosen to predict the language induced by tree distribution $T$ and word order grammar $\L_\theta$ as accurately as possible (maximizing predictability):
 \begin{equation*}
 	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
 \end{equation*}
@@ -334,19 +334,19 @@ Finally we demonstrate the relationship between dependency length minimization a
 \begin{tabular}{|ll|l|l|l|ll|l|}
 	\hline
 	%&
-	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{Operationalization}       &     \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
-	verb & object &      & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
+	verb & object     & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
-adposition    &    NP    &    lifted\_case    &    86    &    \textbf{81}$^{***}$    &    47    &    \textbf{76}$^{***}$    &    \textbf{68}$^{***}$   \\
-copula    &    NP    &    lifted\_cop    &    94    &    \textbf{81}$^{***}$    &    53    &    \textbf{79}$^{***}$    &    \textbf{61}$^{**}$   \\
-auxiliary    &    VP    &    aux    &    88    &    \textbf{74}$^{***}$    &    \textbf{84}$^{***}$    &    55    &    \textbf{69}$^{**}$   \\
-noun    &    genitive    &    nmod    &    80    &    \textbf{82}$^{***}$    &    55    &    \textbf{74}$^{***}$    &    \textbf{70}$^{***}$   \\
-noun    &    relative clause    &    acl    &    80    &    \textbf{85}$^{***}$    &    48    &    \textbf{77}$^{**}$    &    \textbf{73}$^{***}$   \\
-complementizer    &    S    &    lifted\_mark    &    76    &    \textbf{85}$^{***}$    &    \textbf{59}$^{**}$    &    \textbf{80}$^{***}$    &    \textbf{74}$^{**}$   \\
-verb    &    PP    &    obl    &    88    &    \textbf{78}$^{***}$    &    \textbf{72}$^{***}$    &    59    &    \textbf{69}$^{**}$   \\
-want    &    VP    &    xcomp    &    88    &    \textbf{90}$^{***}$    &    \textbf{78}$^{**}$    &    \textbf{92}$^{***}$    &    \textbf{92}$^{***}$   \\
-verb    &    subject    &    nsubj    &    33    &    \textbf{29}$^{**}$    &    51    &    \textbf{8}$^{***}$    &    \textbf{13}$^{***}$   \\
-verb    &    manner adverb    &    advmod    &    35    &    51    &    \textbf{21}$^{***}$    &    51    &    \textbf{32}$^{***}$   \\
+adposition    &    NP       &    86    &    \textbf{81}$^{***}$    &    47    &    \textbf{76}$^{***}$    &    \textbf{68}$^{***}$   \\
+copula    &    NP        &    94    &    \textbf{81}$^{***}$    &    53    &    \textbf{79}$^{***}$    &    \textbf{61}$^{**}$   \\
+auxiliary    &    VP       &    88    &    \textbf{74}$^{***}$    &    \textbf{84}$^{***}$    &    55    &    \textbf{69}$^{**}$   \\
+noun    &    genitive      &    80    &    \textbf{82}$^{***}$    &    55    &    \textbf{74}$^{***}$    &    \textbf{70}$^{***}$   \\
+noun    &    relative clause       &    80    &    \textbf{85}$^{***}$    &    48    &    \textbf{77}$^{**}$    &    \textbf{73}$^{***}$   \\
+complementizer    &    S        &    76    &    \textbf{85}$^{***}$    &    \textbf{59}$^{**}$    &    \textbf{80}$^{***}$    &    \textbf{74}$^{**}$   \\
+verb    &    PP     &    88    &    \textbf{78}$^{***}$    &    \textbf{72}$^{***}$    &    59    &    \textbf{69}$^{**}$   \\
+want    &    VP      &    88    &    \textbf{90}$^{***}$    &    \textbf{78}$^{**}$    &    \textbf{92}$^{***}$    &    \textbf{92}$^{***}$   \\
+verb    &    subject    &    33    &    \textbf{29}$^{**}$    &    51    &    \textbf{8}$^{***}$    &    \textbf{13}$^{***}$   \\
+verb    &    manner adverb     &    35    &    51    &    \textbf{21}$^{***}$    &    51    &    \textbf{32}$^{***}$   \\
  \hline
 %comp. &
 %\multirow{3}{*}{NP}&
@@ -387,10 +387,11 @@ verb    &    manner adverb    &    advmod    &    35    &    51    &    \textbf{
 We now examine to what extent we can recover Greenberg's word order correlations in optimized grammars. 
 Dryer \cite{dryer1992greenbergian} presents a comprehensive updated version of the word order correlations, drawing on 625 languages, which we take as the basis of our evaluation.
 In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
-This dependency corresponds to dependencies of the form $\xrightarrow{obj}$ in UD.
-Similarly, most of the other dependencies in Dryer's formulation can be formalized:
-for instance, the dependency between nouns and relative clauses can be formalized as $\xrightarrow{acl}$.
-Testing whether an ordering model satisfies the correlation between relative clauses and objects reduces to checking whether these two relation types have direction parameters $a_\tau$ that are either both $>0.5$ (both kinds of dependents precede their heads) or both $< 0.5$ (they both follow their heads).
+Most of them can be straightforwardly implemented in UD, allowing us to check which correlations a word order grammar satisfies.
+%This dependency corresponds to dependencies of the form $\xrightarrow{obj}$ in UD.
+%Similarly, most of the other dependencies in Dryer's formulation can be formalized:
+%for instance, the dependency between nouns and relative clauses can be formalized as $\xrightarrow{acl}$.
+%Testing whether an ordering model satisfies the correlation between relative clauses and objects reduces to checking whether these two relation types have direction parameters $a_\tau$ that are either both $>0.5$ (both kinds of dependents precede their heads) or both $< 0.5$ (they both follow their heads).
 
 Dryer \cite{dryer1992greenbergian} presents three correlations which do not correspond to dependencies annotated in UD: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles. Two pairs of Dryer's correlations, namely those for the dependencies between complementizers and adverbial subordinators and their complement clauses,and those for the dependencies between verbs and adpositional phrases, and adjectives and their standard of comparison, had to be collapsed into two correlations in UD. From Dryer's 15 correlations, we obtained 10 formalized correlations, roughly covering nine of Greenberg's original universals. %TODO update to 10? What happened to the 11th? Was that amod? [The 11th was adjective+standard of comparison, which is merged into obl] Maybe we could include amod as a "true rejection" of efficiency, but a false alarm for DepL
 
@@ -474,6 +475,21 @@ We report results on this modified version of UD.
 The efficiency optimization results from Table~\ref{tab:results-dryer} were preregistered: \url{http://aspredicted.org/blind.php?x=8gp2bt}.
 
 See the SI for details on the neural language models and parsers used, and on the optimization procedures.
+
+\subsection{Specification of word order grammars}
+
+All natural languages have some degree of word order regularity. Thus, it is not sufficient to optimize the word orders of individual sentences in the corpora---instead, we will optimize the word order rules of entire languages.
+
+Our goal is to specify word order grammars that transduce unordered dependency trees into strings of words. We have three additional goals: first, we would like our grammars to be able to operate over dependency trees as specified in large human-annotated treebank corpora, such as those developed by the Universal Dependencies project \cite{nivre2017universal}. Second, we would like our grammars to be simple and easily interpretable, so we can determine whether they exhibit word order universals. Third, we would like our grammars to be differentiable, so that it is easy to optimize their parameters for efficiency.
+
+Our model linearizes dependency trees such as the ones in Figure~\ref{fig:arabic-japanese}. We assume nodes are labeled with part-of-speech (POS) tags, and arcs are labeled with syntactic relations. The parameters of a word order grammar are as follows. 
+For each dependency label type $\tau$, we have (1) a \key{Direction Parameter} $a_\tau \in [0,1]$, and (2) a \key{Distance Parameter} $b_\tau \in \mathbb{R}$. 
+Each dependent is ordered on the left of its head with probability $a_\tau$ and to the right with probability $1-a_\tau$. 
+Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order outward from the head is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (\cite{goodfellow2016deep}, p. 184) without replacement. 
+
+This simple parameterization lets us directly test whether a given grammar follows word order universals. For example, we can test whether a Greenbergian word order correlation holds in a grammar by checking whether $a_\tau>\frac{1}{2}$ for different syntactic relations $\tau$.
+
+
 }
 
 \showmatmethods{} % Display the Materials and Methods section
