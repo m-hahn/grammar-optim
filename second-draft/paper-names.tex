@@ -90,12 +90,117 @@ The universal properties of human languages have been the subject of intense stu
 
 \dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. In this work we examine this question from a computational perspective, demonstrating a fully formalized framework in which certain syntactic universals can be explained through the statistical optimization of grammars for information-theoretic efficiency. % TODO add a cogsci person to citation chain at the beginning
 
-We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
+
+Natural languages vary a lot in the order in which they express information.
+Consider Figure~\ref{fig:arabic-japanese-simple}, showing a sentence in Arabic (top) and Japanese (bottom), both translating to `I wrote a letter to a friend.'
+Both sentences contain a verb meaning `wrote', a noun expressing  `letter', and a phrase translating to `to a friend'.
+In linguistic terminology, `letter' is the object of the verb, whereas the phrases translating as `to a friend' are known as adpositional phrases.
+While the two sentences containing words with the same meanings, the order of these words are entirely different in the two languages:
+%However, the languages differ in the order in which these words and phrases are arranged: 
+In Arabic, the verb stands at the beginning, followed by both the object and the adpositional phrase.
+In Japanese, the verb stands at the end; object and adpositional phrase precede it.
+What both languages have in common is that the object and the adpositional phrase stand on the same side of the verb.
+It turns out that this is a deep and stable regularity:
+Languages ordering the objects before (Japanese) or after (Arabic) the verb are approximately equally common around the world.
+However, the vast majority of natural languages place adpositional phrases on the same side of the verb as the object:
+In a sample of about 1,100 languages from five contents (CITE Dryer WALS 95a), less than 7 \% of languages provide clear exceptions to this generalization. %, over 90 \% of languages satisfy this generalization .
+
+This generalization falls in a group of language universals that were originally documented by Greenberg \cite{greenberg1963universals}, known as \key{word order correlations}:
+These describe correlations between the relative positions of different types of expressions across languages.
+The example above documents that the position of the object (`letter') relative to the verb is \key{correlated} with the position of adpositional phrases (`to a friend') relative to the verb.
+Greenberg originally worked with 30 languages; the correlation universals have since been confirmed on the basis of much larger samples of languages.
+The authoritative study by Dryer \cite{dryer1992greenbergian} draws on 625 languages and documents fifteen such correlations.
+%For instance, the relative order of objects and nouns also strongly determines the positions of genitives, auxiliaries, and other
+
+These universals are supported by languages on all five continents, and they are valid across
+
+These cross-linguistic patterns call for an explanation, and the problem of explaining the word order correlations has inspired a long tradition of research.
+
+
 
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
 Researchers working in the functional paradigm have proposed a range of criteria that languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
+
+
+
+
+%We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
+
+
+
+\begin{figure}
+\centering
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   katabt \& risāla \& li \& sadīq  \\
+	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
+	   wrote \& letter   \& to \& friend  \\
+   \end{deptext}
+\end{dependency}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      tomodachi \& ni \& tegami-o \& kaita \\
+ \textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
+	   friend \& to \& letter  \& wrote \\
+   \end{deptext}
+\end{dependency}
+
+%\begin{dependency}[theme=simple]
+%    \begin{deptext}
+%    I \& wrote \& a \& letter \& to \& a \& friend \\
+%    \end{deptext}
+%    \depedge{2}{1}{nsubj}
+%    \depedge{2}{4}{obj}
+%    \depedge{4}{3}{ }
+%    \depedge{4}{3}{ }
+%    \depedge{2}{5}{}
+%    \depedge{5}{7}{ }
+%    \depedge{7}{6}{ }
+%\end{dependency}
+	\caption{A sentence in Arabic (top) and Japanese (bottom), translating to `I wrote a letter to a friend.' Note the reversal of word order: Arabic has verb-object order and prepositions, while Japanese has object-verb order and postpositions.}\label{fig:arabic-japanese-simple}
+\end{figure}
+
+
+
+
+\begin{table*}
+	\begin{center}
+\begin{tabular}{|ll|l|l|l|ll|l|llllllll}
+	\hline
+	%&
+	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
+	verb & object     & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+%adp. &
+adposition    &    NP       & \\
+	to            & a friend \\
+copula    &    NP        &     \\
+	is        & a friend \\
+auxiliary    &    VP       &   \\
+	has          & written \\
+noun    &    genitive      &  \\
+TODO &  \\
+noun    &    relative clause       &  \\
+complementizer    &    S        & \\
+verb    &    PP     &    \\
+want    &    VP      &    \\
+verb    &    subject    &  \\
+verb    &    manner adverb     & \\
+ \hline
+%comp. &
+%\multirow{3}{*}{NP}&
+%	AP &
+    \multicolumn{6}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
+\end{tabular}
+	\end{center}
+	\caption{Greenbergian Correlations. Following \cite{dryer1992greenbergian}, each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
+}\label{table:results-dryer}
+\end{table*}
+
+
+
 
 The contribution of this work is (i) to provide a principled formalization of the notion of communicative efficiency in word order, based on related work in information theory \cite{cover2006elements,tishby1999information}, bounded rationality \cite{genewein2015bounded}, and computational neuroscience \cite{friston2009predictive}; (ii) to introduce a computational framework in which we can produce simulated grammars directly optimized for our notion of efficiency, using state-of-the-art machine learning techniques \cite{hochreiter1997long,goldberg2017neural,dozat2017stanford}; and (iii) to demonstrate that in doing so, we reproduce the major word order patterns reported in \cite{greenberg1963universals} and related work \cite{dryer1992greenbergian}, as well as reproducing the predictions of previous heuristic theories of word order optimization \cite{hawkins1994performance,ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
 
@@ -112,14 +217,14 @@ Third, we evaluate whether the optimized word order grammars reproduce the desir
 
 % TODO where do we say that we're basing our work on data from 51 languages?
 
-\subsection{Explananda: Word Order Correlations}
-
-Working with a database of 30 languages, Greenberg \cite{greenberg1963universals} proposed 45 universals of language that he determined to be true of most or all languages.
-31 of them were concerned with word order, the remainder with morphology.
-Many of the word order universals state \emph{correlations} between patterns:
-For instance, Universals 3 and 4 state that ``\emph{Languages with dominant VSO order are always prepositional.}''  (e.g. Arabic), and ``\emph{With overwhelmingly greater than chance frequency, languages with normal SOV order are postpositional.}'' (e.g. Japanese). 
-These are illustrated in Figure~\ref{fig:arabic-japanese}:
-Arabic has basic order verb-object (VO) and prepositions (\emph{li} `to'), while Japanese has order object-verb (OV) and postpositions (\emph{ni} `to'). Our goal is to explain Greenberg's reported word order correlations, as updated in \cite{dryer1992greenbergian}.
+%\subsection{Explananda: Word Order Correlations}
+%
+%Working with a database of 30 languages, Greenberg \cite{greenberg1963universals} proposed 45 universals of language that he determined to be true of most or all languages.
+%31 of them were concerned with word order, the remainder with morphology.
+%Many of the word order universals state \emph{correlations} between patterns:
+%For instance, Universals 3 and 4 state that ``\emph{Languages with dominant VSO order are always prepositional.}''  (e.g. Arabic), and ``\emph{With overwhelmingly greater than chance frequency, languages with normal SOV order are postpositional.}'' (e.g. Japanese). 
+%These are illustrated in Figure~\ref{fig:arabic-japanese}:
+%Arabic has basic order verb-object (VO) and prepositions (\emph{li} `to'), while Japanese has order object-verb (OV) and postpositions (\emph{ni} `to'). Our goal is to explain Greenberg's reported word order correlations, as updated in \cite{dryer1992greenbergian}.
 
 \begin{figure}
 \centering
@@ -191,29 +296,58 @@ Next we define how a word order grammar linearizes trees in terms of its paramet
 \end{figure}
 
 
-\subsection{Specification of word order grammars}
+
+
+We think of it as the following problem:
+
+A speaker has a tree in mind, and they have to produce an utterance.
+
+
+
+%Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
+%\begin{equation}
+%\label{eq:exp-over-utts}
+%J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim L_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
+%\end{equation}
+%where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
+%Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+%
+%
 
 All natural languages have some degree of word order regularity. Thus, it is not sufficient to optimize the word orders of individual sentences in the corpora---instead, we will optimize the word order rules of entire languages.
+We develop a method to create word order rules that optimize given processing measures on the resulting counterfactual corpus.
 
-Our goal is to specify word order grammars that transduce unordered dependency trees into strings of words. We have three additional goals: first, we would like our grammars to be able to operate over dependency trees as specified in large human-annotated treebank corpora, such as those developed by the Universal Dependencies project \cite{nivre2017universal}. Second, we would like our grammars to be simple and easily interpretable, so we can determine whether they exhibit word order universals. Third, we would like our grammars to be differentiable, so that it is easy to optimize their parameters for efficiency.
+\subsection{DLM Predicts Universals}
 
-Our model linearizes dependency trees such as the ones in Figure~\ref{fig:arabic-japanese}. We assume nodes are labeled with part-of-speech (POS) tags, and arcs are labeled with syntactic relations. The parameters of a word order grammar are as follows. 
-For each dependency label type $\tau$, we have (1) a \key{Direction Parameter} $a_\tau \in [0,1]$, and (2) a \key{Distance Parameter} $b_\tau \in \mathbb{R}$. 
-Each dependent is ordered on the left of its head with probability $a_\tau$ and to the right with probability $1-a_\tau$. 
-Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order outward from the head is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (\cite{goodfellow2016deep}, p. 184) without replacement. 
 
-This simple parameterization lets us directly test whether a given grammar follows word order universals. For example, we can test whether a Greenbergian word order correlation holds in a grammar by checking whether $a_\tau>\frac{1}{2}$ for different syntactic relations $\tau$.
+We first apply our method to show that DLM predicts the correlations.
 
-\subsection{Objective functions}
-\label{ref:objective-funcs}
 
-Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
-\begin{equation}
-\label{eq:exp-over-utts}
-J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim L_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
-\end{equation}
-where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
-Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+
+%Dependency length has been proposed as a metric of processing difficulty on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}, and minimization of dependency length is known to recover a large subset of the Greenbergian universals \cite{hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic}. 
+%We demonstrate that the minimization of dependency length can be formalized in our framework, reproducing the finding that optimizing grammars for dependency length recovers several word order universals \cite{gildea2010grammars}.
+%
+%To quantify dependency length, we sum the lengths of syntactic dependencies in the sentence \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}:
+%\begin{equation}
+%    \label{eq:depl}
+%	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+%\end{equation}
+%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
+
+
+
+\subsection{Efficiency Predicts Universals}
+
+
+DLM is stipulative and at most a heuristic approximation to psycholinguistic findings
+
+
+We now introduce a general information-theoretic notion of language efficiency.
+
+
+use the general speaker-listener picture
+
 
 \paragraph{Predictability}
 Predictability represents the incremental difficulty of online language processing. We formalize predictability as the \key{surprisal} (negative log probability) of each word given its preceding context \cite{hale2001probabilistic,levy2008expectation,smith2013effect}. Optimization of predictability has been proposed as an explanation for certain word order patterns by \cite{ferrericancho2017optimality}.
@@ -222,11 +356,13 @@ We formalize predictability as follows. Given a language model $P_\phi$ with par
 \begin{equation*}
 R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
 \end{equation*}
-where the language model parameters $\phi$ are chosen to predict the language induced by tree distribution $T$ and word order grammar $\L_\theta$ as accurately as possible (maximizing predictability):
-\begin{equation*}
-	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
-\end{equation*}
-We implement the language model $P_\phi$ using an LSTM neural network architecture \cite{hochreiter1997long}, currently the state of the art for this task \cite{goldberg2017neural}. Note that the language model parameters $\phi$ and the word order grammar parameters $\theta$ are recursively dependent on each other. See the SI for details on how $\theta$ and $\phi$ are jointly optimized, as well as on the neural network architecture.
+%where the language model parameters $\phi$ are chosen to predict the language induced by tree distribution $T$ and word order grammar $\L_\theta$ as accurately as possible (maximizing predictability):
+%\begin{equation*}
+%	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+%\end{equation*}
+We implement the language model $P_\phi$ using an LSTM neural network architecture \cite{hochreiter1997long}, currently the state of the art for this task \cite{goldberg2017neural}.
+%Note that the language model parameters $\phi$ and the word order grammar parameters $\theta$ are recursively dependent on each other.
+See the SI for details on how $\theta$ and $\phi$ are jointly optimized, as well as on the neural network architecture.
 
 \paragraph{Parseability}
 Parseability is the extent to which the syntactic and semantic relationships among words can be recovered from the string of words. 
@@ -239,20 +375,19 @@ R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
 \nonumber
 &= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
 \end{align}
-where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
-\begin{equation*}
-\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
-\end{equation*}
+%where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
+%\begin{equation*}
+%\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+%\end{equation*}
 We implement $P_\psi$ using a highly generic graph-based parsing architecture \cite{kiperwasser2016simple,dozat2017stanford} which recovers graph structures from word strings by solving a minimal spanning tree problem.
-Due to data sparsity, we train parsers to predict dependency trees from POS tags alone, not from full wordforms, therefore we do not capture the extent to which morphological wordforms are informative about dependency tree structure.
-
+%Due to data sparsity, we train parsers to predict dependency trees from POS tags alone, not from full wordforms, therefore we do not capture the extent to which morphological wordforms are informative about dependency tree structure.
 See the SI (appendix section 6-7) for further details on the joint optimization of $\theta$ and $\psi$ and on the neural parser architecture, and see SI (section 8) for robustness to different parsing models.
 
 \paragraph{Efficiency}
 The two scoring functions---predictability and parseability---can be combined into an overall equation of the form:
 \begin{equation}
 \label{eq:combined-score}
-R_{Efficiency} = R_{Pars} + \lambda R_{Pred},
+	R_{\textit{Eff}} = R_{Pars} + \lambda R_{Pred},
 \end{equation}
 with an interpolation weight $\lambda \in [0,1)$. In all experiments in this paper we use $\lambda=.9$ (see SI appendix section 5 for mathematical justification). This combined equation represents efficiency: bits of information transferred about dependency trees minus the cost of the transmission. In expectation over utterances (substituting Eq.~\ref{eq:combined-score} into Eq.~\ref{eq:exp-over-utts}), the overall objective function to be maximized by a word order grammar can be written in information-theoretic terms as:
 \begin{equation}
@@ -263,36 +398,10 @@ where $I[L_\theta(T);T]$ is the \key{mutual information} between strings and tre
 
 The two terms of Eq.~\ref{eq:efficiency} implement two opposing pressures. Parseability (the mutual information term) pushes to make strings more heterogeneous, so that they can indicate different tree structures unambiguously. Predictability (the entropy term) pushes to make strings more homogeneous, to reduce the complexity of using the language. The idea that natural language arises from a tension between these two forces goes back over a century \cite{gabelentz1901sprachwissenschaft}. Eq.~\ref{eq:efficiency} is a special case of the objective function proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems, taking unordered dependency trees $T$ as the underlying meanings to be conveyed. Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
 
-\paragraph{Dependency length}
 
-In previous studies of word order optimization, it has been common to propose that word orders are chosen to minimize \key{dependency length}, the linear distance between words linked in head--dependent relationships \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}. 
-Dependency length has been proposed as a metric of processing difficulty on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}, and minimization of dependency length is known to recover a large subset of the Greenbergian universals \cite{hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic}. 
-We demonstrate that the minimization of dependency length can be formalized in our framework, reproducing the finding that optimizing grammars for dependency length recovers several word order universals \cite{gildea2010grammars}.
 
-To quantify dependency length, we sum the lengths of syntactic dependencies in the sentence \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}:
-\begin{equation}
-    \label{eq:depl}
-	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
-\end{equation}
-where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
-Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
 
-\subsection{Discussion and Related Work}
-
-Our work builds on previous work on optimizing word order grammars for various objectives \cite{gildea2007optimizing,gildea2010grammars,gildea2015human}.
-Previous work has used deterministic word order grammars optimized by simple hill-climbing. 
-Our work departs from previous work in three ways. 
-First, we use word order grammars that are probabilistic and differentiable, enabling greater expressivity and optimization by stochastic gradient descent.
-Second, we use state-of-the-art neural language models for predictability, jointly optimizing parameters of word order grammars and language models.
-Third, we implement parseability and efficiency as a novel objective functions, which would not be feasible with non-differentiable word order grammars.
-
-In the space of word order grammars, more complex models than ours have been defined \cite{belz2011first,futrell2015experiments,wang2016galactic}. However, the simple parametric form of our model enables easy interpretation across languages.
-Like these previous models, our model makes simplifying assumptions and will not fit the rules of natural languages perfectly.
-For instance, none of the models accounts for word order phenomena that are conditioned on the larger context---e.g., differences in word order between embedded and main clauses. 
-Also like previous models, our model only generates word orders that are \key{projective}, meaning that dependency lines do not cross. There are two reasons for constraint. First, there is currently no easily interpretable probabilistic model of non-projective word ordering to build on from the natural language processing literature (cf. \cite{bohnet2012generating}). Second, natural language dependency trees are overwhelmingly projective \cite{kuhlmann2013mildly}. Note that the preponderance of projectivity in natural language is itself a linguistic universal, equivalent to context-freeness in formal language theory \cite{marcus1965notion,kuhlmann2013mildly}, and explanations have been offered for it in terms of dependency length minimization  \cite{ferrericancho2006syntactic}. 
-
-We test efficiency metrics based both on information theory (Eq.~\ref{eq:efficiency}) and dependency length minimization (Eq.~\ref{eq:depl}). We do not see these as competing theories. Rather, we see the information-theoretic objective as a broad description of efficiency in general, and dependency length as a heuristic description of a particular component of complexity. There is reason to believe that dependency length minimization might emerge as a byproduct of optimization for parseability and predictability under resource constraints \cite{futrell2017memory}: in particular, short dependencies are optimal for predictability given lossily compressed representations of context \cite{futrell2017noisycontext,futrell2017generalizing}. In the results below, we demonstrate that optimizing for our Eq.~\ref{eq:efficiency} does indeed produce dependency length minimization as a byproduct.
-
+%In previous studies of word order optimization, it has been common to propose that word orders are chosen to minimize \key{dependency length}, the linear distance between words linked in head--dependent relationships \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}. 
 \section{Results}
 
 \subsection{Relative efficiency of languages}
@@ -450,7 +559,7 @@ For dependency length, the posterior puts much of the probability mass on predic
 
 In Section~\ref{sec:relative-efficiency}, we found that word order grammars in the majority of UD languages have better efficiency than baseline word order grammars. Furthermore, in Section~\ref{sec:greenberg} we found that explicitly optimizing grammars for efficiency reproduces 10 major word order correlations reported in the typological literature, and with greater accuracy than the typological literature when it comes to the languages studied. 
 
-While the efficiency objective succeeds in predicting the presence of the most word order correlations, the dependency length objective seems to predict a greater prevalence for those correlations that it does predict. We believe this discrepancy is a result of noise in the optimization process. Optimizing for efficiency is computationally challenging, requiring stochastic gradient descent on word order grammar, language model, and parser parameters, while optimizing for dependency length is simpler and thus more optimal grammars can be reached easily (See SI section 2 for supporting data). Inasmuch as dependency length minimization is computationally easier to implement than efficiency maximization, we believe it will remain useful as an easy-to-use heuristic for predicting and explaining word order universals.
+%While the efficiency objective succeeds in predicting the presence of the most word order correlations, the dependency length objective seems to predict a greater prevalence for those correlations that it does predict. We believe this discrepancy is a result of noise in the optimization process. Optimizing for efficiency is computationally challenging, requiring stochastic gradient descent on word order grammar, language model, and parser parameters, while optimizing for dependency length is simpler and thus more optimal grammars can be reached easily (See SI section 2 for supporting data). Inasmuch as dependency length minimization is computationally easier to implement than efficiency maximization, we believe it will remain useful as an easy-to-use heuristic for predicting and explaining word order universals.
 % TODO we can also report (in the SI) prevalences among the best-performing of the optimized languages, i.e., those where optimization was most successful. I would expect that this should narrow the gap between DepL and Efficiency, which would confirm that the gap is really about the difficulty of optimization, not about the objective functions.
 
 \section{Conclusion}
@@ -488,6 +597,99 @@ Each dependent is ordered on the left of its head with probability $a_\tau$ and 
 Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order outward from the head is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (\cite{goodfellow2016deep}, p. 184) without replacement. 
 
 This simple parameterization lets us directly test whether a given grammar follows word order universals. For example, we can test whether a Greenbergian word order correlation holds in a grammar by checking whether $a_\tau>\frac{1}{2}$ for different syntactic relations $\tau$.
+
+
+
+
+
+\subsection{Objective functions}
+\label{ref:objective-funcs}
+
+Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
+\begin{equation}
+\label{eq:exp-over-utts}
+J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim L_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
+\end{equation}
+where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
+Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+
+\paragraph{Predictability}
+Predictability represents the incremental difficulty of online language processing. We formalize predictability as the \key{surprisal} (negative log probability) of each word given its preceding context \cite{hale2001probabilistic,levy2008expectation,smith2013effect}. Optimization of predictability has been proposed as an explanation for certain word order patterns by \cite{ferrericancho2017optimality}.
+
+We formalize predictability as follows. Given a language model $P_\phi$ with parameters $\phi$, the log probability of a sentence ${\bf w}$ is:
+\begin{equation*}
+R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
+\end{equation*}
+where the language model parameters $\phi$ are chosen to predict the language induced by tree distribution $T$ and word order grammar $\L_\theta$ as accurately as possible (maximizing predictability):
+\begin{equation*}
+	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+\end{equation*}
+We implement the language model $P_\phi$ using an LSTM neural network architecture \cite{hochreiter1997long}, currently the state of the art for this task \cite{goldberg2017neural}. Note that the language model parameters $\phi$ and the word order grammar parameters $\theta$ are recursively dependent on each other. See the SI for details on how $\theta$ and $\phi$ are jointly optimized, as well as on the neural network architecture.
+
+\paragraph{Parseability}
+Parseability is the extent to which the syntactic and semantic relationships among words can be recovered from the string of words. 
+%Some notion of parseability has been proposed informally as a desirable property of languages in the linguistic literature going back at least to the 19th century \cite{humboldt,sapir,jesperson}, and parseability has been offered as an underlying justification for syntactic locality as a cost function for language processing \cite{hawkins-performance-1994}. 
+%At a basic level, a language can encode information about syntactic relations into fixed word order patterns or into morphological marking on individual words. Much linguistic work has been devoted to investigating the trade-offs of various ways of indicating syntactic relations \cite{}. In this work, we present what is to our knowledge the first fully implemented computational formalization of this idea.
+We specify parseability as the mutual information between strings and trees, or equivalently the quantity of information provided by strings about trees. Formally, we say the parseability score of an utterance $\mathbf{w}$ is the pointwise mutual information of the $\mathbf{w}$ and the tree $t$ it was generated from, calculated using a parser with parameters $\psi$:\footnote{Note that $P(t)$ is a constant term which will be ignored in the optimization process.}
+\begin{align}
+\nonumber
+R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
+\nonumber
+&= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
+\end{align}
+where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
+\begin{equation*}
+\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+\end{equation*}
+We implement $P_\psi$ using a highly generic graph-based parsing architecture \cite{kiperwasser2016simple,dozat2017stanford} which recovers graph structures from word strings by solving a minimal spanning tree problem.
+Due to data sparsity, we train parsers to predict dependency trees from POS tags alone, not from full wordforms, therefore we do not capture the extent to which morphological wordforms are informative about dependency tree structure.
+
+See the SI (appendix section 6-7) for further details on the joint optimization of $\theta$ and $\psi$ and on the neural parser architecture, and see SI (section 8) for robustness to different parsing models.
+
+\paragraph{Efficiency}
+The two scoring functions---predictability and parseability---can be combined into an overall equation of the form:
+\begin{equation}
+\label{eq:combined-score}
+R_{Efficiency} = R_{Pars} + \lambda R_{Pred},
+\end{equation}
+with an interpolation weight $\lambda \in [0,1)$. In all experiments in this paper we use $\lambda=.9$ (see SI appendix section 5 for mathematical justification). This combined equation represents efficiency: bits of information transferred about dependency trees minus the cost of the transmission. In expectation over utterances (substituting Eq.~\ref{eq:combined-score} into Eq.~\ref{eq:exp-over-utts}), the overall objective function to be maximized by a word order grammar can be written in information-theoretic terms as:
+\begin{equation}
+    \label{eq:efficiency}
+    J_T(\theta) = I[L_\theta(T);T] - \lambda H[L_\theta(T)],
+\end{equation}
+where $I[L_\theta(T);T]$ is the \key{mutual information} between strings and trees, and $H[L_\theta(T)]$ is the \key{entropy} of strings \cite{cover2006elements}. Maximizing Eq.~\ref{eq:efficiency} is equivalent to maximizing mutual information between strings and trees subject to a constraint on the maximum entropy of strings. 
+
+The two terms of Eq.~\ref{eq:efficiency} implement two opposing pressures. Parseability (the mutual information term) pushes to make strings more heterogeneous, so that they can indicate different tree structures unambiguously. Predictability (the entropy term) pushes to make strings more homogeneous, to reduce the complexity of using the language. The idea that natural language arises from a tension between these two forces goes back over a century \cite{gabelentz1901sprachwissenschaft}. Eq.~\ref{eq:efficiency} is a special case of the objective function proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems, taking unordered dependency trees $T$ as the underlying meanings to be conveyed. Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
+
+\paragraph{Dependency length}
+
+In previous studies of word order optimization, it has been common to propose that word orders are chosen to minimize \key{dependency length}, the linear distance between words linked in head--dependent relationships \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}. 
+Dependency length has been proposed as a metric of processing difficulty on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}, and minimization of dependency length is known to recover a large subset of the Greenbergian universals \cite{hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic}. 
+We demonstrate that the minimization of dependency length can be formalized in our framework, reproducing the finding that optimizing grammars for dependency length recovers several word order universals \cite{gildea2010grammars}.
+
+To quantify dependency length, we sum the lengths of syntactic dependencies in the sentence \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}:
+\begin{equation}
+    \label{eq:depl}
+	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+\end{equation}
+where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
+
+\subsection{Discussion and Related Work}
+
+Our work builds on previous work on optimizing word order grammars for various objectives \cite{gildea2007optimizing,gildea2010grammars,gildea2015human}.
+Previous work has used deterministic word order grammars optimized by simple hill-climbing. 
+Our work departs from previous work in three ways. 
+First, we use word order grammars that are probabilistic and differentiable, enabling greater expressivity and optimization by stochastic gradient descent.
+Second, we use state-of-the-art neural language models for predictability, jointly optimizing parameters of word order grammars and language models.
+Third, we implement parseability and efficiency as a novel objective functions, which would not be feasible with non-differentiable word order grammars.
+
+In the space of word order grammars, more complex models than ours have been defined \cite{belz2011first,futrell2015experiments,wang2016galactic}. However, the simple parametric form of our model enables easy interpretation across languages.
+Like these previous models, our model makes simplifying assumptions and will not fit the rules of natural languages perfectly.
+For instance, none of the models accounts for word order phenomena that are conditioned on the larger context---e.g., differences in word order between embedded and main clauses. 
+Also like previous models, our model only generates word orders that are \key{projective}, meaning that dependency lines do not cross. There are two reasons for constraint. First, there is currently no easily interpretable probabilistic model of non-projective word ordering to build on from the natural language processing literature (cf. \cite{bohnet2012generating}). Second, natural language dependency trees are overwhelmingly projective \cite{kuhlmann2013mildly}. Note that the preponderance of projectivity in natural language is itself a linguistic universal, equivalent to context-freeness in formal language theory \cite{marcus1965notion,kuhlmann2013mildly}, and explanations have been offered for it in terms of dependency length minimization  \cite{ferrericancho2006syntactic}. 
+
+We test efficiency metrics based both on information theory (Eq.~\ref{eq:efficiency}) and dependency length minimization (Eq.~\ref{eq:depl}). We do not see these as competing theories. Rather, we see the information-theoretic objective as a broad description of efficiency in general, and dependency length as a heuristic description of a particular component of complexity. There is reason to believe that dependency length minimization might emerge as a byproduct of optimization for parseability and predictability under resource constraints \cite{futrell2017memory}: in particular, short dependencies are optimal for predictability given lossily compressed representations of context \cite{futrell2017noisycontext,futrell2017generalizing}. In the results below, we demonstrate that optimizing for our Eq.~\ref{eq:efficiency} does indeed produce dependency length minimization as a byproduct.
 
 
 }
