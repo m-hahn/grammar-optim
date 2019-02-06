@@ -161,6 +161,10 @@ The authoritative study by Dryer \cite{dryer1992greenbergian} draws on 625 langu
 %These cross-linguistic patterns call for an explanation, and 
 Explaining these patterns has been an important aim of linguistic research since Greenberg's seminal study.
 %and the problem of explaining the word order correlations has inspired a long tradition of research.
+
+
+%An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. 
+
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
@@ -170,7 +174,9 @@ Researchers working in the functional paradigm have proposed a range of criteria
 
 We formalize efficiency of language as a tradeoff between minimizing the 
 
-We go back to early functional work.
+
+
+
 \cite{zipf1949human} argued that language optimizes a tradeoff between speaker effort (Force of Unification) and listener effort (Force of Diversification).
 According to Zipf, a language that minimizes speaker effort should reduce the number of different utterances to make production as easy as possible.
 Conversely, to minimize listener effort, the language should provide different utterances for different meanings, so that the listeenr can unambiguously identify the meaning from the utterance.
@@ -191,8 +197,8 @@ TODO explain why surprisal. some production/speaker work. (plan reuse)
 %This theory blabla Horn RSA
 %Prior computational implementations of this idea have mostly been in the restricted small-scale settings, such as simple reference games.
 
-In this work, we show computationally that efficiency optimization accounts for the Greenbergian word order correlations.
-That is, we show that word orders in natural language 
+In this work, we show computationally, using corpus data from 51 languages, that efficiency optimization accounts for the Greenbergian word order correlations.
+That is, we show that the word orders in natural languages have evolved to optimize efficiency, and that this optimization accounts for the prevalence of the word order correlations. %word orders in natural language 
 
 
 
@@ -260,12 +266,12 @@ Not all correlations are satisfied by every natu
 \section{Formalizing Efficiency in Word Order}
 
 
-\begin{figure*}
+\begin{figure}
     \centering
-    \includegraphics[width=\textwidth]{figures/communication.png}
+    \includegraphics[width=0.45\textwidth]{figures/communication.png}
 	\caption{Our model of communication: A speaker (left) expresses a dependency structure into a string of words forming a sentence. A listener probabilistically recovers a dependency structure. In this example, the grammar of English allows the listener to recover the correct dependency structure with very high confidence.}
 	\label{fig:comm}
-\end{figure*}
+\end{figure}
 
 
 
@@ -273,27 +279,61 @@ Not all correlations are satisfied by every natu
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{figures/grammars.png}
-	\caption{Given a set of dependency structures, grammars define a set of sentences. For simplicity, we use English words.  }
-	\label{fig:pareto-plane}
+	\caption{Given a set of dependency structures, grammars define a set of sentences. For simplicity, we use English words. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. }
+	\label{fig:grammars}
 \end{figure}
 
 
 
 We model the process where a speaker communicates an utterance to a listener (Figure~\ref{fig:comm}).
-
-We model the meaning that the speaker communicates via the predicate-argument structure.
-
+TODO Shannon
+We model the meaning that the speaker communicates as the basic predicate-argument structure.
 We represent these in the format of Dependency Grammar:
 This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
 
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined; the dependency tree (including the labels on the arcs) specifies how the meanings of words are combined.
+Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
 
 We can view this as a formalization of the Language of Thought (CITE) TODO explain why
 
 When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
+The listener receives a string of words, and attempts to reconstruct the underlying syntactic relations.
+%We formalize the listener's understanding as probabilistic inference, that is, the listener 
+If communication is successful, the listener can identify the intended structure with high confidence~(Figure~\ref{fig:comm}).
 
-We are interested in the following hypothesis:
-If speakers choose to order their sentences in such a way that efficiency is optimized, will this lead to the observed language universals?
+Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
+While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
+This is illustrated in Figure~\ref{fig:grammars}: Grammars specify how dependency structures are encoded into strings of words.
+For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
+Grammar 2 orders objects after verbs but has postpositions (`friend -- to').
+Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) corresponds to Japanese order.
+In a speech community, speakers and listeners have shared knowledge of these rules, which allows the listener to decode the dependency tree.
+In the terminology of information theory, these rules specify a \emph{channel} through which the speaker transmits the dependency structures.
+
+Grammars can differ in the degree to which a listener can unambiguously recover the dependency structure from an utterance (TODO can we find an example for this?)
+
+
+The degree to which listeners can reconstruct dependency structures from an utterance is formalized as the amount of information that utterances provide about their underlying tree structures:
+\begin{equation}
+	R_{Pars} := I[L,T] = \sum_{t,l} p(t,l) \log \frac{p(t|l)}{p(t)}
+\end{equation}
+where the sum runs over all possible pairs of sentences $l$ and dependency structures $t$ in the language.
+This quantity describes the degree to which dependency structures can be unambiguously recovered from sentences.
+It is large when they can mostly be recovered, and small if sentences have high amounts of ambiguity about the dependency structure.
+This quantity formalizes Zipf's principle of listener effort and his Force of Diversification:
+It can be maximized when trees can be decoded fully unambiguously from utterances.
+This formalization is a standard formalization of Zipf's principle of listener economy (CITE RSA, Regier, ...).
+
+
+The counteracting Force of Unification is formalized by the cost of encoding the dependency structure and producing the utterance.
+TODO motivate surprisal here.
+
+
+
+%Note that, in order for this process to be successful, speakers and listeners need to have shared knowledge of the rules by which dependency structures are encoded into sentences.
+%We hypothesize that the rules found in actual natural languages are optimized for the efficiency of this process, and that this optimization accounts for the observed word order universals.
+
+%If speakers choose to order their sentences in such a way that efficiency is optimized, will this lead to the observed language universals?
 
 Do languages optimize their word order for efficiency?
 Does this optimization explain the observed language universals?
@@ -347,6 +387,9 @@ For each of these corpora, we construct grammars that optimize efficiency of the
 (The original word orders of the languages do not enter.)
 
 See SI for our method for creating optimized grammars.
+
+
+
 
 
 
