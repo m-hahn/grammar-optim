@@ -285,31 +285,42 @@ Not all correlations are satisfied by every natu
 
 
 
-We model the process where a speaker communicates an utterance to a listener (Figure~\ref{fig:comm}).
-TODO Shannon
-We model the meaning that the speaker communicates as the basic predicate-argument structure.
-We represent these in the format of Dependency Grammar:
+We model the process where a speaker communicates an utterance to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
+In Shannon's model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
+Applying this model to word order, we take the message to consist of a set of syntactic and semantic relations.
+Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar:
 This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
+In Figure~\ref{fig:comm}, the message consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 
-By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined; the dependency tree (including the labels on the arcs) specifies how the meanings of words are combined.
-Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
-
-We can view this as a formalization of the Language of Thought (CITE) TODO explain why
 
 When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
-The listener receives a string of words, and attempts to reconstruct the underlying syntactic relations.
-%We formalize the listener's understanding as probabilistic inference, that is, the listener 
+The listener receives this string of words.
+By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
+The dependency structure (including the labels on the arcs) specifies how the meanings of words are combined.
+Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
+Consistent with Shannon's model, we assume a Bayesian listener who decodes dependency structures probabilistically~(Figure~\ref{fig:comm}).
 If communication is successful, the listener can identify the intended structure with high confidence~(Figure~\ref{fig:comm}).
 
-Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
-While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
+%We can view this as a formalization of the Language of Thought (CITE) TODO explain why
+
+%We formalize the listener's understanding as probabilistic inference, that is, the listener 
+
+All natural languages have some degree of word order regularities that are specified in their grammar.
+For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
+That is, speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
+Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
+%Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
+%While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
 This is illustrated in Figure~\ref{fig:grammars}: Grammars specify how dependency structures are encoded into strings of words.
 For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
 Grammar 2 orders objects after verbs but has postpositions (`friend -- to').
 Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) corresponds to Japanese order.
-In a speech community, speakers and listeners have shared knowledge of these rules, which allows the listener to decode the dependency tree.
-In the terminology of information theory, these rules specify a \emph{channel} through which the speaker transmits the dependency structures.
+%In a speech community, speakers and listeners have shared knowledge of these rules, which allows the listener to decode the dependency tree.
+%In the terminology of information theory, these rules specify a \emph{channel} through which the speaker transmits the dependency structures.
 
+
+In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission is, and (2) how precisely messages can be recovered from codes.
+In our model, these will depend on the grammar:
 Grammars can differ in the degree to which a listener can unambiguously recover the dependency structure from an utterance (TODO can we find an example for this?)
 
 
@@ -338,14 +349,9 @@ TODO motivate surprisal here.
 Do languages optimize their word order for efficiency?
 Does this optimization explain the observed language universals?
 
-All natural languages have some degree of word order regularities that are specified in their grammar.
-It is thus not realistic to assume that speakers optimize each utterance individually.
-Instead, we hypothesize that the word order rules of languages as a whole are optimized for efficiency, and that this optimization produces the observed universals.
-
-
-We formalize a language as a distribution over dependency structures $T$ together with an ordering grammar $\theta$ that specifies how dependency structures are ordered into strings of words.
-Applying the ordering grammar to the dependency structures, a language defines a probability distribution over sentences $L$.
-Efficiency is defined as a tradeoff between
+%We formalize a language as a distribution over dependency structures $T$ together with an ordering grammar $\theta$ that specifies how dependency structures are ordered into strings of words.
+%Applying the ordering grammar to the dependency structures, a language defines a probability distribution over sentences $L$.
+%Efficiency is defined as a tradeoff between
 
 The \key{predictability} of the language is the negative entropy of the sentences:
 \begin{equation}
@@ -376,19 +382,39 @@ with an interpolation weight $\lambda \in [0,1)$. In all experiments in this pap
 Eq.~\ref{eq:efficiency} is a special case of the objective function proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems, taking unordered dependency trees $T$ as the underlying meanings to be conveyed. Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
 
 
-We create 
+\subsection{Optimizing Grammars for Efficiency}
 
-Fortunately, we have exacly the kind of data we need
+We now ask:
+(1) Do the grammars of natural languages evolve towards optimizing efficiency of communication?
+(2) Does this process of optimization account for Greenberg's order correlation universals?
 
-For the dependency structures, we take real tree structures from corpora of 51 languages.
+%For answering these questions, 
+
+Answering these questions requires a sample of dependency structures as actually used by speakers of difefrent languages.
+Such samples have recently become available with the Universal Dependencies project, which has collected and created dependency annotations for several dozens of different languages.
+We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
 
-For each of these corpora, we construct grammars that optimize efficiency of the linearized sentences.
-(The original word orders of the languages do not enter.)
 
+To answer whether languages evolve to have efficient word order, we compare the efficiency of the actual grammars of these 51 languages to randomly constructed baseline grammars.
+To show that this process of efficiency optimization accounts for Greenberg's correlation universals, we computationally construct grammars that optimize efficiency.
+We then show that these grammars mostly exhibit the Greenbergian order correlation universals.
+We furthermore show that this process of optimization also \emph{explains} DLM, providing a first-principles explanation of this heuristic generalization.
+
+
+For every one of the 51 corpora, we computationally construct eight optimal grammars.
+Note that the original orders of the actual languages do not enter this objective.
 See SI for our method for creating optimized grammars.
 
 
+
+
+
+%
+%All natural languages have some degree of word order regularities that are specified in their grammar.
+%It is thus not realistic to assume that speakers optimize each utterance individually.
+%Instead, we hypothesize that the word order rules of languages as a whole are optimized for efficiency, and that this optimization produces the observed universals.
+%
 
 
 
@@ -552,7 +578,7 @@ For dependency length, the posterior puts much of the probability mass on predic
 
 
 
-\section{DLM}
+\section{DLM TODO put these at the appropriate place}
 
 We compare Efficiency to the predictions of Dependency Length Minimization.
 This theory states that natural languages order information in such a way that the distances between syntactically linked words are minimized.
