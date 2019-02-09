@@ -238,6 +238,33 @@ To obtain predictions controlling for languages and language families, we plot t
 
 
 
+
+\begin{figure}
+    \centering
+%     \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-efficiency.pdf}
+ %    \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-langmod.pdf}
+  %   \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-parseability.pdf}
+   %  \includegraphics[scale=.2]{../results/correlations/figures/posterior-satisfied-universals-depl.pdf}
+     \includegraphics[scale=.45]{../results/correlations/figures/posterior-satisfied-universals-together.pdf}
+
+	\caption{Posterior of the number of correlations predicted in the direction found in the UD treebanks, computed from a mixed-effects logistic regression jointly modeling all ten dependencies. Efficiency predicts all ten correlations with high posterior probability.}
+    \label{fig:posterior-satisfied-count}
+\end{figure}
+
+
+We further evaluate the word order predictions of efficiency, showing that efficiency is most successful in predicting correlations in the direction found in the UD corpora.
+We constructed a single logistic model predicting, for each of the ten dependencies, whether it is correlated or anti-correlated with the \emph{obj} dependency in languages optimized for efficiency, with random effects for language and language family, correlated across the ten dependencies.
+We conducted the same analysis for predictability, parseability, and dependency length.
+We used this model to estimate the posterior distribution of the number of correlations that an objective function predicts to be in the same direction as found in the UD treebanks.
+The resulting distributions are shown in Figure~\ref{fig:posterior-satisfied-count}.
+The estimated posterior probability that efficiency predicts less than all ten dependencies to correlate in the same direction as in the UD treebanks is $0.0242$. The probability that it predicts less than nine of the correlations is $3\cdot 10^{-4}$.
+For dependency length, the posterior puts much of the probability mass on predicting only nine of the correlations; predictability and parseability predict significantly less correlations.
+
+
+
+
+
+
 %\begin{figure}
 %    \centering
 %    \includegraphics[scale=.3]{figures/posterior-satisfied-universals-efficiency.pdf}

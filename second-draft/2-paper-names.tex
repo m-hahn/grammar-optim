@@ -88,12 +88,28 @@ The universal properties of human languages have been the subject of intense stu
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. In this work we examine this question from a computational perspective, demonstrating a fully formalized framework in which certain syntactic universals can be explained through the statistical optimization of grammars for information-theoretic efficiency. % TODO add a cogsci person to citation chain at the beginning
+\dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
+
+In this work we examine this question from a computational perspective, demonstrating a fully formalized framework in which certain syntactic universals can be explained through the statistical optimization of grammars for information-theoretic efficiency. % TODO add a cogsci person to citation chain at the beginning
+
+We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
+
+
+A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
+Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
+
+Researchers working in the functional paradigm have proposed a range of criteria which languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
+
+The contribution of this work is (i) to provide a principled formalization of the notion of communicative efficiency in word order, based on related work in information theory \cite{cover2006elements,tishby1999information}, bounded rationality \cite{genewein2015bounded}, and computational neuroscience \cite{friston2009predictive}; (ii) to introduce a computational framework in which we can produce simulated grammars directly optimized for our notion of efficiency, using state-of-the-art machine learning techniques \cite{hochreiter1997long,goldberg2017neural,dozat2017stanford}; and (iii) to demonstrate that in doing so, we reproduce the major word order patterns reported in \cite{greenberg1963universals} and related work \cite{dryer1992greenbergian}, as well as reproducing the predictions of previous heuristic theories of word order optimization \cite{hawkins1994performance,ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
+
+We formalize the notion of communicative efficiency using two terms: one having to do with minimizing the difficulty of linguistic communication, and one having to do with maximizing the information transferred in such communication. We quantify the difficulty of linguistic communication in terms of the word-by-word \key{predictability} of strings, which has been found to be a highly accurate and general predictor of human online comprehension difficulty \cite{hale2001probabilistic,levy2008expectation,smith2013effect}, and which can be justified in terms of predictive coding theories of information processing in the brain \cite{friston2009predictive} as well as the general algorithmic complexity of language generation and comprehension \cite{li2008introduction}. We quantify the information transferred in language as \key{parseability}: the quantity of information contained in linguistic utterances about latent hierarchical tree structures. We also compare the results of optimizing for communicative efficiency to the results of optimizing for dependency length minimization, a previously proposed approximate metric of the amount of memory involved in language production and comprehension \cite{hudson1995measuring,gibson1998linguistic,gibson2000dependency,liu2017dependency,temperley2018minimizing}.
+
+%To evaluate whether communicative efficiency can explain word order universals, we apply the following method \cite{gildea2007optimizing}. First, we develop word order grammars: simple, interpretable models of word order, implemented as functions that take in an unordered syntactic dependency tree and output a distribution over possible word orders for that tree. Second, we take dependency treebanks of natural languages and compute word order grammars which are optimized for an objective functions representing communicative efficiency.
+%Third, we evaluate whether the optimized word order grammars reproduce the desired word order universals when applied to attested dependency trees from the treebanks across many languages. Our favorable results suggest that it may be possible to generally model human languages as efficient codes for communication among agents with generic human-like cognitive and communicative constraints. %The best way to describe a human language might be as a solution to an equation involving such constraints.
 
 
 
-\textbf{TODO maybe should be more general in the beginning, as in the first version. Also make sure the reader doesn't think 'it's just headedness, why bother'.}
-
+\section{Greenberg's Word Order Correlations}
 Natural languages vary a lot in the order in which they express information.
 Consider Figure~\ref{fig:arabic-japanese-simple}, showing a sentence in Arabic (top) and Japanese (bottom), both translating to `I wrote a letter to a friend.'
 Both sentences contain a verb meaning `wrote', a noun expressing  `letter', and a phrase translating to `to a friend'.
@@ -114,6 +130,7 @@ Languages ordering their objects the way Japanese does, have postpositions; lang
 This correlation has an extremely strong empirical basis:
 In a sample of about 1,100 languages from five contents (CITE Dryer WALS 95a), less than 7 \% of languages provide clear exceptions to this generalization. %, over 90 \% of languages satisfy this generalization .
 
+TODO maybe being more general in the beginning, as in the first version. make sure the reader doesn't think 'it's just headedness, why bother'  
 
 
 \begin{figure}
@@ -196,10 +213,10 @@ A pressure to reduce ambiguity makes utterances more heterogeneous, so they can 
 %Another way to conceptualize these two pressures is as the \key{cost} and \key{informativity} of language use:
 Producing and processing simple utterances incurs little cost, but more complex and diverse utterances are required to be provide higher informativity.
 The idea that language results from the tension between these two pressures has a long and fruitful history.
-%\cite{horn-toward-1984}, RSA, Color naming
-%
+\cite{horn-toward-1984}, RSA, Color naming
+
 %In the domain of word order, 
-%
+
 %TODO introduce the terms \key{cost} and \key{informativity}
 %
 This idea has been shown to account for phenomena such as pragmatic inference \cite{horn-toward-1984, frank2012predicting} and color naming~\cite{zaslavsky2018efficient}.
