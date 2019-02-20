@@ -10,6 +10,10 @@ with open("auto-summary-lstm.tsv", "r") as inFile:
     for line in inFile:
         line = line.strip().split("\t")
         language = line[header["Language"]]
+        if language == "Ancient":
+            language = "Ancient_Greek"
+        if language == "Old":
+            language = "Old_Church_Slavonic"
         fileName = line[header["FileName"]]
         if (language, fileName) in processedGrammars:
             continue

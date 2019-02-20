@@ -58,7 +58,7 @@ plot = ggplot(corr_pairs, aes(x=obj_s, y=correlator_s, group=Dependency)) + geom
 corr_pairs = corr_pairs %>% mutate(agree = (obj_s == correlator_s))
 corr_pairs_sum = corr_pairs %>% group_by(Dependency, obj_s, correlator_s) %>% summarise(agree=mean(agree), count = sum(weight))
 corr_pairs_sum = corr_pairs_sum %>% mutate(agree_color = ifelse(agree, "red", "blue"))
-plot = ggplot(corr_pairs_sum, aes(x=obj_s, y=correlator_s, group=Dependency)) + geom_point(aes(size=count, color=agree_color)) + facet_wrap(~Dependency) + theme_bw() + xlim(-0.5, 1.5) + ylim(-0.5, 1.5)  + theme(legend.position="none")
+plot = ggplot(corr_pairs_sum, aes(x=obj_s, y=correlator_s, group=Dependency)) + geom_point(aes(size=count, color=agree_color)) + facet_wrap(~Dependency, ncol=1) + theme_bw() + xlim(-0.5, 1.5) + ylim(-0.5, 1.5)  + theme(legend.position="none")
 
 
 
