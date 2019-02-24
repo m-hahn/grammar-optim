@@ -1,14 +1,18 @@
 
-data = read.csv("../../grammars/manual_output_funchead_coarse_depl/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
-
+# _final/
+data = read.csv("../../grammars/manual_output_funchead_langmod_coarse_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 library(forcats)
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 
+
+best = read.csv("../strongest_models/best-langmod-best-balanced.csv")
+
 data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancient", "Old_Church_Slavonic" = "Old"))
 
+data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
 
 
 
@@ -24,41 +28,9 @@ dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"),
 #options(mc.cores = parallel::detectCores())
 #rstan_options(auto_write = TRUE)
 
-
-dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS = rbind(dataS, dataS2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
-
-dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP = rbind(dataP, dataP2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
-
-
-dataE = merge(dataS, dataP, by=c("Type", "Language", "Model")) %>% mutate(Eff = Pars+0.9*Surp) %>% group_by(Type, Language, Model) %>% summarise(Eff = mean(Eff))
-
-dataE = dataE[order(dataE$Language, dataE$Model),]
-
-eff = dataE$Eff
-models = c()
-for(i in (1:202)) {
-   if(eff[2*i] < eff[2*i+1]) {
-	   models = c(models, dataE$Model[2*i])
-   } else {
-	   models = c(models, dataE$Model[2*i+1])
-   }
-}
-
-
-dryer_greenberg_fine = dryer_greenberg_fine%>% filter(FileName %in% models)
-
-
-
-
-dependency = "nmod"
-
 getCorrPair = function(dependency) {
-   corr_pair = dryer_greenberg_fine %>% filter((Dependency == dependency) | (Dependency == "obj"))
-   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, Dependency, DH_Weight )) %>% spread(Dependency, DH_Weight)
+   corr_pair = dryer_greenberg_fine %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
+   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight )) %>% spread(CoarseDependency, DH_Weight)
    corr_pair$correlator = corr_pair[[dependency]]
    corr_pair[[dependency]] = NULL
    corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
@@ -68,6 +40,7 @@ getCorrPair = function(dependency) {
        corr_pair = corr_pair %>% mutate(correlator_s=1-correlator_s)
    }
 
+   corr_pair$agree = (corr_pair$correlator_s == corr_pair$obj_s)
    return(corr_pair)
 }
 
@@ -84,11 +57,11 @@ for(dependency in dependencies) {
 }
 
 corr_pairs$weight = 1
-mean_obj_s = mean(corr_pairs$obj_s)
-corr_pairs[corr_pairs$obj_s == 1,]$weight = 0.5/mean_obj_s # * corr_pairs[corr_pairs$obj_s == 1,]$obj_s
-corr_pairs = corr_pairs[!is.na(corr_pairs$correlator_s),]
-#corr_pairs[corr_pairs$correlator_s == 1,]$correlator_s = 0.5/mean_obj_s * corr_pairs[corr_pairs$correlator_s == 1,]$correlator_s
-
+#mean_obj_s = mean(corr_pairs$obj_s)
+#corr_pairs[corr_pairs$obj_s == 1,]$weight = 0.5/mean_obj_s # * corr_pairs[corr_pairs$obj_s == 1,]$obj_s
+#corr_pairs = corr_pairs[!is.na(corr_pairs$correlator_s),]
+##corr_pairs[corr_pairs$correlator_s == 1,]$correlator_s = 0.5/mean_obj_s * corr_pairs[corr_pairs$correlator_s == 1,]$correlator_s
+#
 #plot = ggplot(corr_pairs, aes(x=obj_s, y=correlator_s, group=Dependency)) + geom_count(aes(size=..n..)) + facet_wrap(~Dependency) + xlim(-0.5, 1.5) + ylim(-0.5, 1.5)
 
 corr_pairs = corr_pairs %>% mutate(agree = (obj_s == correlator_s))
@@ -102,7 +75,7 @@ for(dependency in dependencies) {
         axis.text=element_blank(),
         axis.ticks.x=element_blank(),
         axis.ticks=element_blank()) +  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-  ggsave(plot, file=paste("figures/correlations/correlation-depl-", dependency, ".pdf", sep=""), width=1, height=1)
+  ggsave(plot, file=paste("figures/correlations/correlation-langmod-", dependency, ".pdf", sep=""), width=1, height=1)
 
 
 }
