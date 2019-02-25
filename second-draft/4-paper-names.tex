@@ -191,7 +191,7 @@ This has been confirmed on the basis of large-scale corpus evidence \cite{futrel
 
 
 
-In this work, we show that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
+In this work, we show that the word orders of languages have evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
 
 
 %In this work, we show computationally, using corpus data from 51 languages, that efficiency optimization accounts for the Greenbergian word order correlations.
@@ -200,14 +200,104 @@ That is, we show that the word orders in natural languages have evolved to optim
 
 
 
-\section{DLM}
+\section{Dependency Length Minimization}
 
 
-
-
-A commonly proposed functional explanation of Greenberg's correlations is in terms of Dependency Length Minimization \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+Some prior work has has suggested a functional explanation of Greenberg's correlations in terms of Dependency Length Minimization \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that languages order words so as to minimize the linear distance between words linked in head--dependent relationships.
-This has been confirmed on the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, and has been justified based on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}.
+On the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, it has been confirmed that languages reduce dependency length.
+This has been justified based on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}.
+
+(CITE) have made theoretical arguments that dependency length minimization should produce word order correlations.
+Here, we present the first large-scale test of this idea.
+
+
+\begin{figure}
+\centering
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   I \&	   visited \& friends  \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{2}{1}{nsubj}
+   \depedge{2}{3}{obj}
+\end{dependency}
+
+
+
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   I \&	   went   \& to \& school  \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{2}{1}{nsubj}
+   \depedge{2}{3}{}
+   \depedge{3}{4}{}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   I \&	   wrote \& letters   \& to \& friends  \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{2}{1}{nsubj}
+   \depedge{2}{3}{obj}
+	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{2}{4}{}
+   \depedge{4}{5}{}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+
+
+
+	\caption{Dependency trees}\label{fig:dep-trees}
+\end{figure}
+
+
+
+
+The sentences in Figure~\ref{fig:dep-trees} are annotated with \key{dependency trees}: these are directed trees describing the grammatical relations among words. For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} of the verb, rather than e.g. the subject or an indirect object. A dependency arc is drawn from a \key{head} (e.g. \emph{kaita} in Figure~\ref{fig:arabic-japanese}) to a \key{dependent} (e.g. \emph{tegami-o}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
+
+
+
+
+The dependency length of a sentence is the sum of the lengths of its syntactic dependencies \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}:
+\begin{equation}
+    \label{eq:depl}
+\operatorname{DepL}(t; {\bf w}) = \sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+\end{equation}
+where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+
+
+
+
+All natural languages have some degree of word order regularities that are specified in their grammar.
+For instance, English places subjects before and objects after the verb (Figure~\ref{fig:dep-trees}).
+Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
+This is illustrated in Figure~\ref{fig:dlm-grammars}: Grammars specify how dependency structures are encoded into strings of words.
+For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
+Grammar 2 orders objects after verbs but has postpositions (`friend -- to').
+Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) corresponds to Japanese order.
+
+
+
+We create optimized grammars that minimize the average dependency length.
+
+
+Answering these questions requires a sample of dependency structures as actually used by speakers of difefrent languages.
+Such samples have recently become available with the Universal Dependencies project, which has collected and created dependency annotations for several dozens of different languages.
+We use data from 51 languages.
+These corpora represent a typologically and genetically diverse group of languages.
+
+
+%See SI for our method for creating optimized grammars.
 
 
 
@@ -217,51 +307,14 @@ This has been confirmed on the basis of large-scale corpus evidence \cite{futrel
 \begin{figure*}
     \centering
     \includegraphics[width=0.7\textwidth]{figures/four-grammars-dlm.png}
-	\caption{The DLM theory of word order universals: We show how four possible grammars can order the given dependency structure. In this example, Grammar 1 achieves the lowest overall dependency length. Indeed, this is the }
+	\caption{The DLM theory of word order universals: We show how four possible grammars can order the given dependency structure. In this example, Grammar 1 achieves the lowest overall dependency length. Indeed, this is the Given a set of dependency structures, grammars define a set of sentences. For simplicity, we use English words. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
 	\label{fig:dlm-grammars}
 \end{figure*}
 
 
 
 
-
-\begin{figure}
-\centering
-\begin{dependency}[theme = simple]
-   \begin{deptext}[column sep=1em]
-%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
-	   katabt \& risāla \& li \& sadīq  \\
-	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
-	   wrote \& letter   \& to \& friend  \\
-   \end{deptext}
-	%   \deproot{3}{ROOT}
-   \depedge{1}{2}{obj}
-	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
-   \depedge{1}{3}{}
-   \depedge{3}{4}{}
-   %\depedge[arc angle=50]{7}{6}{ATT}
-\end{dependency}
-\begin{dependency}[theme = simple]
-   \begin{deptext}[column sep=1em]
-      tomodachi \& ni \& tegami-o \& kaita \\
- \textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
-	   friend \& to \& letter  \& wrote \\
-   \end{deptext}
-	%   \deproot{3}{ROOT}
-   \depedge{4}{2}{}
-	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
-   \depedge{2}{1}{}
-   \depedge{4}{3}{obj}
-   %\depedge[arc angle=50]{7}{6}{ATT}
-\end{dependency}
-\end{figure}
-
-
-
-
-The sentences in Figure~\ref{fig:arabic-japanese} are annotated with \key{dependency trees}: these are directed trees describing the grammatical relations among words. For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} if the verb, rather than e.g. the subject or an indirect object. A dependency arc is drawn from a \key{head} (e.g. \emph{kaita} in Figure~\ref{fig:arabic-japanese}) to a \key{dependent} (e.g. \emph{tegami-o}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
-
-In order to interpret a sentence correctly, a listener must be able to reconstruct the information expressed in the dependency tree and its labels. This is because, according to the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined; the dependency tree (including the labels on the arcs) specifies how the meanings of words are combined.
+%In order to interpret a sentence correctly, a listener must be able to reconstruct the information expressed in the dependency tree and its labels. This is because, according to the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined; the dependency tree (including the labels on the arcs) specifies how the meanings of words are combined.
 
 
 
@@ -313,7 +366,45 @@ Not all correlations are satisfied by every natu
 
 
 
+\paragraph{Results}
+Now present the correlations and the results.
+We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages. %, which we take as the basis of our evaluation.
+In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
+Most of them can be straightforwardly implemented in the UD formalism, allowing us to check which correlations a word order grammar satisfies.
+
+Dryer \cite{dryer1992greenbergian} presents three correlations that are only relevant to part of the world's languages and are not annotated reliably in UD.
+One further dependency is not annotated reliably in UD. %: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles.
+Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations from Dryer's 15 correlations.
+
+
+In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
+We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau$ show the same direction for the correlating dependency and for the verb-object dependency, with random effects for languages and language families.\footnote{We coded language families according to \url{universaldependencies.org}.}
+%We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau > 0.5$ holds for the correlating dependency depending on whether $a_\tau > 0.5$ for the verb-object dependency, with per-language-family random intercept and slope.\footnote{We coded language families according to \url{universaldependencies.org}.}
+We are interested in the direction and significance of this effect: 
+If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
+
+We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
+
+\paragraph{Results}
+Results are shown in Table~\ref{table:results-dryer}.
+All eight correlations are confirmed in the models estimated from the real orderings. 
+We will discuss these exceptions further below.
+
+Confirming previous theoretical arguments, we see that optimizing for dependency length correctly accounts for all word order correlations. 
+
+
+
 \section{Formalizing Efficiency in Word Order}
+
+
+We have verified that dependency length minimization produces Greenberg's correlation universals.
+However, dependency length is both heuristic and stipulative.
+The actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
+It is also stipulative: There is no a priori reason why dependency length should be the crucial determining factor determining word order.
+There are other models of processing cost that make different predictions.
+
+
+We show that the word order predictions of DLM arise from deeper principles of efficient communication.
 
 
 \begin{figure}
@@ -326,17 +417,15 @@ Not all correlations are satisfied by every natu
 
 
 
-\begin{figure}
-    \centering
-    \includegraphics[width=0.45\textwidth]{figures/grammars.png}
-	\caption{Given a set of dependency structures, grammars define a set of sentences. For simplicity, we use English words. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
-	\label{fig:grammars}
-\end{figure}
-
-
-
-Dependency Length Minimization is heuristic and stipulative.
-
+%\begin{figure}
+%    \centering
+%    \includegraphics[width=0.45\textwidth]{figures/grammars.png}
+%	\caption{Given a set of dependency structures, grammars define a set of sentences. For simplicity, we use English words. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
+%	\label{fig:grammars}
+%\end{figure}
+%
+%
+%
 
 
 Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between speaker effort (Force of Unification) and listener effort (Force of Diversification).
@@ -371,8 +460,9 @@ This idea has been shown to account for phenomena such as pragmatic inference \c
 We model the process where a speaker communicates a message to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
 In Shannon's model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
 Applying this model to word order, we take the message to consist of entities, events, and a set of syntactic and semantic relations that hold between them.
-Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar:
-This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
+These are encoded in the dependency structure.
+%Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar:
+%This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
 In Figure~\ref{fig:comm}, the message consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 
 
@@ -388,18 +478,8 @@ If communication is successful, the listener can identify the intended structure
 
 %We formalize the listener's understanding as probabilistic inference, that is, the listener 
 
-All natural languages have some degree of word order regularities that are specified in their grammar.
+Speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences
 For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
-That is, speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
-Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
-%Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
-%While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
-This is illustrated in Figure~\ref{fig:grammars}: Grammars specify how dependency structures are encoded into strings of words.
-For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
-Grammar 2 orders objects after verbs but has postpositions (`friend -- to').
-Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) corresponds to Japanese order.
-%In a speech community, speakers and listeners have shared knowledge of these rules, which allows the listener to decode the dependency tree.
-%In the terminology of information theory, these rules specify a \emph{channel} through which the speaker transmits the dependency structures.
 
 
 In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission is, and (2) how precisely messages can be recovered from codes.
@@ -488,13 +568,7 @@ Our goals are to show that
 (1) the grammars of natural languages evolve towards optimizing efficiency of communication, and
 (2) this process of optimization accounts for Greenberg's order correlation universals.
 
-%For answering these questions, 
-
-Answering these questions requires a sample of dependency structures as actually used by speakers of difefrent languages.
-Such samples have recently become available with the Universal Dependencies project, which has collected and created dependency annotations for several dozens of different languages.
-We use data from 51 languages.
-These corpora represent a typologically and genetically diverse group of languages.
-
+We use the same 51 corpora.
 
 To answer whether languages evolve to have efficient word order, we compare the efficiency of the actual grammars of these 51 languages to randomly constructed baseline grammars.
 To show that this process of efficiency optimization accounts for Greenberg's correlation universals, we computationally construct grammars that optimize efficiency.
@@ -636,29 +710,6 @@ want    &    VP
 
 
 We now show that efficiency optimization predicts Greenberg's word order correlations. % in optimized grammars. 
-We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages. %, which we take as the basis of our evaluation.
-In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
-Most of them can be straightforwardly implemented in the UD formalism, allowing us to check which correlations a word order grammar satisfies.
-
-Dryer \cite{dryer1992greenbergian} presents three correlations that are only relevant to part of the world's languages and are not annotated reliably in UD.
-One further dependency is not annotated reliably in UD. %: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles.
-Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations from Dryer's 15 correlations.
-
-
-In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
-We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau$ show the same direction for the correlating dependency and for the verb-object dependency, with random effects for languages and language families.\footnote{We coded language families according to \url{universaldependencies.org}.}
-%We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau > 0.5$ holds for the correlating dependency depending on whether $a_\tau > 0.5$ for the verb-object dependency, with per-language-family random intercept and slope.\footnote{We coded language families according to \url{universaldependencies.org}.}
-We are interested in the direction and significance of this effect: 
-If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
-
-We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
-
-\paragraph{Results}
-Results are shown in Table~\ref{table:results-dryer}.
-All eight correlations are confirmed in the models estimated from the real orderings. 
-We will discuss these exceptions further below.
-
-Confirming previous theoretical arguments, we see that optimizing for dependency length correctly accounts for all word order correlations. 
 Predictability and parseability predict four and six correlations, respectively, making complementary predictions.
 Efficiency correctly predicts all the word order correlations.
 
@@ -1286,4 +1337,67 @@ We test efficiency metrics based both on information theory (Eq.~\ref{eq:efficie
 
 
 
+
+
+\begin{figure}
+\centering
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   katabt \& risāla \& li \& sadīq  \\
+	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
+	   wrote \& letter   \& to \& friend  \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{1}{2}{obj}
+	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{1}{3}{}
+   \depedge{3}{4}{}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      tomodachi \& ni \& tegami-o \& kaita \\
+ \textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
+	   friend \& to \& letter  \& wrote \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{4}{2}{}
+	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{2}{1}{}
+   \depedge{4}{3}{obj}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+\end{figure}
+
+
+
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+%	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
+	   katabt \& risāla \& li \& sadīq  \\
+	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
+	   wrote \& letter   \& to \& friend  \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{1}{2}{obj}
+	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{1}{3}{}
+   \depedge{3}{4}{}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+      tomodachi \& ni \& tegami-o \& kaita \\
+ \textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
+	   friend \& to \& letter  \& wrote \\
+   \end{deptext}
+	%   \deproot{3}{ROOT}
+   \depedge{4}{2}{}
+	%   \depedge[edge start x offset=-6pt]{2}{5}{ATT}
+   \depedge{2}{1}{}
+   \depedge{4}{3}{obj}
+   %\depedge[arc angle=50]{7}{6}{ATT}
+\end{dependency}
 
