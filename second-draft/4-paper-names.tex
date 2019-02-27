@@ -200,17 +200,18 @@ That is, we show that the word orders in natural languages have evolved to optim
 
 
 
-\section{Dependency Length Minimization}
+\section{Dependency Length Minimization Predicts Greenberg's Correlations}
 
-
-Some prior work has has suggested a functional explanation of Greenberg's correlations in terms of Dependency Length Minimization \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+Theoretical studies of word order typology have proposed Dependency Length Minimization as a unifying principle behind Greenberg's correlations \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that languages order words so as to minimize the linear distance between words linked in head--dependent relationships.
-On the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, it has been confirmed that languages reduce dependency length.
+On the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, it has been confirmed that languages reduce dependency length, though a direct link to Greenger's correlations has not been established beyond theoretical arguments.
 This has been justified based on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}.
 
-(CITE) have made theoretical arguments that dependency length minimization should produce word order correlations.
-Here, we present the first large-scale test of this idea.
+%(CITE) have made theoretical arguments that dependency length minimization should produce word order correlations.
+%Here, we present the first large-scale test of this idea.
 
+%It has been shown that languages reduce dependency length, compared to most randomly chosen orderings.
+%However, the link to correlation universals is not trivial:
 
 \begin{figure}
 \centering
@@ -275,9 +276,12 @@ The dependency length of a sentence is the sum of the lengths of its syntactic d
 \end{equation}
 where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
 
+Large-scale corpus evidence across languages shows that natural languages order words in such a way as to reduce this quantity, compared to most random orderings \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+However, the link to Greenberg's correlations has not been established this directly.
+While theoretical arguments suggest that DLM predicts Greenberg's correlations, this idea has not been tested on the basis of actual large-scale corpus data.
 
-
-
+We test this idea by constructing languages that have minimal dependency length:
+If Greenberg's correlations emerge in these languages, then this provides evidence that DLM gives rise to these universals.
 All natural languages have some degree of word order regularities that are specified in their grammar.
 For instance, English places subjects before and objects after the verb (Figure~\ref{fig:dep-trees}).
 Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
@@ -289,14 +293,16 @@ Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) c
 
 
 We create optimized grammars that minimize the average dependency length.
-
-
+Prior theoretical work on dependency length minimization has argued that certain general patterns minimize dependency length \cite{temperley2008dependency}, however, this depends on the topology of the dependency trees.
 Answering these questions requires a sample of dependency structures as actually used by speakers of difefrent languages.
 Such samples have recently become available with the Universal Dependencies project, which has collected and created dependency annotations for several dozens of different languages.
 We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
+Previously, \cite{temperley2008dependency, CITE} have created grammars optimized for DLM; ours is the first study applying this to study correlation universals on a large-scale basis.
 
 
+% (Frazier, 1985; Rijkhoff, 1990; Hawkins, 1994)
+%Frazier, L. (1985). Syntactic complexity. In D. R. Dowty, L. Karttunen & A. M. Zwicky(Eds),Natural Language Parsing: Psychological, Computational, and TheoreticalPerspectives(pp. 129–189). Cambridge, UK: Cambridge University Press.
 %See SI for our method for creating optimized grammars.
 
 
@@ -328,12 +334,24 @@ These corpora represent a typologically and genetically diverse group of languag
 	\hline
 	%&
 	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
-	verb & object     & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+	verb & object     & & & &  & \\ 
+	\emph{visited} & \emph{friends} \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+
 %adp. &
-	adposition    &    NP       \\
-	\emph{to}            & \emph{a friend} \\
-copula    &    NP        &     \\
-	\emph{is}        & \emph{a friend} \\
+	adposition    &    NP       
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_case.pdf} \textbf{86}  }
+	&   \multirow{2}{*}{  \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_case.pdf}   \textbf{47 \%}$^{}$   }
+	&   \multirow{2}{*}{  \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_case.pdf} \textbf{68 \%}$^{***}$    } \\
+	\emph{to}            & \emph{a friend} \\ \hline
+copula    &    NP         
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_cop.pdf}}
+	&   \multirow{2}{*}{  \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_cop.pdf}   }
+	&   \multirow{2}{*}{  \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_cop.pdf}}  \\
+	\emph{is}        & \emph{a friend} \\ \hline
 auxiliary    &    VP       &   \\
 	\emph{has}          & \emph{written} \\
 noun    &    genitive      &  \\
@@ -341,7 +359,7 @@ noun    &    genitive      &  \\
 noun    &    relative clause       &  \\
 	\emph{books} & \emph{that you read} \\
 complementizer    &    S        & \\
-	\emph{that} & \emph{Mary} \\
+	\emph{that} & \emph{Mary has arrived} \\
 verb    &    PP     &    \\
 	\emph{went} & \emph{to school} \\
 want    &    VP      &    \\
@@ -367,30 +385,32 @@ Not all correlations are satisfied by every natu
 
 
 \paragraph{Results}
-Now present the correlations and the results.
+We show that optimizing grammars for DLM produces Greenberg's correlations.
 We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages. %, which we take as the basis of our evaluation.
-In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
 Most of them can be straightforwardly implemented in the UD formalism, allowing us to check which correlations a word order grammar satisfies.
 
-Dryer \cite{dryer1992greenbergian} presents three correlations that are only relevant to part of the world's languages and are not annotated reliably in UD.
-One further dependency is not annotated reliably in UD. %: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles.
-Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations from Dryer's 15 correlations.
+Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages, or are not annotated reliably in UD.
+%One further dependency is not annotated reliably in UD. %: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles.
+Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations (See SI for information on the other correlations). % from Dryer's 15 correlations.
+These are described in Table~\ref{table:corr-dryer}.
+In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
 
 
-In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
-We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau$ show the same direction for the correlating dependency and for the verb-object dependency, with random effects for languages and language families.\footnote{We coded language families according to \url{universaldependencies.org}.}
+For each optimized grammar, we can check which correlations it satisfies.
+%In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
+We conducted, for each correlation, a mixed-effects logistic regression model predicting whether a grammar satisfies the correlation, with random effects for languages and language families.\footnote{We coded language families according to \url{universaldependencies.org}.}
 %We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau > 0.5$ holds for the correlating dependency depending on whether $a_\tau > 0.5$ for the verb-object dependency, with per-language-family random intercept and slope.\footnote{We coded language families according to \url{universaldependencies.org}.}
-We are interested in the direction and significance of this effect: 
-If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
+%We are interested in the direction and significance of this effect: 
+%If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
 
 We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
 
-\paragraph{Results}
-Results are shown in Table~\ref{table:results-dryer}.
-All eight correlations are confirmed in the models estimated from the real orderings. 
-We will discuss these exceptions further below.
+%\paragraph{Results}
+%Results are shown in Table~\ref{table:results-dryer}.
+%All eight correlations are confirmed in the models estimated from the real orderings. 
+%We will discuss these exceptions further below.
 
-Confirming previous theoretical arguments, we see that optimizing for dependency length correctly accounts for all word order correlations. 
+Optimizing for dependency length correctly accounts for all word order correlations. 
 
 
 
@@ -398,13 +418,13 @@ Confirming previous theoretical arguments, we see that optimizing for dependency
 
 
 We have verified that dependency length minimization produces Greenberg's correlation universals.
-However, dependency length is both heuristic and stipulative.
+However, dependency length is only a heuristic and stipulative measure of complexity: % heuristic and stipulative.
 The actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
-It is also stipulative: There is no a priori reason why dependency length should be the crucial determining factor determining word order.
-There are other models of processing cost that make different predictions.
-
-
-We show that the word order predictions of DLM arise from deeper principles of efficient communication.
+It is also stipulative: There is no a priori reason why dependency length should be the crucial determining factor determining word order. There are other models of processing cost that make different predictions.
+DLM is also insufficient as an underlying principle of word order, as absolutely minimizing dependency length results in languages that have no consistent grammatical orders, making comprehension difficult.
+Indeed, theoretical work has justified DLM as describing an aspect of a broader notion of language efficiency.
+\cite{hawkins1994performance} theoetically argues that DLM enables more efficient parsing.
+\cite{futrell2017noisycontext} argues that DLM arises from the optimization of predictability.
 
 
 \begin{figure}
@@ -427,6 +447,7 @@ We show that the word order predictions of DLM arise from deeper principles of e
 %
 %
 
+We show that the word order predictions of DLM arise from deeper principles of efficient communication.
 
 Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between speaker effort (Force of Unification) and listener effort (Force of Diversification).
 According to this theory, a language that minimizes speaker effort should reduce the number of different utterances to make production as easy as possible.
@@ -728,26 +749,26 @@ A major question for functional explanations for linguistic universals is: \emph
 While our work has shown that certain word order universals can be explained by efficiency in communication, we have made a number of basic assumptions about how language works in constructing our word order grammars: for example, that sentences can be syntactically analyzed into dependency trees. The question arises of whether these more basic properties themselves might be explainable in terms of efficient communication. Relatedly, there are many remaining word order universals not captured by our model, such as the trade-off of rich morphological marking and flexibility in word order \cite{jespersen1922,mcfadden2003morphological,futrell2015quantifying}. Our models cannot capture this trade-off for technical reasons: the parseability objective does not operate over wordforms, only POS tags, and so it does not take advantage of morphological cues to syntactic structure. Future work can investigate whether these and other remaining universals can be explained using more sophisticated models of how meaning representations are transduced into strings of words, based on larger databases with richer annotations.
 
 
-
-
-\section{DLM TODO put these at the appropriate place}
-
-We compare Efficiency to the predictions of Dependency Length Minimization.
-This theory states that natural languages order information in such a way that the distances between syntactically linked words are minimized.
-For instance, in Figure~\ref{fig:arabic-japanese-simple}, there would be syntactic links between the adposition (to) and the noun (friend), and between the verb and both the object (letter) and the adposition (to).
-There is strong evidence that natural language minimizes the length of these dependencies~\cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
-Theoretical work in the functional linguistics literature has proposed that this principle explains the correlations.
-However, the principle itself is stipulative and not a first-principles explanation.
-\cite{hawkins1994performance} theoetically argues that it increases  parsability.
-
-However, these arguments have been made on a theoretical basis.
-We will show that (1) Dependency Length Minimization indeeds predicts most of the correlations, and (2) Dependency Length Minimization is explained by efficiency optimization.
-
-These computational results confirm theoretical ideas  that have been stated informally by authors in the functional linguistics literature at least since the 1980s. 
-
-%We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
-
-
+%
+%
+%\section{DLM TODO put these at the appropriate place}
+%
+%We compare Efficiency to the predictions of Dependency Length Minimization.
+%This theory states that natural languages order information in such a way that the distances between syntactically linked words are minimized.
+%For instance, in Figure~\ref{fig:arabic-japanese-simple}, there would be syntactic links between the adposition (to) and the noun (friend), and between the verb and both the object (letter) and the adposition (to).
+%There is strong evidence that natural language minimizes the length of these dependencies~\cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
+%Theoretical work in the functional linguistics literature has proposed that this principle explains the correlations.
+%However, the principle itself is stipulative and not a first-principles explanation.
+%\cite{hawkins1994performance} theoetically argues that it increases  parsability.
+%
+%However, these arguments have been made on a theoretical basis.
+%We will show that (1) Dependency Length Minimization indeeds predicts most of the correlations, and (2) Dependency Length Minimization is explained by efficiency optimization.
+%
+%These computational results confirm theoretical ideas  that have been stated informally by authors in the functional linguistics literature at least since the 1980s. 
+%
+%%We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. These universals are called \key{implicational} universals, and take the form of correlations between certain word order patterns and others across languages. For example, whether a language puts verbs before or after objects strongly determines whether it places genitives before or after nouns, and whether it has prepositions or postpositions \cite{dryer1992greenbergian}. 
+%
+%
 
 
 
