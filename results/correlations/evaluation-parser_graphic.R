@@ -1,9 +1,6 @@
 
 # _final/
-data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
-
-
-best = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv")
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 library(forcats)
 library(dplyr)
@@ -12,13 +9,18 @@ library(ggplot2)
 
 data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancient", "Old_Church_Slavonic" = "Old"))
 
+best = read.csv("../strongest_models/best-parse-best-balanced.csv")
+
+data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
+
+
+
 
 
 
 dryer_greenberg_fine = data
 
 
-data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
 
 languages = read.csv("../languages/languages-iso_codes.tsv")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
@@ -27,10 +29,6 @@ dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"),
 
 #options(mc.cores = parallel::detectCores())
 #rstan_options(auto_write = TRUE)
-
-
-
-dependency = "nmod"
 
 getCorrPair = function(dependency) {
    corr_pair = dryer_greenberg_fine %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
@@ -44,6 +42,7 @@ getCorrPair = function(dependency) {
        corr_pair = corr_pair %>% mutate(correlator_s=1-correlator_s)
    }
 
+   corr_pair$agree = (corr_pair$correlator_s == corr_pair$obj_s)
    return(corr_pair)
 }
 
@@ -78,7 +77,7 @@ for(dependency in dependencies) {
         axis.text=element_blank(),
         axis.ticks.x=element_blank(),
         axis.ticks=element_blank()) +  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-  ggsave(plot, file=paste("figures/correlations/correlation-efficiency-", dependency, ".pdf", sep=""), width=1, height=1)
+  ggsave(plot, file=paste("figures/correlations/correlation-parser-", dependency, ".pdf", sep=""), width=1, height=1)
 
 
 }

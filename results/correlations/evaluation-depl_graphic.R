@@ -9,6 +9,9 @@ library(ggplot2)
 
 data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancient", "Old_Church_Slavonic" = "Old"))
 
+#best = read.csv("../strongest_models/best-depl.csv")
+
+#data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
 
 
 
@@ -20,39 +23,39 @@ languages = read.csv("../languages/languages-iso_codes.tsv")
 dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"), all.x=TRUE)
 
 
-
-#options(mc.cores = parallel::detectCores())
-#rstan_options(auto_write = TRUE)
-
-
-dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataS = rbind(dataS, dataS2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
-
-dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP = rbind(dataP, dataP2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
-
-
-dataE = merge(dataS, dataP, by=c("Type", "Language", "Model")) %>% mutate(Eff = Pars+0.9*Surp) %>% group_by(Type, Language, Model) %>% summarise(Eff = mean(Eff))
-
-dataE = dataE[order(dataE$Language, dataE$Model),]
-
-eff = dataE$Eff
-models = c()
-for(i in (1:202)) {
-   if(eff[2*i] < eff[2*i+1]) {
-	   models = c(models, dataE$Model[2*i])
-   } else {
-	   models = c(models, dataE$Model[2*i+1])
-   }
-}
-
-
-dryer_greenberg_fine = dryer_greenberg_fine%>% filter(FileName %in% models)
-
-
-
+#
+##options(mc.cores = parallel::detectCores())
+##rstan_options(auto_write = TRUE)
+#
+#
+#dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+#dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+#dataS = rbind(dataS, dataS2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
+#
+#dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+#dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+#dataP = rbind(dataP, dataP2) %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_balanced")
+#
+#
+#dataE = merge(dataS, dataP, by=c("Type", "Language", "Model")) %>% mutate(Eff = Pars+0.9*Surp) %>% group_by(Type, Language, Model) %>% summarise(Eff = mean(Eff))
+#
+#dataE = dataE[order(dataE$Language, dataE$Model),]
+#
+#eff = dataE$Eff
+#models = c()
+#for(i in (1:202)) {
+#   if(eff[2*i] < eff[2*i+1]) {
+#	   models = c(models, dataE$Model[2*i])
+#   } else {
+#	   models = c(models, dataE$Model[2*i+1])
+#   }
+#}
+#
+#
+#dryer_greenberg_fine = dryer_greenberg_fine%>% filter(FileName %in% models)
+#
+#
+#
 
 dependency = "nmod"
 

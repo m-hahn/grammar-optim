@@ -66,7 +66,7 @@ What explains the universal properties of human languages? We present evidence t
 }
 
 % Please include corresponding author, author contribution and author declaration information
-\authorcontributions{MH and RF designed research. MH implemented models and experiments. MH and RF wrote the paper. MH, DJ, and RF provided comments on the paper.}
+%\authorcontributions{MH and RF designed research. MH implemented models and experiments. MH and RF wrote the paper. MH, DJ, and RF provided comments on the paper.}
 \authordeclaration{The authors declare no conflict of interest.}
 %\equalauthors{\textsuperscript{1}A.O.(Author One) and A.T. (Author Two) contributed equally to this work (remove if not applicable).}
 \correspondingauthor{\textsuperscript{2}To whom correspondence should be addressed. E-mail: mhahn2@stanford.edu}
@@ -106,9 +106,10 @@ In Japanese, the verb stands at the end; object and adpositional phrase precede 
 It turns out that this variation reflects a deep and stable regularity:
 While languages ordering the objects before (Japanese) or after (Arabic) the verb are approximately equally common around the world,
 this is strongly correlated with the occurrence of pre- or postpositions:
+This is illustrated in Figure~\ref{fig:corr-table}.
 Languages ordering their objects the way Japanese does, have postpositions; languages ordering them as Arabic does have prepositions.
 %However, the vast majority of natural languages place adpositional phrases on the same side of the verb as the object:
-This correlation has an extremely strong empirical basis:
+As Figure~\ref{fig:corr-table} shows, this correlation has an extremely strong empirical basis:
 In a sample of about 1,100 languages from five contents (CITE Dryer WALS 95a), less than 7 \% of languages provide clear exceptions to this generalization. %, over 90 \% of languages satisfy this generalization .
 
 
@@ -119,14 +120,14 @@ In a sample of about 1,100 languages from five contents (CITE Dryer WALS 95a), l
    \begin{deptext}[column sep=1em]
 %	   I \& wrote \& the \& letter \& in \& Japanese \& . \\
 	   katabt \& risāla \& li \& sadīq  \\
-	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
+%	   \textsc{verb} \& \textsc{noun} \& \textsc{adp} \& \textsc{noun} \\
 	   wrote \& letter   \& to \& friend  \\
    \end{deptext}
 \end{dependency}
 \begin{dependency}[theme = simple]
    \begin{deptext}[column sep=1em]
       tomodachi \& ni \& tegami-o \& kaita \\
- \textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
+ %\textsc{noun} \& \textsc{adp} \& \textsc{noun} \& \textsc{verb}\\
 	   friend \& to \& letter  \& wrote \\
    \end{deptext}
 \end{dependency}
@@ -145,6 +146,17 @@ In a sample of about 1,100 languages from five contents (CITE Dryer WALS 95a), l
 %\end{dependency}
 	\caption{A sentence in Arabic (top) and Japanese (bottom), translating to `I wrote a letter to a friend.' Note the reversal of word order: Arabic has verb-object order and prepositions, while Japanese has object-verb order and postpositions.}\label{fig:arabic-japanese-simple}
 \end{figure}
+
+
+
+
+\begin{figure}
+    \centering
+    \includegraphics[width=0.4\textwidth]{figures/corr-table.png}
+	\caption{The idea of a word order correlation: Languages can order the object before or after the verb (rows), and have prepositions or postpositions (columns). For each combination, we indicate how many languages satisfy it, as documented in the World Atlas of Language Structure~\cite{wals}. Combinations on the diagonal are vastly more common than off-diagonal ones.}
+	\label{fig:corr-table}
+\end{figure}
+
 
 
 
@@ -197,6 +209,10 @@ In this work, we show that the word orders of languages have evolved to optimize
 %In this work, we show computationally, using corpus data from 51 languages, that efficiency optimization accounts for the Greenbergian word order correlations.
 That is, we show that the word orders in natural languages have evolved to optimize efficiency, and that this optimization accounts for the prevalence of the word order correlations. %word orders in natural language 
 
+Theoretical studies of word order typology have proposed Dependency Length Minimization as a unifying principle behind Greenberg's correlations \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+This is the idea that languages order words so as to minimize the linear distance between words linked in head--dependent relationships.
+Our first contribution is to show that this principle indeed correctly predicts Greenberg's correlations.
+We do this by creating counterfactual grammars that minimize dependency length of 
 
 
 
@@ -204,8 +220,6 @@ That is, we show that the word orders in natural languages have evolved to optim
 
 Theoretical studies of word order typology have proposed Dependency Length Minimization as a unifying principle behind Greenberg's correlations \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that languages order words so as to minimize the linear distance between words linked in head--dependent relationships.
-On the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, it has been confirmed that languages reduce dependency length, though a direct link to Greenger's correlations has not been established beyond theoretical arguments.
-This has been justified based on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}.
 
 %(CITE) have made theoretical arguments that dependency length minimization should produce word order correlations.
 %Here, we present the first large-scale test of this idea.
@@ -264,24 +278,33 @@ This has been justified based on the reasoning that long dependencies create hig
 
 
 
-The sentences in Figure~\ref{fig:dep-trees} are annotated with \key{dependency trees}: these are directed trees describing the grammatical relations among words. For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} of the verb, rather than e.g. the subject or an indirect object. A dependency arc is drawn from a \key{head} (e.g. \emph{kaita} in Figure~\ref{fig:arabic-japanese}) to a \key{dependent} (e.g. \emph{tegami-o}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
+The sentences in Figure~\ref{fig:dep-trees} are annotated with \key{dependency trees}:
+these are directed trees describing the grammatical relations among words.
+For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} of the verb, rather than e.g. the subject or an indirect object.
+A dependency arc is drawn from a \key{head} (e.g. \emph{visited} in Figure~\ref{fig:dep-trees}) to a \key{dependent} (e.g. \emph{friends}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
 
 
 
+The \key{dependency length} of a sentence ${\bf w}$ with dependency structure $t$ is the sum of the lengths of its dependency arcs, measured as the number of words spanned \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}.
+%\begin{equation}
+%    \label{eq:depl}
+%\operatorname{DepL}(t; {\bf w}) = \sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+%\end{equation}
+%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$. 
+%On the basis of large-scale corpus evidence \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}, it has been confirmed that languages reduce dependency length, though a direct link to Greenger's correlations has not been established beyond theoretical arguments.
+Large-scale corpus evidence across languages shows that natural languages order words in such a way as to reduce dependency length, compared to most random orderings \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+These data provide strong evidence that minimization of dependency length is itself a linguistic universal~\cite{temperley2018minimizing} 
 
-The dependency length of a sentence is the sum of the lengths of its syntactic dependencies \cite{ferrericancho2004euclidean,liu2008dependency,gildea2010grammars,futrell2015largescale}:
-\begin{equation}
-    \label{eq:depl}
-\operatorname{DepL}(t; {\bf w}) = \sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
-\end{equation}
-where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
-
-Large-scale corpus evidence across languages shows that natural languages order words in such a way as to reduce this quantity, compared to most random orderings \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-However, the link to Greenberg's correlations has not been established this directly.
 While theoretical arguments suggest that DLM predicts Greenberg's correlations, this idea has not been tested on the basis of actual large-scale corpus data.
+Prior theoretical work on dependency length minimization has argued that Greenberg's correlations minimize dependency length \cite{temperley2008dependency}; however, the link is not trivial:
+Whether or not Greenberg's correlations theoretically minimize dependency length will depend on the distribution of tree topologies in actual language usage. %this depends on the topology of the dependency trees.
+
 
 We test this idea by constructing languages that have minimal dependency length:
+That is, we ask: Under the assumption that language has evolved to minimize dependency length, will Greenberg's correlations emerge?
+We computationally construct hypothetical variants of real languages that are optimized to minimize dependency length.
 If Greenberg's correlations emerge in these languages, then this provides evidence that DLM gives rise to these universals.
+
 All natural languages have some degree of word order regularities that are specified in their grammar.
 For instance, English places subjects before and objects after the verb (Figure~\ref{fig:dep-trees}).
 Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
@@ -295,7 +318,7 @@ Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) c
 We create optimized grammars that minimize the average dependency length.
 Prior theoretical work on dependency length minimization has argued that certain general patterns minimize dependency length \cite{temperley2008dependency}, however, this depends on the topology of the dependency trees.
 Answering these questions requires a sample of dependency structures as actually used by speakers of difefrent languages.
-Such samples have recently become available with the Universal Dependencies project, which has collected and created dependency annotations for several dozens of different languages.
+Such samples have recently become available with the Universal Dependencies (UD) project, which has collected and created dependency annotations for several dozens of different languages.
 We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
 Previously, \cite{temperley2008dependency, CITE} have created grammars optimized for DLM; ours is the first study applying this to study correlation universals on a large-scale basis.
@@ -325,7 +348,17 @@ Previously, \cite{temperley2008dependency, CITE} have created grammars optimized
 
 
 
-
+%adposition    &    NP       &    86    &    \textbf{81}$^{***}$    &    47    &    \textbf{76}$^{***}$    &    \textbf{68}$^{***}$   \\
+%copula    &    NP        &    94    &    \textbf{81}$^{***}$    &    53    &    \textbf{79}$^{***}$    &    \textbf{61}$^{**}$   \\
+%auxiliary    &    VP       &    88    &    \textbf{74}$^{***}$    &    \textbf{84}$^{***}$    &    55    &    \textbf{69}$^{**}$   \\
+%noun    &    genitive      &    80    &    \textbf{82}$^{***}$    &    55    &    \textbf{74}$^{***}$    &    \textbf{70}$^{***}$   \\
+%noun    &    relative clause       &    80    &    \textbf{85}$^{***}$    &    48    &    \textbf{77}$^{**}$    &    \textbf{73}$^{***}$   \\
+%complementizer    &    S        &    76    &    \textbf{85}$^{***}$    &    \textbf{59}$^{**}$    &    \textbf{80}$^{***}$    &    \textbf{74}$^{**}$   \\
+%verb    &    PP     &    88    &    \textbf{78}$^{***}$    &    \textbf{72}$^{***}$    &    59    &    \textbf{69}$^{**}$   \\
+%want    &    VP      &    88    &    \textbf{90}$^{***}$    &    \textbf{78}$^{**}$    &    \textbf{92}$^{***}$    &    \textbf{92}$^{***}$   \\
+%verb    &    subject    &    33    &    \textbf{29}$^{**}$    &    51    &    \textbf{8}$^{***}$    &    \textbf{13}$^{***}$   \\
+%verb    &    manner adverb     &    35    &    51    &    \textbf{21}$^{***}$    &    51    &    \textbf{32}$^{***}$   \\
+%
 
 
 \begin{table*}
@@ -340,34 +373,60 @@ Previously, \cite{temperley2008dependency, CITE} have created grammars optimized
 %adp. &
 	adposition    &    NP       
 	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_case.pdf} \textbf{86}  }
-	&   \multirow{2}{*}{  \textbf{81}$^{***}$    }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-lifted_case.pdf}   \textbf{81}$^{***}$    }
 	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_case.pdf}   \textbf{47 \%}$^{}$   }
-	&   \multirow{2}{*}{  \textbf{76}$^{***}$ }   
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-lifted_case.pdf}  \textbf{76}$^{***}$ }   
 	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_case.pdf} \textbf{68 \%}$^{***}$    } \\
 	\emph{to}            & \emph{a friend} \\ \hline
 copula    &    NP         
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_cop.pdf}}
-	&   \multirow{2}{*}{  \textbf{81}$^{***}$    }
-	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_cop.pdf}   }
-	&   \multirow{2}{*}{  \textbf{76}$^{***}$ }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_cop.pdf}}  \\
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_cop.pdf} \textbf{94} }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-lifted_cop.pdf}   \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_cop.pdf}  \textbf{53}     }
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-lifted_cop.pdf}  \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_cop.pdf} \textbf{61}$^{***}$  }  \\
 	\emph{is}        & \emph{a friend} \\ \hline
-auxiliary    &    VP       &   \\
-	\emph{has}          & \emph{written} \\
-noun    &    genitive      &  \\
-	\emph{friend} &  \emph{of John} \\
-noun    &    relative clause       &  \\
-	\emph{books} & \emph{that you read} \\
-complementizer    &    S        & \\
-	\emph{that} & \emph{Mary has arrived} \\
-verb    &    PP     &    \\
-	\emph{went} & \emph{to school} \\
-want    &    VP      &    \\
-	\emph{wants}   &  \emph{to leave} \\
-verb    &    subject    &  \\
-	\emph{(there) entered} & \emph{a person} \\
-verb    &    manner adverb     & \\
-	\emph{ran} & \emph{quickly} \\
+auxiliary    &    VP       
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-aux.pdf}}
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-aux.pdf}   \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-aux.pdf}   }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-aux.pdf}   \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-aux.pdf}}  \\
+	\emph{has}          & \emph{written} \\ \hline
+noun    &    genitive      
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-nmod.pdf}}
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-nmod.pdf} \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-nmod.pdf}   }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-nmod.pdf} \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-nmod.pdf}}  \\
+	\emph{friend} &  \emph{of John} \\ \hline
+noun    &    relative clause      
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-acl.pdf}}
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-acl.pdf}\textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-acl.pdf}   }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-acl.pdf} \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-acl.pdf}}  \\
+	\emph{books} & \emph{that you read} \\ \hline
+complementizer    &    S        
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_mark.pdf}}
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-lifted_mark.pdf} \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_mark.pdf}   }
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-lifted_mark.pdf}\textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_mark.pdf}}  \\
+	\emph{that} & \emph{Mary has arrived} \\ \hline
+verb    &    PP         
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-obl.pdf}}
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-obl.pdf} \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-obl.pdf}   }
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-obl.pdf}\textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-obl.pdf}}  \\
+	\emph{went} & \emph{to school} \\ \hline
+want    &    VP        
+	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-xcomp.pdf}}
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-depl-nmod.pdf} \textbf{81}$^{***}$    }
+	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-xcomp.pdf}   }
+	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-parser-nmod.pdf} \textbf{76}$^{***}$ }   
+	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-xcomp.pdf}}  \\
+	\emph{wants}   &  \emph{to leave} \\ \hline
  \hline
 %comp. &
 %\multirow{3}{*}{NP}&
@@ -386,31 +445,37 @@ Not all correlations are satisfied by every natu
 
 \paragraph{Results}
 We show that optimizing grammars for DLM produces Greenberg's correlations.
-We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages. %, which we take as the basis of our evaluation.
-Most of them can be straightforwardly implemented in the UD formalism, allowing us to check which correlations a word order grammar satisfies.
-
-Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages, or are not annotated reliably in UD.
+%Dryer \cite{dryer1992greenbergian} provides an authoritative
+We base our evaluation on the authoritative compilation of Greenberg's correlations by Dryer \cite{dryer1992greenbergian}, which documents 15 correlations, drawing on 625 languages. %, which we take as the basis of our evaluation.
+%Most of them can be straightforwardly implemented in the UD formalism, allowing us to check which correlations a word order grammar satisfies.
+%Considering those correlations that are annotated reliably in UD, we obtain eight correlations
+We exclude three correlations that are only relevant to some of the world's languages, and collapse correlations that are not distinguished in UD.
+%Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages, or are not annotated reliably in UD.
 %One further dependency is not annotated reliably in UD. %: the dependencies between question particles and verbs, those between nouns and plural words, and those between nouns and articles.
-Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations (See SI for information on the other correlations). % from Dryer's 15 correlations.
-These are described in Table~\ref{table:corr-dryer}.
-In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
+%Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations (See SI for information on the other correlations). % from Dryer's 15 correlations.
+We describe the resulting eight correlations in Table~\ref{table:corr-dryer}.
+%In \cite{dryer1992greenbergian}, all word order correlations are relative to the position of the direct object wrt the main verb of a sentence.
 
 
-For each optimized grammar, we can check which correlations it satisfies.
-%In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
-We conducted, for each correlation, a mixed-effects logistic regression model predicting whether a grammar satisfies the correlation, with random effects for languages and language families.\footnote{We coded language families according to \url{universaldependencies.org}.}
-%We conducted, for each correlation, a mixed-effects logistic regression model predicting whether $a_\tau > 0.5$ holds for the correlating dependency depending on whether $a_\tau > 0.5$ for the verb-object dependency, with per-language-family random intercept and slope.\footnote{We coded language families according to \url{universaldependencies.org}.}
-%We are interested in the direction and significance of this effect: 
-%If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
+For each optimized grammar, we can check which of these correlations it satisfies.
+We conducted a multivariate mixed-effects logistic regression model predicting, for each grammar, which of the eight correlations it satisfies.
+We entered the language and language family of the underlying corpus as random effects, accounting for language-specific properties of tree topologies.\footnote{We coded language families according to \url{universaldependencies.org}.}
 
-We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages. To do evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks. The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
+
+We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages.
+To evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks.
+The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
+
+
+Optimizing for dependency length correctly accounts for all word order correlations. 
+
+
 
 %\paragraph{Results}
 %Results are shown in Table~\ref{table:results-dryer}.
 %All eight correlations are confirmed in the models estimated from the real orderings. 
 %We will discuss these exceptions further below.
 
-Optimizing for dependency length correctly accounts for all word order correlations. 
 
 
 
@@ -420,7 +485,9 @@ Optimizing for dependency length correctly accounts for all word order correlati
 We have verified that dependency length minimization produces Greenberg's correlation universals.
 However, dependency length is only a heuristic and stipulative measure of complexity: % heuristic and stipulative.
 The actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. 
-It is also stipulative: There is no a priori reason why dependency length should be the crucial determining factor determining word order. There are other models of processing cost that make different predictions.
+It is also stipulative: There is no a priori reason why dependency length should be the crucial determining factor determining word order.
+While DLM has been justified based on the reasoning that long dependencies create high memory requirements for parsing and generation \cite{gibson1998linguistic,gibson2000dependency}, there are other models of processing cost that make different predictions.
+In particular, surprisal is known to be a strong predictor of human processing effort, but it makes predictions different from and sometimes opposite to those made by dependency length.
 DLM is also insufficient as an underlying principle of word order, as absolutely minimizing dependency length results in languages that have no consistent grammatical orders, making comprehension difficult.
 Indeed, theoretical work has justified DLM as describing an aspect of a broader notion of language efficiency.
 \cite{hawkins1994performance} theoetically argues that DLM enables more efficient parsing.
@@ -449,7 +516,7 @@ Indeed, theoretical work has justified DLM as describing an aspect of a broader 
 
 We show that the word order predictions of DLM arise from deeper principles of efficient communication.
 
-Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between speaker effort (Force of Unification) and listener effort (Force of Diversification).
+Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between speaker effort, the \emph{Force of Unification}, and listener effort, the \emph{Force of Diversification}.
 According to this theory, a language that minimizes speaker effort should reduce the number of different utterances to make production as easy as possible.
 Conversely, to minimize listener effort, the language should provide different utterances for different meanings, so that the listeenr can unambiguously identify the meaning from the utterance.
 Minimizing speaker and listener effort represent two opposing forces:
@@ -457,6 +524,7 @@ A pressure to reduce the complexity of the language makes the utterances in a la
 A pressure to reduce ambiguity makes utterances more heterogeneous, so they can indicate different meanings.
 %Another way to conceptualize these two pressures is as the \key{cost} and \key{informativity} of language use:
 Producing and processing simple utterances incurs little cost, but more complex and diverse utterances are required to be provide higher informativity.
+
 The idea that language results from the tension between these two pressures has a long and fruitful history.
 %\cite{horn-toward-1984}, RSA, Color naming
 %
@@ -464,7 +532,8 @@ The idea that language results from the tension between these two pressures has 
 %
 %TODO introduce the terms \key{cost} and \key{informativity}
 %
-This idea has been shown to account for phenomena such as pragmatic inference \cite{horn-toward-1984, frank2012predicting} and color naming~\cite{zaslavsky2018efficient}.
+This idea has been shown to provide a formalization and derivation of pragmatic inference \cite{horn-toward-1984, frank2012predicting}.
+It also has been shown to account for the distribution of word meanings across languages, such as color naming~\cite{zaslavsky2018efficient}.
 
 %TODO somewhere start calling this Efficiency
 %TODO explain why surprisal. some production/speaker work. (plan reuse)
@@ -481,8 +550,10 @@ This idea has been shown to account for phenomena such as pragmatic inference \c
 We model the process where a speaker communicates a message to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
 In Shannon's model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
 Applying this model to word order, we take the message to consist of entities, events, and a set of syntactic and semantic relations that hold between them.
-These are encoded in the dependency structure.
-%Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar:
+
+
+Dependency structures provide a natural formalization of such structures (CITE).
+%These are encoded in the dependency structure.
 %This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
 In Figure~\ref{fig:comm}, the message consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 
@@ -499,13 +570,15 @@ If communication is successful, the listener can identify the intended structure
 
 %We formalize the listener's understanding as probabilistic inference, that is, the listener 
 
-Speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences
+Speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
 For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
 
 
-In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission is, and (2) how precisely messages can be recovered from codes.
+In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes.
+%Note that these terms correspond to Zipf's Forces of Unification Diversification
+In keeping with Zipf's Forces of Unification and Diversification, transmission cost is lowered by channels that support fewer distinct codes, whereas recoverability is increased when the channel supports of larger range of distinct codess for different messages.
 In our model, these will depend on the grammar:
-Grammars can differ in the degree to which a listener can unambiguously recover the dependency structure from an utterance (TODO can we find an example for this?)
+Grammars can differ in the degree to which a listener can unambiguously recover the dependency structure from an utterance. % (TODO can we find an example for this?)
 This reflects the \key{parseability} of the language.
 
 The degree to which listeners can reconstruct dependency structures from an utterance is formalized as the amount of information that utterances $u$ provide about their underlying dependency structures $t$:
@@ -515,9 +588,9 @@ The degree to which listeners can reconstruct dependency structures from an utte
 where the sum runs over all possible pairs of sentences $l$ and dependency structures $t$ in the language.
 This quantity describes the degree to which dependency structures can be unambiguously recovered from sentences.
 It is large when they can mostly be recovered, and small if sentences have high amounts of ambiguity about the dependency structure.
-This quantity formalizes Zipf's principle of listener effort and his Force of Diversification:
+This quantity formalizes Zipf's Force of Diversification:
 It can be maximized when trees can be decoded fully unambiguously from utterances.
-Maximizing the information provided by utterances about meanings is a standard formalization of Zipf's principle of listener economy~\cite{frank2012predicting,regier2015word}.
+Maximizing the information provided by utterances about meanings is a standard formalization of Zipf's Force of Diversification~\cite{frank2012predicting,regier2015word}.
 
 
 %The counteracting Force of Unification is formalized by the cost of encoding the dependency structure and producing the utterance.
@@ -586,10 +659,10 @@ Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information
 %\subsection{Optimizing Grammars for Efficiency}
 
 Our goals are to show that
-(1) the grammars of natural languages evolve towards optimizing efficiency of communication, and
+(1) the grammars of natural languages have evolved towards optimizing efficiency of communication, and
 (2) this process of optimization accounts for Greenberg's order correlation universals.
 
-We use the same 51 corpora.
+%We use the same 51 corpora.
 
 To answer whether languages evolve to have efficient word order, we compare the efficiency of the actual grammars of these 51 languages to randomly constructed baseline grammars.
 To show that this process of efficiency optimization accounts for Greenberg's correlation universals, we computationally construct grammars that optimize efficiency.
@@ -598,7 +671,7 @@ We furthermore show that this process of optimization also \emph{explains} DLM, 
 
 
 For every one of the 51 corpora, we computationally construct eight optimal grammars.
-Note that the original orders of the actual languages do not enter this objective.
+Again, the original orders of the actual languages do not enter this objective.
 See SI for our method for creating optimized grammars.
 
 
@@ -619,18 +692,19 @@ See SI for our method for creating optimized grammars.
 
 %\subsection{Dependency Length Minimization}
 
+\subsection{Results}
 
 
-\section{Results}
+%\section{Results}
 
-\subsection{Relative efficiency of languages}
-\label{sec:relative-efficiency}
+%\subsection{Relative efficiency of languages}
+%\label{sec:relative-efficiency}
 
-We first demonstrate that real languages are relatively efficient compared to random baselines. For each language, we generated ten baseline word order grammars for the language.
-These grammars have systematic word order regularities similar to natural language, but do not exhibit any correlations among the orderings of different syntactic relations (compare Figure~\ref{fig:grammars}).
+We first demonstrate that real languages are relatively efficient compared to random baselines. For each of the 51 corpora, we generated ten baseline word order grammars.
+These grammars have systematic word order regularities similar to natural language, but do not exhibit any correlations among the orderings of different syntactic relations (compare Figure~\ref{fig:dlm-grammars}).
 %by choosing all word order grammar parameters randomly at uniform from $[0,1]$. Figure~\ref{fig:pareto-plane} shows the predictability and parseability for each real language relative to its baseline grammars. In order to control for limitations due to our word order grammar formalism, we represent real languages in the figure by maximum likelihood fits of word order grammars to the real language data.
 %; in general these maximum-likelihood word order grammars end up with lower predictability and parseability than the real languages. % TODO verify this is true? TODO awkward sentence
-For the calculation of predictability and parseability, we make all (baseline and real) word order grammars deterministic by always choosing the highest-probability linearization of each tree; by making the grammars deterministic in this way we eliminate an anticonservative bias toward low predictability in the baseline languages, which are highly nondeterministic. 
+%For the calculation of predictability and parseability, we make all (baseline and real) word order grammars deterministic by always choosing the highest-probability linearization of each tree; by making the grammars deterministic in this way we eliminate an anticonservative bias toward low predictability in the baseline languages, which are highly nondeterministic. 
 The majority of real languages in Figure~\ref{fig:pareto-plane} are below and to the left of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
 
 \begin{figure}
@@ -640,7 +714,8 @@ The majority of real languages in Figure~\ref{fig:pareto-plane} are below and to
     \label{fig:pareto-plane}
 \end{figure}
 
-Figure~\ref{fig:pareto-plane} also shows the average position of optimized languages. Languages appear to be attracted toward these points and away from the region of the baseline languages. We also see that several languages actually end up \emph{more} efficient than the computationally optimized languages.
+Figure~\ref{fig:pareto-plane} also shows the average position of optimized languages. Languages appear to be attracted toward these points and away from the region of the baseline languages.
+%We also see that several languages actually end up \emph{more} efficient than the computationally optimized languages.
 % TODO add something about dependency length-optimized languages?
 
 %These results are shown in more detail for two typologically distinct languages (English and Japanese) in Figure~\ref{fig:predict-pars}. Here we include also the predictability and parseability of the original language data and of the word order grammars optimized for dependency length. We see that real languages are even more predictable than any optimized or baseline language, while optimization for either parseability or dependency length suffices to raise parseability to the level of the real languages. This result is in line with the finding that languages with longer dependencies are harder to parse in general \cite{gulordava2016multilingual}.
@@ -651,93 +726,25 @@ Figure~\ref{fig:pareto-plane} also shows the average position of optimized langu
 %\end{figure*}
 %
 
-\subsection{Efficiency Explains DLM}
-We demonstrate the relationship between dependency length minimization and the maximization of efficiency. Figure~\ref{fig:deplength} shows average dependency length per sentence length for four typologically distinct languages, showing real languages, random baselines, and languages optimized for dependency length, parseability, predictability, and efficiency. We see that optimizing for efficiency lowers dependency length relative to random baselines, in keeping with the suggestion that dependency length minimization is a by-product of efficiency maximization \cite{futrell2017memory}. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the dependency length of the real language; in 3/4 of the lanuages shown, the real language is best matched by efficiency optimization.
+%\subsection{Efficiency Explains DLM}
+We next demonstrate the relationship between dependency length minimization and the maximization of efficiency. Figure~\ref{fig:deplength} shows average dependency length per sentence length for four typologically distinct languages, showing real languages, random baselines, and languages optimized for dependency length, parseability, predictability, and efficiency. We see that optimizing for efficiency lowers dependency length relative to random baselines, in keeping with the suggestion that dependency length minimization is a by-product of efficiency maximization \cite{futrell2017memory}. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the dependency length of the real language; in 3/4 of the lanuages shown, the real language is best matched by efficiency optimization.
 
 \begin{figure*} % need Efficiency and (maybe) MLE langs on here
 \includegraphics[width=0.98\textwidth]{../results/dependency-length/figures/depLength-facet.pdf}
 \caption{Average dependency length as a function of sentence length in four languages. Across languages, real and optimized languages have shorter dependencies than random baseline orderings.}\label{fig:deplength}
 \end{figure*}
 
-\subsection{Greenbergian Word Order Correlations}
+%\subsection{Efficiency Explains Greenbergian Word Order Correlations}
 \label{sec:greenberg}
-\begin{table*}
-	\begin{center}
-\begin{tabular}{|ll|l|l|l|ll|l|}
-	\hline
-	%&
-	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   & \multirow{2}{*}{DepL}  & \multirow{2}{*}{Pred}   &  \multirow{2}{*}{Pars} &  \multirow{2}{*}{Efficiency}  \\ 
-	verb & object     & & & &  & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
-%adp. &
-adposition    &    NP       
-	&   \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_case.pdf}   
-	&    \textbf{81}$^{***}$    
-	&   \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_case.pdf}   
-	&    \textbf{76}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_case.pdf}  \\
-copula    &    NP       
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_cop.pdf}
-	&    \textbf{81}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_cop.pdf}
-	&    \textbf{79}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_cop.pdf}  \\
-auxiliary    &    VP       
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-aux.pdf} 
-	&    \textbf{74}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-aux.pdf} 
-	&    55    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-aux.pdf}  \\
-noun    &    genitive      
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-nmod.pdf} 
-	&    \textbf{82}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-nmod.pdf} 
-	&    \textbf{74}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-nmod.pdf}  \\
-noun    &    relative clause       
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-acl.pdf} 
-	&    \textbf{85}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-acl.pdf} 
-	&    \textbf{77}$^{**}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-acl.pdf}  \\
-complementizer    &    S        
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-lifted_mark.pdf} 
-	&    \textbf{85}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-lifted_mark.pdf} 
-	&    \textbf{80}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-lifted_mark.pdf}  \\
-verb    &    PP     
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-obl.pdf} 
-	&    \textbf{78}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-obl.pdf} 
-	&    59    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-obl.pdf}  \\
-want    &    VP      
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-ground-xcomp.pdf} 
-	&    \textbf{90}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-langmod-xcomp.pdf} 
-	&    \textbf{92}$^{***}$    
-	&    \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/correlation-efficiency-xcomp.pdf} 
-  \\
- \hline
-    \multicolumn{6}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
-\end{tabular}
-	\end{center}
-	\caption{Greenbergian Correlations. Following \cite{dryer1992greenbergian}, each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
-%	For clarity, we organize the correlations by the category of the `verb patterner'.
-	For each correlation, we give our operationalization in terms of UD. %A rightwards arrow indicates that the dependency is predicted to have the same direction as the \textit{obj} dependency; a leftwards arrow indicates an inverse correlation. 
-	For each correlation we report what percentage of the languages in our sample satisfied it (`Real').
-	We then report, for each correlation and each objective function, how many (in \%) of the optimized grammars satisfy the correlation, with the significance level in a logistic mixed-effects analysis across language families.}\label{table:results-dryer}
-\end{table*}
 
-
-We now show that efficiency optimization predicts Greenberg's word order correlations. % in optimized grammars. 
+We finally show that efficiency optimization predicts Greenberg's word order correlations. % in optimized grammars. 
 Predictability and parseability predict four and six correlations, respectively, making complementary predictions.
 Efficiency correctly predicts all the word order correlations.
 
 
-\subsection{Discussion}
+%\subsection{Discussion}
 
-In Section~\ref{sec:relative-efficiency}, we found that word order grammars in the majority of UD languages have better efficiency than baseline word order grammars. Furthermore, in Section~\ref{sec:greenberg} we found that explicitly optimizing grammars for efficiency reproduces the Greenbergian correlations to the extent that they can be tested on the basis of available data.
+%In Section~\ref{sec:relative-efficiency}, we found that word order grammars in the majority of UD languages have better efficiency than baseline word order grammars. Furthermore, in Section~\ref{sec:greenberg} we found that explicitly optimizing grammars for efficiency reproduces the Greenbergian correlations to the extent that they can be tested on the basis of available data.
 
 
 \section{Conclusion}
@@ -1056,7 +1063,7 @@ The two terms of Eq.~\ref{eq:efficiency} implement two opposing pressures. Parse
 
 We first demonstrate that real languages are relatively efficient compared to random baselines. For each language, we generated ten baseline word order grammars for the language by choosing all word order grammar parameters randomly at uniform from $[0,1]$. Figure~\ref{fig:pareto-plane} shows the predictability and parseability for each real language relative to its baseline grammars. In order to control for limitations due to our word order grammar formalism, we represent real languages in the figure by maximum likelihood fits of word order grammars to the real language data.
 %; in general these maximum-likelihood word order grammars end up with lower predictability and parseability than the real languages. % TODO verify this is true? TODO awkward sentence
-For the calculation of predictability and parseability, we make all (baseline and real) word order grammars deterministic by always choosing the highest-probability linearization of each tree; by making the grammars deterministic in this way we eliminate an anticonservative bias toward low predictability in the baseline languages, which are highly nondeterministic. 
+%For the calculation of predictability and parseability, we make all (baseline and real) word order grammars deterministic by always choosing the highest-probability linearization of each tree; by making the grammars deterministic in this way we eliminate an anticonservative bias toward low predictability in the baseline languages, which are highly nondeterministic. 
 The majority of real languages in Figure~\ref{fig:pareto-plane} are below and to the left of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
 
 \begin{figure}
