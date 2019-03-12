@@ -48,8 +48,7 @@ for(dependency in dependencies) {
 
 
 
-ofInterest =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
-
+ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
 
 data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
