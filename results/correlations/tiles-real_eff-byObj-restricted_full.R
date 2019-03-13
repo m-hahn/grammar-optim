@@ -25,15 +25,15 @@ D$Direction = ifelse(D$DirObj == 1, "OV", "VO")
 ordersByLanguage = unique(data.frame(Language = D$Language, Direction = as.character(D$Direction)))
 
 
-data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
-#best = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv")
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+best = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/successful-seeds.tsv")
 library(dplyr)
 library(tidyr)
 library(ggplot2)
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
-#best = best %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
-#data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
+best = best %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
+data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
 data = data
 languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
@@ -80,7 +80,7 @@ plot = ggplot(D, aes(x = CoarseDependency, y = Language_Ordered)) +
   theme(axis.title=element_blank()) + 
   theme(legend.position="none") + facet_wrap(~Type)
 
-ggsave(file="figures/coverage-ground_eff-byObj-circles.pdf", plot=plot)
+ggsave(file="figures/coverage-ground_eff_large_full-byObj-circles.pdf", plot=plot)
 
 
 #E = D %>% group_by(Language) %>% mutate(AgreeSum = sum(Agree))

@@ -64,6 +64,101 @@ D = data %>% group_by(Language, Family, Dependency) %>% summarise(Agree = mean(A
 D_Ground = D
 
 
+
+
+data = read.csv("../../grammars/manual_output_funchead_langmod_coarse_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+best = read.csv("../strongest_models/best-langmod-best-balanced.csv")
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
+data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
+data = data
+languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
+data  = merge(data, languages, by=c("Language"), all.x=TRUE)
+dependency = "nmod"
+getCorrPair = function(dependency) {
+   corr_pair = data %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
+   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight)) %>% spread(CoarseDependency, DH_Weight)
+   corr_pair$correlator = corr_pair[[dependency]]
+   corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
+   return(corr_pair)
+}
+corr_pair = getCorrPair("nmod")
+dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
+for(dependency in dependencies) {
+   corr_pair = getCorrPair(dependency)
+   satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
+   cat(paste(dependency, satisfiedFraction, sep="\t"), sep="\n") #, file="results-two.tsv", append=TRUE, sep="\n")
+}
+ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
+data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
+D = data %>% filter(CoarseDependency == "obj") %>% rename(DH_Weight_Obj = DH_Weight) %>% select(DH_Weight_Obj, FileName)
+data = merge(data, D, by=c("FileName"))
+data = data %>% filter(CoarseDependency %in% ofInterest)
+data = data %>% mutate(Dir = pmax(0, sign(DH_Weight)), DirObj = pmax(0, sign(DH_Weight_Obj))) %>% mutate(Agree = (Dir == DirObj))
+reverseOrder = c("aux")
+data[data$CoarseDependency %in% reverseOrder,]$Agree = 1-data[data$CoarseDependency %in% reverseOrder,]$Agree
+D = data %>% group_by(Language, Family, CoarseDependency) %>% summarise(Agree = mean(Agree))
+D_Surp = D
+
+
+
+
+
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_parser_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+best = read.csv("../strongest_models/best-parse-best-balanced.csv")
+library(dplyr)
+library(tidyr)
+library(ggplot2)
+library(forcats)
+data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
+data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
+data = data
+languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
+data  = merge(data, languages, by=c("Language"), all.x=TRUE)
+dependency = "nmod"
+getCorrPair = function(dependency) {
+   corr_pair = data %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
+   corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight)) %>% spread(CoarseDependency, DH_Weight)
+   corr_pair$correlator = corr_pair[[dependency]]
+   corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
+   return(corr_pair)
+}
+corr_pair = getCorrPair("nmod")
+dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
+for(dependency in dependencies) {
+   corr_pair = getCorrPair(dependency)
+   satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
+   cat(paste(dependency, satisfiedFraction, sep="\t"), sep="\n") #, file="results-two.tsv", append=TRUE, sep="\n")
+}
+ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
+data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
+D = data %>% filter(CoarseDependency == "obj") %>% rename(DH_Weight_Obj = DH_Weight) %>% select(DH_Weight_Obj, FileName)
+data = merge(data, D, by=c("FileName"))
+data = data %>% filter(CoarseDependency %in% ofInterest)
+data = data %>% mutate(Dir = pmax(0, sign(DH_Weight)), DirObj = pmax(0, sign(DH_Weight_Obj))) %>% mutate(Agree = (Dir == DirObj))
+reverseOrder = c("aux")
+data[data$CoarseDependency %in% reverseOrder,]$Agree = 1-data[data$CoarseDependency %in% reverseOrder,]$Agree
+D = data %>% group_by(Language, Family, CoarseDependency) %>% summarise(Agree = mean(Agree))
+D_Parse = D
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_balanced/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 best = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv")
@@ -74,25 +169,11 @@ library(ggplot2)
 
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek"= "Ancient"))
-
-
-
-
-
 data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
-
 data = data
-
-
-
 languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
-
-
-
-
 dependency = "nmod"
-
 getCorrPair = function(dependency) {
    corr_pair = data %>% filter((CoarseDependency == dependency) | (CoarseDependency == "obj"))
    corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight)) %>% spread(CoarseDependency, DH_Weight)
@@ -100,50 +181,34 @@ getCorrPair = function(dependency) {
    corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
    return(corr_pair)
 }
-
 corr_pair = getCorrPair("nmod")
-
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
-
 for(dependency in dependencies) {
    corr_pair = getCorrPair(dependency)
    satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
    cat(paste(dependency, satisfiedFraction, sep="\t"), sep="\n") #, file="results-two.tsv", append=TRUE, sep="\n")
 }
-
-
-
 ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
-
-
 data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
-
 D = data %>% filter(CoarseDependency == "obj") %>% rename(DH_Weight_Obj = DH_Weight) %>% select(DH_Weight_Obj, FileName)
 data = merge(data, D, by=c("FileName"))
-
 data = data %>% filter(CoarseDependency %in% ofInterest)
-
 data = data %>% mutate(Dir = pmax(0, sign(DH_Weight)), DirObj = pmax(0, sign(DH_Weight_Obj))) %>% mutate(Agree = (Dir == DirObj))
-
 reverseOrder = c("aux")
 data[data$CoarseDependency %in% reverseOrder,]$Agree = 1-data[data$CoarseDependency %in% reverseOrder,]$Agree
-
-
 D = data %>% group_by(Language, Family, CoarseDependency) %>% summarise(Agree = mean(Agree))
-
 D_Eff = D
+
+
 
 D_Ground = D_Ground %>% mutate(CoarseDependency = Dependency)
 D_Ground$Type = "Real Languages"
 D_Eff$Type = "Efficiency"
-#D_Parse$Type = "Parsability"
-#D_Surp$Type = "Surprisal"
+D_Parse$Type = "Parsability"
+D_Surp$Type = "Surprisal"
 
-D_Random = rbind(D_Ground)
-D_Random$Type = "Baseline"
-D_Random$Agree = sample(c(0,1), replace=TRUE, size=nrow(D_Random))
 
-D = rbind(D_Ground, D_Eff, D_Random)
+D = rbind(D_Ground, D_Eff) #, D_Parse, D_Surp)
 
 library(scales)
 
@@ -158,9 +223,9 @@ plot = ggplot(D, aes(x = CoarseDependency, y = Language)) +
                      axis.text.y=element_text(size=9),
                      plot.title=element_text(size=11)) +
   theme(axis.title=element_blank()) + 
-  theme(legend.position="none") + facet_wrap(~Type)
+  theme(legend.position="none") + facet_wrap(~Type, nrow=1)
 
-ggsave(file="figures/coverage-ground_eff-circles.pdf", plot=plot)
+ggsave(file="figures/coverage-ground_eff-circles.pdf", plot=plot, height=7.5, width=6)
 
 
 #E = D %>% group_by(Language) %>% mutate(AgreeSum = sum(Agree))

@@ -78,7 +78,8 @@ for(dependency in dependencies) {
         axis.text=element_blank(),
         axis.ticks.x=element_blank(),
         axis.ticks=element_blank()) +  theme(panel.border = element_blank(), panel.grid.major = element_blank(), panel.grid.minor = element_blank())
-  ggsave(plot, file=paste("figures/correlations/correlation-efficiency-", dependency, ".pdf", sep=""), width=1, height=1)
+plot.margin = unit(c(0, 0, 0, 0), "null")
+  ggsave(plot, file=paste("figures/correlations/correlation-efficiency-", dependency, ".pdf", sep=""), width=0.8, height=0.8)
 
 
 }
