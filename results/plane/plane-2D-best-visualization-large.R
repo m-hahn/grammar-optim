@@ -303,7 +303,7 @@ names(myColors) <- levels(forColoring)
 
 plot = ggplot(dataPlot)  
 plot = plot + theme_bw() 
-plot = plot + geom_segment(aes(x=-Pars_z, y=-Surp_z, xend=-Pars_z_end, yend = -Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+#plot = plot + geom_segment(aes(x=-Pars_z, y=-Surp_z, xend=-Pars_z_end, yend = -Surp_z_end, color=TypeN, group=TypeN), size=0.6)
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=-Pars, y=-Surp, color=TypeN, group=TypeN), size=0.3)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=-ParsMean, y=-SurpMean, group=1), color="gray", size=5)
 #plot = plot + geom_point(data=dataPlot, aes(x=-ParsMean, y=-SurpMean, color=TypeN, group=TypeN), size=6)
