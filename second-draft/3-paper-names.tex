@@ -165,6 +165,7 @@ Languages ordering their objects the way Japanese does, have postpositions; lang
 
 
 
+TODO maybe Arabic becomes English?
 
 
 
@@ -173,6 +174,8 @@ These describe correlations between the relative positions of different types of
 The example above documents that the position of the object (`letter') relative to the verb is \key{correlated} with the position of the adposition (`to'). %adpositional phrases (`to a friend') relative to the verb.
 Greenberg originally worked with 30 languages; the correlation universals have since been confirmed on the basis of much larger samples of languages.
 The authoritative study by Dryer \cite{dryer1992greenbergian} draws on 625 languages and documents fifteen such correlations.
+
+
 
 
 Supported by languages on all continents, these correlations are among the language universals with the strongest empirical support.
@@ -206,6 +209,8 @@ The idea that language results from the tension between these two pressures has 
 %
 This idea has been shown to provide a formalization and derivation of pragmatic inference \cite{horn-toward-1984, frank2012predicting}.
 It also has been shown to account for the distribution of word meanings across languages, such as color naming~\cite{zaslavsky2018efficient}.
+
+
 
 
 %
@@ -419,8 +424,8 @@ The contribution of our work is to show  that the word order of languages has ev
 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/communication.png}
-	\caption{Our model of communication: A speaker (left) expresses a dependency structure into a string of words forming a sentence. A listener probabilistically recovers a dependency structure. In this example, the grammar of English allows the listener to recover the correct dependency structure with very high confidence.}
+    \includegraphics[width=0.45\textwidth]{figures/communication-two-langs.png}
+	\caption{Grammars define communication channels: A speaker (left) expresses a dependency structure into a string of words forming a sentence. The order of words is determined by the grammar of the language. A listener recovers a dependency structure.}
 	\label{fig:comm}
 \end{figure}
 
@@ -456,14 +461,15 @@ The contribution of our work is to show  that the word order of languages has ev
 We model the process where a speaker communicates a message to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
 In this model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
 Applying this model to word order, we take the message to consist of entities, events, and a set of syntactic and semantic relations that hold between them.
-Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar:
+Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar (CITE):
 This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
-In Figure~\ref{fig:comm}, the message consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 
-
-When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
+Consider Figure~\ref{fig:comm}.
 Imagine the speaker wants to communicate that Mary saw John.
-Should the speaker say (1) as in English, or (2) as in Japanese?
+The message (left) consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
+When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
+In natural language, this order is largely determined by the \key{grammar} of the language:
+The speaker will order it as (1) in English, and as (2) in Japanese.
 
 (1)
 \begin{dependency}[theme=simple]
@@ -482,9 +488,9 @@ Should the speaker say (1) as in English, or (2) as in Japanese?
     \depedge{3}{2}{obj}
 \end{dependency}
 
-The listener receives a sentence -- a linear string of words -- and decodes the underlying message.
-Consistent with Shannon's model, we assume a Bayesian listener who decodes dependency structures probabilistically~(Figure~\ref{fig:comm}).
-If communication is successful, the listener can identify the intended structure with high confidence~(Figure~\ref{fig:comm}).
+The listener receives a sentence -- a linear string of words -- and decodes the underlying message in accordance with the grammar of the language (right).
+%Consistent with Shannon's model, we assume a Bayesian listener who decodes dependency structures probabilistically~(Figure~\ref{fig:comm}).
+%If communication is successful, the listener can identify the intended structure with high confidence~(Figure~\ref{fig:comm}).
 
 %The listener receives this string of words.
 %By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
@@ -492,27 +498,30 @@ If communication is successful, the listener can identify the intended structure
 %Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
 
 
-All natural languages have some degree of word order regularities that are specified in their grammar.
-For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
-That is, speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
-Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
+The grammars of natural languages provide consistent ordering rules for all syntactic relations.
+%All natural languages have some degree of word order regularities that are specified in their grammar.
+%For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
+%That is, speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
+%Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
 %Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
 %While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
-This is illustrated in Figure~\ref{fig:grammars}: Grammars specify how dependency structures are encoded into strings of words.
+This is illustrated in Figure~\ref{fig:grammars}:
+We show how four different grammars order objects, adpositional phrases, and adpositions.
 For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
 Grammar 2 orders objects after verbs but has postpositions (`friend -- to').
 Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) corresponds to Japanese order.
-We formalize word order grammars as specifying how different types of dependents (subjects, objects, etc.) are ordered, employing a cross-linguistically meaningful inventory of relations~\cite{nivre2015universal}.
 
 %\subsection{Efficiency in Word Order}
-Zipf
+%Zipf
 
-In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission is, and (2) how precisely messages can be recovered from codes.
+%We formalize Zipf's Forces of Unification and Diversification in 
 
-
+In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission is, and (2) how precisely messages can be recovered from codes (REF).
 
 Eq.~\ref{eq:efficiency} is a special case of the objective function proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems, taking dependency structures as the underlying meanings to be conveyed.
 Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
+
+
 
 
 Efficiency is formalized as a weighted combination of terms representing the amount of information conveyed and the cost of communication.
@@ -558,6 +567,9 @@ We examined whether
 (1) the grammars of natural languages evolve towards optimizing efficiency of communication, and
 (2) this process of optimization accounts both for Greenberg's order correlation universals.
 
+
+
+We formalize word order grammars as specifying how different types of dependents (subjects, objects, etc.) are ordered, employing a cross-linguistically meaningful inventory of relations~\cite{nivre2015universal}.
 
 Answering these questions requires a sample of dependency structures as actually used by speakers of different languages.
 Such samples have recently become available with the Universal Dependencies project~\cite{nivre2017universal}, which has collected and created dependency annotations for several dozens of different languages.
