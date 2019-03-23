@@ -431,11 +431,11 @@ The contribution of our work is to show  that the word order of languages has ev
 
 
 
-
+% Given a set of dependency structures, grammars define a set of sentences. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., 
 \begin{figure}
     \centering
     \includegraphics[width=0.45\textwidth]{figures/grammars-colors-trees.png}
-	\caption{Given a set of dependency structures, grammars define a set of sentences. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
+	\caption{Grammars define consistent ordering rules for dependency structures. Here, Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
 	\label{fig:grammars}
 \end{figure}
 
@@ -444,7 +444,7 @@ The contribution of our work is to show  that the word order of languages has ev
 
 
 
-
+TODO at some point need to foreshadow more of the Greenberg correlations
 
 
 %
@@ -468,7 +468,7 @@ Consider Figure~\ref{fig:comm}.
 Imagine the speaker wants to communicate that Mary saw John.
 The message (left) consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
-In natural language, this order is largely determined by the \key{grammar} of the language:
+In natural language, this order is largely determined by the \key{grammar} of the language (CITE):
 The speaker will order it as (1) in English, and as (2) in Japanese.
 
 (1)
@@ -566,23 +566,12 @@ In keeping with Zipf's Force of Unification, this quantity describes how homogen
 We examined whether
 (1) the grammars of natural languages evolve towards optimizing efficiency of communication, and
 (2) this process of optimization accounts both for Greenberg's order correlation universals.
-
-
-
-We formalize word order grammars as specifying how different types of dependents (subjects, objects, etc.) are ordered, employing a cross-linguistically meaningful inventory of relations~\cite{nivre2015universal}.
-
-Answering these questions requires a sample of dependency structures as actually used by speakers of different languages.
+%We formalize word order grammars as specifying how different types of dependents (subjects, objects, etc.) are ordered, employing a cross-linguistically meaningful inventory of relations~\cite{nivre2015universal}.
+Answering these questions requires a sample of dependency structures as actually used by speakers across different languages.
 Such samples have recently become available with the Universal Dependencies project~\cite{nivre2017universal}, which has collected and created dependency annotations for several dozens of different languages.
 51 languages had sufficient data for our purposes. %There was sufficient data from 51 languages for our We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
 
-
-To answer whether languages evolve to have efficient word order, we compare the efficiency of the actual grammars of these 51 languages to randomly constructed baseline grammars.
-To show that this process of efficiency optimization accounts for both DLM and Greenberg's correlation universals, we computationally construct grammars that optimize efficiency, and evaluate these for dependency length and for Greenberg's universals.
-If hypothetical grammars that are optimal for efficiency exhibit these typological patterns, this shows that these language universals can be explained by the process of efficiency optimization.
-%For every one of the 51 corpora, we computationally construct eight optimal grammars.
-%Note that the original orders of the actual languages do not enter this objective.
-See SI for our method for creating optimized grammars.
 
 
 
@@ -590,14 +579,25 @@ See SI for our method for creating optimized grammars.
 \subsection{Relative efficiency of languages}
 \label{sec:relative-efficiency}
 
-We first demonstrate that real languages are relatively efficient compared to random baselines. For each language, we generated ten baseline word order grammars for the language.
-These grammars have systematic word order regularities similar to natural language, but do not exhibit any correlations among the orderings of different syntactic relations (compare Figure~\ref{fig:grammars}).
+
+
+We first demonstrate that real languages are relatively efficient compared to random baselines, providing evidence that grammars evolve towards efficiency.
+We compare the efficiency of the actual grammars of the 51 languages from the Universal Dependencies datasets to randomly constructed baseline grammars.
+For every one of the 51 languages, we construct ten counterfactual versions by randomly creating ten grammars.
+These baseline grammars have systematic word order regularities similar to natural language, but do not exhibit any correlations among the orderings of different syntactic relations (compare Figure~\ref{fig:grammars}, see \textit{Materials and Methods} for details).
+We estimate predictability and parsability using start-of-the-art machine learning methods (see \textit{Materials and Methods}).
+Furthermore, for every one of the 51 languages, we computationally construct grammars that are \emph{optimized} for parsability, predictability, and efficiency (see \textit{Materials and Methods}).
+
+%For every one of the 51 corpora, we computationally construct eight optimal grammars.
+%Note that the original orders of the actual languages do not enter this objective.
+%See SI for our method for creating optimized grammars.
+% For each language, we generated ten baseline word order grammars for the language.
 In Figure~\ref{fig:pareto-plane}, we plot predictability and parsability of the grammars of 51 languages, together with the distribution of random baseline grammars, and the Pareto frontier defined by computationally optimized grammars.
 The majority of real languages are above and to the right of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
 X languages improve over the baselines in parsability ($p < ...$ each), Y improve in predictability ($p < ...$ each).
 Z improve in overall efficiency ($p < ...$ each).
 Languages are attracted towards the Pareto frontier and away from the region of the baseline languages.
-A few languages end up \emph{more} efficient than the computationally optimized languages.
+%A few languages end up \emph{more} efficient than the computationally optimized languages.
 
 %Figure~\ref{fig:pareto-plane} also shows the average position of optimized languages.
 %Languages appear to be attracted toward these points and away from the region of the baseline languages. We also see that several languages actually end up \emph{more} efficient than the computationally optimized languages.
@@ -606,7 +606,7 @@ A few languages end up \emph{more} efficient than the computationally optimized 
 \begin{figure}
     \centering
     \includegraphics[scale=.45]{../results/plane/pareto-plane-iso-best-balanced-legend-viz.pdf}
-    \caption{Predictability and parseability of 51 languages (red), indicated by ISO codes, compared to baseline word order grammars (blue distribution). Predictability and parseability scores are $z$-scored within language.} % TODO colors, fontsize, etc could conceivably be made prettier
+    \caption{Predictability and parseability of 51 languages (red), indicated by ISO codes, compared to baseline word order grammars (blue distribution). Predictability and parseability scores are $z$-scored within language. The gray curve indicates the Pareto frontier of computationally optimized grammars, averaged over the 51 languages.} % TODO colors, fontsize, etc could conceivably be made prettier
     \label{fig:pareto-plane}
 \end{figure}
 
@@ -616,7 +616,7 @@ A few languages end up \emph{more} efficient than the computationally optimized 
 
 \begin{figure} % need Efficiency and (maybe) MLE langs on here
 	\includegraphics[width=0.4\textwidth]{../results/correlations/figures/coverage-ground_eff-circles.pdf}
-	\caption{per-languag predictions}
+	\caption{per-languag predictions}\label{fig:per-lang}
 \end{figure}
 
 
@@ -701,25 +701,34 @@ For each correlation, we provide an English example, and show the distribution o
 
 
 
-We now show that efficiency optimization predicts Greenberg's word order correlation universals.
-We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages.
-Most correlations can be straightforwardly implemented in Universal Dependencies (UD), allowing us to check which correlations a word order grammar satisfies.
-Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages or are not annotated reliably in UD.
-Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations. 
+
+We now show that this process of efficiency optimization accounts for Greenberg's correlation universals. % we examine the computatinally optimized grammars. %computationally construct grammars that optimize efficiency, and evaluate these for dependency length and for Greenberg's universals.
+For every one of the 51 languages, we create hypothetical grammars that are computationally optimized for efficiency (see \textit{Materials and Methods}).
+If hypothetical grammars that are optimal for efficiency exhibit these typological patterns, this shows that efficiency optimization predicts Greenberg's word order correlation universals.
+
+
+
+The Greenbergian correlations have been documented in great detail by Dryer \cite{dryer1992greenbergian}, drawing on 625 languages.
+For most of these correlations, it is straightforward to test which of our grammars satisfy them (see \textit{Materials and Methods}).
+Collapsing some correlations that cannot be tested individually, and excluding those for which Universal Dependencies does not provide annotation, we obtained eight correlations  (see \textit{Materials and Methods}).
+%We base our evaluation on the authoritative compilation by Dryer \cite{dryer1992greenbergian}, which draws on 625 languages.
+%Most correlations can be straightforwardly implemented in Universal Dependencies (UD), allowing us to check which correlations a word order grammar satisfies.
+%Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages or are not annotated reliably in UD.
+%Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations. 
 
 These are shown in Table~\ref{table:corr-dryer}.
-We compare the prevalence of the word order correlations in simulated languages to their prevalence in the real languages.
-To evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks.
-The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
-
-
+We compare the prevalence of the word order correlations in optimized languages (right) to their prevalence in the real languages (left).
+%To evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks.
+%The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
 Table~\ref{table:corr-dryer} shows that grammars optimized for efficiency accurately predict correlations to hold at prevalences similar to actual languages.
+
+In Figure~\ref{fig:per-lang}, we show results on the levels of individual languages.
+For every one of the 51 languages, we show which correlations are satisfied by the actual grammar (left) and by the grammar optimized for efficiency (right).
 
 %In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
-We are interested in the direction and significance of this effect: 
-If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
-
+%We are interested in the direction and significance of this effect: 
+%If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
 We estimated the posterior distribution of the number of correlations that the optimization process correctly predicts.
 The estimated posterior probability that efficiency optimization predicts less than all eight correlations is $0.0242$. The probability that it predicts less than seven of the correlations is $<10^{-4}$.
 %Predictability and parseability predict four and six correlations, respectively, making largely complementary predictions.
