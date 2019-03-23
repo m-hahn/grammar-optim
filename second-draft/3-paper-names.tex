@@ -94,12 +94,88 @@ The universal properties of human languages have been the subject of intense stu
 \thispagestyle{firststyle}
 \ifthenelse{\boolean{shortarticle}}{\ifthenelse{\boolean{singlecolumn}}{\abscontentformatted}{\abscontent}}{}
 
-\dropcap{F} \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 
 
+
+
+%Ray Jackendoff. 2002. Foundations of Language:
+%Brain, Meaning, Grammar, Evolution. Oxford
+%University Press, Oxford, UK
+
+
+%William Croft and Alan Cruse. 2004. Cognitive
+%Linguistics. Cambridge University Press, Cam-
+%bridge, UK.
+% --> emphasize language use
+
+%Adele Goldberg. 2005. Constructions at work:
+%The nature of generalization in language. Ox-
+%ford University Press, Oxford, UK.
+% --> emphasize usage-based grammar
+% we are all born with the same basic conceptual apparatus, with the
+%same basic communicative demands, and we all live in the physical world with
+%forces of gravity, bodies, and night and day (cf. also LakoV 1987; Webelhuth and
+%Ackerman 1998). Certain semantic/pragmatic functions are so relevant and
+%useful that they can be found in language after language (Croft 2001).
+%Cross-linguistic generalizations that relate form and function are explained
+%by appeal to general cognitive constraints together with the functions of the
+%constructions involved. Constructionists turn to grammar-external explan-
+%ations such as universal functional pressures, iconic principles, and processing
+%and learning constraints to explain such empirically observable cross-linguis-
+%tic generalizations.
+%For example, the fact
+%that that most languages seem to have noun and verb categories may be
+%explained by the existence of corresponding basic semantic categories (Baker
+%2004). Hauser, Chomsky, and Fitch go so far as to suggest that the only innate
+%ability speciWc to language that may be required are the recursive interfaces to
+%phonology and semantics, and they allow that even these may turn out not to
+%be speciWc to language (Hauser, Chomsky, and Fitch 2002).
+
+% Haspelmath 1999 talks about types of explanations
+
+%Joan Bresnan, Ash Asudeh, Ida Toivonen, and
+%Stephen Wechsler. 2016. Lexical-Functional
+%Syntax, 2nd ed. Blackwell, Malden, MA.
+
+
+%Andrew Radford. 2006. Minimalist syntax re-
+%visited. http://www.public.asu.edu/
+%~gelderen/Radford2009.pdf.
+
+%Givon
+
+% TODO optimality theory and syntax citation?
+%Blutner R. (2000) Some aspects of optimality in natural language interpretation. Journal of Semantics 17: 189–216
+
+% ,lin2017critical
+\dropcap{U}nderstanding and explaining the universal properties of human languages is one of the central goals of Linguistics \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,chomsky1993lectures,...}.
+% \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
+Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{berwick1984grammatical,chomsky2005three, hawkins2007processing} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
+%Role of general computational constraints ~\cite{hauser2002faculty} % berwick2016only
+In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the computational optimization of grammars for communicative efficiency. % information-theoretic 
+
+%An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. (TODO cite linguists)
+
+
+% TODO add a cogsci person to citation chain at the beginning
+
+
+%\dropcap{F}or decades, researchers in fields ranging from philology to cognitive science to statistical physics have been involved in documenting and trying to explain the universal syntactic and statistical properties of human language \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical}. An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
+
+
+%TODO at some point address head direction idea
+%- Vennemann 1972, 1974ab, 1976
+
+%-Hawkins 1980 limitations of head direction, also Hawkins 1982
+
+%Berwick and Chomsky ‘gene rative process  is optimal  ’, ‘efficient computa  tion ’(71), ‘this newly  emerged  computationalsystem forthought  ...ispe rfe ct, in sofar asSMT is corr ect ’(80).  ‘op -tim al’or ‘effici ent ’or ‘per fect ’. 
+
+%Chomsky Three Factors, 2003:
+% --> emphasizes 'computational efficiency'
 
 %\textbf{TODO maybe should be more general in the beginning, as in the first version. Also make sure the reader doesn't think 'it's just headedness, why bother'.}
 
+%We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. 
 Natural languages vary in the order in which they express information.
 Consider Figure~\ref{fig:arabic-japanese-simple}, showing a sentence in Arabic (top) and Japanese (bottom), both translating to `I wrote a letter to a friend.'
 Both sentences contain a verb meaning `wrote', a noun expressing  `letter', and a phrase translating to `to a friend'.
@@ -181,9 +257,10 @@ The authoritative study by Dryer \cite{dryer1992greenbergian} draws on 625 langu
 Supported by languages on all continents, these correlations are among the language universals with the strongest empirical support.
 Importantly, their validity is also independent from specific assumptions about theories of grammar.
 
-Explaining these patterns has been an important aim of linguistic research since Greenberg's seminal study.
-An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}. (TODO cite linguists)
 
+TODO can we find citations from all camps?
+
+Explaining these patterns has been an important aim of linguistic research since Greenberg's seminal study.
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
@@ -461,8 +538,13 @@ TODO at some point need to foreshadow more of the Greenberg correlations
 We model the process where a speaker communicates a message to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
 In this model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
 Applying this model to word order, we take the message to consist of entities, events, and a set of syntactic and semantic relations that hold between them.
-Following a long tradition in formal and computational liguistics, we formalize these in the format of Dependency Grammar (CITE):
+Following a long tradition in formal and computational liguistics, we formalize these in the format of dependency trees~\cite{hays1964dependency,melcuk1988dependency,corbett1993heads,tesniere2015elements}:
 This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
+Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
+
+
+%The sentences in Figure~\ref{fig:arabic-japanese} are annotated with \key{dependency trees}: these are directed trees describing the grammatical relations among words. For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} if the verb, rather than e.g. the subject or an indirect object. A dependency arc is drawn from a \key{head} (e.g. \emph{kaita} in Figure~\ref{fig:arabic-japanese}) to a \key{dependent} (e.g. \emph{tegami-o}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
+
 
 Consider Figure~\ref{fig:comm}.
 Imagine the speaker wants to communicate that Mary saw John.
