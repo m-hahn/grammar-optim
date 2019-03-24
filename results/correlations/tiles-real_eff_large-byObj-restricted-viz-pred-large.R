@@ -12,14 +12,14 @@ languages = languages %>% mutate(Family = ifelse(grepl("Dravid", Family), "Dravi
 languages = languages %>% mutate(Family = ifelse(grepl("Turk", Family), "Turkic", as.character(Family)))
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 # , "amod", "nummod"
-data = data %>% select(Dependency, Family, Language, FileName, DH_Weight)
+data = data %>% select(Dependency, iso_code, Family, Language, FileName, DH_Weight)
 D = data %>% filter(Dependency == "obj") %>% rename(DH_Weight_Obj = DH_Weight) %>% select(DH_Weight_Obj, FileName)
 data = merge(data, D, by=c("FileName"))
 data = data %>% filter(Dependency %in% ofInterest)
 data = data %>% mutate(Dir = pmax(0, sign(DH_Weight)), DirObj = pmax(0, sign(DH_Weight_Obj))) %>% mutate(Agree = (Dir == DirObj))
 reverseOrder = c("aux")
 data[data$Dependency %in% reverseOrder,]$Agree = 1-data[data$Dependency %in% reverseOrder,]$Agree
-D = data %>% group_by(Language, Family, Dependency) %>% summarise(Dir = mean(Dir), DirObj = mean(DirObj))
+D = data %>% group_by(Language, iso_code, Family, Dependency) %>% summarise(Dir = mean(Dir), DirObj = mean(DirObj))
 D_Ground = rbind(D)
 
 D$Direction = ifelse(D$DirObj == 1, "OV", "VO")
@@ -43,7 +43,7 @@ languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
 languages = languages %>% mutate(Family = ifelse(grepl("Dravid", Family), "Dravidian", as.character(Family)))
 languages = languages %>% mutate(Family = ifelse(grepl("Turk", Family), "Turkic", as.character(Family)))
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
-data = data %>% select(CoarseDependency, Family, Language, FileName, DH_Weight)
+data = data %>% select(CoarseDependency, iso_code, Family, Language, FileName, DH_Weight)
 D = data %>% filter(CoarseDependency == "obj") %>% rename(DH_Weight_Obj = DH_Weight) %>% select(DH_Weight_Obj, FileName)
 data = merge(data, D, by=c("FileName"))
 data = data %>% filter(CoarseDependency %in% ofInterest)
@@ -54,7 +54,7 @@ data$Direction = ifelse(data$DirObj == 1, "OV", "VO")
 data2 = rbind(data) %>% mutate(Direction = ifelse(Direction == "OV", "VO", "OV"), Dir = 1-Dir, DirObj = 1-DirObj)
 	data = rbind(data, data2)
 D = merge(data, ordersByLanguage, by=c("Language", "Direction"))
-D = D %>% group_by(Language, Family, CoarseDependency) %>% summarise(Dir = mean(Dir), DirObj = mean(DirObj))
+D = D %>% group_by(Language, iso_code, Family, CoarseDependency) %>% summarise(Dir = mean(Dir), DirObj = mean(DirObj))
 
 D_Eff = D
 
@@ -74,10 +74,24 @@ D[D$CoarseDependency == "aux",]$Dir = 1-D[D$CoarseDependency == "aux",]$Dir
 
 library(scales)
 
+D$Language = ifelse(D$Language == "Old_Church_Slavonic", "OCS", as.character(D$Language))
+D$Language = ifelse(D$Language == "Ancient_Greek", "A Greek", as.character(D$Language))
+
+
+D_Ground_Mean$Language = ifelse(D_Ground_Mean$Language == "Old_Church_Slavonic", "OCS", as.character(D_Ground_Mean$Language))
+D_Ground_Mean$Language = ifelse(D_Ground_Mean$Language == "Ancient_Greek", "A Greek", as.character(D_Ground_Mean$Language))
+
+
+
+D_Ground$Language = ifelse(D_Ground$Language == "Old_Church_Slavonic", "OCS", as.character(D_Ground$Language))
+D_Ground$Language = ifelse(D_Ground$Language == "Ancient_Greek", "A Greek", as.character(D_Ground$Language))
+
+
 D$DirB = as.factor(as.character(round(pmax(0, pmin(1, D$Dir)))))
 D$DirB=D$Dir
-D_Ground_Mean = D_Ground %>% group_by(Language, Family) %>% summarise(Dir = sum(DirObj))
+D_Ground_Mean = D_Ground %>% group_by(Language, iso_code, Family) %>% summarise(Dir = sum(DirObj))
 D$Language_Ordered = factor(D$Language, levels=unique(D_Ground_Mean[order(D_Ground_Mean$Family),]$Language), ordered=TRUE)
+D$iso_Ordered = factor(D$iso_code, levels=unique(D_Ground_Mean[order(D_Ground_Mean$Family),]$iso_code), ordered=TRUE)
 
 D = D[order(D$Language_Ordered),]
 
@@ -123,46 +137,5 @@ plot = ggplot(D, aes(x = 1, y = Language_Ordered, group=CoarseDependency)) +
 ggsave(file="test4.pdf")
 
 
-
-
-
-
-plot_orders_real = ggplot(D %>% filter(Type == "Real Languages"), aes(x = 1, y = Language_Ordered, group=CoarseDependency)) + 
-  geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
-#  scale_color_gradient() + #values=c("blue", "green")) +
-  theme_bw() + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_blank(),axis.ticks=element_blank(),
-                     plot.title=element_text(size=11)) +
-  theme(axis.title=element_blank()) + 
-  theme(legend.position="none") + labs(x=NULL)
-plot_orders_eff = ggplot(D %>% filter(Type == "Efficiency"), aes(x = 1, y = Language_Ordered, group=CoarseDependency)) + 
-  geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
-#  scale_color_gradient() + #values=c("blue", "green")) +
-  theme_bw() + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_blank(),axis.ticks=element_blank(),
-                     plot.title=element_text(size=11)) +
-  theme(axis.title=element_blank()) + 
-  theme(legend.position="none") + labs(x=NULL)
-D$LanguageNumeric = as.numeric(D$Language_Ordered)
-DLang = unique(D %>% select(Language_Ordered))
-DFam = D %>% group_by(Family) %>% summarise(Start = min(Language_Ordered), End = max(Language_Ordered), Mean = mean(LanguageNumeric))
-plot_langs = ggplot(DLang) 
-plot_langs = plot_langs +  theme_bw() + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_blank(),
-                     plot.title=element_text(size=11)) 
-plot_langs = plot_langs + geom_text(aes(x=0.5 + 0.05, y=Language_Ordered, label=Language), hjust=0, size=3, colour="grey30")
-plot_langs = plot_langs +      	theme(axis.title=element_blank()) 
-plot_langs = plot_langs + xlim(-2.0, 2.0)
-#plot_langs = plot_langs + geom_segment(aes(x=0, y=Language_Ordered, xend=1, yend=Language_Ordered)) 
-plot_langs = plot_langs + geom_segment(data=DFam, aes(x=0, y=Start, xend=0.5, yend=Start)) 
-plot_langs = plot_langs + geom_segment(data=DFam, aes(x=0, y=End, xend=0.5, yend=End)) 
-plot_langs = plot_langs + geom_segment(data=DFam, aes(x=0, y=Start, xend=0, yend=End))
-plot_langs = plot_langs + geom_text(data=DFam, aes(x=-0.1, y=Mean , label=Family), hjust=1, size=3, colour="grey30")
-plot_langs = plot_langs + theme(panel.grid.major = element_blank(), panel.grid.minor = element_blank(),
-		    panel.background = element_blank(), axis.line = element_blank(),
-                    plot.margin=unit(c(0,0,0.0,0), "mm"),
-		    axis.ticks = element_blank()) + labs(x=NULL)
-library("gridExtra")
-grid.arrange(plot_langs, plot_orders_real, plot_orders_eff, nrow=1, widths=c(1, 1.2, 1.2))
 
 
