@@ -1,96 +1,34 @@
-
-
-
-
 library(lme4)
-
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-
-
-
-
 depl = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
 depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", ModelName))
-
-#deplBest = depl %>% group_by(Language) %>% filter(Type == "manual_output_funchead_coarse_depl")
-#deplBest = merge(deplBest, deplBest %>% summarise(AverageLengthPerWord = min(AverageLengthPerWord)), by=c("Language", "AverageLengthPerWord"))
-#
-#deplBest = deplBest$Model
-#
-
-
-
 dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3)
-
 dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP3 = read.csv("../../grammars/plane/plane-parse-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP = rbind(dataP, dataP2, dataP3)
-
-
-summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(Type %in% c("manual_output_funchead_langmod_coarse_final", "manual_output_funchead_langmod_coarse_best_balanced"))))
-summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(Type %in% c("manual_output_funchead_two_coarse_lambda09_best_large", "manual_output_funchead_langmod_coarse_best_balanced"))))
-
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(grepl("balanc", Type))))
-summary(lmer(Pars ~ Type + (1|Model) + (1|Language), data=dataP %>% filter(grepl("balanc", Type))))
-summary(lmer(UAS ~ Type + (1|Language), data=dataP %>% filter(grepl("balanc", Type))))
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | grepl("balanc", Type))))
-summary(lmer(UAS ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | grepl("balanc", Type))))
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | grepl("pars", Type))))
-summary(lmer(UAS ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | grepl("pars", Type))))
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | grepl("bala", Type))))
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(grepl("depl", Type) | Type == "manual_output_funchead_two_coarse_parser_best_balanced")))
-
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(Type %in% c("manual_output_funchead_two_coarse_final", "manual_output_funchead_two_coarse_lambda09_best_large"))))
-
-summary(lmer(Pars ~ Type + (1|Language), data=dataP %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_final", "manual_output_funchead_two_coarse_parser_best_balanced"))))
-
-
-
-summary(lmer(Pars ~ Type + (1|Model) + (1|Language), data=dataP %>% filter(Type == "manual_output_funchead_two_coarse_final" | Type == "manual_output_funchead_two_coarse_parser_final")))
-
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surp = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(UAS = mean(UAS, na.rm=TRUE), Pars = mean(Pars, na.rm=TRUE))
-
 dataS = as.data.frame(dataS)
 dataP = as.data.frame(dataP)
-
 library(lme4)
 summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(grepl("langm", Type))))
-
 summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(grepl("RL", Type) | grepl("ground", Type))))
-
-
-
 dataS = dataS %>% mutate(Type = as.character(Type))
 dataP = dataP %>% mutate(Type = as.character(Type))
-
 dataS = dataS %>% mutate(Model = as.character(Model))
 dataP = dataP %>% mutate(Model = as.character(Model))
-
 dataS = dataS %>% mutate(Language = as.character(Language))
 dataP = dataP %>% mutate(Language = as.character(Language))
-
 data = merge(dataS, dataP, by=c("Language", "Model", "Type"), all.x=TRUE, all.y=TRUE)
-
 data = merge(data, depl %>% select(Language, Model,AverageLengthPerWord) %>% mutate(Model = as.character(Model)), by=c("Language", "Model"), all.x=TRUE)
-
-#data = data %>% filter(Surp < 20)
-#data = data %>% filter(Pars < 4)
-
 data = data %>% mutate(Two = 0.9*Surp+Pars)
 
 data2 = rbind(data)

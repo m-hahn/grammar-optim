@@ -658,7 +658,7 @@ These corpora represent a typologically and genetically diverse group of languag
 
 
 
-We first demonstrate that real languages are relatively efficient compared to random baselines, providing evidence that grammars evolve towards efficiency.
+We first demonstrate that the grammars of real languages are relatively efficient compared to random baselines, providing evidence that grammars evolve towards efficiency.
 We compare the efficiency of the actual grammars of the 51 languages from the Universal Dependencies datasets to randomly constructed baseline grammars.
 For every one of the 51 languages, we construct ten counterfactual versions by randomly creating ten grammars.
 These baseline grammars have systematic word order regularities similar to natural language, but do not exhibit any correlations among the orderings of different syntactic relations (compare Figure~\ref{fig:grammars}, see \textit{Materials and Methods} for details).
@@ -670,11 +670,15 @@ Furthermore, for every one of the 51 languages, we computationally construct gra
 %See SI for our method for creating optimized grammars.
 % For each language, we generated ten baseline word order grammars for the language.
 In Figure~\ref{fig:pareto-plane}, we plot predictability and parsability of the grammars of 51 languages, together with the distribution of random baseline grammars, and the Pareto frontier defined by computationally optimized grammars.
-The majority of real languages are above and to the right of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
-X languages improve over the baselines in parsability ($p < ...$ each), Y improve in predictability ($p < ...$ each).
-Z improve in overall efficiency ($p < ...$ each).
 Languages are attracted towards the Pareto frontier and away from the region of the baseline languages.
-%A few languages end up \emph{more} efficient than the computationally optimized languages.
+The majority of real languages are above and to the right of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
+By a one-sided \textit{t}-test, 84~\% of languages improve over the baselines in parsability ($p < 0.05$), 78~\% improve in predictability ($p < 0.05$).
+98~\% of languages improve on either predictability or parsability ($p<0.05$, with Bonferroni correction).
+At $\lambda = 0.9$, 86~\% of languages improve in overall efficiency ($p<0.05$).
+TODO fix bug with czech data
+
+
+
 
 %Figure~\ref{fig:pareto-plane} also shows the average position of optimized languages.
 %Languages appear to be attracted toward these points and away from the region of the baseline languages. We also see that several languages actually end up \emph{more} efficient than the computationally optimized languages.
