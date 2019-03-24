@@ -148,7 +148,7 @@ The universal properties of human languages have been the subject of intense stu
 %Blutner R. (2000) Some aspects of optimality in natural language interpretation. Journal of Semantics 17: 189–216
 
 % ,lin2017critical
-\dropcap{U}nderstanding and explaining the universal properties of human languages is one of the central goals of Linguistics \cite{zipf1949human,greenberg1963universals,chomsky1993lectures,...}.
+\dropcap{U}nderstanding and explaining the variation between human languages is the central  goal of Linguistics \cite{zipf1949human,greenberg1963universals,chomsky1993lectures,...}.
 % behaghel1909beziehungen,
 % \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
@@ -305,9 +305,13 @@ It also has been shown to account for the distribution of word meanings across l
 %This theory blabla Horn RSA
 %Prior computational implementations of this idea have mostly been in the restricted small-scale settings, such as simple reference games.
 
+Computational studies
+
+word order difficult, requires large data sets
+
 Drawing on data from 51 languages, we show  that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
 %In this work, we first provide a formalization of efficiency in the domain of word order. %, drawing on information-theoretic notions.
-
+We achieve this using a direct information-theoretic formalization of Zipf's ideas, computationally implemented using state-of-the-art machine learning techniques applied to large-scale text data from 51 languages.
 
 
 
@@ -649,9 +653,11 @@ Such samples have recently become available with the Universal Dependencies proj
 51 languages had sufficient data for our purposes. %There was sufficient data from 51 languages for our We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
 
-
-
-
+Second, this requires a computational method for estimating predictability and parseability.
+We draw on recent machine learning methods that form the foundation of state-of-the-art natural language processing.
+We estimate predictability using LSTM recurrent neural networks, general sequence models that are the strongest known predictors of the surprisal effect on human processing effort~\citep{frank2011insensitivity,goodkind2018predictive}.
+We estimate parseability using a generic neural network architecture that casts recovery of dependency structures as a minimum spanning tree problem \citep{dozat2017stanford, zhang2017dependency}.
+See SI for robustness of our results to these choices.
 
 \subsection{Relative efficiency of languages}
 \label{sec:relative-efficiency}
@@ -696,8 +702,12 @@ TODO fix bug with czech data
 \label{sec:greenberg}
 
 \begin{figure} % need Efficiency and (maybe) MLE langs on here
-	\includegraphics[width=0.3\textwidth]{../results/correlations/figures/coverage-ground_eff-circles.pdf}
-	\caption{Across 51 languages, efficiency optimization predicts Greenberg's correlations. For every one of the 51 languages, we show which universals are satisfied in the actual grammar (left), and in the grammar optimized for efficiency (right). Efficiency optimization replicates the universals at rates similar to the real grammars.}\label{fig:per-lang}
+%	\includegraphics[width=0.3\textwidth]{../results/correlations/figures/coverage-ground_eff-circles.pdf}
+	\begin{center}
+	\includegraphics[width=0.3\textwidth]{../results/correlations/figures/pred-eff-families.pdf}
+	\end{center}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner. Light blue: Verb patterner \emph{follows} object patterner.}\label{fig:per-lang}
+	% efficiency optimization predicts Greenberg's correlations. For every one of the 51 languages, we show which universals are satisfied in the actual grammar (left), and in the grammar optimized for efficiency (right). Efficiency optimization replicates the universals at rates similar to the real grammars.
 \end{figure}
 
 
@@ -708,7 +718,8 @@ TODO fix bug with czech data
 	\hline
 	%&
 	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   &  \multirow{2}{*}{Eff}  \\ 
-	verb & object     & & &   \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+	verb & object     & & &   \\ 
+	\emph{wrote} & \emph{letters} & & & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
 	adposition    &    NP       
 	& \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_case.pdf} } %\textbf{86}  }
@@ -804,7 +815,9 @@ We compare the prevalence of the word order correlations in optimized languages 
 Table~\ref{table:corr-dryer} shows that grammars optimized for efficiency accurately predict correlations to hold at prevalences similar to actual languages.
 
 In Figure~\ref{fig:per-lang}, we show results on the levels of individual languages.
-For every one of the 51 languages, we show which correlations are satisfied by the actual grammar (left) and by the grammar optimized for efficiency (right).
+For every one of the 51 languages, we show orders predicted by efficiency, for the eight correlating pairs.
+For each language, we construct a grammar optimized for efficiency with the direction of the verb-object relation fixed to correspond to the actual language.
+
 
 %In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
@@ -1022,26 +1035,30 @@ Predictability and parseability predict four and six correlations, respectively,
 
 
 
-\section{Alternative Theories}
+\section{Discussion}
 
-Prior studies have proposed Dependency Length Minimization (DLM) as general principle of word order \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-This is the idea that languages order words so as to minimize the linear distance between words linked in grammatical relationships.
-This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in language processing \cite{gibson1998linguistic,gibson2000dependency}.
-Cross-linguistic corpus studies have shown that languages do minimize dependency length beyond chance, suggesting that DLM is a language universal \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-It has also been argued theoretically that this principle should account for Greenberg's correlations, though this link is nontrivial and depends on the precise distributions of tree topologies in syntactic structures.
-As a principle of word order, DLM is also stipulative: There are other processing models, such as surprisal, that are strongly predictive of human processing cost, and make predictions distinct from, and partly conflicting with, those of DLM~\cite{hale2001probabilistic,levy2008expectation}.
-\cite{futrell2017memory} suggests that efficiency predicts DLM.
+We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
+Prior functional studies have considered Dependency Length Minimization (DLM) as an approximate formalization of efficiency optimization~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+%Functional studies of word order have proposed Dependency Length Minimization (DLM) as general principle of word order \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+This is the idea that languages order words so as to minimize the overall length of dependencies.
+This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}. TODO also frazier, hawkins.
+Cross-linguistic corpus studies have shown that languages do minimize dependency length beyond chance, suggesting that DLM is itself a language universal \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+%It has also been argued theoretically that this principle should account for Greenberg's correlations, though this link is nontrivial and depends on the precise distributions of tree topologies in syntactic structures.
+%As a principle of word order, DLM is stipulative: There are other processing models, such as surprisal, that are strongly predictive of human processing cost, and make predictions distinct from, and partly conflicting with, those of DLM~\cite{hale2001probabilistic,levy2008expectation}.
+%\cite{futrell2017memory} suggests that efficiency predicts DLM.
+Indeed, our experiments show that efficiency optimization predicts DLM, and efficiency optimization appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
+Our work thus provides the first direct confirmation of the idea of DLM as an approximation to efficiency optimization -- DLM emerges as a by-product of efficiency maximization.
 
-We show that Efficiency optimization predicts DLM, providing a first-principles functional explanation.
-Figure~\ref{fig:deplength} shows average dependency length for real languages, random baselines, and languages optimized for dependency length and efficiency.
-Optimizing for efficiency lowers dependency length relative to random baselines.
+%We show that Efficiency optimization predicts DLM, providing a first-principles functional explanation.
+%Figure~\ref{fig:deplength} shows average dependency length for real languages, random baselines, and languages optimized for dependency length and efficiency.
+%Optimizing for efficiency lowers dependency length relative to random baselines.
 
-Our results suggest that dependency length minimization is a by-product of efficiency maximization. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the dependency length of the real language; on average, the real language is best matched by efficiency optimization.
+%Our results suggest that dependency length minimization is a by-product of efficiency maximization. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the dependency length of the real language; on average, the real language is best matched by efficiency optimization.
 
-\begin{figure} % need Efficiency and (maybe) MLE langs on here
-\includegraphics[width=0.4\textwidth]{../results/dependency-length/figures/depl-violin.pdf}
-	\caption{Average dependency length for real languages (blue), random baselines (purple), and for languages optimized for efficiency (green) and explicitly for dependency length (red). Dependency length was computed from sentences of lengths 8-12 and averaged over words.}\label{fig:deplength}
-\end{figure}
+%\begin{figure} % need Efficiency and (maybe) MLE langs on here
+%\includegraphics[width=0.4\textwidth]{../results/dependency-length/figures/depl-violin.pdf}
+%	\caption{Average dependency length for real languages (blue), random baselines (purple), and for languages optimized for efficiency (green) and explicitly for dependency length (red). Dependency length was computed from sentences of lengths 8-12 and averaged over words.}\label{fig:deplength}
+%\end{figure}
 
 
 
@@ -1070,6 +1087,8 @@ Following prior work studying dependency length minimization \cite{futrell2015la
 We report results on this modified version of UD.
 
 The efficiency optimization results from Table~\ref{tab:results-dryer} were preregistered: \url{http://aspredicted.org/blind.php?x=8gp2bt}.
+
+Code and results are available at \url{https://github.com/m-hahn/grammar-optim}.
 
 See the SI for details on the neural language models and parsers used, and on the optimization procedures.}
 
