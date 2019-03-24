@@ -225,7 +225,8 @@ plot = ggplot(D, aes(x = CoarseDependency, y = Language)) +
   theme(axis.title=element_blank()) + 
   theme(legend.position="none") + facet_wrap(~Type, nrow=1)
 
-ggsave(file="figures/coverage-ground_eff-circles.pdf", plot=plot, height=7.5, width=6)
+ggsave(file="figures/coverage-ground_eff-circles.pdf", plot=plot, height=8.5, width=4.5)
+#ggsave(file="figures/coverage-ground_eff-circles.pdf", plot=plot, height=7.5, width=6)
 
 
 #E = D %>% group_by(Language) %>% mutate(AgreeSum = sum(Agree))
