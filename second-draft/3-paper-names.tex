@@ -808,7 +808,9 @@ Collapsing some correlations that cannot be tested individually, and excluding t
 %Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages or are not annotated reliably in UD.
 %Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations. 
 
-These are shown in Table~\ref{table:corr-dryer}.
+We compare grammars optimized for efficiency with the actual grammars of the 51 languages, as extracted from the orderings attested in the original corpora (see \textit{Materials and Methods}).
+
+The eight correlations are shown in Table~\ref{table:corr-dryer}.
 We compare the prevalence of the word order correlations in optimized languages (right) to their prevalence in the real languages (left).
 %To evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks.
 %The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
@@ -817,7 +819,9 @@ Table~\ref{table:corr-dryer} shows that grammars optimized for efficiency accura
 In Figure~\ref{fig:per-lang}, we show results on the levels of individual languages.
 For every one of the 51 languages, we show orders predicted by efficiency, for the eight correlating pairs.
 For each language, we construct a grammar optimized for efficiency with the direction of the verb-object relation fixed to correspond to the actual language.
-
+Predictions of efficiency optimization broadly agree with the actual word order patterns.
+%Note that perfect agreement is not to be expected, as grammars will be impacted by factors such as historical development.
+%For instance, Dutch (nld) and Afrikaans (afr) have a prevalence of object-verb order, and 
 
 %In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}

@@ -78,8 +78,6 @@ D$Language = ifelse(D$Language == "Old_Church_Slavonic", "OCS", as.character(D$L
 D$Language = ifelse(D$Language == "Ancient_Greek", "A Greek", as.character(D$Language))
 
 
-D_Ground_Mean$Language = ifelse(D_Ground_Mean$Language == "Old_Church_Slavonic", "OCS", as.character(D_Ground_Mean$Language))
-D_Ground_Mean$Language = ifelse(D_Ground_Mean$Language == "Ancient_Greek", "A Greek", as.character(D_Ground_Mean$Language))
 
 
 
@@ -90,6 +88,7 @@ D_Ground$Language = ifelse(D_Ground$Language == "Ancient_Greek", "A Greek", as.c
 D$DirB = as.factor(as.character(round(pmax(0, pmin(1, D$Dir)))))
 D$DirB=D$Dir
 D_Ground_Mean = D_Ground %>% group_by(Language, iso_code, Family) %>% summarise(Dir = sum(DirObj))
+
 D$Language_Ordered = factor(D$Language, levels=unique(D_Ground_Mean[order(D_Ground_Mean$Family),]$Language), ordered=TRUE)
 D$iso_Ordered = factor(D$iso_code, levels=unique(D_Ground_Mean[order(D_Ground_Mean$Family),]$iso_code), ordered=TRUE)
 
