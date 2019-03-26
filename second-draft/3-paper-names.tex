@@ -75,13 +75,15 @@ What explains the universal properties of human languages? We present evidence t
 \keywords{language universals $|$ language processing $|$ computational linguistics} 
 
 \begin{abstract}
-	TODO rewrite
+%	TODO rewrite
 The universal properties of human languages have been the subject of intense study across disciplines.
 	We report novel computational and corpus-based evidence for the hypothesis that a prominent subset of these universal properties---those related to word order---result from a process of optimization for efficient communication among humans.
-	TODO explain
+	We computationally formalize functional theories of language efficiencies using information theory and state-of-the-art machine learning techniques.
+Applying these methods to data from 51 languages, we show that evolution towards efficiency results in word order patterns that predict a large subset of the major word order correlations reported in the linguistic typological literature.
+%	TODO explain
 	%We develop a probabilistic, differentiable model of word order grammars: the means by which different languages convert underlying hierarchical structures into strings of words.
 	%We show how the parameters of a word order grammar can be optimized for efficiency of information transfer, quantified as a tradeoff between incremental predictability and mutual information with latent tree structures.
-	Applying these grammars to tree structures found in dependency corpora from 51 languages, we show that optimizing the grammar parameters for efficiency results in word order patterns that predict a large subset of the major word order correlations reported in the linguistic typological literature, and subsumes the predictions of previous heuristic theories such as dependency length minimization.
+%	Applying these grammars to tree structures found in dependency corpora from 51 languages, we show that optimizing the grammar parameters for efficiency results in word order patterns that predict a large subset of the major word order correlations reported in the linguistic typological literature, and subsumes the predictions of previous heuristic theories such as dependency length minimization.
 \end{abstract}
 
 \dates{This manuscript was compiled on \today}
@@ -152,7 +154,7 @@ The universal properties of human languages have been the subject of intense stu
 % behaghel1909beziehungen,
 % \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
-Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{berwick1984grammatical,chomsky2005three, hawkins2007processing} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
+Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins2007processing} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
 %Role of general computational constraints ~\cite{hauser2002faculty} % berwick2016only
 In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the computational optimization of grammars for efficiency. % information-theoretic 
 
@@ -241,14 +243,10 @@ Languages ordering their objects the way Japanese does, have postpositions; lang
 
 
 
-
-TODO maybe Arabic becomes English?
-
-
-
 This generalization falls in a group of language universals that were originally documented by Greenberg \cite{greenberg1963universals}, known as \key{word order correlations}:
 These describe correlations between the relative positions of different types of expressions across languages.
 The example above documents that the position of the object (`letter') relative to the verb is \key{correlated} with the position of the adposition (`to'). %adpositional phrases (`to a friend') relative to the verb.
+Greenberg also found that the order between verb and object is correlated with other aspects of a language's word order, such the order of verb and adpositional phrase (`wrote -- to friend' in Arabic vs `friend to -- wrote' in Japanese), and that of noun and genitive (`book -- of friend' in Arabic, `friend of -- book' in Japanese).
 Greenberg originally worked with 30 languages; the correlation universals have since been confirmed on the basis of much larger samples of languages.
 The authoritative study by Dryer \cite{dryer1992greenbergian} draws on 625 languages and documents fifteen such correlations.
 
@@ -259,9 +257,9 @@ Supported by languages on all continents, these correlations are among the langu
 Importantly, their validity is also independent from specific assumptions about theories of grammar.
 
 
-TODO can we find citations from all camps?
+%TODO can we find citations from all camps?
 
-Explaining these patterns has been an important aim of linguistic research since Greenberg's seminal study.
+Explaining these patterns has been an important aim of linguistic research since Greenberg's seminal study~\cite{lehmann1973structural, vennemann1974theoretical,jackendoff1977x,frazier1985syntactic,chomsky1988language, dryer1992greenbergian, hawkins1994performance}.
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
@@ -644,20 +642,21 @@ In keeping with Zipf's Force of Unification, this quantity describes how homogen
 
 \section{Results}
 
-We examined whether
-(1) the grammars of natural languages evolve towards optimizing efficiency of communication, and
-(2) this process of optimization accounts both for Greenberg's order correlation universals.
+We examined 
+(1) whether the grammars of natural languages evolve towards optimizing efficiency of communication, and
+(2) whether this process of optimization accounts  for Greenberg's order correlation universals.
 %We formalize word order grammars as specifying how different types of dependents (subjects, objects, etc.) are ordered, employing a cross-linguistically meaningful inventory of relations~\cite{nivre2015universal}.
+
 Answering these questions requires a sample of dependency structures as actually used by speakers across different languages.
 Such samples have recently become available with the Universal Dependencies project~\cite{nivre2017universal}, which has collected and created dependency annotations for several dozens of different languages.
 51 languages had sufficient data for our purposes. %There was sufficient data from 51 languages for our We use data from 51 languages.
 These corpora represent a typologically and genetically diverse group of languages.
 
-Second, this requires a computational method for estimating predictability and parseability.
+Second, addressing these questions requires a computational method for estimating predictability and parseability.
 We draw on recent machine learning methods that form the foundation of state-of-the-art natural language processing.
 We estimate predictability using LSTM recurrent neural networks, general sequence models that are the strongest known predictors of the surprisal effect on human processing effort~\citep{frank2011insensitivity,goodkind2018predictive}.
 We estimate parseability using a generic neural network architecture that casts recovery of dependency structures as a minimum spanning tree problem \citep{dozat2017stanford, zhang2017dependency}.
-See SI for robustness of our results to these choices.
+See SI for details and for robustness of our results to these choices.
 
 \subsection{Relative efficiency of languages}
 \label{sec:relative-efficiency}
@@ -678,10 +677,11 @@ Furthermore, for every one of the 51 languages, we computationally construct gra
 In Figure~\ref{fig:pareto-plane}, we plot predictability and parsability of the grammars of 51 languages, together with the distribution of random baseline grammars, and the Pareto frontier defined by computationally optimized grammars.
 Languages are attracted towards the Pareto frontier and away from the region of the baseline languages.
 The majority of real languages are above and to the right of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
-By a one-sided \textit{t}-test, 84~\% of languages improve over the baselines in parsability ($p < 0.05$), 78~\% improve in predictability ($p < 0.05$).
-98~\% of languages improve on either predictability or parsability ($p<0.05$, with Bonferroni correction).
-At $\lambda = 0.9$, 86~\% of languages improve in overall efficiency ($p<0.05$).
-TODO fix bug with czech data
+100~\% of languages improve on either predictability or parsability ($p<0.05$ each, by one-sided $t$-test, with Bonferroni correction).
+%By a one-sided \textit{t}-test, 
+84~\% of languages improve over the baselines in parsability ($p < 0.05$ each), 78~\% improve in predictability ($p < 0.05$ each).
+%At $\lambda = 0.9$, 86~\% of languages improve in overall efficiency ($p<0.05$ each).
+%TODO fix bug with czech data
 
 
 
@@ -704,7 +704,7 @@ TODO fix bug with czech data
 \begin{figure} % need Efficiency and (maybe) MLE langs on here
 %	\includegraphics[width=0.3\textwidth]{../results/correlations/figures/coverage-ground_eff-circles.pdf}
 	\begin{center}
-	\includegraphics[width=0.3\textwidth]{../results/correlations/figures/pred-eff-families.pdf}
+	\includegraphics[width=0.32\textwidth]{../results/correlations/figures/pred-eff-families-2.pdf}
 	\end{center}
 	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner. Light blue: Verb patterner \emph{follows} object patterner.}\label{fig:per-lang}
 	% efficiency optimization predicts Greenberg's correlations. For every one of the 51 languages, we show which universals are satisfied in the actual grammar (left), and in the grammar optimized for efficiency (right). Efficiency optimization replicates the universals at rates similar to the real grammars.
@@ -714,74 +714,73 @@ TODO fix bug with czech data
 \begin{table}
 	\begin{center}
 %		\setlength\tabcolsep{1.5pt}
-\begin{tabular}{|ll|c|cc|}
+\begin{tabular}{c|ll|c|cc|ccc}
 	\hline
 	%&
-	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   &  \multirow{2}{*}{Eff}  \\ 
-	verb & object     & & &   \\ 
-	\emph{wrote} & \emph{letters} & & & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
-%adp. &
-	adposition    &    NP       
-	& \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_case.pdf} } %\textbf{86}  }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_case.pdf}       }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_case.pdf} } %  \textbf{47 \%}$^{}$   }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_case.pdf}   }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_case.pdf}     }  \\
-	\emph{to}            & \emph{a friend} &&&\\ \hline
-copula    &    NP         
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_cop.pdf} }% \textbf{94} }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_cop.pdf}       }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_cop.pdf} } % \textbf{53}     }
-%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_cop.pdf}   }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_cop.pdf}   }  \\
-	\emph{is}        & \emph{a friend}  &&&\\ \hline
-auxiliary    &    VP       
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-aux.pdf}}
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-aux.pdf}       }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-aux.pdf}     }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-aux.pdf}  }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-aux.pdf}  }  \\
-	\emph{has}          & \emph{written}  &&&\\ \hline
-noun    &    genitive      
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-nmod.pdf}}
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-nmod.pdf}     }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-nmod.pdf}   }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-nmod.pdf}  }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-nmod.pdf}  }  \\
-	\emph{friend} &  \emph{of John}  &&&\\ \hline
-noun    &    relative clause      
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-acl.pdf}}
-%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-acl.pdf}     }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-acl.pdf}   }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-acl.pdf}  }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-acl.pdf}  }  \\
-	\emph{books} & \emph{that you read}  &&&\\ \hline
-complementizer    &    S        
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_mark.pdf}}
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_mark.pdf}     }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_mark.pdf}     }
-%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_mark.pdf} }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_mark.pdf}  }  \\
-	\emph{that} & \emph{she has arrived}  &&&\\ \hline
-verb    &    PP         
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-obl.pdf}}
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-obl.pdf}     }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-obl.pdf}     }
-%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-obl.pdf} }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-obl.pdf}  }  \\
-	\emph{went} & \emph{to school}  &&&\\ \hline
-want    &    VP        
-	&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-xcomp.pdf}}
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-nmod.pdf}     }
-%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-xcomp.pdf}     }
-%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-nmod.pdf}  }   
-	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-xcomp.pdf}  }  \\
-	\emph{wants}   &  \emph{to leave}  &&&\\ \hline
+	&	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   &  \multirow{2}{*}{Optimized} & \\ 
+	&	verb & object     & & &   \\ 
+	&	\emph{wrote} & \emph{letters} & & & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}	&	adposition    &    NP       
+		& \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_case.pdf} } %\textbf{86}  }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_case.pdf}       }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_case.pdf} } %  \textbf{47 \%}$^{}$   }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_case.pdf}   }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_case.pdf}     } & \\
+	&		\emph{to}            & \emph{a friend} &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}}	&copula    &    NP         
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_cop.pdf} }% \textbf{94} }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_cop.pdf}       }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_cop.pdf} } % \textbf{53}     }
+	%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_cop.pdf}   }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_cop.pdf}   } & \\
+	&	\emph{is}        & \emph{a friend}  &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}	&auxiliary    &    VP       
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-aux.pdf}}
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-aux.pdf}       }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-aux.pdf}     }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-aux.pdf}  }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-aux.pdf}  } & \\
+	&	\emph{has}          & \emph{written}  &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}}	&noun    &    genitive      
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-nmod.pdf}}
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-nmod.pdf}     }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-nmod.pdf}   }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-nmod.pdf}  }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-nmod.pdf}  } & \\
+	&	\emph{friend} &  \emph{of John}  &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}}	&noun    &    relative clause      
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-acl.pdf}}
+	%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-acl.pdf}     }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-acl.pdf}   }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-acl.pdf}  }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-acl.pdf}  } & \\
+	&	\emph{books} & \emph{that you read}  &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}	&complementizer    &    S        
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-lifted_mark.pdf}}
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-lifted_mark.pdf}     }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-lifted_mark.pdf}     }
+	%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-lifted_mark.pdf} }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-lifted_mark.pdf}  }  &\\
+	&	\emph{that} & \emph{she has arrived}  &&&\\ \hline
+	\multirow{2}{*}{	\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}	&verb    &    PP         
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-obl.pdf}}
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-obl.pdf}     }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-obl.pdf}     }
+	%	&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-obl.pdf} }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-obl.pdf}  } &  \\
+	&	\emph{went} & \emph{to school}  &&&\\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}}	&want    &    VP        
+		&  \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-ground-xcomp.pdf}}
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-depl-nmod.pdf}     }
+	%	&    \multirow{2}{*}{\includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-langmod-xcomp.pdf}     }
+	%	&   \multirow{2}{*}{ \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-parser-nmod.pdf}  }   
+		&   \multirow{2}{*}{  \includegraphics[width=0.03\textwidth]{../results/correlations/figures/correlations/bars-efficiency_large_best-xcomp.pdf}  } & \\
+	& \emph{wants}   &  \emph{to leave}  &&&\\ \hline
  \hline
 %comp. &
 %\multirow{3}{*}{NP}&
 %	AP &
-    \multicolumn{4}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, : $p < 0.01$, : $p < 0.001$}}
+%    \multicolumn{4}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, : $p < 0.01$, : $p < 0.001$}}
 \end{tabular}
 	\end{center}
 \caption{Efficiency optimization accurately predicts the Greenbergian correlations. Each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
@@ -796,7 +795,9 @@ For each correlation, we provide an English example, and show the distribution o
 
 We now show that this process of efficiency optimization accounts for Greenberg's correlation universals. % we examine the computatinally optimized grammars. %computationally construct grammars that optimize efficiency, and evaluate these for dependency length and for Greenberg's universals.
 For every one of the 51 languages, we create hypothetical grammars that are computationally optimized for efficiency (see \textit{Materials and Methods}).
-If hypothetical grammars that are optimal for efficiency exhibit these typological patterns, this shows that efficiency optimization predicts Greenberg's word order correlation universals.
+In all results reported here, we set $\lambda := 0.9$ in Equation~\ref{eq:efficiency}.
+(See SI appendix section 5 for mathematical justification and for robustness to other choices).
+We test whether the process of efficiency optimization can explain these typological patterns. %, this shows that efficiency optimization predicts Greenberg's word order correlation universals.
 
 
 
@@ -1043,19 +1044,24 @@ Predictability and parseability predict four and six correlations, respectively,
 
 We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
 Prior functional studies have considered Dependency Length Minimization (DLM) as an approximate formalization of efficiency optimization~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-%Functional studies of word order have proposed Dependency Length Minimization (DLM) as general principle of word order \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that languages order words so as to minimize the overall length of dependencies.
-This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}. TODO also frazier, hawkins.
+This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Cross-linguistic corpus studies have shown that languages do minimize dependency length beyond chance, suggesting that DLM is itself a language universal \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+Indeed, directly modeling efficiency optimization predicts DLM, and appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
+%Our work thus provides the first direct confirmation of the idea of DLM as an approximation to efficiency optimization -- DLM emerges as a by-product of efficiency maximization.
+
+
+
+
+%We show that Efficiency optimization predicts DLM, providing a first-principles functional explanation.
+%%Functional studies of word order have proposed Dependency Length Minimization (DLM) as general principle of word order \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+%Figure~\ref{fig:deplength} shows average dependency length for real languages, random baselines, and languages optimized for dependency length and efficiency.
+%Optimizing for efficiency lowers dependency length relative to random baselines.
+
 %It has also been argued theoretically that this principle should account for Greenberg's correlations, though this link is nontrivial and depends on the precise distributions of tree topologies in syntactic structures.
 %As a principle of word order, DLM is stipulative: There are other processing models, such as surprisal, that are strongly predictive of human processing cost, and make predictions distinct from, and partly conflicting with, those of DLM~\cite{hale2001probabilistic,levy2008expectation}.
 %\cite{futrell2017memory} suggests that efficiency predicts DLM.
-Indeed, our experiments show that efficiency optimization predicts DLM, and efficiency optimization appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
-Our work thus provides the first direct confirmation of the idea of DLM as an approximation to efficiency optimization -- DLM emerges as a by-product of efficiency maximization.
 
-%We show that Efficiency optimization predicts DLM, providing a first-principles functional explanation.
-%Figure~\ref{fig:deplength} shows average dependency length for real languages, random baselines, and languages optimized for dependency length and efficiency.
-%Optimizing for efficiency lowers dependency length relative to random baselines.
 
 %Our results suggest that dependency length minimization is a by-product of efficiency maximization. In 80\% of the languages, optimizing explicitly for dependency length produces dependencies that overshoot the dependency length of the real language; on average, the real language is best matched by efficiency optimization.
 
