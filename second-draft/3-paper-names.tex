@@ -514,8 +514,8 @@ We achieve this using a direct information-theoretic formalization of Zipf's ide
 % Given a set of dependency structures, grammars define a set of sentences. Each grammar defines a consistent ordering for the different kinds of syntactic relations, e.g., 
 \begin{figure}
     \centering
-    \includegraphics[width=0.45\textwidth]{figures/grammars-colors-trees.png}
-	\caption{Grammars define consistent ordering rules for dependency structures. Here, Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. \textbf{TODO This figure is just a draft sketch so far.}}
+    \includegraphics[width=0.45\textwidth]{figures/grammars-langs.png}
+	\caption{Grammars define consistent ordering rules for dependency structures. Here, Grammars 1 and 2 order the object after the verb, Grammars 3 and 4 order the object before the verb. Grammars 1 and 3 conform to the Greenberg correlations and are common around the world; Grammars 2 and 4 are rare or impossible.}
 	\label{fig:grammars}
 \end{figure}
 
@@ -711,13 +711,15 @@ The majority of real languages are above and to the right of their baseline equi
 \end{figure}
 
 
+
+
 \begin{table}
 	\begin{center}
 %		\setlength\tabcolsep{1.5pt}
 \begin{tabular}{c|ll|c|cc|ccc}
 	\hline
 	%&
-	&	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   &  \multirow{2}{*}{Optimized} & \\ 
+	&	\multicolumn{2}{|c|}{Correlates with...}   &         \multirow{2}{*}{Real}   &  \multirow{2}{*}{Predicted} & \\ 
 	&	verb & object     & & &   \\ 
 	&	\emph{wrote} & \emph{letters} & & & \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}	&	adposition    &    NP       
@@ -784,7 +786,9 @@ The majority of real languages are above and to the right of their baseline equi
 \end{tabular}
 	\end{center}
 \caption{Efficiency optimization accurately predicts the Greenbergian correlations. Each correlation is stated in terms of a pair of a `verb patterner' and an `object patterner', whose relative order correlate with that of verbs and objects.
-For each correlation, we provide an English example, and show the distribution of real languages, of languages optimized for DLM, and of languages optimized for efficiency. The process of optimization fir efficiency and DLM explains all eight universals.
+For each correlation, we provide an English example, and show the distribution among the actual grammars of the 51 languages (left), and among grammars optimized for efficiency (right).
+Blue bars count grammars conforming to the correlation, red bars count grammars violating it.
+Efficiency optimization predicts all eight correlations to hold in the majority of grammars.
 %Given the statistical nature of the correlations, not every language satisfies every one of them.
 %Not all correlations are satisfied by every natu
 }\label{table:corr-dryer}
@@ -826,14 +830,29 @@ Predictions of efficiency optimization broadly agree with the actual word order 
 
 %In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
-%We are interested in the direction and significance of this effect: 
-%If the effect is significant, in the positive direction, we can conclude that a correlation is predicted across corpora from languages belonging to different language families.
 We estimated the posterior distribution of the number of correlations that the optimization process correctly predicts.
-The estimated posterior probability that efficiency optimization predicts less than all eight correlations is $0.0242$. The probability that it predicts less than seven of the correlations is $<10^{-4}$.
+We conducted the same analysis for grammars optimized for predictability and parseability separately~(Figure~\ref{fig:posterior}).
+%Predictability and parseability predict four and six correlations, respectively, making largely complementary predictions.
+Efficiency optimization predicts all eight correlations to be universal with posterior probability $0.9911$. %The estimated posterior probability that efficiency optimization predicts less than all eight correlations is $0.0242$. The probability that it predicts less than seven of the correlations is $<10^{-4}$.
+Predictability and parseability individually also predict six to eight correlations.
 
+
+\begin{figure}
+	\begin{center}
+	\includegraphics[width=0.48\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
+	\end{center}
+	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
+\end{figure}
+
+TODO better than this:
+
+We further compared to the predictions made individually by optimizing for predictability and parseability.
+We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
+We estimated the posterior distribution of the number of correlations that the optimization process correctly predicts.
 We conducted the same analysis for grammars optimized for predictability and parseability separately.
-Predictability and parseability predict four and six correlations, respectively, making largely complementary predictions.
-
+We used all eight runs of optimization to maximize statistical precision.
+For every one of the correlations, we report the posterior estimated.
+(These numbers control for random variation between language families, and are thus not directly comparable to data from the 51 languages).
 
 
 %

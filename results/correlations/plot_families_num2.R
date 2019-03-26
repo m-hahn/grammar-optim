@@ -112,3 +112,9 @@ plot
 
 ggsave(plot=plot, "figures/pred-eff-families-2.pdf", width=4, height=8)
 
+D2 = (D %>% select(Family, Language, CoarseDependency, DirB, Type) %>% spread(Type, DirB) %>% rename(Real = 'Real Languages') %>% rename(Predicted = Efficiency))
+
+D2$Agree = (D2$Real == D2$Predicted)
+summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
+mean(D2$Agree)
+
