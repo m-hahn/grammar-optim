@@ -1,0 +1,17 @@
+UD_Amharic-ATT
+UD_Armenian-ArmTDP
+UD_Breton-KEB
+UD_Buryat-BDT
+UD_Cantonese-HK
+UD_Faroese-OFT
+UD_Kazakh-KTB
+UD_Korean-GSD
+UD_Korean-Kaist
+UD_Korean-PUD
+UD_Kurmanji-MG
+UD_Naija-NSC
+UD_Old_French-SRCMF
+UD_Telugu-MTG
+UD_Thai-PUD
+UD_Upper_Sorbian-UFAL.git
+UD_Uyghur-UDT
