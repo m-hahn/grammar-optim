@@ -76,7 +76,6 @@ E = data %>% group_by(Language, Family, Dependency) %>% summarise(Agree = mean(A
 
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
-dependencies =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
 
 
 #balanced = read.csv("results-ground-agree.tsv", sep="\t")
@@ -94,7 +93,7 @@ library(tidyr)
 library(ggplot2)
 
 
-
+cat("\nReading posterior samples\n")
 parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
 two = read.csv("/home/user/CS_SCR/posteriors/posterior-10-efficiency-large.csv")
 langmod = read.csv("/home/user/CS_SCR/posteriors/posterior-10-langmod.csv")
@@ -128,6 +127,46 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
 
 #  plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) + geom_bar(data=E, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type))
 #  ggsave(plot, file=paste("posterior/posterior_joint_with_ud_balanced" , ".pdf", sep=""))
+
+
+#for(type in c("
+  type = "Efficiency"
+  dependency = "acl"
+
+  dependencies =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
+for(type in c("Efficiency", "Predictability", "Parseability")) {
+	if(type == "Efficiency") {
+		color = "blue"
+	} else if(type == "Predictability") {
+		color = "red"
+	} else if (type == "Parseability") {
+		color = "green"
+	}
+  for(dependency in dependencies) {
+     plot = ggplot(data=data2 %>% filter(Type==type, Dependency==dependency))
+     plot = plot  + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5, fill=color)
+     plot = plot + xlim(0,1)
+     plot = plot + theme_classic()
+     plot = plot + theme_void()
+     plot = plot  + theme(legend.position="none")
+     plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
+     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+  }
+}
+
+type = "Real"
+  for(dependency in dependencies) {
+     plot = ggplot(data=D %>% filter(Dependency==dependency))
+  plot = plot + geom_bar(stat="identity", width = 0.1, aes(x=Agree, y=1))
+     plot = plot + xlim(0,1)
+     plot = plot + theme_classic()
+     plot = plot + theme_void()
+     plot = plot  + theme(legend.position="none")
+     plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
+     plot = plot + theme(axis.line.x = element_line(colour = "black"))
+#     plot = plot + theme(panel.border = element_rect(colour = "black", fill=NA, size=1))
+     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+  }
 
 
 
