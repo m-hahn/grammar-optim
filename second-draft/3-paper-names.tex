@@ -154,7 +154,7 @@ Applying these methods to data from 51 languages, we show that evolution towards
 % behaghel1909beziehungen,
 % \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
-Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins2007processing} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
+Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins1994performance} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
 %Role of general computational constraints ~\cite{hauser2002faculty} % berwick2016only
 In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the computational optimization of grammars for efficiency. % information-theoretic 
 
@@ -303,14 +303,14 @@ It also has been shown to account for the distribution of word meanings across l
 %This theory blabla Horn RSA
 %Prior computational implementations of this idea have mostly been in the restricted small-scale settings, such as simple reference games.
 
-Computational studies
 
-word order difficult, requires large data sets
-
-Drawing on data from 51 languages, we show  that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
-%In this work, we first provide a formalization of efficiency in the domain of word order. %, drawing on information-theoretic notions.
+In this work, we apply this approach to the problem of explaining Greenberg's word order correlation universals.
+Drawing on large sets of text data from 51 languages, we show  that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
 We achieve this using a direct information-theoretic formalization of Zipf's ideas, computationally implemented using state-of-the-art machine learning techniques applied to large-scale text data from 51 languages.
 
+
+
+%In this work, we first provide a formalization of efficiency in the domain of word order. %, drawing on information-theoretic notions.
 
 
 %In this work, we show computationally, using corpus data from 51 languages, that efficiency optimization accounts for the Greenbergian word order correlations.
@@ -524,7 +524,7 @@ We achieve this using a direct information-theoretic formalization of Zipf's ide
 
 
 
-TODO at some point need to foreshadow more of the Greenberg correlations
+%TODO at some point need to foreshadow more of the Greenberg correlations
 
 
 %
@@ -546,6 +546,7 @@ This linguistic formalism draws directed arcs between syntactically related word
 Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
 
 
+
 %The sentences in Figure~\ref{fig:arabic-japanese} are annotated with \key{dependency trees}: these are directed trees describing the grammatical relations among words. For example, the arcs labeled ``obj'' represent that the noun in question is the \emph{direct object} if the verb, rather than e.g. the subject or an indirect object. A dependency arc is drawn from a \key{head} (e.g. \emph{kaita} in Figure~\ref{fig:arabic-japanese}) to a \key{dependent} (e.g. \emph{tegami-o}). Dependency trees can be defined in terms of many different syntactic theories \cite{corbett1993heads}. Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
 
 
@@ -553,27 +554,27 @@ Consider Figure~\ref{fig:comm}.
 Imagine the speaker wants to communicate that Mary saw John.
 The message (left) consists of a dependency structure with the words `saw', `Mary', `John', where Mary is the subject of the event denoted by `saw', and John is the object.
 When uttering, the speaker needs to choose an ordering in which to order the words in this tree to generate a string of words.
-In natural language, this order is largely determined by the \key{grammar} of the language (CITE):
-The speaker will order it as (1) in English, and as (2) in Japanese.
-
-(1)
-\begin{dependency}[theme=simple]
-    \begin{deptext}
-    Mary \& saw \& John \\
-    \end{deptext}
-    \depedge{2}{1}{nsubj}
-    \depedge{2}{3}{obj}
-\end{dependency}
-(2)
-\begin{dependency}[theme=simple]
-    \begin{deptext}
-    Mary \& John  \& saw \\
-    \end{deptext}
-    \depedge{3}{1}{nsubj}
-    \depedge{3}{2}{obj}
-\end{dependency}
-
-The listener receives a sentence -- a linear string of words -- and decodes the underlying message in accordance with the grammar of the language (right).
+In natural language, this order is largely determined by the \key{grammar} of the language (CITE).
+The speaker will order it as \emph{Mary saw John} (Figure~\ref{fig:comm}, top) in English, and as \emph{Mary John saw} (Figure~\ref{fig:comm}, bottom) in Japanese.
+%
+%(1)
+%\begin{dependency}[theme=simple]
+%    \begin{deptext}
+%    Mary \& saw \& John \\
+%    \end{deptext}
+%    \depedge{2}{1}{nsubj}
+%    \depedge{2}{3}{obj}
+%\end{dependency}
+%(2)
+%\begin{dependency}[theme=simple]
+%    \begin{deptext}
+%    Mary \& John  \& saw \\
+%    \end{deptext}
+%    \depedge{3}{1}{nsubj}
+%    \depedge{3}{2}{obj}
+%\end{dependency}
+%
+The listener receives a sentence -- a linear string of words -- and decodes the underlying message in accordance with the grammar of the language (Figure~\ref{fig:comm}, right).
 %Consistent with Shannon's model, we assume a Bayesian listener who decodes dependency structures probabilistically~(Figure~\ref{fig:comm}).
 %If communication is successful, the listener can identify the intended structure with high confidence~(Figure~\ref{fig:comm}).
 
@@ -583,13 +584,13 @@ The listener receives a sentence -- a linear string of words -- and decodes the 
 %Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
 
 
-The grammars of natural languages provide consistent ordering rules for all syntactic relations.
 %All natural languages have some degree of word order regularities that are specified in their grammar.
 %For instance, English places subjects before and objects after the verb, allowing the listener to unambiguously decode the sentence in Figure~\ref{fig:comm}.
 %That is, speakers and listeners have shared knowledge of a \key{grammar} that specifies how dependency structures are encoded into sentences.
 %Natural languages differ in the rules they apply: Some place the object after the verb, some place it before the verb.
 %Speakers encode dependency trees into sentences according to a grammar~(Figure~\ref{fig:grammars}).
 %While natural languages differ in the freedom of word order, all languages rely on some amount of word order reglarity to encode meaning.
+The grammars of natural languages provide consistent ordering rules for all syntactic relations.
 This is illustrated in Figure~\ref{fig:grammars}:
 We show how four different grammars order objects, adpositional phrases, and adpositions.
 For instance, Grammar 1 -- corresponding to Arabic in Figure~\ref{fig:arabic-japanese-simple} -- orders objects (`friends', `letter') after verbs and has prepositions (`to friend').
@@ -601,6 +602,8 @@ Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) c
 
 %We formalize Zipf's Forces of Unification and Diversification in 
 
+
+%In information-theoretic formalizations of Zipf's ideas, the efficiency of a 
 In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
 This idea formalizes Zipf's forces of Unification and Diversification, and overall efficiency can be formalized as a weighted combination of terms representing the amount of information conveyed and the cost of communication:
 %The \key{efficiency} of a language is a weighted combination
@@ -638,6 +641,11 @@ In expectation over all utterances $u$ in a language, the negative surprisal des
 where the sum runs over all possible sentences $l$ that belong to the language.
 In keeping with Zipf's Force of Unification, this quantity describes how homogeneous the language is, i.e., it is larger if the distribution over sentences is concentrated on a smaller number of frequent sentences. %how many distinct sentences there are.
 
+%CITE other syntactic work? LFG
+%TODO the following sentences should go somewhere
+%By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
+%The dependency structure (including the labels on the arcs) specifies how the meanings of words are combined.
+%Therefore, a listener needs to recover the information provided in the dependency structure in order to understand a sentence correctly.
 
 
 \section{Results}
@@ -985,6 +993,10 @@ Collapsing some correlations that cannot be tested individually, and excluding t
 %Dryer \cite{dryer1992greenbergian} presents four correlations that are only relevant to part of the world's languages or are not annotated reliably in UD.
 %Further collapsing correlations that cannot be formalized individually in UD, we otained eight formalized correlations. 
 
+
+TODO the following paragraphs depend on what visualization we choose
+
+
 We compare grammars optimized for efficiency with the actual grammars of the 51 languages, as extracted from the orderings attested in the original corpora (see \textit{Materials and Methods}).
 
 The eight correlations are shown in Table~\ref{table:corr-dryer}.
@@ -1000,6 +1012,15 @@ Predictions of efficiency optimization broadly agree with the actual word order 
 %Note that perfect agreement is not to be expected, as grammars will be impacted by factors such as historical development.
 %For instance, Dutch (nld) and Afrikaans (afr) have a prevalence of object-verb order, and 
 
+\begin{figure}
+	\begin{center}
+	\includegraphics[width=0.48\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
+	\end{center}
+	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
+\end{figure}
+
+
+
 %In order to test whether an objective function predicts a correlation, we selected all word order grammars created for the given function, and counted the percentage of grammars satisfying the correlation.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
 We estimated the posterior distribution of the number of correlations that the optimization process correctly predicts.
@@ -1009,12 +1030,6 @@ Efficiency optimization predicts all eight correlations to be universal with pos
 Predictability and parseability individually also predict six to eight correlations.
 
 
-\begin{figure}
-	\begin{center}
-	\includegraphics[width=0.48\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
-	\end{center}
-	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
-\end{figure}
 
 TODO better than this:
 
