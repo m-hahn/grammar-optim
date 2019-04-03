@@ -150,14 +150,24 @@ Applying these methods to data from 51 languages, we show that evolution towards
 %Blutner R. (2000) Some aspects of optimality in natural language interpretation. Journal of Semantics 17: 189–216
 
 % ,lin2017critical
-\dropcap{U}nderstanding and explaining the variation between human languages is the central  goal of Linguistics \cite{zipf1949human,greenberg1963universals,chomsky1993lectures,...}.
+\dropcap{U}nderstanding and explaining the variation between human languages is the central  goal of Linguistics \cite{greenberg1963universals,chomsky1993lectures,...}.
 % behaghel1909beziehungen,
 % \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
-Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins1994performance} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005}.
+Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins1994performance} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005, pinker1990natural}.
+TODO improve this
 %Role of general computational constraints ~\cite{hauser2002faculty} % berwick2016only
 In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the computational optimization of grammars for efficiency. % information-theoretic 
 
+foreshadow functional explanations?
+
+- these linguistic patterns reflect general principles of communication
+
+- big idea has been around for a long time
+
+- here for the first time direct computational test
+
+- we can predict broad patterns, and make language-specific predictions based on these general principles 
 
 
 % TODO add a cogsci person to citation chain at the beginning
@@ -276,36 +286,31 @@ Conversely, the Force of Diversification favors languages that provide different
 %Another way to conceptualize these two pressures is as the \key{cost} and \key{informativity} of language use:
 These two forces act in opposing directions:
 Producing and processing simple utterances incurs little cost, but more complex and diverse utterances are required to be provide higher informativity.
-The idea that language results from the tension between these two pressures has a long and fruitful history.
-%\cite{horn-toward-1984}, RSA, Color naming
+The idea that language results from the tension between these two pressures has a long and fruitful history in theoretical studies of language~\cite{gabelentz1901sprachwissenschaft,horn1984toward}.
+%\cite{horn1984toward}, RSA, Color naming
 %
 %In the domain of word order, 
 %
 %TODO introduce the terms \key{cost} and \key{informativity}
 %
-This idea has been shown to provide a formalization and derivation of pragmatic inference \cite{horn-toward-1984, frank2012predicting}.
-It also has been shown to account for the distribution of word meanings across languages, such as color naming~\cite{zaslavsky2018efficient}.
+
+More recent work has used an information-theoretic formalization to computationally test these ideas in various domains of language.
+This idea has been shown to provide a formalization and derivation of pragmatic inference \cite{frank2012predicting}.
+It also has been shown to account for the distribution of word meanings across languages, such as color naming~\cite{zaslavsky2018efficient} and kinship categories~\cite{kemp2012kinship},
+and for basic statistical properties of languages~\cite{ferreri2003least}.
+Common to these accounts is that the Force of Diversification is formalized as maximizing the amount of information that linguistic forms provide about meanings, whereas the Force of Unification is formalized as reducing the diversity of forms.
 
 
-
-
-%
-
-%
-%
-
-
+While it has been suggested that these ideas should also apply to grammar~\cite{hawkins2004efficiency}, testing them in syntax and word order is more difficult, as this requires both large amounts of data representative of language use across languages and cultures, and computational methods for estimating the efficiency of entire languages.
 %TODO somewhere start calling this Efficiency
 %TODO explain why surprisal. some production/speaker work. (plan reuse)
-
 %In restricted settings such as modeling reference games and the distribution of meanings in certain classes of words, these ideas have received computational and information-theoretic formalizations, showing that they successfully account for phenomena such as pragmatic inference (CITE frank and goodman) and color naming (CITE).
 %Even earlier than Zipf, \cite{gabelentz1901sprachwissenschaft} ...
 %This theory blabla Horn RSA
 %Prior computational implementations of this idea have mostly been in the restricted small-scale settings, such as simple reference games.
-
-
 In this work, we apply this approach to the problem of explaining Greenberg's word order correlation universals.
 Drawing on large sets of text data from 51 languages, we show  that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
+Furthermore, efficiency optimization makes fine-grained per-language predictions about individual syntactic patterns.
 We achieve this using a direct information-theoretic formalization of Zipf's ideas, computationally implemented using state-of-the-art machine learning techniques applied to large-scale text data from 51 languages.
 
 
@@ -540,7 +545,7 @@ We achieve this using a direct information-theoretic formalization of Zipf's ide
 %\subsection{Counterfactual Grammars}
 We model the process where a speaker communicates a message to a listener (Figure~\ref{fig:comm}) in Shannon's framework of information theory.
 In this model, a transmitter encodes a message into a signal. The receiver decodes the signal, attempting to reconstruct the original message.
-Applying this model to word order, we take the message to consist of entities, events, and a set of syntactic and semantic relations that hold between them.
+Applying this model to word order, we take the message to consist of people, objects, events, and a set of syntactic and semantic relations that hold between them~\cite{fodor1975language,jackendoff1983semantics,pinker1990natural}.
 Following a long tradition in formal and computational liguistics, we formalize these in the format of dependency trees~\cite{hays1964dependency,melcuk1988dependency,corbett1993heads,tesniere2015elements}:
 This linguistic formalism draws directed arcs between syntactically related words, annotated with syntactic relations.
 Although there are some differences in how different formalisms would draw trees for certain sentences, there is broad enough agreement about dependency trees that it has been possible to develop large-scale dependency-annotated corpora of text from dozens of languages \cite{nivre2017universal}.
@@ -1312,7 +1317,7 @@ See the SI for details on the neural language models and parsers used, and on th
 
 \showmatmethods{} % Display the Materials and Methods section
 
-\acknow{We thank Ted Gibson, Michael C. Frank, Judith Degen, Noah Goodman, Chris Manning, and audiences at CAMP 2018 for helpful discussion.}
+\acknow{We thank Ted Gibson, Michael C. Frank, Judith Degen, Noah Goodman, Chris Manning, and audiences at CAMP 2018 and CUNY 2019 for helpful discussion.}
 
 \showacknow{} % Display the acknowledgments section
 
