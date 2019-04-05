@@ -150,25 +150,24 @@ Applying these methods to data from 51 languages, we show that evolution towards
 %Blutner R. (2000) Some aspects of optimality in natural language interpretation. Journal of Semantics 17: 189–216
 
 % ,lin2017critical
-\dropcap{U}nderstanding and explaining the variation between human languages is the central  goal of Linguistics \cite{greenberg1963universals,chomsky1993lectures,...}.
+\dropcap{U}nderstanding and explaining the variation between human languages is the central  goal of Linguistics \cite{greenberg1963universals,chomsky1993lectures,givon2009genesis, ...}.
 % behaghel1909beziehungen,
 % \cite{behaghel1909beziehungen,zipf1949human,greenberg1963universals,lin2017critical} \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}
 An explanation for the universal properties of language would enable a deeper scientific understanding of what human language is and how to model it, with applications in psychology and natural language processing \cite{hawkins2007processing,bender2009linguistically,bender2013linguistic}.
-Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three, berwick1984grammatical,hawkins1994performance} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005, pinker1990natural}.
-TODO improve this
+Across theoretical paradigms, linguists have hypothesized that language is shaped by efficiency in computation~\cite{chomsky2005three,hauser2002faculty, berwick1984grammatical,hawkins1994performance} and communication~\cite{zipf1949human, Croft:Cruse:2004, Goldberg:2005, pinker1990natural}.
 %Role of general computational constraints ~\cite{hauser2002faculty} % berwick2016only
-In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which certain syntactic universals can be explained through the computational optimization of grammars for efficiency. % information-theoretic 
+In this work we examine this question from a computational perspective, demonstrating a fully formalized and implemented framework in which a large class of language universals can be explained through the computational optimization of grammars for efficiency. % information-theoretic 
 
-foreshadow functional explanations?
-
-- these linguistic patterns reflect general principles of communication
-
-- big idea has been around for a long time
-
-- here for the first time direct computational test
-
-- we can predict broad patterns, and make language-specific predictions based on these general principles 
-
+%foreshadow functional explanations?
+%
+%- these linguistic patterns reflect general principles of communication
+%
+%- big idea has been around for a long time
+%
+%- here for the first time direct computational test
+%
+%- we can predict broad patterns, and make language-specific predictions based on these general principles 
+%
 
 % TODO add a cogsci person to citation chain at the beginning
 
@@ -191,16 +190,19 @@ foreshadow functional explanations?
 %We aim to explain the linguistic universals related to word order first documented by Greenberg \cite{greenberg1963universals}. 
 Natural languages vary in the order in which they express information.
 Consider Figure~\ref{fig:arabic-japanese-simple}, showing a sentence in Arabic (top) and Japanese (bottom), both translating to `I wrote a letter to a friend.'
-Both sentences contain a verb meaning `wrote', a noun expressing  `letter', and a phrase translating to `to a friend'.
-In linguistic terminology, `letter' is the object of the verb, whereas the phrases translating as `to a friend' are known as adpositional phrases.
+Both sentences contain a verb meaning `wrote', a noun expressing  the object `letter', and an adpositional phrase translating to `to a friend'.
+%In linguistic terminology, `letter' is the object of the verb, whereas the phrases translating as `to a friend' are known as adpositional phrases.
 Yet, the order of these words are entirely different in the two languages:
 %However, the languages differ in the order in which these words and phrases are arranged: 
-In Arabic, the verb stands at the beginning, followed by the object and the adpositional phrase.
-`To' is expressed by a \emph{preposition}, so named because it precedes the word expressing `friend'. %The adpositional phrase starts with the adposition.
-In Japanese, the verb stands at the end; object and adpositional phrase precede it; `to' is expressed by a \textit{postposition}, so named because it follows the word denoting `friend'.
+The verb stands at the beginning in Arabic, and at the end in Japanese.
+Arabic expresses `to' by a \emph{preposition} (\emph{preceding} the noun `friend'); Japanese uses a \emph{postposition} (\emph{following} it). % and a postposition in Japanese, following `friend'.
+%In Arabic, the verb stands at the beginning, followed by the objecat and the adpositional phrase.
+%In Arabic, `to' is expressed by a \emph{preposition}, so named because it precedes the word expressing `friend'. %The adpositional phrase starts with the adposition.
+%In Japanese, it is expressed by a \textit{postposition}, so named because it follows the word denoting `friend'.
 %What both languages have in common is that the object and the adpositional phrase stand on the same side of the verb, and that the objects of adpositions and verbs stand on the sam side of their heads.
 %What both languages have in common is that the object and the adpositional phrase stand on the same side of the verb.
 %It turns out that these are deep and stable regularities:
+
 This variation reflects a deep and stable regularity:
 While languages ordering the objects before (Japanese) or after (Arabic) the verb are approximately equally common around the world,
 this is strongly correlated with the occurrence of pre- or postpositions (Figure~\ref{fig:corr-table}, top):
@@ -273,11 +275,14 @@ Explaining these patterns has been an important aim of linguistic research since
 A prominent line of research has argued that universals arise for \key{functional} reasons: that is, because they make human communication and language processing maximally efficient, and regularities across languages hold because these efficiency constraints are rooted in general principles of communication and cognition (e.g., \cite{gabelentz1901sprachwissenschaft,zipf1949human,hockett1960origin,givon1991markedness,hawkins1994performance,hawkins2004efficiency,hawkins2014crosslinguistic,croft2001functional,haspelmath2008parametric,jaeger2011language}).
 Under this view, the various human languages represent multiple solutions to the problem of efficient information transfer given human cognitive constraints.
 
-Researchers working in the functional paradigm have proposed a range of criteria that languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
 
 
 
-Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between the Forces of Unification and Diversification.
+%Researchers working in the functional paradigm have proposed a range of criteria that languages should meet in order to enable efficient communication and processing. These criteria are based on theories of online processing difficulty (see \cite{jaeger2011language} for a review) and on information theoretic notions of efficiency and robustness in communication \cite{ferrericancho2001two,piantadosi2011word,gibson2013noisy}, and they have been formalized to varying degrees. 
+
+
+
+Zipf \cite{zipf1949human} argued that language optimizes a tradeoff between the Forces of \emph{Unification} and \emph{Diversification}.
 The Force of Unification is a pressure to reduce the complexity of the language to make production and processing as easy as possible.
 Conversely, the Force of Diversification favors languages that provide different utterances for different meanings, so that the listener can unambiguously identify the meaning from the utterance.
 %Minimizing speaker and listener effort represent two opposing forces:
@@ -285,33 +290,28 @@ Conversely, the Force of Diversification favors languages that provide different
 %A pressure to reduce ambiguity makes utterances more heterogeneous, so they can indicate different meanings.
 %Another way to conceptualize these two pressures is as the \key{cost} and \key{informativity} of language use:
 These two forces act in opposing directions:
-Producing and processing simple utterances incurs little cost, but more complex and diverse utterances are required to be provide higher informativity.
-The idea that language results from the tension between these two pressures has a long and fruitful history in theoretical studies of language~\cite{gabelentz1901sprachwissenschaft,horn1984toward}.
-%\cite{horn1984toward}, RSA, Color naming
-%
-%In the domain of word order, 
-%
-%TODO introduce the terms \key{cost} and \key{informativity}
-%
-
-More recent work has used an information-theoretic formalization to computationally test these ideas in various domains of language.
-This idea has been shown to provide a formalization and derivation of pragmatic inference \cite{frank2012predicting}.
-It also has been shown to account for the distribution of word meanings across languages, such as color naming~\cite{zaslavsky2018efficient} and kinship categories~\cite{kemp2012kinship},
-and for basic statistical properties of languages~\cite{ferreri2003least}.
-Common to these accounts is that the Force of Diversification is formalized as maximizing the amount of information that linguistic forms provide about meanings, whereas the Force of Unification is formalized as reducing the diversity of forms.
+Producing and processing simple utterances incurs little cost, but more complex and diverse utterances are required in order to provide higher informativity.
+The idea that many properties of language arise from the tension between these two pressures has a long and fruitful history in theoretical studies of language~\cite{gabelentz1901sprachwissenschaft,horn1984toward, schwartz1997dispersion}.
 
 
-While it has been suggested that these ideas should also apply to grammar~\cite{hawkins2004efficiency}, testing them in syntax and word order is more difficult, as this requires both large amounts of data representative of language use across languages and cultures, and computational methods for estimating the efficiency of entire languages.
+Recent work has used an information-theoretic formalization to computationally test these ideas in various domains of language, showing that they predict
+both basic statistical properties of languages~\cite{ferreri2003least},
+and sophisticated aspects of language, such as pragmatic inference \cite{frank2012predicting}, and the distribution of color words~\cite{zaslavsky2018efficient} and kinship categories~\cite{kemp2012kinship} across many languages.
+Common to these accounts is the idea of maximizing the amount of information that linguistic forms provide about meanings, while constraining the diversity of forms.
+
+
+While it has been suggested that these ideas should also apply to grammar~\cite{hawkins2004efficiency}, testing these accounts is more difficult in the domain of grammar, as this requires both large amounts of data representative of language use across languages and cultures, and computational methods for estimating the efficiency of entire languages.
 %TODO somewhere start calling this Efficiency
 %TODO explain why surprisal. some production/speaker work. (plan reuse)
 %In restricted settings such as modeling reference games and the distribution of meanings in certain classes of words, these ideas have received computational and information-theoretic formalizations, showing that they successfully account for phenomena such as pragmatic inference (CITE frank and goodman) and color naming (CITE).
 %Even earlier than Zipf, \cite{gabelentz1901sprachwissenschaft} ...
 %This theory blabla Horn RSA
 %Prior computational implementations of this idea have mostly been in the restricted small-scale settings, such as simple reference games.
-In this work, we apply this approach to the problem of explaining Greenberg's word order correlation universals.
-Drawing on large sets of text data from 51 languages, we show  that the word order of languages has evolved to optimize efficiency, and that efficiency optimization accounts for the Greenbergian word order correlations.
-Furthermore, efficiency optimization makes fine-grained per-language predictions about individual syntactic patterns.
-We achieve this using a direct information-theoretic formalization of Zipf's ideas, computationally implemented using state-of-the-art machine learning techniques applied to large-scale text data from 51 languages.
+In this work, we address these challenges by combining large-scale text data from 51 languages with state-of-the-art machine learning techiques to estimate the communicative efficiency of grammar.
+We apply this approach to the problem of explaining Greenberg's word order correlation universals.
+We first show that the word order of languages has evolved to optimize efficiency.
+We then show that efficiency optimization accounts for the Greenbergian word order correlations, and makes fine-grained per-language predictions about individual syntactic patterns.
+%We achieve this using a direct information-theoretic formalization of Zipf's ideas, computationally implemented using state-of-the-art machine learning techniques applied to large-scale text data from 51 languages.
 
 
 
@@ -610,16 +610,18 @@ Grammars 3 and 4 place the object before the verb, and one of them (Grammar 3) c
 
 %In information-theoretic formalizations of Zipf's ideas, the efficiency of a 
 In Information Theory, the usefulness of a communication channel depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
-This idea formalizes Zipf's forces of Unification and Diversification, and overall efficiency can be formalized as a weighted combination of terms representing the amount of information conveyed and the cost of communication:
+%This idea formalizes Zipf's forces of Unification and Diversification
+Overall efficiency can be formalized as a weighted combination of terms representing the amount of information conveyed and the cost of communication:
 %The \key{efficiency} of a language is a weighted combination
 \begin{equation}\label{eq:efficiency}
 	R_{\textit{Eff}} := R_{\textit{Informativity}} - \lambda R_\textit{Cost}
 \end{equation}
 with an interpolation weight $\lambda \in [0,1)$. %In all experiments in this paper we use $\lambda=.9$ (see SI appendix section 5 for mathematical justification and for robustness to other choices).
-Such notions of efficiency have been proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems. %, taking dependency structures as the underlying meanings to be conveyed.
-Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
-%Word meaning \cite{regier2015word}
+This objective function has been proposed in prior computational tests of functional explanations~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship}.
 
+%Such notions of efficiency have been proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems. %, taking dependency structures as the underlying meanings to be conveyed.
+%Eq.~\ref{eq:efficiency} can also be seen as a simplified form of the Information Bottleneck \cite{tishby1999information}, a general objective function for lossy compression which has recently been applied to explain linguistic phenomena such as color naming systems \cite{zaslavsky2018efficient} (see SI section 4 for the precise relationship). 
+%Word meaning \cite{regier2015word}
 
 In our model, both aspects of efficiency will depend on the grammar:
 Grammars can differ in the degree to which a listener can unambiguously recover the dependency structure from an utterance.
@@ -645,6 +647,11 @@ In expectation over all utterances $u$ in a language, the negative surprisal des
 \end{equation}
 where the sum runs over all possible sentences $l$ that belong to the language.
 In keeping with Zipf's Force of Unification, this quantity describes how homogeneous the language is, i.e., it is larger if the distribution over sentences is concentrated on a smaller number of frequent sentences. %how many distinct sentences there are.
+
+With these choices, our objective function is equivalent to that proposed in \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory} as a general objective for communicative systems. %, taking dependency structures as the underlying meanings to be conveyed.
+These works mainly differ in the cost function applied: can use the number of different utterances (CITE), the complexity of meanings \cite{kemp2012kinship}, and the entropy of possible utterances \cite{ferrericancho2002zipf,ferrericancho2007global,futrell2017memory}.
+
+
 
 %CITE other syntactic work? LFG
 %TODO the following sentences should go somewhere
@@ -986,7 +993,7 @@ We now show that this process of efficiency optimization accounts for Greenberg'
 For every one of the 51 languages, we create hypothetical grammars that are computationally optimized for efficiency (see \textit{Materials and Methods}).
 In all results reported here, we set $\lambda := 0.9$ in Equation~\ref{eq:efficiency}.
 (See SI appendix section 5 for mathematical justification and for robustness to other choices).
-We test whether the process of efficiency optimization can explain these typological patterns. %, this shows that efficiency optimization predicts Greenberg's word order correlation universals.
+We test whether the process of efficiency optimization can explain these typological patterns, and make correct predictions about the orderings used in individual languages. %, this shows that efficiency optimization predicts Greenberg's word order correlation universals.
 
 
 
@@ -1002,15 +1009,21 @@ Collapsing some correlations that cannot be tested individually, and excluding t
 TODO the following paragraphs depend on what visualization we choose
 
 
-We compare grammars optimized for efficiency with the actual grammars of the 51 languages, as extracted from the orderings attested in the original corpora (see \textit{Materials and Methods}).
+We compare grammars optimized for efficiency with the actual grammars of the 51 languages, as extracted from the orderings attested in the original corpora and validated against expert judgments (see \textit{Materials and Methods}).
+
 
 The eight correlations are shown in Table~\ref{table:corr-dryer}.
-We compare the prevalence of the word order correlations in optimized languages (right) to their prevalence in the real languages (left).
-%To evaluate their presence in real languages, we tested for the correlations in word order grammars fit by maximum likelihood to actual orderings from treebanks.
-%The word order correlations detected this way match linguistic descriptions compiled in the World Atlas of Linguistic Structures (WALS, \cite{wals}) to the extent that they are documented in WALS. %in all except four languages, for WALS did not have data.
-Table~\ref{table:corr-dryer} shows that grammars optimized for efficiency accurately predict correlations to hold at prevalences similar to actual languages.
 
-In Figure~\ref{fig:per-lang}, we show results on the levels of individual languages.
+We compare the prevalence of the word order correlations in optimized languages (right) to their prevalence in the real languages (left).
+
+
+
+For the real languages, we indicate how many of the 51 languages satisfy a correlation.
+For the optimized languages, we indicate the posterior distribution of the proportion of satisfying languages, obtained from a mixed-effects logistic regression with language families as random effects (see \textit{Materials and Methods}).
+Table~\ref{table:corr-dryer} shows that grammars optimized for efficiency accurately predict all eight correlations to hold at prevalences similar to actual languages.
+
+We further evaluated predictions of efficiency optimization on the level of individual laguages (Figure~\ref{fig:per-lang}).
+%In Figure~\ref{fig:per-lang}, we show results on the levels of individual languages.
 For every one of the 51 languages, we show orders predicted by efficiency, for the eight correlating pairs.
 For each language, we construct a grammar optimized for efficiency with the direction of the verb-object relation fixed to correspond to the actual language.
 Predictions of efficiency optimization broadly agree with the actual word order patterns.
@@ -1037,6 +1050,8 @@ Predictability and parseability individually also predict six to eight correlati
 
 
 TODO better than this:
+
+Finally, we compare to the predictions made by optimizing only for predictability, and only for parseability.
 
 We further compared to the predictions made individually by optimizing for predictability and parseability.
 We conducted a multivariate mixed-effects logistic regression model predicting which correlations an optimized grammar satisfies, entering the language and language family of the underlying corpus as random effects.\footnote{We coded language families according to \url{universaldependencies.org}.}
@@ -1249,15 +1264,12 @@ For every one of the correlations, we report the posterior estimated.
 %\end{table*}
 %
 
-
-
-\section{Discussion}
-
+\paragraph{Discussion}
 We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
 Prior functional studies have considered Dependency Length Minimization (DLM) as an approximate formalization of efficiency optimization~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that languages order words so as to minimize the overall length of dependencies.
 This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
-Cross-linguistic corpus studies have shown that languages do minimize dependency length beyond chance, suggesting that DLM is itself a language universal \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+%Cross-linguistic corpus studies have shown that languages do minimize dependency length beyond chance, suggesting that DLM is itself a language universal \cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 Indeed, directly modeling efficiency optimization predicts DLM, and appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
 %Our work thus provides the first direct confirmation of the idea of DLM as an approximation to efficiency optimization -- DLM emerges as a by-product of efficiency maximization.
 
@@ -1291,7 +1303,7 @@ We found that a large subset of the Greenbergian word order correlations can be 
 
 A major question for functional explanations for linguistic universals is: \emph{how} do languages come to be optimized? Do speakers actively seek out new communicative conventions that allow better efficiency? Or do languages change in response to biases that come into play during language acquisition \cite{fedzechkina2012language,culbertson2012learning}? Our work is neutral toward such questions. To the extent that language universals arise from biases in learning or in the representational capacity of the human brain, our results suggest that those biases tilt toward communicative efficiency. Our work does provide against the idea that word order universals are best explained in terms of learning biases that are irreducibly arbitrary and genetic in nature \cite{chomsky2010some}.
 
-While our work has shown that certain word order universals can be explained by efficiency in communication, we have made a number of basic assumptions about how language works in constructing our word order grammars: for example, that sentences can be syntactically analyzed into dependency trees. The question arises of whether these more basic properties themselves might be explainable in terms of efficient communication. Relatedly, there are many remaining word order universals not captured by our model, such as the trade-off of rich morphological marking and flexibility in word order \cite{jespersen1922,mcfadden2003morphological,futrell2015quantifying}. Our models cannot capture this trade-off for technical reasons: the parseability objective does not operate over wordforms, only POS tags, and so it does not take advantage of morphological cues to syntactic structure. Future work can investigate whether these and other remaining universals can be explained using more sophisticated models of how meaning representations are transduced into strings of words, based on larger databases with richer annotations.
+While our work has shown that certain word order universals can be explained by efficiency in communication, we have made a number of basic assumptions about how language works in constructing our word order grammars: for example, that sentences can be syntactically analyzed into dependency trees. The question arises of whether these more basic properties themselves might be explainable in terms of efficient communication. Relatedly, there are  remaining word order universals not captured by our model, such as the trade-off of rich morphological marking and flexibility in word order \cite{jespersen1922,mcfadden2003morphological,futrell2015quantifying}. Our models cannot capture this trade-off for technical reasons: the parseability objective does not operate over wordforms, only POS tags, and so it does not take advantage of morphological cues to syntactic structure. Future work can investigate whether these and other remaining universals can be explained using more sophisticated models of how meaning representations are transduced into strings of words, based on larger databases with richer annotations.
 
 
 
