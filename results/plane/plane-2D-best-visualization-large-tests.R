@@ -9,11 +9,13 @@ depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", 
 dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
-dataS = rbind(dataS, dataS2, dataS3)
+dataS4 = read.csv("~/CS_SCR/deps/plane-fixed-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
+dataS = rbind(dataS, dataS2, dataS3, dataS4)
 dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP3 = read.csv("../../grammars/plane/plane-parse-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP = rbind(dataP, dataP2, dataP3)
+dataP4 = read.csv("~/CS_SCR/deps/plane-parse-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = rbind(dataP, dataP2, dataP3, dataP4)
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surp = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(UAS = mean(UAS, na.rm=TRUE), Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
@@ -28,6 +30,9 @@ dataP = dataP %>% mutate(Model = as.character(Model))
 dataS = dataS %>% mutate(Language = as.character(Language))
 dataP = dataP %>% mutate(Language = as.character(Language))
 data = merge(dataS, dataP, by=c("Language", "Model", "Type"), all.x=TRUE, all.y=TRUE)
+
+
+data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM2", "manual_output_funchead_RANDOM", as.character(Type)))
 
 
 dataBaseline = data %>% filter(Type == "manual_output_funchead_RANDOM")
@@ -50,7 +55,7 @@ v = data %>% filter(Language == language)
 	pValuesSurp_t = c(pValuesSurp_t, t.test(v$Surp, mu=mean(v$SurpGround), alternative="greater")$p.value)
 
 }
-#u$pValuesSurp_bin = pValuesSurp_bin
+u$pValuesSurp_bin = pValuesSurp_bin
 u$pValuesSurp_t = pValuesSurp_t
 
 
@@ -74,7 +79,7 @@ if(is.na(mean(v$EffGround))) {
 }
 
 }
-#u$pValuesEff_bin = pValuesEff_bin
+u$pValuesEff_bin = pValuesEff_bin
 u$pValuesEff_t = pValuesEff_t
 
 
@@ -101,7 +106,7 @@ if(is.na(mean(v$ParsGround))) {
 }
 
 }
-#u$pValuesPars_bin = pValuesPars_bin
+u$pValuesPars_bin = pValuesPars_bin
 u$pValuesPars_t = pValuesPars_t
 
 
@@ -111,5 +116,10 @@ mean(u$pValuesSurp_t < 0.05)
 mean(u$pValuesPars_t < 0.025 | u$pValuesSurp_t < 0.025)
 mean(u$pValuesEff_t < 0.05)
 
+
+mean(u$pValuesPars_bin < 0.05)
+mean(u$pValuesSurp_bin < 0.05)
+mean(u$pValuesPars_bin < 0.025 | u$pValuesSurp_bin < 0.025)
+mean(u$pValuesEff_bin < 0.05)
 
 

@@ -132,7 +132,7 @@ data = merge(data, depl %>% select(Language, Model,AverageLengthPerWord) %>% mut
 data = data %>% mutate(Two = 0.9*Surp+Pars)
 
 data2 = rbind(data)
-data2 = data2 %>% group_by(Language) %>% mutate(MeanSurp = mean(Surp, na.rm=TRUE), SDSurp = sd(Surp, na.rm=TRUE)) %>% mutate(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE))
+data2 = data2 %>% group_by(Language, Type) %>% summarise(Surp=mean(Surp, na.rm=TRUE), Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% mutate(MeanSurp = mean(Surp, na.rm=TRUE), SDSurp = sd(Surp, na.rm=TRUE)) %>% mutate(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE))
 plot = ggplot(data2, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type)) +geom_point()
 #plot = ggplot(data, aes(x=(Pars), y=(Surp), color=Type, group=Type)) +geom_point()
 
@@ -185,10 +185,13 @@ data = rbind(data, dataDepL)
 data = rbind(data, dataGround)
 #data = rbind(data, dataReal)
 
-dataMean = data %>% group_by(Language) %>% summarise(MeanSurp = mean(Surp, na.rm=TRUE), SDSurp = sd(Surp, na.rm=TRUE)+0.0001)
+
+#data2 = data2 %>% %>% group_by(Language) %>% mutate(MeanSurp = mean(Surp, na.rm=TRUE), SDSurp = sd(Surp, na.rm=TRUE)) %>% mutate(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE))
+
+dataMean = data %>% group_by(Language, Type) %>% summarise(Surp=mean(Surp, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanSurp = mean(Surp, na.rm=TRUE), SDSurp = sd(Surp, na.rm=TRUE)+0.0001)
 data = merge(data, dataMean, by=c("Language"))
 dataDepL = merge(dataDepL, dataMean, by=c("Language"))
-dataMean = data %>% group_by(Language) %>% summarise(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE)+0.0001)
+dataMean = data %>% group_by(Language, Type) %>% summarise(Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE)+0.0001)
 data = merge(data, dataMean, by=c("Language"))
 dataDepL = merge(dataDepL, dataMean, by=c("Language"))
 
@@ -389,7 +392,7 @@ plot = plot + theme(legend.text = element_text(size=12))
 plot = ggplot(dataPlot)  
 plot = plot + theme_bw() 
 #plot = plot + geom_segment(aes(x=-Pars_z, y=-Surp_z, xend=-Pars_z_end, yend = -Surp_z_end, color=TypeN, group=TypeN), size=0.6)
-plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=-Pars, y=-Surp, color=TypeN, group=TypeN), size=0.3)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=-Pars, y=-Surp, color=TypeN, group=TypeN), size=0.3, bins=5)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=-ParsMean, y=-SurpMean, group=1), color="gray", size=5)
 #plot = plot + geom_point(data=dataPlot, aes(x=-ParsMean, y=-SurpMean, color=TypeN, group=TypeN), size=6)
 plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
@@ -403,7 +406,7 @@ plot = plot + theme(axis.title.y = element_text(size=17))
 plot = plot + theme(legend.text = element_text(size=12))
 #plot = plot + annotate("text", x=-1.5, y=-1.3, label = "Baselines", hjust=0, size=8, color="blue")
 
-#ggsave(plot, file="pareto-plane-iso-best-balanced-legend-viz-3.pdf")
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-viz-10.pdf")
 
 
 
