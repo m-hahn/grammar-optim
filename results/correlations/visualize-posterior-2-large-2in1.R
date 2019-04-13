@@ -94,13 +94,13 @@ library(ggplot2)
 
 
 cat("\nReading posterior samples\n")
-parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
+#parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
 two = read.csv("/home/user/CS_SCR/posteriors/posterior-10-efficiency-large.csv")
-langmod = read.csv("/home/user/CS_SCR/posteriors/posterior-10-langmod.csv")
+#langmod = read.csv("/home/user/CS_SCR/posteriors/posterior-10-langmod.csv")
 
 
 
-data = rbind(langmod %>% mutate(Type="Predictability"), parse %>% mutate(Type="Parseability"), two %>% mutate(Type="Efficiency"))
+data = rbind(two %>% mutate(Type="Efficiency"))
 
 data2 = data %>% gather(Dependency, Intercept, b_acl_Intercept,b_advmod_Intercept                                   ,b_aux_Intercept                                       ,  b_liftedcase_Intercept,b_liftedcop_Intercept  ,                                 b_liftedmark_Intercept  ,                                b_nmod_Intercept         ,                               b_nsubj_Intercept         ,                              b_obl_Intercept            ,                             b_xcomp_Intercept           )
 
@@ -112,7 +112,6 @@ data2 = data2 %>% mutate(Dependency = case_when(Dependency == "liftedcase" ~ "li
 data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalence, TRUE ~ Prevalence))
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) +  facet_wrap( ~ Dependency, ncol=1) 
-  ggsave(plot, file=paste("figures/posterior_joint_large" , ".pdf", sep=""))
 
 
 
@@ -123,7 +122,6 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
 
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) 
-  ggsave(plot, file=paste("figures/posterior_joint_with_ud_large" , ".pdf", sep=""))
 
 #  plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) + geom_bar(data=E, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type))
 #  ggsave(plot, file=paste("posterior/posterior_joint_with_ud_balanced" , ".pdf", sep=""))
@@ -134,41 +132,19 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
   dependency = "acl"
 
   dependencies =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
-for(type in c("Efficiency", "Predictability", "Parseability")) {
-	if(type == "Efficiency") {
 		color = "blue"
-	} else if(type == "Predictability") {
-		color = "red"
-	} else if (type == "Parseability") {
-		color = "green"
-	}
   for(dependency in dependencies) {
-     plot = ggplot(data=data2 %>% filter(Type==type, Dependency==dependency))
-     plot = plot  + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5, fill=color)
+     plot = ggplot()
+     plot = plot  + geom_density(data=data2 %>% filter(Type==type, Dependency==dependency), aes(x=Prevalence, y=..scaled.., fill=Type, group=Type),  fill=color)
      plot = plot + xlim(0,1)
      plot = plot + theme_classic()
      plot = plot + theme_void()
      plot = plot  + theme(legend.position="none")
      plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
-     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+     plot = plot + geom_bar(data=D %>% filter(Dependency==dependency), stat="identity", width = 0.04, fill="green", aes(x=Agree, y=1))
+
+
+
+     ggsave(paste("figures/posteriors/posterior_2in1_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
   }
-}
-
-type = "Real"
-  for(dependency in dependencies) {
-     plot = ggplot(data=D %>% filter(Dependency==dependency))
-  plot = plot + geom_bar(stat="identity", width = 0.1, aes(x=Agree, y=1))
-     plot = plot + xlim(0,1)
-     plot = plot + theme_classic()
-     plot = plot + theme_void()
-     plot = plot  + theme(legend.position="none")
-     plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
-     plot = plot + theme(axis.line.x = element_line(colour = "black"))
-#     plot = plot + theme(panel.border = element_rect(colour = "black", fill=NA, size=1))
-     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
-  }
-
-
-
-
 
