@@ -1,7 +1,5 @@
 import os
 import random
-import accessISWOCData
-import accessTOROTData
 import sys
 
 header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
@@ -17,7 +15,7 @@ def readUDCorpus(language, partition):
         basePath = basePaths[0]
         del basePaths[0]
         files = os.listdir(basePath)
-        files = filter(lambda x:x.startswith("UD_"+language.replace("-Adap", "")), files)
+        files = filter(lambda x:x.startswith("UD_"+language), files)
       data = []
       for name in files:
         if "Sign" in name:
@@ -34,14 +32,6 @@ def readUDCorpus(language, partition):
             subDirectory =basePath+"/"+name
         subDirFiles = os.listdir(subDirectory)
         partitionHere = partition
-        if (name in ["UD_North_Sami", "UD_Irish", "UD_Buryat-BDT", "UD_Armenian-ArmTDP"]) and partition == "dev" and (not language.endswith("-Adap")):
-            print "Substituted test for dev partition"
-            partitionHere = "test"
-        elif language.endswith("-Adap"):
-          if (name in ["UD_Kazakh-KTB", "UD_Cantonese-HK", "UD_Naija-NSC", "UD_Buryat-BDT", "UD_Thai-PUD", "UD_Breton-KEB", "UD_Faroese-OFT", "UD_Amharic-ATT", "UD_Kurmanji-MG", "UD_Upper_Sorbian-UFAL"]):
-             partitionHere = "test"
-          elif name == "UD_Armenian-ArmTDP":
-             partitionHere  = ("train" if partition == "dev" else "test")
             
         candidates = filter(lambda x:"-ud-"+partitionHere+"." in x and x.endswith(".conllu"), subDirFiles)
         if len(candidates) == 0:
@@ -55,15 +45,6 @@ def readUDCorpus(language, partition):
            with open(dataPath, "r") as inFile:
               newData = inFile.read().strip().split("\n\n")
               assert len(newData) > 1
-              if language.endswith("-Adap")  and (name in ["UD_Kazakh-KTB", "UD_Cantonese-HK", "UD_Naija-NSC", "UD_Buryat-BDT",  "UD_Thai-PUD", "UD_Breton-KEB", "UD_Faroese-OFT", "UD_Amharic-ATT", "UD_Kurmanji-MG", "UD_Upper_Sorbian-UFAL"]): # "UD_Armenian-ArmTDP",
-                  random.Random(4).shuffle(newData)
-                  devLength = 100
-                  if partition == "dev":
-                       newData = newData[:devLength]
-                  elif partition == "train":
-                       newData = newData[devLength:]
-                  else:
-                       assert False
               data = data + newData
         except IOError:
            print "Did not find "+dataPath
@@ -130,12 +111,6 @@ class CorpusIterator():
            sentence[i]["head"] = int(sentence[i]["head"])
            sentence[i]["index"] = int(sentence[i]["index"])
            sentence[i]["word"] = sentence[i]["word"].lower()
-           if self.language == "Thai-Adap":
-              assert sentence[i]["lemma"] == "_"
-              sentence[i]["lemma"] = sentence[i]["word"]
-           if "ISWOC" in self.language or "TOROT" in self.language:
-              if sentence[i]["head"] == 0:
-                  sentence[i]["dep"] = "root"
 
            if self.splitLemmas:
               sentence[i]["lemmas"] = sentence[i]["lemma"].split("+")
