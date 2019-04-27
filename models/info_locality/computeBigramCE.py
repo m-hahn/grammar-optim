@@ -241,6 +241,8 @@ if model != "RANDOM":
  #     dependent = line[header.index("Dependent")]
       dependency = line[header.index("CoarseDependency")]
       key = dependency
+      if key not in stoi_deps:
+          continue
       dhWeights[stoi_deps[key]] = float(line[header.index("DH_Weight")])
       distanceWeights[stoi_deps[key]] = float(line[header.index("DistanceWeight")])
 

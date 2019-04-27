@@ -9,7 +9,7 @@ temperature = "Infinity"
 
 languages = ["English", "Spanish", "Chinese", "Slovenian", "Estonian", "Norwegian", "Serbian", "Croatian", "Finnish", "Portuguese", "Catalan", "Russian", "Arabic", "Czech", "Japanese", "French", "Latvian", "Basque", "Danish", "Dutch", "Ukrainian", "Gothic", "Hebrew", "Hungarian", "Latin", "Persian", "Bulgarian", "Romanian", "Indonesian", "Greek", "Turkish", "Slovak", "Belarusian", "Galician", "Italian", "Lithuanian", "Polish", "Vietnamese", "Korean", "Tamil", "Irish", "Marathi", "Afrikaans", "Telugu", "Coptic", "Old_Church_Slavonic", "Ancient_Greek", "Hindi", "Swedish", "German", "Urdu"]
 assert len(languages) == 51
-
+#languages = ["Irish"]
 for language in languages:
    #language = sys.argv[1]
    
@@ -25,17 +25,17 @@ for language in languages:
    # random
    #
    # optimized
-   objectives = ["best-"+x+".csv" for x in ["depl", "langmod-best-balanced", "parse-best-balanced", "two_coarse_lambda09_best_large"]] + ["models-mle.csv"]
-   for obj in objectives:
-      with open("../results/strongest_models/"+obj, "r") as inFile:
-         data = [x.replace('"',"").split(",") for x in inFile.read().strip().split("\n")]
-      header =  dict(zip(data[0], range(len(data[0]))))
-      for line in data[1:]:
-       if line[header["Language"]] == language:
-          models.append((line[header["Model"]], line[header["Type"]]))
-
+#   objectives = ["best-"+x+".csv" for x in ["depl", "langmod-best-balanced", "parse-best-balanced", "two_coarse_lambda09_best_large"]] + ["models-mle.csv"]
+#   for obj in objectives:
+#      with open("../results/strongest_models/"+obj, "r") as inFile:
+#         data = [x.replace('"',"").split(",") for x in inFile.read().strip().split("\n")]
+#      header =  dict(zip(data[0], range(len(data[0]))))
+#      for line in data[1:]:
+#       if line[header["Language"]] == language:
+#          models.append((line[header["Model"]], line[header["Type"]]))
+#
    modelsRand = set()
-   for name in [""]: #, "-random2"]:
+   for name in ["-random2"]: #[""]: #, "-random2"]:
      with open("/u/scr/mhahn/deps/plane-fixed"+name+".tsv", "r") as inFile:
         plane = [x.split("\t") for x in inFile.read().strip().split("\n")]
      header = dict(zip(plane[0], range(len(plane[0]))))
