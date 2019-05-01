@@ -22,6 +22,6 @@ with open("../results/corpus-size/corpus-sizes.tsv", "w") as outFile:
       for sentence in corpus:
        sentsPerPart[partition] += 1
        for line in sentence:
-          if line["posUni"] == "PUNCT":
+          if line["posUni"] != "PUNCT":
               wordsPerPart[partition] += 1
     print >> outFile, "\t".join(map(str, [language, sentsPerPart["train"], sentsPerPart["dev"], wordsPerPart["train"], wordsPerPart["dev"]]))
