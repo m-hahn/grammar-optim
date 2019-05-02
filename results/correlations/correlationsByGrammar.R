@@ -1,3 +1,6 @@
+# Study 1: Correlation between efficiency and the number of satisfied correlations, for real grammars.
+
+
 
 library(tidyr)
 library(dplyr)
@@ -127,6 +130,32 @@ cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z)
 
 # Robustness check:
 cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z, method="spearman")
+cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z, method="kendal")
+
+
+plot = ggplot(u, aes(x=Agree, y=-(0.9*u$Surp_z+u$Pars_z)))
+plot = plot + geom_point()
+plot = plot + geom_smooth(method="lm")
+plot = plot + xlab("Satisfied Correlations")
+plot = plot + ylab("Efficiency")
+plot = plot + theme_bw()
+ggsave(plot, file="correlations-by-grammar/ground-corrs-efficiency.pdf")
+
+plot = ggplot(u, aes(x=Agree, y=-u$Surp_z))
+plot = plot + geom_point()
+plot = plot + geom_smooth(method="lm")
+plot = plot + xlab("Satisfied Correlations")
+plot = plot + ylab("Predictability")
+plot = plot + theme_bw()
+ggsave(plot, file="correlations-by-grammar/ground-corrs-predictability.pdf")
+
+plot = ggplot(u, aes(x=Agree, y=-u$Pars_z))
+plot = plot + geom_point()
+plot = plot + geom_smooth(method="lm")
+plot = plot + xlab("Satisfied Correlations")
+plot = plot + ylab("Parseability")
+plot = plot + theme_bw()
+ggsave(plot, file="correlations-by-grammar/ground-corrs-parseability.pdf")
 
 
 
