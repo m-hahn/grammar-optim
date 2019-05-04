@@ -33,6 +33,9 @@
 \newcommand{\key}[1]{\textbf{#1}}
 
 
+
+
+
 \usepackage{mathtools}
 \DeclarePairedDelimiter{\ceiling}{\lceil}{\rceil}
 
@@ -66,10 +69,14 @@ We test our ordering grammars for these correlations by testing whether the coef
 Testing correlations is therefore constrained by the degree to which these relations are annotated in UD.
 The verb-object relation corresponds to the  \emph{obj} relation defined by UD.
 While most of the other relations also correspond to UD relations, some are not annotated reliably.
-We were able formalize eleven out of Dryer's seventeen correlations in UD. Six of these could not be expressed individually in UD, and were collapsed into three coarse-grained correlations.
+We were able formalize eleven out of Dryer's seventeen correlations in UD.
+Six of these could not be expressed individually in UD, and were collapsed into three coarse-grained correlations:
+First, tense/aspect and negative auxiliaries are together represented by the \emph{aux} relation in UD.
+Second, the relation between complementizers and adverbial subordinators with their complement clauses is represented by the \emph{lifted\_mark} relation.
+Third, we both the verb-PP relation and the relation between adjectives and their standard of comparison is captured by the \emph{obl} relation.
 
 
-We excluded four correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
+We excluded three correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
 Among these three types of elements, the one most prominent in our sample of 51 languages is articles (occurring in many European languages); UD subsumes them under the \emph{det} relation, which is also used for other frequent elements, such as demonstratives and quantifiers.
 
@@ -83,33 +90,31 @@ This ordering behavior is very different from that documented for manner adverbs
 
 We further excluded the verb-subject correlation, which is not satisfied by much more than half of the world's languages (51 \% among those with annotation in \cite{wals-81}, with clear violation in 35.4 \%).
 It is satisfied only in 33\% of our sample of 51 UD languages, as quantified using the grammars we extracted.
-Dryer \cite{dryer1992greenbergian} counts this as a correlation since he describes the distribution of subject order as an interaction between a weak correlation with object order, and a very strong dominance principle favoring SV/SO orderings.
-We focus on the modeling of correlations, and such dominance principles are beyond the scope of our experiments.
-We therefore excluded this correlation.
+Dryer \cite{dryer1992greenbergian} counts this as a correlation since he describes the distribution of subject order as an interaction between a weak correlation with object order, and a very strong dominance principle favoring SV orderings.
+We focus on the modeling of correlations, and leave dominance principles to future research.
+We therefore excluded this correlation here.
 %We note that efficiency makes predictions compatible with the pattern observed in our sample of 51 languages, potentially in line with the noisy-channel explanation of SVO described by~\cite{gibson2013noisy} (see Table~\ref{tab:all-predictions}).
-
-TODO collapsing
 
 The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
 
 \begin{table*}[ht]
 	\begin{center}
-\begin{tabular}{|ll|l|l}
+\begin{tabular}{|ll|l|l|}
 	\hline
-	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{Operationalization}       \\ 
+	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{Operationalization}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
 	verb & object &    \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
-adposition    &    NP    &    lifted\_case   & G3, G4   \\ \hline
-copula  verb  &    predicate    &    lifted\_cop   & --    \\\hline
-`want'    &    VP    &    xcomp   & G15   \\\hline
-tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{aux}   & G16, G13  \\
-negative auxiliary    &    VP    &     \\ \hline
-complementizer    &    S    &   \multirow{2}{*}{lifted\_mark}  & --    \\
-adverbial subordinator & S & \\ \hline
-noun    &    genitive    &    nmod & G2, G23   \\ \hline
-noun    &    relative clause    &    acl   &  G24    \\ \hline
-adjective & standard of comparison & \multirow{2}{*}{obl}\\
-verb    &    PP    &    & G22   \\
+adposition    &    NP    &    case   & 3, 4   \\ \hline
+copula  verb  &    predicate    &    cop   & --    \\\hline
+`want'    &    VP    &    xcomp   & 15   \\\hline
+tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{aux}   & 16, 13  \\
+	negative auxiliary    &    VP    &    & -- \\ \hline
+complementizer    &    S    &   \multirow{2}{*}{mark}  & --    \\
+	adverbial subordinator & S &  & -- \\ \hline
+noun    &    genitive    &    nmod & 2, 23   \\ \hline
+noun    &    relative clause    &    acl   &  24    \\ \hline
+	adjective & standard of comparison & \multirow{2}{*}{obl} & --\\
+verb    &    PP    &    & 22   \\
  \hline
 %comp. &
 %\multirow{3}{*}{NP}&
@@ -680,7 +685,7 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
     \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
     \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
 
-   	\caption{.}
+	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
     \label{fig:todo}
 \end{figure}
 
@@ -691,11 +696,16 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
 % user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
 
 Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in WALS.
+Among the eight relations that we were able to test, five are annotated in WALS.
+Here, we compare our grammars with WALS on these five relations, and the verb-object relation.
 
+WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it agrees with the Serbian grammar.}
 WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
-96~\% of entries where WALS records a dominant word order agree with the WALS judgment.
+The grammars we extracted from the corpora agree with WALS in 96~\% out of those cases where WALS records a dominant word order.
 
-$*$ indicates that WALS does not list a dominant order, ? indicates that WALS has no data, and $--$ indicates that the relation does not occur in the corpus.
+For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
+$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
+Finally, `--' indicates that the relation does not occur in the corpus.
 
 
 \small{

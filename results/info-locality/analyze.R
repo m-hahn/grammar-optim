@@ -14,7 +14,7 @@ data = merge(data, ground, by=c("Language"))
 data = merge(data, depl, by=c("Language")) 
 
 
-dataSummary = data %>% group_by(Language) %>% summarise(betterThanEff = mean(BigramCE < BigramCE_eff), betterThanGround = mean(BigramCE < BigramCE_ground), betterThanDepl = mean(BigramCE < BigramCE_depl))
+dataSummary = data %>% group_by(Language) %>% summarise(betterThanEff = mean(BigramCE < BigramCE_eff), betterThanGround = mean(BigramCE < BigramCE_ground), betterThanDepl = mean(BigramCE < BigramCE_depl), meanCE = mean(BigramCE), sdCE = sd(BigramCE))
 
 library("stats")
 
@@ -43,6 +43,19 @@ mean(ps_ground < 0.05)
 # Robustness Check
 mean(ps_eff_binom < 0.05)
 mean(ps_ground_binom < 0.05)
+
+
+library(ggplot2)
+plot = ggplot(data, aes(x=BigramCE, group=Model)) + geom_histogram(binwidth=0.01, color="blue") + geom_histogram(aes(x=BigramCE_ground), color="red") + facet_wrap(~Language, ncol=10, scales="free") + theme_bw()
+
+
+data = merge(data, dataSummary, by=c("Language"))
+data = data %>% mutate(CE_z = (BigramCE-meanCE)/sdCE)
+ground = merge(ground, dataSummary, by=c("Language"))
+ground = ground %>% mutate(CE_z_ground = (BigramCE_ground-meanCE)/sdCE)
+
+plot = ggplot(data, aes(x=CE_z)) + geom_histogram(binwidth=0.01, color="blue") + geom_histogram(binwidth=0.01, data=ground, aes(x=CE_z_ground), color="red") + theme_bw()
+
 
 
 
