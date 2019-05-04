@@ -101,7 +101,7 @@ The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
 	\begin{center}
 \begin{tabular}{|ll|l|l|}
 	\hline
-	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{Operationalization}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
+	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
 	verb & object &    \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
 adposition    &    NP    &    case   & 3, 4   \\ \hline
@@ -113,7 +113,7 @@ complementizer    &    S    &   \multirow{2}{*}{mark}  & --    \\
 	adverbial subordinator & S &  & -- \\ \hline
 noun    &    genitive    &    nmod & 2, 23   \\ \hline
 noun    &    relative clause    &    acl   &  24    \\ \hline
-	adjective & standard of comparison & \multirow{2}{*}{obl} & --\\
+	adjective & std. of comp. & \multirow{2}{*}{obl} & --\\
 verb    &    PP    &    & 22   \\
  \hline
 %comp. &
@@ -122,7 +122,9 @@ verb    &    PP    &    & 22   \\
     \multicolumn{3}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
 \end{tabular}
 	\end{center}
-	\caption{Greenbergian Correlations according to Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies. We also provide the corresponding numbers in Greenberg's original study.}\label{table:greenberg-dryer}
+	\caption{Greenbergian Correlations according to Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies.
+	For reference, we also provide the numbers of the closest corresponding universals stated in Greenberg's original study.
+	}\label{table:greenberg-dryer}
 \end{table*}
 
 
@@ -218,11 +220,11 @@ reparandum  &  18   &   53   &   57   &   43   &   48  & UD artifact  \\
 \end{table*}
 
 
-\section{Posterior}
+\section{Comparing Efficiency to its Components}
 
-\begin{figure}
+\begin{figure}[ht]
 	\begin{center}
-	\includegraphics[width=0.48\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
+	\includegraphics[width=0.98\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
 	\end{center}
 	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
 \end{figure}
@@ -324,32 +326,6 @@ Efficiency optimization predicts all eight correlations to hold in the majority 
 
 
 
-\section{Relation to the Information Bottleneck}
-
-Our efficiency objective (Equation~\ref{eq:efficiency}), to be maximized for word order grammars $L$, is restated below.
-\begin{equation}
-    \label{eq:efficiency-again}
-    J_T(L) = I[L(T); T] - \lambda H[L(T)].
-\end{equation}
-This equation can be seen as a special case of the objective function proposed in \citet{tishby1999information} for general lossy compression, based on rate-distortion theory \citep{cover2006elements,harremoes2007information}. In that theory, the goal is to derive an encoding $\hat{X}=L(X)$ of some variable $X$ which preserves the information in $X$ relevant to some third variable $Y$, while minimizing irrelevant information. The three variables $Y$,$X$, and $\hat{X}$ are assumed to form a Markov chain $Y \rightarrow X \underrightarrow{L} \hat{X}$. Given those variables, the information bottleneck objective to be maximized is given in Eq.~\ref{eq:ib}.
-\begin{equation}
-    \label{eq:ib}
-    J_{X,Y}(L) = I[\hat{X}; Y] - \lambda I[\hat{X}; X].
-\end{equation}
-In this equation, the joint distribution of $X$ and $Y$ is seen as fixed, and the conditional distribution $L=\hat{X}|X$ is optimized.
-
-In our setting we consider a language $L$ expressing trees $T$ as utterances $U$: $T \underrightarrow{L} U$. To make our formulation more parallel to the information bottleneck, we assume the utterances $U$ are passed through a channel from producer to comprehender, and received as $\hat{U}=U$. We have the Markov chain $T \underrightarrow{L} U \rightarrow \hat{U}$, where we are assuming the conditional channel distribution $\hat{U}|U$ is fixed and the conditional distribution $L=U|T$ is to be optimized. Then our objective is parallel to Eq.~\ref{eq:ib}:
-\begin{equation}
-    \label{eq:efficiency-kinda-ib}
-    J_T(L) = I[U;T] - \lambda I[U;\hat{U}]. % TODO should this be I[\hat{U};T]?
-\end{equation}
-Assuming the channel $U \rightarrow \hat{U}$ is noiseless, we have $U=\hat{U}$, and thus $I[U;\hat{U}]=I[U;U] = H[U]$. Then Eq.~\ref{eq:efficiency-kinda-ib} reduces to a form of Eq.~\ref{eq:efficiency-again}:
-\begin{equation*}
-    J_T(L) = I[U;T] - \lambda H[U].
-\end{equation*}
-
-Our efficiency objective is thus closely related to the information bottleneck; the difference is that we are optimizing the mapping from underlying meanings to representations (strings) assuming that these strings will be transmitted in a fixed noiseless channel.
-
 \section{Possible values of $\lambda$}
 
 In the efficiency objective~(\ref{eq:efficiency-again}), the value of $\lambda$ is constrained to be in $[0,1)$.
@@ -369,9 +345,9 @@ This is a degenerate language with only a single utterance, which is simultaneou
 While the design of our word order grammars precludes a collapse of all trees to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable objective for language efficiency.
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parsability.
-We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations and relative optimality of language.
 
 The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
+We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations.
 We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (TODO check).
 
 \section{Joint optimization of grammar, parser, and language model parameters}
@@ -678,7 +654,7 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
 \section{Study 2, Correlation between Universals and Efficiency}
 
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
     
     \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
@@ -723,6 +699,32 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 }
 
 
+
+\section{Relation to the Information Bottleneck}
+
+Our efficiency objective (Equation~\ref{eq:efficiency}), to be maximized for word order grammars $L$, is restated below.
+\begin{equation}
+    \label{eq:efficiency-again}
+    J_T(L) = I[L(T); T] - \lambda H[L(T)].
+\end{equation}
+This equation can be seen as a special case of the objective function proposed in \citet{tishby1999information} for general lossy compression, based on rate-distortion theory \citep{cover2006elements,harremoes2007information}. In that theory, the goal is to derive an encoding $\hat{X}=L(X)$ of some variable $X$ which preserves the information in $X$ relevant to some third variable $Y$, while minimizing irrelevant information. The three variables $Y$,$X$, and $\hat{X}$ are assumed to form a Markov chain $Y \rightarrow X \underrightarrow{L} \hat{X}$. Given those variables, the information bottleneck objective to be maximized is given in Eq.~\ref{eq:ib}.
+\begin{equation}
+    \label{eq:ib}
+    J_{X,Y}(L) = I[\hat{X}; Y] - \lambda I[\hat{X}; X].
+\end{equation}
+In this equation, the joint distribution of $X$ and $Y$ is seen as fixed, and the conditional distribution $L=\hat{X}|X$ is optimized.
+
+In our setting we consider a language $L$ expressing trees $T$ as utterances $U$: $T \underrightarrow{L} U$. To make our formulation more parallel to the information bottleneck, we assume the utterances $U$ are passed through a channel from producer to comprehender, and received as $\hat{U}=U$. We have the Markov chain $T \underrightarrow{L} U \rightarrow \hat{U}$, where we are assuming the conditional channel distribution $\hat{U}|U$ is fixed and the conditional distribution $L=U|T$ is to be optimized. Then our objective is parallel to Eq.~\ref{eq:ib}:
+\begin{equation}
+    \label{eq:efficiency-kinda-ib}
+    J_T(L) = I[U;T] - \lambda I[U;\hat{U}]. % TODO should this be I[\hat{U};T]?
+\end{equation}
+Assuming the channel $U \rightarrow \hat{U}$ is noiseless, we have $U=\hat{U}$, and thus $I[U;\hat{U}]=I[U;U] = H[U]$. Then Eq.~\ref{eq:efficiency-kinda-ib} reduces to a form of Eq.~\ref{eq:efficiency-again}:
+\begin{equation*}
+    J_T(L) = I[U;T] - \lambda H[U].
+\end{equation*}
+
+Our efficiency objective is thus closely related to the information bottleneck; the difference is that we are optimizing the mapping from underlying meanings to representations (strings) assuming that these strings will be transmitted in a fixed noiseless channel.
 
 
 \bibliographystyle{unsrtnat}
