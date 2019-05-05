@@ -47,8 +47,8 @@ data = merge(data, D, by=c("FileName"))
 
 data = data %>% mutate(Dir = pmax(0, sign(DH_Weight)), DirObj = pmax(0, sign(DH_Weight_Obj))) %>% mutate(Agree = (Dir == DirObj))
 
-reverseOrder = c("aux")
-data[data$Dependency %in% reverseOrder,]$Agree = 1-data[data$Dependency %in% reverseOrder,]$Agree
+#reverseOrder = c("aux")
+#data[data$Dependency %in% reverseOrder,]$Agree = 1-data[data$Dependency %in% reverseOrder,]$Agree
 
 
 D = data %>% group_by(Language, Family, Dependency) %>% summarise(Agree = mean(Agree)) %>% group_by(Dependency) %>% summarise(Agree = mean(Agree)) %>% mutate(Type = "UD Corpora")
