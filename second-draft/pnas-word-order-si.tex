@@ -58,13 +58,24 @@
 \begin{document}
 \maketitle
 
-TODO
 
-- about the regression
 
--- prior, how many samples, how many chains, convergence criteria
 
--- robustness to priors
+\tableofcontents
+
+\section{Study 2: Regression for Predicted Correlations}
+
+Following (CITE), we used as a very weakly informative prior a Student's $t$ prior with 3 degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$).
+The covariance matrix is modeled using the LKJ prior, as described in (CITE brms Bayesian multilevel).
+We used four chains, with 5000 samples each (2500 warmup).
+The chains had converged ($\hat{R} < 1.01$).
+
+To verify robustness to more informative priors, we conducted the analysis (REF) with a tighter weakly informative prior.
+Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
+We obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
+We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating the model using \texttt{lme4} (CITE) and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+
+
 
 
 \section{Formalization of Correlations}
@@ -141,29 +152,37 @@ verb    &    PP    &    & 22   \\
 %croft2011greenbergian
 %dryer2011evidence
 
-\section{Supporting Analyses for Study 1}
+\section{Study 1: Supporting Analyses for Study 1}
 
-\paragraph{Other tests, maybe som viz}
 
-\paragraph{Pareto Curve}
+- binomial test
 
-It has to be convex, so don't need to do more.
+\paragraph{z-Scored Data (Figure (REF))}
+We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section REF), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
 
-maybe per-language curves?
+Within each language, we estimate the Pareto curve by connecting the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section REF), (2) parseability, and (3) predictability.
+We then estimated the overall average Pareto curve, as shown in Figure (REF), by averaging the z-transformed points (1), (2), (3).
 
-\section{Results on all UD Relations}
+
+
+
+\section{Study 2: Results on all UD Relations}
 In this section, we provide the predicted prevalence of correlations between the \emph{obj} dependency and all UD dependency types, along with the expected prevalence according to typological studies.
 We also report results for grammars optimized for predictability and parseability individually.
-
-Further, we report results for grammars optimized for dependency length minimization (DLM).
-DLM can be seen as a heuristic approximation to efficiency.
-We also found that DLM is predicted by efficiency optimization.
-Indeed, we show that optimizing for DLM makes predictions similar to efficiency optimization.
 
 
 We considered all UD syntactic relations occurring in at least two of the 51 languages.
 In Table~\ref{tab:all-predictions-1}, we present the data for the eight correlations discussed in the main paper, and for those other relations for which the typological literature provides data.
 Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other UD relations, for which either no typological data is available, or which are not linguistically meaningful.
+
+
+Further, we report results for grammars optimized for dependency length minimization (DLM).
+Following (CITE), we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars (CITE).
+Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
+In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+
+
 
 %posterior_perRelation_Real_conj.pdf         posterior_perRelation_Real_goeswith.pdf     posterior_perRelation_Real_nummod.pdf       
 %user@user-G751JY:~/grammar-optim/results/correlations$ evince figures/posteriors/posterior_perRelation_Real_csubj.pdf 
@@ -261,7 +280,12 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 
 
 
-\section{Comparing Efficiency to its Components}
+\section{Study 2: Comparing Efficiency to its Components}\label{sec:posterior-number}
+
+
+In Figure~\ref{fig:posterior}, we plot the posterior number of correlations predicted to hold in most optimized grammars, as obtained from the Bayesian regression.
+In addition to grammars optimized for efficiency, we also report the result for grammars optimized for predictability and for parseability alone.
+Efficiency predicts all eight correlations with high posterior probability; predictability and parseability alone do not.
 
 \begin{figure}[ht]
 	\begin{center}
@@ -290,7 +314,7 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 
 
 
-\section{Possible values of $\lambda$}
+\section{Possible values of $\lambda$}\label{sec:lambda}
 
 In the efficiency objective~(\ref{eq:efficiency-again}), the value of $\lambda$ is constrained to be in $[0,1)$.
 This means, surprisal must be weighted less strongly than parsability.
@@ -317,11 +341,18 @@ We note that each of the eight correlations is predicted by at least parseabilit
 %\section{Joint optimization of grammar, parser, and language model parameters}
 \section{Optimizing Grammars for Efficiency}
 
+In this section, we describe the method we employ for creating grammars that are optimized for efficiency.
+Our main methodological innovation is to carry out optimization in an extended space of grammars that interpolates continuously between different grammars (Section~\ref{sec:diff-gramm}).
+More specifically, we include probabilistic relaxations of grammars, which describe probability distributions over different ways of ordering a syntactic structure into a sentence.
+This makes efficiency a \emph{differentiable} function of the grammar parameters, and enables efficient optimization with stochastic gradient descent, as we describe in Section~\ref{sec:optim-eff}.
 
-\subsection{Differentiable Ordering Grammars}
+This method addresses a major challenge noted in previous work optimizing grammars, namely that the predictability (and parseability) of an individual sentence depends on the entire distribution of the language.
+Previously, \citep{gildea2015human} optimized grammars for dependency length and trigram surprisal using a simple hill-climbing method on the grammar parameters, which required reestimating the trigram surprisal model in every iteration.
+Such a method would be computationally prohibitive for efficiency optimization, as it would require reestimating the neural network models after every change to the grammar, which would amount to reestimating them hundreds or thousands of times per grammar.
+Our method, by allowing for the use of stochastic gradient descent, addresses this challenge, as we describe in Section~\ref{sec:optim-eff}.
 
-In order to carry out optimization of grammars, we extend the space of grammars to include probabilistic relaxations of grammars, which describe probability distributions over different ways of ordering a syntactic structure into a sentence.
-This makes efficiency a differentiable function of the grammar parameters, and enables optimization with stochastic gradient descent, as we describe in Section~\ref{sec:optim-eff}.
+\subsection{Differentiable Ordering Grammars}\label{sec:diff-gramm}
+
 
 The parameters of such a differentiable word order grammar are as follows. 
 For each dependency label type $\tau$, we have (1) a \key{Direction Parameter} $a_\tau \in [0,1]$, and (2) a \key{Distance Parameter} $b_\tau \in \mathbb{R}$. 
@@ -331,31 +362,83 @@ Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of 
 If $a_\tau \in \{0, 1\}$, and the distances between values of $b_\tau$ (for different $\tau$) become very large, such a differentiable grammar becomes deterministic, assigning almost full probability to exactly one ordering for each syntactic structure.
 In this case, the grammar can be converted into an equivalent grammar of the form described in Materials and Methods, by extracting a single parameter in $[-1, 1]$ for each relation $\tau$.
 
+
 \subsection{Extracting Grammars from Datasets}
 We extract grammars for the actual languages by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
 To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.
 We then extract the posterior means for each parameter $a_\tau, b_\tau$, and convert the resulting differentiable grammar into an ordinary ordering grammar.
 
+
 \subsection{Optimizing Grammars for Efficiency}\label{sec:optim-eff}
 
-\textbf{rewrite this}
 
-For each of our objective functions, we seek parameters $\theta$ of a word order grammar $L_\theta$ that maximize the average utility of sentences in the language obtained by linearizing unordered trees $t \sim T$ according to $L_\theta$. The calculation of the predictability and parseability objectives also requires fitting language models parameterized by $\phi$ and parsers parameterized by $\psi$, respectively; and the calculation of the efficiency objective requires joint optimization of the word order grammar, language models, and parsers. The optimization problems come out to:
+A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $\mathcal{L}_\theta(t) = \mathbf{w}$ linearizing the tree.
+More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ is a \emph{probability distribution} over ordered sequences of words $\mathbf{w}$.
+In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $\mathcal{L}_\theta(t)$ concentrates on a single ordering.
+
+Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a differentiable word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
+\begin{equation}
+\label{eq:exp-over-utts}
+J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim \mathcal{L}_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
+\end{equation}
+where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
+Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+
+
+
+We formalize predictability as follows. Given a language model $P_\phi$ with parameters $\phi$, the log probability of a sentence ${\bf w}$ is:
+\begin{equation*}
+R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
+\end{equation*}
+where the language model parameters $\phi$ are chosen predict the language induced by tree distribution $T$ and word order grammar $\mathcal{L}_\theta$ as accurately as possible (maximizing predictability):
+\begin{equation*}
+	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+\end{equation*}
+
+
+We specify parseability as the mutual information between strings and trees, or equivalently the quantity of information provided by strings about trees. Formally, we say the parseability score of an utterance $\mathbf{w}$ is the pointwise mutual information of the $\mathbf{w}$ and the tree $t$ it was generated from, calculated using a parser with parameters $\psi$:\footnote{Note that $P(t)$ is a constant term which will be ignored in the optimization process.}
 \begin{align}
-\max_\theta &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{DepL}(t; {\bf w}) \label{eq:maximize-depl}\\
+\nonumber
+R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
+\nonumber
+&= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
+\end{align}
+where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
+\begin{equation*}
+\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+\end{equation*}
+
+For efficiency, we linearly combine the two terms:
+\begin{equation}
+\label{eq:combined-score}
+R_{Efficiency}^{\phi,\psi}(t; {\bf w}) = R_{Pars}^\psi(t; {\bf w}) + \lambda R_{Pred}^\phi(t; {\bf w}),
+\end{equation}
+
+
+%\begin{equation}
+%    \label{eq:depl}
+%	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+%\end{equation}
+%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+
+For each of our objective functions, we seek parameters $\theta$ of a word order grammar $\mathcal{L}_\theta$ that maximize the average utility of sentences in the language obtained by linearizing unordered trees $t \sim T$ according to $\mathcal{L}_\theta$. The calculation of the predictability and parseability objectives also requires fitting language models parameterized by $\phi$ and parsers parameterized by $\psi$, respectively; and the calculation of the efficiency objective requires joint optimization of the word order grammar, language models, and parsers. The optimization problems come out to:
+\begin{align}
+%\max_\theta &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{DepL}(t; {\bf w}) \label{eq:maximize-depl}\\
 \max_{\theta,\phi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pred}^{\phi(\theta)}(t; {\bf w}) \label{eq:maximize-pred}\\
 \max_{\theta,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pars}^{\psi(\theta)}(t; {\bf w}) \label{Eq:maximize-pars} \\
 \max_{\theta,\phi,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Efficiency}^{\psi(\theta), \phi(\theta)}(t; {\bf w}). \label{eq:maximize-efficiency} 
 \end{align}
 Note that the original word orders from the treebank never enter this objective---in particular, they do not influence the language model and the parser, which are entirely determined by $\theta$.
 
-The case of dependency length in Eq.~\ref{maximize-depl} is the simplest, requiring only coordinate descent on the parameters $a_\tau, b_\tau \in \theta$. A similar optimization problem was solved by hill-climbing in \citet{gildea2007optimizing} and \citet{gildea2015human}.
-We optimize this objective by stochastic gradient descent with a batch size of one unordered dependency tree.
 
-The case of predictability, parseability, and efficiency are more challenging, as we need to simultaneously look for an ordering model optimized for the loss of a language model and/or a parser, and for a language model and/or parser that are optimized for that given ordering model.
+%The case of predictability, parseability, and efficiency are more challenging, as 
+%e need to simultaneously look for an ordering model optimized for the loss of a language model and/or a parser, and for a language model and/or parser that are optimized for that given ordering model.
 We solve Eqs.~\ref{eq:maximize-pred}--\ref{eq:maximize-efficiency} by performing stochastic gradient descent over all sets of parameters $\theta, \phi$, and/or $\psi$ simultaneously.
 Below we discuss the process only for the predictability objective (Eq.~\ref{eq:maximize-pred}); the other objectives are optimized analogously.
-In each step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
+
+We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section (REF)).
+
+In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
 Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
 do a gradient descent step using the estimator %(analogous for $R_{Pars}$ instead of $R_{Pred}$)
 \begin{equation}\label{eq:estimator}
@@ -367,12 +450,21 @@ for the gradient
 $${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
 This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
 
-In addition, we estimated maximum-likelihood ordering grammars on the original ordered dependency trees with SGD. For nonprojective trees, we ignore discontinuities.
+See Section (REF) for the stopping criterion.
+
+
+
+%The case of dependency length in Eq.~\ref{maximize-depl} is the simplest, requiring only coordinate descent on the parameters $a_\tau, b_\tau \in \theta$. A similar optimization problem was solved by hill-climbing in \citet{gildea2007optimizing} and \citet{gildea2015human}.
+%We optimize this objective by stochastic gradient descent with a batch size of one unordered dependency tree.
+
+
+
+%In addition, we estimated maximum-likelihood ordering grammars on the original ordered dependency trees with SGD. For nonprojective trees, we ignore discontinuities.
 %and $\ell_2$ regularization.
 
-A different commonly considered information-theoretic objective function for word order is Uniform Information Density~\citep{jaeger2010redundancy}, formalized as minimizing a superlinear function of per-word surprisal~\citep{levy:2018cogsci}.
-Note that optimizing grammars for this objective faces additional challenges, as the optimization problem cannot be rewritten as joint optimization in the form (\ref{eq:maximize-pred}).
-We thus do not evaluate this objective function here.
+%A different commonly considered information-theoretic objective function for word order is Uniform Information Density~\citep{jaeger2010redundancy}, formalized as minimizing a superlinear function of per-word surprisal~\citep{levy:2018cogsci}.
+%Note that optimizing grammars for this objective faces additional challenges, as the optimization problem cannot be rewritten as joint optimization in the form (\ref{eq:maximize-pred}).
+%We thus do not evaluate this objective function here.
 
 
 
@@ -409,13 +501,15 @@ This decision was made before evaluating word order properties.
 
 \paragraph{Hyperparameters}
 
-\textbf{TODO study 1 only has 1 set of parameters}
+%\textbf{TODO study 1 only has 1 set of parameters}
 
 Neural network models have hyperparameters such as the number of hidden units, and the learning rate. 
 For predictability and parseability optimization, we first selected hyperparameters on the respective objectives for selected languages on the provided development partitions.
 Then, for each language and each objective function, we created eight random combinations of these selected hyperparameter values, and selected the setting that yielded the best value of the respective objective function (predictability or parseability) on the language. We then used this setting for creating optimized word order grammars. 
 
 \textbf{TODO random seeds for efficiency}
+
+
 
 All word and POS embeddings are randomly initialized with uniform values from $[-0.01, 0.01]$.
 We do not use pretrained embeddings \citep{peters2018deep}: While these could improve performance of language models and parsers, they would introduce confounds from the languages' actual word orders as found in the unlabeled data.
@@ -457,9 +551,14 @@ For each language and objective function, we apply Early Stopping~\citep{prechel
 
 The choice of optimization methods and the stopping criterion were fixed before we investigated word order correlations.
 
+\paragraph{Optimized Grammars}
+
 Recall that, for each language, we created 8 optimized languages for each optimization criterion.
 We enforced balanced distribution of object-verb and verb-object ordering among optimized languages by fixing $a_\tau$ for the \textit{obj} dependency to be 0.0 in four of these languages, and 1.0 in the other four.
 This maximizes statistical precision in detecting and quantifying correlations between the \textit{obj} relation and other relations.
+
+For efficiency optimization, for each grammar, we ran efficiency optimization with three different random seeds, selecting among these the seed that yielded the best overall efficiency value.
+This 
 
 
 
@@ -468,11 +567,12 @@ This maximizes statistical precision in detecting and quantifying correlations b
 
 \section{Robustness to different language models and parsers}
 
+
 Here we take up the question of the extent to which our results are dependent on the particular parser and language model used in the optimization process. We want to know: when we optimize a word order grammar for efficiency, have we produced a language which is highly efficient \emph{in general}, or one which is highly efficient \emph{for a specific parser}? We wish to argue that natural language syntax is optimized for efficiency in general, meaning that syntactic trees are highly recoverable from word orders in principle. If it turns out that our optimized languages are only optimal for a certain parser from the NLP literature, then we run the risk of circularity: it may be that the reason this parser was successful in the NLP literature was because it implicitly encoded word order universals in its inductive biases, and thus it would be no surprise that languages which are optimized for parseability also show those universals.
 
 In this connection, we note that the parser and language model architectures we use are highly generic, and do not encode any obvious bias toward natural-language-like word orders. The LSTM language model is a generic model of sequence data which is also been used to model financial time series \citep{sirignano2018universal} and purely theoretical chaotic dynamical systems \citep{ogunmolu2016nonlinear}; the neural graph-based parser is simply solving a minimal spanning tree problem \citep{mcdonald2005nonprojective}. Nevertheless, it may be the case that a bias toward word order universals is somehow encoded implicitly in the hyperparameters and architectures of these models.
 
-Here we address this question by demonstrating that our languages optimized for prediction and parseability are also optimal under a range of different language models and parsers. These results show that our optimization process creates language in which strings are generally predictable and informative about trees, without dependence on a particular prediction and parsing algorithms.
+Here we address this question by demonstrating that our languages optimized for efficiency are also optimal under a range of different language models and parsers. These results show that our optimization process creates language in which strings are generally predictable and informative about trees, without dependence on particular prediction and parsing algorithms.
 
 \subsection{CKY Parsers}
 
@@ -516,9 +616,15 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 
 \subsection{Distorted graph-based parsers}
 
-Many of the word order biases explained by parseability in Table~\ref{tab:result-dryer} are also explained by dependency length minimization. Therefore, we address here the idea that the graph-based parser might have a built-in bias toward parses involving short dependencies, which we call a \key{locality bias}.
+In this section, we address the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings, and the question whether this might be responsible for our findings.
+In particular, we address the idea that the graph-based parser might have a bias toward parses involving short dependencies, which we call a \key{locality bias}. 
+We address this by changing the order in which the parser sees words, in such a way that the distance between words in the input is not indicative of syntactic relations.
 
-A simple way to eliminate or alter a locality bias for any parser would be to change the order in which the parser sees words. Suppose that a parser $P$ has a bias toward positing a dependency between a word and the immediate previous word. 
+%In particular, this allows us to show tha
+
+%Many of the word order biases explained by parseability in Table~\ref{tab:result-dryer} are also explained by dependency length minimization. Therefore, we address here the idea that the graph-based parser might have a built-in bias toward parses involving short dependencies, which we call a \key{locality bias}.
+%A simple way to eliminate or alter a locality bias for any parser would be to change the order in which the parser sees words. Suppose that a parser $P$ has a bias toward positing a dependency between a word and the immediate previous word. 
+
 
 \paragraph{Even--odd order.} A sequence of $n$ words originally ordered as $w_1 w_2 w_3 w_4 \cdots w_n$ is reordered by separating the even and odd indices: $w_2 w_4 w_6 \cdots w_{n-1} w_1 w_3 w_5 \cdots w_n$ (assuming $n$ odd). Therefore all words that are adjacent in the original order will be separated by a distance of $\approx n/2$ in the distorted order, while all words of distance 2 in the original order will become adjacent.
 
@@ -542,6 +648,7 @@ PRON 3 PRON 1 VERB 2
 \end{center}
 The numbers are provided to the parser as atomic symbols from a vocabulary ranging from 1 to 200; numbers greater than 200 (which may occur in extremely long sentences) are replaced by an out-of-range token.
 
+The result is that distance between words in the input is not indicative at all of the presence of absence of syntactic relations between them.
 
 \paragraph{Experiments}
 Using English and Japanese data, we trained parsers for the ten random word order grammars and for the best grammar optimized for efficiency, with the input presented in each of the distorted orderings.
@@ -565,8 +672,11 @@ In all settings, the language optimized for efficiency achieved higher parsing a
 
 \subsection{n-gram language models}
 
+We model predictability using LSTM language models, which are are the strongest known predictors of the surprisal effect on human processing effort~\citep{frank2011insensitivity,goodkind2018predictive}.
+In previous work, such as \cite{gildea2015human}, predictability has often been measured using n-gram models.
 
-We constructed a Bigram model with Kneser-Ney smoothing.
+Here, we show that languages optimized for LSTM predictability are also optimal for n-gram predictability.
+Specifically, we constructed bigram models with Kneser-Ney smoothing (CITE).
 A bigram model predicts each word taking only the previous word into account.
 This contrasts with LSTMs, which take the entire context into consideration.
 Thus, bigram models and LSTMs stand on opposing ends of a spectrum of language models taking more and more aspects of the context into account.
@@ -585,9 +695,9 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 
 
-\subsection{Discussion}
-
-It is always a logical possibility in studies such as this one that the results are dependent on the particular probabilistic models used. 
+%\subsection{Discussion}
+%
+%It is always a logical possibility in studies such as this one that the results are dependent on the particular probabilistic models used. 
 
 \section{Effects of data sparsity}
 
@@ -600,7 +710,7 @@ We cosidered both a random ordering grammar, and the best ordering grammar optim
 For both of these ordering grammars, we trained the parser on successively larger portions of the training data (0.1 \%, 1 \%, 5\%, 10\%, 20 \%, ..., 90 \%, 100 \%) and recorded parsing accuracy.
 Furthermore, for the random grammar, we varied the number of neurons in the BiLSTM (200, 400, 800) to test whether results depend on the capacity of the network.
 
-\textbf{do same for language model, and for the other random grammars}
+\textcolor{red}{do same for language model, and for the other random grammars}
 
 The resulting curves are shown in Figure~\ref{fig:learning-czech}.
 A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
@@ -608,7 +718,7 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
 \begin{figure}
     \centering
     \includegraphics[scale=.4]{figures/learning-parser-czech.pdf} 
-        \caption{Parsing accuracy (measured in UAS) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
+        \caption{Parsing accuracy (measured in UAS) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.\textcolor{red}{font size}}
     \label{fig:learning-czech}
 \end{figure}
 
