@@ -116,10 +116,47 @@ mean(u$pValuesSurp_t < 0.05)
 mean(u$pValuesPars_t < 0.025 | u$pValuesSurp_t < 0.025)
 mean(u$pValuesEff_t < 0.05)
 
+parse = sort(u$pValuesPars_t)
+limit = 0.05/(51-(1:51)+1)
+mean(parse <= limit)
+# TODO Czech missing data for parseability!? doesn't come out at 100%
+
+surp = sort(u$pValuesSurp_t)
+limit = 0.05/(51-(1:51)+1)
+mean(surp <= limit)
+
+either = sort(min(u$pValuesSurp_t, u$pValuesPars_t))*2
+limit = 0.05/(51-(1:51)+1)
+mean(either <= limit)
+
+# TODO Czech missing data!? doesn't come out at 100%
 
 mean(u$pValuesPars_bin < 0.05)
 mean(u$pValuesSurp_bin < 0.05)
 mean(u$pValuesPars_bin < 0.025 | u$pValuesSurp_bin < 0.025)
 mean(u$pValuesEff_bin < 0.05)
+
+
+parse = sort(u$pValuesPars_bin)
+limit = 0.05/(51-(1:51)+1)
+mean(parse <= limit)
+# TODO Czech missing data for parseability!? doesn't come out at 100%
+
+surp = sort(u$pValuesSurp_bin)
+limit = 0.05/(51-(1:51)+1)
+mean(surp <= limit)
+
+either = sort(min(u$pValuesSurp_bin, u$pValuesPars_bin))*2
+limit = 0.05/(51-(1:51)+1)
+mean(either <= limit)
+
+
+ 
+
+
+
+
+
+
 
 

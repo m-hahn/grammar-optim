@@ -5,6 +5,7 @@
 \DeclareMathOperator*{\argmin}{arg\,min}
 \DeclareMathOperator{\E}{\mathop{\mathbb{E}}}
 
+\usepackage[cm]{fullpage}
 
 \usepackage{longtable}
 
@@ -63,19 +64,33 @@
 
 \tableofcontents
 
+
+\section{Study 2: Results for Individual Languages}
+
+
+\begin{figure} 
+	\begin{center}
+	\includegraphics[width=0.32\textwidth]{../results/correlations/figures/pred-eff-families-2.pdf}
+	\end{center}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
+\end{figure}
+
 \section{Study 2: Regression for Predicted Correlations}
 
-Following (CITE), we used as a very weakly informative prior a Student's $t$ prior with 3 degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$).
-The covariance matrix is modeled using the LKJ prior, as described in (CITE brms Bayesian multilevel).
+%https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
+
+Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
+Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
+The covariance matrix is modeled using the LKJ prior, as described in \cite{burkner2018advanced}.
 We used four chains, with 5000 samples each (2500 warmup).
 The chains had converged ($\hat{R} < 1.01$).
 
-To verify robustness to more informative priors, we conducted the analysis (REF) with a tighter weakly informative prior.
-Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
-We obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
-We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating the model using \texttt{lme4} (CITE) and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+%To verify robustness to more informative priors, we conducted the analysis (REF) with a much tighter prior $\mathcal{N}(0,1)$.
 
-
+%Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
+%we obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
+% N(0,2): 0.9863
+We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
 
 
 \section{Formalization of Correlations}
@@ -93,9 +108,43 @@ We were able formalize eleven out of Dryer's seventeen correlations in UD.
 Six of these could not be expressed individually in UD, and were collapsed into three coarse-grained correlations:
 First, tense/aspect and negative auxiliaries are together represented by the \emph{aux} relation in UD.
 Second, the relation between complementizers and adverbial subordinators with their complement clauses is represented by the \emph{lifted\_mark} relation.
-Third, we both the verb-PP relation and the relation between adjectives and their standard of comparison is captured by the \emph{obl} relation.
+Third, both the verb-PP relation and the relation between adjectives and their standard of comparison is captured by the \emph{obl} relation.
+
+The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
 
 
+
+\begin{table*}[ht]
+	\begin{center}
+\small{
+\begin{tabular}{|l|ll|l|l|}
+	\hline
+&	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
+&	verb & object & &   \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
+%adp. &
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&adposition    &    NP    &    case   & 3, 4   \\ \hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&copula  verb  &    predicate    &    cop   & --    \\\hline
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}&tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{aux}   & 16, 13  \\
+&	negative auxiliary    &    VP    &    & -- \\ \hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}&noun    &    genitive    &    nmod & 2, 23   \\ \hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}&noun    &    relative clause    &    acl   &  24    \\ \hline
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}&complementizer    &    S    &   \multirow{2}{*}{mark}  & --    \\
+&	adverbial subordinator & S &  & -- \\ \hline
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}&	adjective & std. of comp. & \multirow{2}{*}{obl} & --\\
+&verb    &    PP    &    & 22   \\\hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}&`want'    &    VP    &    xcomp   & 15   \\\hline
+ \hline
+\end{tabular}
+}
+	\end{center}
+	\caption{Greenbergian Correlations based on Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies.
+	For reference, we also provide the numbers of the closest corresponding universals stated in Greenberg's original study (if possible).
+	}\label{table:greenberg-dryer}
+\end{table*}
+
+
+
+\paragraph{Excluded Correlations}
 We excluded three correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
 Among these three types of elements, the one most prominent in our sample of 51 languages is articles (occurring in many European languages); UD subsumes them under the \emph{det} relation, which is also used for other frequent elements, such as demonstratives and quantifiers.
@@ -115,38 +164,6 @@ We focus on the modeling of correlations, and leave dominance principles to futu
 We therefore excluded this correlation here.
 %We note that efficiency makes predictions compatible with the pattern observed in our sample of 51 languages, potentially in line with the noisy-channel explanation of SVO described by~\cite{gibson2013noisy} (see Table~\ref{tab:all-predictions}).
 
-The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
-
-\begin{table*}[ht]
-	\begin{center}
-\begin{tabular}{|ll|l|l|}
-	\hline
-	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
-	verb & object &    \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
-%adp. &
-adposition    &    NP    &    case   & 3, 4   \\ \hline
-copula  verb  &    predicate    &    cop   & --    \\\hline
-`want'    &    VP    &    xcomp   & 15   \\\hline
-tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{aux}   & 16, 13  \\
-	negative auxiliary    &    VP    &    & -- \\ \hline
-complementizer    &    S    &   \multirow{2}{*}{mark}  & --    \\
-	adverbial subordinator & S &  & -- \\ \hline
-noun    &    genitive    &    nmod & 2, 23   \\ \hline
-noun    &    relative clause    &    acl   &  24    \\ \hline
-	adjective & std. of comp. & \multirow{2}{*}{obl} & --\\
-verb    &    PP    &    & 22   \\
- \hline
-%comp. &
-%\multirow{3}{*}{NP}&
-%	AP &
-    \multicolumn{3}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
-\end{tabular}
-	\end{center}
-	\caption{Greenbergian Correlations according to Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies.
-	For reference, we also provide the numbers of the closest corresponding universals stated in Greenberg's original study.
-	}\label{table:greenberg-dryer}
-\end{table*}
-
 
 
 %croft2011greenbergian
@@ -155,7 +172,13 @@ verb    &    PP    &    & 22   \\
 \section{Study 1: Supporting Analyses for Study 1}
 
 
-- binomial test
+\paragraph{Relative Efficiency of Real Grammars}
+In the main paper, we tested whether real grammars are more efficient than the mean of random grammars, using a $t$-test.
+We also conducted the analysis using a Binomial test (one-sided), testing whether the real gramar is more efficient than the \emph{median} of random grammars, avoiding any distributional assumption on the random grammars.
+As before, we used Hochberg's step-up procedure (Note that the tests for different languages are independent, as different random grammars are evaluated for each language), with $\alpha=0.05$.
+In this analysis, real grammars improved in parseability for 80\% of languages, in predictability for 69\% of languages, and in either of both in 92\% of languages ($p<0.05$, with Bonferroni correction).
+
+
 
 \paragraph{z-Scored Data (Figure (REF))}
 We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section REF), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
@@ -728,6 +751,10 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
 
 \section{Study 2, Correlation between Universals and Efficiency}
 
+In Figure~\ref{fig:corr-eff-corr}, we plot efficiency, parseability, and predictability (parseability and predictability $z$-scored within language) as a function of the number of satisfied correlations, for the real grammars of the 51 languages.
+
+We found very similar results using Spearman's rank correlation (Efficiency: $\rho=0.59$, $p = 9.8 \cdot 10^{-6}$; Parseability: $\rho=0.55$, $p=4.7 \cdot 10^{-5}$; Predictability: $\rho=0.36$, $p=0.012$).
+
 
 \begin{figure}[ht]
     \centering
@@ -737,7 +764,7 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
     \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
 
 	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
-    \label{fig:todo}
+    \label{fig:corr-eff-corr}
 \end{figure}
 
 
@@ -746,11 +773,11 @@ A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the tr
 
 % user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
 
-Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in WALS.
+Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, CITE).
 Among the eight relations that we were able to test, five are annotated in WALS.
 Here, we compare our grammars with WALS on these five relations, and the verb-object relation.
 
-WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it agrees with the Serbian grammar.}
+WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
 WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
 The grammars we extracted from the corpora agree with WALS in 96~\% out of those cases where WALS records a dominant word order.
 
