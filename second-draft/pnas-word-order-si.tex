@@ -1,4 +1,11 @@
-\documentclass[12pt]{article}
+\documentclass[10pt,twoside,lineno]{article}
+% Use the lineno option to display guide line numbers if required.
+
+
+%\templatetype{pnassupportinginfo}
+
+% \readytosubmit %% Uncomment this line before submitting, so that the instruction page is removed.
+
 \usepackage{amsmath}
 \usepackage{tikz-dependency}
 \DeclareMathOperator*{\argmax}{arg\,max}
@@ -65,20 +72,33 @@
 \tableofcontents
 
 
+\textcolor{red}{TODOs}
+
+\textcolor{red}{This idea makes strong predictions, and turns out to overpredict correlations (see SI, Section X).}
+
+
+
 \section{Study 2: Results for Individual Languages}
 
 
 We show results on the level of individual languages in Figure~\ref{fig:per-lang}.
 
+We obtained predictions for individual languages and each of the eight relations as follows.
+For each language and each of the objective functions (efficiency, predictability, parseability), we considered the optimized grammar that yielded the best value of this objective function among the eight optimized grammars (i.e., the grammar where the optimization procedure had been most successful).
+We interpreted this grammar as verb-object or object-verb depending on the order in the real grammar of the language.
+
+
 \begin{figure} 
 	\begin{center}
 	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
 	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language. \textcolor{red}{say more about how these predictions were generated}}\label{fig:per-lang}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
 %	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
 \end{figure}
 
 \section{Study 2: Regression for Predicted Correlations}
+
+
 
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
 
@@ -110,10 +130,15 @@ While most of the other relations also correspond to UD relations, some are not 
 We were able formalize eleven out of Dryer's seventeen correlations in UD.
 Six of these could not be expressed individually in UD, and were collapsed into three coarse-grained correlations:
 First, tense/aspect and negative auxiliaries are together represented by the \emph{aux} relation in UD.
-Second, the relation between complementizers and adverbial subordinators with their complement clauses is represented by the \emph{lifted\_mark} relation.
+Second, the relation between complementizers and adverbial subordinators with their complement clauses is represented by the \emph{mark} relation.
 Third, both the verb-PP relation and the relation between adjectives and their standard of comparison is captured by the \emph{obl} relation.
 
 The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
+For each relation, we show the direction of the UD syntactic relation: $\rightarrow$ indicates that the verb patterner is the head; $\leftarrow$ indicates that the object patterner is the head.
+
+Note that we follow \cite{futrell2015largescale} in converting the Universal Dependencies format to a format closer to standard syntactic theory, promoting adpositions, copulas, and complementizers to heads.
+As a consequence, the direction of the relations \emph{case}, \emph{cop}, and \emph{mark} is reversed compared to Universal Dependencies.
+For clarity, we refer to these reversed relations as \emph{lifted\_case}, \emph{lifted\_cop}, and \emph{lifted\_mark}.
 
 
 
@@ -125,22 +150,22 @@ The resulting operationalization is shown in Table~\ref{table:greenberg-dryer}.
 &	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
 &	verb & object & &   \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&adposition    &    NP    &    case   & 3, 4   \\ \hline
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&copula  verb  &    predicate    &    cop   & --    \\\hline
-\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}&tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{aux}   & 16, 13  \\
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&adposition    &    NP    &  $\xrightarrow{lifted\_case}$   & 3, 4   \\ \hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&copula  verb  &    predicate    &    $\xrightarrow{lifted\_cop}$   & --    \\\hline
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}&tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{$\xleftarrow{aux}$}   & 16, 13  \\
 &	negative auxiliary    &    VP    &    & -- \\ \hline
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}&noun    &    genitive    &    nmod & 2, 23   \\ \hline
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}&noun    &    relative clause    &    acl   &  24    \\ \hline
-\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}&complementizer    &    S    &   \multirow{2}{*}{mark}  & --    \\
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}&noun    &    genitive    &   $\xrightarrow{nmod}$ & 2, 23   \\ \hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}&noun    &    relative clause    &    $\xrightarrow{acl}$ &  24    \\ \hline
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}&complementizer    &    S    &   \multirow{2}{*}{$\xrightarrow{lifted\_mark}$}  & --    \\
 &	adverbial subordinator & S &  & -- \\ \hline
-\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}&	adjective & std. of comp. & \multirow{2}{*}{obl} & --\\
+\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}&	adjective & std. of comp. & \multirow{2}{*}{$\xrightarrow{obl}$} & --\\
 &verb    &    PP    &    & 22   \\\hline
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}&`want'    &    VP    &    xcomp   & 15   \\\hline
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}&`want'    &    VP    &    $\xrightarrow{xcomp}$   & 15   \\\hline
  \hline
 \end{tabular}
 }
 	\end{center}
-	\caption{Greenbergian Correlations based on Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies.
+	\caption{Greenbergian Correlations based on Dryer \cite{dryer1992greenbergian}, with operationalizations with Universal Dependencies using the modified format of \cite{futrell2015largescale} (see text).
 	For reference, we also provide the numbers of the closest corresponding universals stated in Greenberg's original study (if possible).
 	}\label{table:greenberg-dryer}
 \end{table*}
@@ -223,7 +248,7 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 % From Dryer	
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&	lifted\_case  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_case.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&	lifted\_cop  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_cop.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}&	aux  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_aux.pdf}  & $<50\%$ \citep{dryer1992greenbergian} \\
+\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}&	aux\footnotemark  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_aux.pdf}  & $<50\%$ \citep{dryer1992greenbergian} \\
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}&	nmod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nmod.pdf}  & $>50\%$ \citep{dryer1992greenbergian} \\
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}&	acl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_acl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_acl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_acl.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_acl.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_acl.pdf}   & $>50\%$  \citep{dryer1992greenbergian} \\
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}&	lifted\_mark  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_mark.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
@@ -251,6 +276,10 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 \caption{Predictions on UD relations with predictions from the typological literature. The first section contains the eight correlations discussed in the main paper (See Section REF); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically.}
 \label{tab:all-predictions-1}
 \end{table*}
+
+
+
+\footnotetext{Note that we report an \emph{anti-correlation}. The \emph{aux} syntactic relation in UD has the auxiliary (verb-patterner) as its dependent, and has direction \emph{opposite} to the auxiliary-verb relation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}. Therefore, this relation is \emph{anti-correlated} with the verb-object relation, while \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}} is \emph{correlated}.  }
 
 
 \begin{table*} % TODO figure out away to make this table more aesthetic
