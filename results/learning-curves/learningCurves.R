@@ -22,7 +22,7 @@ plot = plot + theme(axis.title.x = element_text(size=17))
 plot = plot + theme(axis.title.y = element_text(size=17))
 plot = plot + xlab("Fraction of Data")
 plot = plot + ylab("Parsing Loss")
-
+plot = plot + ylim(NA, 2.6)
 ggsave(plot=plot, filename="figures/learning-parser-czech-logloss.pdf") #, height=5, width=5)
 
 
