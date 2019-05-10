@@ -68,11 +68,14 @@
 \section{Study 2: Results for Individual Languages}
 
 
+We show results on the level of individual languages in Figure~\ref{fig:per-lang}.
+
 \begin{figure} 
 	\begin{center}
-	\includegraphics[width=0.32\textwidth]{../results/correlations/figures/pred-eff-families-2.pdf}
+	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
 	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language. \textcolor{red}{say more about how these predictions were generated}}\label{fig:per-lang}
+%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
 \end{figure}
 
 \section{Study 2: Regression for Predicted Correlations}
@@ -318,19 +321,19 @@ Efficiency predicts all eight correlations with high posterior probability; pred
 \end{figure}
 
 
-\begin{figure}
-    \centering
-    
-    \includegraphics[scale=.25]{../results/correlations/figures/coverage-langmod-best.pdf}
-    \includegraphics[scale=.25]{../results/correlations/figures/coverage-parse-best.pdf}
-    \includegraphics[scale=.25]{../results/correlations/figures/coverage-two-lambda09-best.pdf}
-    
-    
-    \includegraphics[scale=.25]{../results/correlations/figures/coverage-ground.pdf}
-    \includegraphics[scale=.25]{../results/correlations/figures/coverage-depl.pdf}
-	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
-    \label{fig:posterior-prevalence}
-\end{figure}
+%\begin{figure}
+%    \centering
+%    
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-langmod-best.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-parse-best.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-two-lambda09-best.pdf}
+%    
+%    
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-ground.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-depl.pdf}
+%	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
+%    \label{fig:posterior-prevalence}
+%\end{figure}
 
 
 
@@ -782,7 +785,7 @@ WALS has data for 74\% of the entries, and lists a dominant order for 91\% of th
 The grammars we extracted from the corpora agree with WALS in 96~\% out of those cases where WALS records a dominant word order.
 
 For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
-$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
+$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
 Finally, `--' indicates that the relation does not occur in the corpus.
 
 

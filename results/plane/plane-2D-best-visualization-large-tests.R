@@ -116,6 +116,7 @@ mean(u$pValuesSurp_t < 0.05)
 mean(u$pValuesPars_t < 0.025 | u$pValuesSurp_t < 0.025)
 mean(u$pValuesEff_t < 0.05)
 
+# Hochberg's step-up procedure
 parse = sort(u$pValuesPars_t)
 limit = 0.05/(51-(1:51)+1)
 mean(parse <= limit)
@@ -125,7 +126,7 @@ surp = sort(u$pValuesSurp_t)
 limit = 0.05/(51-(1:51)+1)
 mean(surp <= limit)
 
-either = sort(min(u$pValuesSurp_t, u$pValuesPars_t))*2
+either = sort(pmin(u$pValuesSurp_t, u$pValuesPars_t))*2
 limit = 0.05/(51-(1:51)+1)
 mean(either <= limit)
 
@@ -136,7 +137,7 @@ mean(u$pValuesSurp_bin < 0.05)
 mean(u$pValuesPars_bin < 0.025 | u$pValuesSurp_bin < 0.025)
 mean(u$pValuesEff_bin < 0.05)
 
-
+# Hochberg's step-up procedure
 parse = sort(u$pValuesPars_bin)
 limit = 0.05/(51-(1:51)+1)
 mean(parse <= limit)
@@ -146,7 +147,7 @@ surp = sort(u$pValuesSurp_bin)
 limit = 0.05/(51-(1:51)+1)
 mean(surp <= limit)
 
-either = sort(min(u$pValuesSurp_bin, u$pValuesPars_bin))*2
+either = sort(pmin(u$pValuesSurp_bin, u$pValuesPars_bin))*2
 limit = 0.05/(51-(1:51)+1)
 mean(either <= limit)
 
