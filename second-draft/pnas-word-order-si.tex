@@ -17,7 +17,7 @@
 \usepackage{longtable}
 
 
-\usepackage{natbib}
+\usepackage[numbers]{natbib}
 
 \usepackage{hyperref}
 
@@ -42,6 +42,10 @@
 
 
 
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
+
 
 
 \usepackage{mathtools}
@@ -61,7 +65,10 @@
        Department of Language Science\\
        University of California, Irvine
 }
-\date{\today}
+%\author{
+%Michael Hahn, Daniel Jurafsky, Richard Futrell}
+
+%\correspondingauthor{Michael Hahn.\\E-mail: mhahn2@stanford.edu}
 
 \begin{document}
 \maketitle
@@ -74,53 +81,16 @@
 
 \textcolor{red}{TODOs}
 
-\textcolor{red}{This idea makes strong predictions, and turns out to overpredict correlations (see SI, Section X).}
-
-
-
-\section{Study 2: Results for Individual Languages}
-
-
-We show results on the level of individual languages in Figure~\ref{fig:per-lang}.
-
-We obtained predictions for individual languages and each of the eight relations as follows.
-For each language and each of the objective functions (efficiency, predictability, parseability), we considered the optimized grammar that yielded the best value of this objective function among the eight optimized grammars (i.e., the grammar where the optimization procedure had been most successful).
-We interpreted this grammar as verb-object or object-verb depending on the order in the real grammar of the language.
-
-
-\begin{figure} 
-	\begin{center}
-	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
-	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
-%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
-\end{figure}
-
-\section{Study 2: Regression for Predicted Correlations}
-
-
-
-%https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
-
-Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
-Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
-The covariance matrix is modeled using the LKJ prior, as described in \cite{burkner2018advanced}.
-We used four chains, with 5000 samples each (2500 warmup).
-The chains had converged ($\hat{R} < 1.01$).
-
-%To verify robustness to more informative priors, we conducted the analysis (REF) with a much tighter prior $\mathcal{N}(0,1)$.
-
-%Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
-%we obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
-% N(0,2): 0.9863
-We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+\textcolor{red}{TODO This idea makes strong predictions, and turns out to overpredict correlations (see SI, Section X).}
 
 
 \section{Formalization of Correlations}
 
+\textcolor{red}{TODO At some point say something about \cite{dunn2011evolved}, since that got a lot of attention? can refer to follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
+
 Here we describe how we selected the correlations in Table 1 of the main paper, and how we formalized these using syntactic relations defined by Universal Dependencies.
 
-We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.\footnote{Regarding recent objections by~\cite{dunn2011evolved}, see follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
+We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.
 Greenberg's original study was based on 30 languages; more recently, Dryer \cite{dryer1992greenbergian} documented the word order correlations based on typological data from 625 languages.
 \cite{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
 We test our ordering grammars for these correlations by testing whether the coefficients for these syntactic relations have the same sign as the coefficient of the verb-object relation.
@@ -197,7 +167,7 @@ We therefore excluded this correlation here.
 %croft2011greenbergian
 %dryer2011evidence
 
-\section{Study 1: Supporting Analyses for Study 1}
+\section{Supplementary Analyses for Study 1}
 
 
 \paragraph{Relative Efficiency of Real Grammars}
@@ -215,9 +185,99 @@ Within each language, we estimate the Pareto curve by connecting the points obta
 We then estimated the overall average Pareto curve, as shown in Figure (REF), by averaging the z-transformed points (1), (2), (3).
 
 
+\section{Supplementary Analyses for Study 2}
+\subsection{Correlation between Universals and Efficiency}
+
+In Figure~\ref{fig:corr-eff-corr}, we plot efficiency, parseability, and predictability (parseability and predictability $z$-scored within language) as a function of the number of satisfied correlations, for the real grammars of the 51 languages.
+
+We found very similar results using Spearman's rank correlation (Efficiency: $\rho=0.59$, $p = 9.8 \cdot 10^{-6}$; Parseability: $\rho=0.55$, $p=4.7 \cdot 10^{-5}$; Predictability: $\rho=0.36$, $p=0.012$).
 
 
-\section{Study 2: Results on all UD Relations}
+\begin{figure}[ht]
+    \centering
+    
+    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
+    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
+    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
+
+	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
+    \label{fig:corr-eff-corr}
+\end{figure}
+
+
+
+\subsection{Predictions for Individual Languages}
+
+
+We show results on the level of individual languages in Figure~\ref{fig:per-lang}.
+
+We obtained predictions for individual languages and each of the eight relations as follows.
+For each language and each of the objective functions (efficiency, predictability, parseability), we considered the optimized grammar that yielded the best value of this objective function among the eight optimized grammars (i.e., the grammar where the optimization procedure had been most successful).
+We interpreted this grammar as verb-object or object-verb depending on the order in the real grammar of the language.
+
+
+\begin{figure} 
+	\begin{center}
+	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
+	\end{center}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
+%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
+\end{figure}
+
+\subsection{Regression for Predicted Correlations}
+
+
+
+%https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
+
+Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
+Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
+The covariance matrix is modeled using the LKJ prior, as described in \cite{burkner2018advanced}.
+We used four chains, with 5000 samples each (2500 warmup).
+The chains had converged ($\hat{R} < 1.01$).
+
+%To verify robustness to more informative priors, we conducted the analysis (REF) with a much tighter prior $\mathcal{N}(0,1)$.
+
+%Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
+%we obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
+% N(0,2): 0.9863
+We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+
+
+
+
+\subsection{Comparing Efficiency to its Components}\label{sec:posterior-number}
+
+
+In Figure~\ref{fig:posterior}, we plot the posterior number of correlations predicted to hold in most optimized grammars, as obtained from the Bayesian regression.
+In addition to grammars optimized for efficiency, we also report the result for grammars optimized for predictability and for parseability alone.
+Efficiency predicts all eight correlations with high posterior probability; predictability and parseability alone do not.
+
+\begin{figure}[ht]
+	\begin{center}
+	\includegraphics[width=0.98\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
+	\end{center}
+	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
+\end{figure}
+
+
+%\begin{figure}
+%    \centering
+%    
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-langmod-best.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-parse-best.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-two-lambda09-best.pdf}
+%    
+%    
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-ground.pdf}
+%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-depl.pdf}
+%	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
+%    \label{fig:posterior-prevalence}
+%\end{figure}
+
+
+
+\subsection{Results on all UD Relations}
 In this section, we provide the predicted prevalence of correlations between the \emph{obj} dependency and all UD dependency types, along with the expected prevalence according to typological studies.
 We also report results for grammars optimized for predictability and parseability individually.
 
@@ -335,36 +395,6 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 
 
 
-\section{Study 2: Comparing Efficiency to its Components}\label{sec:posterior-number}
-
-
-In Figure~\ref{fig:posterior}, we plot the posterior number of correlations predicted to hold in most optimized grammars, as obtained from the Bayesian regression.
-In addition to grammars optimized for efficiency, we also report the result for grammars optimized for predictability and for parseability alone.
-Efficiency predicts all eight correlations with high posterior probability; predictability and parseability alone do not.
-
-\begin{figure}[ht]
-	\begin{center}
-	\includegraphics[width=0.98\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
-	\end{center}
-	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
-\end{figure}
-
-
-%\begin{figure}
-%    \centering
-%    
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-langmod-best.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-parse-best.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-two-lambda09-best.pdf}
-%    
-%    
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-ground.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-depl.pdf}
-%	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
-%    \label{fig:posterior-prevalence}
-%\end{figure}
-
-
 
 
 
@@ -394,10 +424,10 @@ We previously carried out language optimization for $\lambda = 1$, and obtained 
 We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (TODO check).
 
 %\section{Joint optimization of grammar, parser, and language model parameters}
-\section{Optimizing Grammars for Efficiency}
+\section{Creating Optimized Grammars}
 
 In this section, we describe the method we employ for creating grammars that are optimized for efficiency.
-Our main methodological innovation is to carry out optimization in an extended space of grammars that interpolates continuously between different grammars (Section~\ref{sec:diff-gramm}).
+We carry out optimization in an extended space of grammars that interpolates continuously between different grammars (Section~\ref{sec:diff-gramm}).
 More specifically, we include probabilistic relaxations of grammars, which describe probability distributions over different ways of ordering a syntactic structure into a sentence.
 This makes efficiency a \emph{differentiable} function of the grammar parameters, and enables efficient optimization with stochastic gradient descent, as we describe in Section~\ref{sec:optim-eff}.
 
@@ -765,39 +795,23 @@ We cosidered both a random ordering grammar, and the best ordering grammar optim
 For both of these ordering grammars, we trained the parser on successively larger portions of the training data (0.1 \%, 1 \%, 5\%, 10\%, 20 \%, ..., 90 \%, 100 \%) and recorded parsing accuracy.
 Furthermore, for the random grammar, we varied the number of neurons in the BiLSTM (200, 400, 800) to test whether results depend on the capacity of the network.
 
-\textcolor{red}{do same for language model, and for the other random grammars}
 
 The resulting curves are shown in Figure~\ref{fig:learning-czech}.
-A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
+%A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
+A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
 
-\begin{figure}
+\begin{figure}[ht]
     \centering
-    \includegraphics[scale=.4]{figures/learning-parser-czech.pdf} 
-        \caption{Parsing accuracy (measured in UAS) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.\textcolor{red}{font size}}
+%    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech.pdf} 
+    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech-logloss.pdf} 
+
+        \caption{Parsing loss ($H[T|\mathcal{L}_\theta(T)]$) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
     \label{fig:learning-czech}
 \end{figure}
 
 
 
 
-
-\section{Study 2, Correlation between Universals and Efficiency}
-
-In Figure~\ref{fig:corr-eff-corr}, we plot efficiency, parseability, and predictability (parseability and predictability $z$-scored within language) as a function of the number of satisfied correlations, for the real grammars of the 51 languages.
-
-We found very similar results using Spearman's rank correlation (Efficiency: $\rho=0.59$, $p = 9.8 \cdot 10^{-6}$; Parseability: $\rho=0.55$, $p=4.7 \cdot 10^{-5}$; Predictability: $\rho=0.36$, $p=0.012$).
-
-
-\begin{figure}[ht]
-    \centering
-    
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
-
-	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
-    \label{fig:corr-eff-corr}
-\end{figure}
 
 
 
@@ -859,7 +873,6 @@ Assuming the channel $U \rightarrow \hat{U}$ is noiseless, we have $U=\hat{U}$, 
 \end{equation*}
 
 Our efficiency objective is thus closely related to the information bottleneck; the difference is that we are optimizing the mapping from underlying meanings to representations (strings) assuming that these strings will be transmitted in a fixed noiseless channel.
-
 
 \bibliographystyle{unsrtnat}
 \bibliography{everything}
