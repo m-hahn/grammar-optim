@@ -84,7 +84,7 @@
 \textcolor{red}{TODO This idea makes strong predictions, and turns out to overpredict correlations (see SI, Section X).}
 
 
-\section{Formalization of Correlations}
+\section{Formalization of Correlations}\label{sec:correlations}
 
 \textcolor{red}{TODO At some point say something about \cite{dunn2011evolved}, since that got a lot of attention? can refer to follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
 
@@ -117,7 +117,7 @@ For clarity, we refer to these reversed relations as \emph{lifted\_case}, \emph{
 \small{
 \begin{tabular}{|l|ll|l|l|}
 	\hline
-&	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\cite{greenberg1963universals}}    \\ 
+&	\multicolumn{2}{|c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{Greenberg \cite{greenberg1963universals}}    \\ 
 &	verb & object & &   \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
 %adp. &
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&adposition    &    NP    &  $\xrightarrow{lifted\_case}$   & 3, 4   \\ \hline
@@ -179,9 +179,9 @@ In this analysis, real grammars improved in parseability for 80\% of languages, 
 
 
 \paragraph{z-Scored Data (Figure (REF))}
-We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section REF), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
+We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
 
-Within each language, we estimate the Pareto curve by connecting the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section REF), (2) parseability, and (3) predictability.
+Within each language, we estimate the Pareto curve by connecting the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
 We then estimated the overall average Pareto curve, as shown in Figure (REF), by averaging the z-transformed points (1), (2), (3).
 
 
@@ -196,9 +196,9 @@ We found very similar results using Spearman's rank correlation (Efficiency: $\r
 \begin{figure}[ht]
     \centering
     
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
-    \includegraphics[scale=.25]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
+    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
+    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
+    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
 
 	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
     \label{fig:corr-eff-corr}
@@ -236,11 +236,6 @@ The covariance matrix is modeled using the LKJ prior, as described in \cite{burk
 We used four chains, with 5000 samples each (2500 warmup).
 The chains had converged ($\hat{R} < 1.01$).
 
-%To verify robustness to more informative priors, we conducted the analysis (REF) with a much tighter prior $\mathcal{N}(0,1)$.
-
-%Note that an intercept $\alpha \approx 2.19$ in the logistic model corresponds to a correlation that holds in 90\% of cases; we thus selected the prior $\mathcal{N}(0,2)$.
-%we obtained a qualitatively equivalent result (posterior probability $0.932$ of predicting all eight correlations).
-% N(0,2): 0.9863
 We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
 
 
@@ -287,9 +282,12 @@ In Table~\ref{tab:all-predictions-1}, we present the data for the eight correlat
 Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other UD relations, for which either no typological data is available, or which are not linguistically meaningful.
 
 
+
+\textcolor{red}{at some place also say the following: Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. }
+
 Further, we report results for grammars optimized for dependency length minimization (DLM).
-Following (CITE), we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
-Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars (CITE).
+Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
 Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
 In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
 
@@ -321,7 +319,7 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 &advcl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_advcl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_advcl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_advcl.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_advcl.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_advcl.pdf}   & $>50\%$ \citep{greenberg1963universals,diessel2001ordering} \\
 &ccomp  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_ccomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_ccomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_ccomp.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_ccomp.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_ccomp.pdf}   & $>50\%$ (cf. \cite{dryer1980positional}) \\ % TODO According to Dryer 1980, there is a correlation
 &csubj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_csubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_csubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_csubj.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_csubj.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_csubj.pdf}   & $>50\%$ (cf. \cite{dryer1980positional}) \\% TODO According to Dryer 1980, there is a correlation
-&nsubj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nsubj.pdf}  & See Section (REF) \\
+&nsubj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nsubj.pdf}  & See Section~\ref{sec:correlations} \\
 &amod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_amod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_amod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_amod.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_amod.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_amod.pdf}   &  $\approx 50\%$ \citep{dryer1992greenbergian} \\
 &nummod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nummod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nummod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nummod.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nummod.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nummod.pdf}   &$\approx 50\%$ \citep[][89A, 83A]{wals} \\ 
  \hline
@@ -333,7 +331,7 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 }
 
 \end{center}
-\caption{Predictions on UD relations with predictions from the typological literature. The first section contains the eight correlations discussed in the main paper (See Section REF); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically.}
+\caption{Predictions on UD relations with predictions from the typological literature. The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically.}
 \label{tab:all-predictions-1}
 \end{table*}
 
@@ -421,7 +419,7 @@ In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value tha
 
 The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
 We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations.
-We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (TODO check).
+We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (Table~\ref{tab:all-predictions-1}).
 
 %\section{Joint optimization of grammar, parser, and language model parameters}
 \section{Creating Optimized Grammars}
@@ -438,8 +436,8 @@ Our method, by allowing for the use of stochastic gradient descent, addresses th
 
 \subsection{Differentiable Ordering Grammars}\label{sec:diff-gramm}
 
-
-The parameters of such a differentiable word order grammar are as follows. 
+We extended the parameter space of grammars by continuously interpolating between grammars, making efficiency a \emph{differentiable} function of grammar parameters.
+The parameters of such a \key{differentiable word order grammar} are as follows. 
 For each dependency label type $\tau$, we have (1) a \key{Direction Parameter} $a_\tau \in [0,1]$, and (2) a \key{Distance Parameter} $b_\tau \in \mathbb{R}$. 
 Each dependent is ordered on the left of its head with probability $a_\tau$ and to the right with probability $1-a_\tau$. 
 Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order outward from the head is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (\cite{goodfellow2016deep}, p. 184) without replacement. 
@@ -456,87 +454,177 @@ We then extract the posterior means for each parameter $a_\tau, b_\tau$, and con
 
 \subsection{Optimizing Grammars for Efficiency}\label{sec:optim-eff}
 
-
+In this section, we describe how we optimized grammar parameters for efficiency.
 A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $\mathcal{L}_\theta(t) = \mathbf{w}$ linearizing the tree.
 More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ is a \emph{probability distribution} over ordered sequences of words $\mathbf{w}$.
 In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $\mathcal{L}_\theta(t)$ concentrates on a single ordering.
 
-Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a differentiable word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
-\begin{equation}
-\label{eq:exp-over-utts}
-J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim \mathcal{L}_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
+\textcolor{red}{TODO I'll clean this up}
+
+Recall the definition of efficiency
+\begin{equation}\label{eq:efficiency}
+	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
 \end{equation}
-where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
-Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+where 
+\begin{equation}
+	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+\end{equation}
+\begin{equation}
+	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+\end{equation}
 
-
-
-We formalize predictability as follows. Given a language model $P_\phi$ with parameters $\phi$, the log probability of a sentence ${\bf w}$ is:
-\begin{equation*}
-R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
-\end{equation*}
-where the language model parameters $\phi$ are chosen predict the language induced by tree distribution $T$ and word order grammar $\mathcal{L}_\theta$ as accurately as possible (maximizing predictability):
-\begin{equation*}
+These quatities are estimated using two neural models:
+A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
+A \key{language model} calculates the word-by-word surprisal of an utterance: $-\log p_\psi(u) = - \sum_{t=1}^{|u|} \log p_\psi(u_t|u_{1\dots t-1})$.
+The parsers and language models appropriate to a tree distribution $\mathcal{T}$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
+\begin{equation}
 	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
-\end{equation*}
-
-
-We specify parseability as the mutual information between strings and trees, or equivalently the quantity of information provided by strings about trees. Formally, we say the parseability score of an utterance $\mathbf{w}$ is the pointwise mutual information of the $\mathbf{w}$ and the tree $t$ it was generated from, calculated using a parser with parameters $\psi$:\footnote{Note that $P(t)$ is a constant term which will be ignored in the optimization process.}
-\begin{align}
-\nonumber
-R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
-\nonumber
-&= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
-\end{align}
-where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
-\begin{equation*}
-\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
-\end{equation*}
-
-For efficiency, we linearly combine the two terms:
+\end{equation}
 \begin{equation}
-\label{eq:combined-score}
-R_{Efficiency}^{\phi,\psi}(t; {\bf w}) = R_{Pars}^\psi(t; {\bf w}) + \lambda R_{Pred}^\phi(t; {\bf w}),
+\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
 \end{equation}
 
+Using these models, we can rewrite 
+\begin{equation}
+	R_{Pars}^{\psi(\theta)}= \E_t \E_{u \sim p_\theta(u|t)} R_{Pars}^{\psi(\theta)}(u,t) 
+\end{equation}
+where $R_{Pars}(u,t) = \log \frac{p_\phi(t|u)}{p(t)}$, and $p_\theta(u|t)$ is the probability assigned to sentence $u$ by the distribution $\mathcal{L}_\theta(t)$ defined by the differentiable word order grammar $\mathcal{L}_\theta$,
+and
+\begin{equation}
+	R_{Pred} = \E_t \E_{u \sim p_\theta(u|t)} R_{Pred}(u)
+\end{equation}
+where $R_{Pred}(u) = \log p_\psi(u)$.
+Therefore, we can rewrite efficiency as
+\begin{equation}\label{eq:efficiency}
+	R_{\textit{Eff}}^\theta := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi(\theta)}(u,t) + \lambda R_{Pred}^{\psi(\theta)}(u)\right]
+\end{equation}
+Directly applying gradient descent to this expression is hard due to the complicated dependence of $\phi(\theta), \psi(\theta)$ on $\theta$.
 
-%\begin{equation}
-%    \label{eq:depl}
-%	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
-%\end{equation}
-%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+However, we can rewrite
+\begin{equation}\label{eq:efficiency}
+\argmax_\theta\	R_{\textit{Eff}}^\theta 
+\end{equation}
+equivalently into
+\begin{equation}\label{eq:efficiency}
+\argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} = \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+\end{equation}
+Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
 
-For each of our objective functions, we seek parameters $\theta$ of a word order grammar $\mathcal{L}_\theta$ that maximize the average utility of sentences in the language obtained by linearizing unordered trees $t \sim T$ according to $\mathcal{L}_\theta$. The calculation of the predictability and parseability objectives also requires fitting language models parameterized by $\phi$ and parsers parameterized by $\psi$, respectively; and the calculation of the efficiency objective requires joint optimization of the word order grammar, language models, and parsers. The optimization problems come out to:
+
 \begin{align}
-%\max_\theta &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{DepL}(t; {\bf w}) \label{eq:maximize-depl}\\
-\max_{\theta,\phi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pred}^{\phi(\theta)}(t; {\bf w}) \label{eq:maximize-pred}\\
-\max_{\theta,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pars}^{\psi(\theta)}(t; {\bf w}) \label{Eq:maximize-pars} \\
-\max_{\theta,\phi,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Efficiency}^{\psi(\theta), \phi(\theta)}(t; {\bf w}). \label{eq:maximize-efficiency} 
+\partial_\theta R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)} \left[  \left[\partial_\theta \log p_\theta(u|t)\right] \cdot    \left(R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right) \right] \label{eq:dtheta}\\ 
+\partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
+\partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
 \end{align}
-Note that the original word orders from the treebank never enter this objective---in particular, they do not influence the language model and the parser, which are entirely determined by $\theta$.
+where \ref{eq:dtheta} is derived using the \emph{score-function} or \emph{REINFORCE} trick~\cite{williams1992simple}.
 
-
-%The case of predictability, parseability, and efficiency are more challenging, as 
-%e need to simultaneously look for an ordering model optimized for the loss of a language model and/or a parser, and for a language model and/or parser that are optimized for that given ordering model.
-We solve Eqs.~\ref{eq:maximize-pred}--\ref{eq:maximize-efficiency} by performing stochastic gradient descent over all sets of parameters $\theta, \phi$, and/or $\psi$ simultaneously.
-Below we discuss the process only for the predictability objective (Eq.~\ref{eq:maximize-pred}); the other objectives are optimized analogously.
-
-We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section (REF)).
-
-In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
+We can therefore apply stochastic gradient descent:
+In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
 Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
-do a gradient descent step using the estimator %(analogous for $R_{Pars}$ instead of $R_{Pred}$)
-\begin{equation}\label{eq:estimator}
-{ \partial_\theta \left(\log P_{L_\theta}({\bf w}|t)\right) \cdot R^\phi_{Pred} (t; {\bf w}) \choose  \partial_\phi R_{Pred}^\phi(t; {\bf w})}
-%{- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot R_{Pred}(\bf{w}, \thetal) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}
-\end{equation}
-%$${- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i}) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}$$
-for the gradient
-$${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
-This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
+do a gradient descent step using the estimator given by the expressions in the square brackets in \ref{eq:dtheta}-\ref{eq:dpsi}.
 
-See Section (REF) for the stopping criterion.
+\textcolor{red}{fix which one of psi, phi goes with pred, parse}
 
+Optimizing for only parseability (or predictability) is very similar -- in this case, the terms involving $R_{Pred}^\phi$ (or $R_{Pars}^\psi$) are removed.
+
+
+At the beginning of the optimization procedure, we initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section~\ref{sec:neural-architectures}).
+
+See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates.
+
+
+
+%
+%%(analogous for $R_{Pars}$ instead of $R_{Pred}$)
+%\begin{equation}\label{eq:estimator}
+%{ \partial_\theta \left(\log P_{L_\theta}({\bf w}|t)\right) \cdot R^\phi_{Pred} (t; {\bf w}) \choose  \partial_\phi R_{Pred}^\phi(t; {\bf w})}
+%%{- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot R_{Pred}(\bf{w}, \thetal) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}
+%\end{equation}
+%%$${- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i}) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}$$
+%for the gradient
+%$${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
+%This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
+%
+
+
+%
+%
+%Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a differentiable word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
+%\begin{equation}
+%\label{eq:exp-over-utts}
+%J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim \mathcal{L}_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
+%\end{equation}
+%where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
+%Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
+%
+%
+%
+%We formalize predictability as follows. Given a language model $P_\phi$ with parameters $\phi$, the log probability of a sentence ${\bf w}$ is:
+%\begin{equation*}
+%R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
+%\end{equation*}
+%where the language model parameters $\phi$ are chosen predict the language induced by tree distribution $T$ and word order grammar $\mathcal{L}_\theta$ as accurately as possible (maximizing predictability):
+%\begin{equation*}
+%	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+%\end{equation*}
+%
+%
+%We specify parseability as the mutual information between strings and trees, or equivalently the quantity of information provided by strings about trees. Formally, we say the parseability score of an utterance $\mathbf{w}$ is the pointwise mutual information of the $\mathbf{w}$ and the tree $t$ it was generated from, calculated using a parser with parameters $\psi$:\footnote{Note that $P(t)$ is a constant term which will be ignored in the optimization process.}
+%\begin{align}
+%\nonumber
+%R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
+%\nonumber
+%&= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
+%\end{align}
+%where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
+%\begin{equation*}
+%\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+%\end{equation*}
+%
+%For efficiency, we linearly combine the two terms:
+%\begin{equation}
+%\label{eq:combined-score}
+%R_{Efficiency}^{\phi,\psi}(t; {\bf w}) = R_{Pars}^\psi(t; {\bf w}) + \lambda R_{Pred}^\phi(t; {\bf w}),
+%\end{equation}
+%
+%
+%%\begin{equation}
+%%    \label{eq:depl}
+%%	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
+%%\end{equation}
+%%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
+%
+%For each of our objective functions, we seek parameters $\theta$ of a word order grammar $\mathcal{L}_\theta$ that maximize the average utility of sentences in the language obtained by linearizing unordered trees $t \sim T$ according to $\mathcal{L}_\theta$. The calculation of the predictability and parseability objectives also requires fitting language models parameterized by $\phi$ and parsers parameterized by $\psi$, respectively; and the calculation of the efficiency objective requires joint optimization of the word order grammar, language models, and parsers. The optimization problems come out to:
+%\begin{align}
+%%\max_\theta &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{DepL}(t; {\bf w}) \label{eq:maximize-depl}\\
+%\max_{\theta,\phi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pred}^{\phi(\theta)}(t; {\bf w}) \label{eq:maximize-pred}\\
+%\max_{\theta,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pars}^{\psi(\theta)}(t; {\bf w}) \label{Eq:maximize-pars} \\
+%\max_{\theta,\phi,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Efficiency}^{\psi(\theta), \phi(\theta)}(t; {\bf w}). \label{eq:maximize-efficiency} 
+%\end{align}
+%Note that the original word orders from the treebank never enter this objective---in particular, they do not influence the language model and the parser, which are entirely determined by $\theta$.
+%
+%
+%%The case of predictability, parseability, and efficiency are more challenging, as 
+%%e need to simultaneously look for an ordering model optimized for the loss of a language model and/or a parser, and for a language model and/or parser that are optimized for that given ordering model.
+%We solve Eqs.~\ref{eq:maximize-pred}--\ref{eq:maximize-efficiency} by performing stochastic gradient descent over all sets of parameters $\theta, \phi$, and/or $\psi$ simultaneously.
+%Below we discuss the process only for the predictability objective (Eq.~\ref{eq:maximize-pred}); the other objectives are optimized analogously.
+%
+%We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section (REF)).
+%
+%In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
+%Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
+%do a gradient descent step using the estimator %(analogous for $R_{Pars}$ instead of $R_{Pred}$)
+%\begin{equation}\label{eq:estimator}
+%{ \partial_\theta \left(\log P_{L_\theta}({\bf w}|t)\right) \cdot R^\phi_{Pred} (t; {\bf w}) \choose  \partial_\phi R_{Pred}^\phi(t; {\bf w})}
+%%{- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot R_{Pred}(\bf{w}, \thetal) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}
+%\end{equation}
+%%$${- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i}) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}$$
+%for the gradient
+%$${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
+%This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
+%
+%See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates.
+%
 
 
 %The case of dependency length in Eq.~\ref{maximize-depl} is the simplest, requiring only coordinate descent on the parameters $a_\tau, b_\tau \in \theta$. A similar optimization problem was solved by hill-climbing in \citet{gildea2007optimizing} and \citet{gildea2015human}.
@@ -562,7 +650,7 @@ See Section (REF) for the stopping criterion.
 %We extract 
 
 
-\section{Neural Network Architectures}
+\section{Neural Network Architectures}\label{sec:neural-architectures}
 
 In this section, we describe the details of the neural network architectures.
 All choices described in this section were fixed before evaluating word order properties and the efficiency of real language.
@@ -592,7 +680,7 @@ Neural network models have hyperparameters such as the number of hidden units, a
 For predictability and parseability optimization, we first selected hyperparameters on the respective objectives for selected languages on the provided development partitions.
 Then, for each language and each objective function, we created eight random combinations of these selected hyperparameter values, and selected the setting that yielded the best value of the respective objective function (predictability or parseability) on the language. We then used this setting for creating optimized word order grammars. 
 
-\textbf{TODO random seeds for efficiency}
+\textcolor{red}{TODO random seeds for efficiency}
 
 
 
@@ -615,9 +703,9 @@ We do not use pretrained embeddings \citep{peters2018deep}: While these could im
 
 \paragraph{Optimization details}
 
-We employ two common variance reduction methods to improve the estimator~(\ref{eq:estimator}), while keeping it unbiased.
+We employ two common variance reduction methods to improve the estimator~(\ref{eq:dtheta}), while keeping it unbiased.
 %For dependency length and 
-For predictability, note that the loss incurred for a specific word only depends on ordering decisions made up to that word (and its head, in the case of dependency length). We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:estimator}) with lower variance.
+For predictability, note that the loss incurred for a specific word only depends on ordering decisions made up to that word (and its head, in the case of dependency length). We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:dtheta}) with lower variance.
 Second, we use a word-dependent moving average of recent per-word losses as control variate \cite{williams1992simple}.
 These two methods reduce the variance of the estimator and thereby increase the speed of optimization and reduce training time, without biasing the results.
 For numerical stability, we represent $a_\tau \in [0,1]$ via its logit $\in \mathbb{R}$.
@@ -625,7 +713,7 @@ Furthermore, to encourage exploration of the parameter space, we add an entropy 
 %, adding the negative entropy of the $Bernoulli(a_\tau)$ to the loss $R$. %, weighted with $\alpha$.
 
 
-These techniques for improving (\ref{eq:estimator}) are well-known in the machine learning literature, and we fixed these before evaluating optimized grammars for word order properties.
+These techniques for improving (\ref{eq:dtheta}) are well-known in the machine learning literature, and we fixed these before evaluating optimized grammars for word order properties.
 
 We update word order grammar parameters $\theta$ using Stochastic Gradient Descent with momentum.
 For the language model parameters $\phi$, we use plain SGD. 
@@ -761,7 +849,7 @@ We model predictability using LSTM language models, which are are the strongest 
 In previous work, such as \cite{gildea2015human}, predictability has often been measured using n-gram models.
 
 Here, we show that languages optimized for LSTM predictability are also optimal for n-gram predictability.
-Specifically, we constructed bigram models with Kneser-Ney smoothing (CITE).
+Specifically, we constructed bigram models with Kneser-Ney smoothing~\cite{kneser1995improved, chen1999empirical}.
 A bigram model predicts each word taking only the previous word into account.
 This contrasts with LSTMs, which take the entire context into consideration.
 Thus, bigram models and LSTMs stand on opposing ends of a spectrum of language models taking more and more aspects of the context into account.
@@ -819,7 +907,9 @@ A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the traini
 
 % user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
 
-Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, CITE).
+
+
+Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
 Among the eight relations that we were able to test, five are annotated in WALS.
 Here, we compare our grammars with WALS on these five relations, and the verb-object relation.
 
