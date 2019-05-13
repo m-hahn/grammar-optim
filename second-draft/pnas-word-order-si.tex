@@ -456,10 +456,8 @@ We then extract the posterior means for each parameter $a_\tau, b_\tau$, and con
 
 In this section, we describe how we optimized grammar parameters for efficiency.
 A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $\mathcal{L}_\theta(t) = \mathbf{w}$ linearizing the tree.
-More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ is a \emph{probability distribution} over ordered sequences of words $\mathbf{w}$.
-In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $\mathcal{L}_\theta(t)$ concentrates on a single ordering.
-
-\textcolor{red}{TODO I'll clean this up}
+More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ defines a \emph{probability distribution} $p_{\mathcal{L}_\theta}(u|t)$ over ordered sequences of words $\mathbf{w}$.
+In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $p_{\mathcal{L}_\theta}(u|t)$ concentrates on a single ordering $u$.
 
 Recall the definition of efficiency
 \begin{equation}\label{eq:efficiency}
@@ -467,63 +465,80 @@ Recall the definition of efficiency
 \end{equation}
 where 
 \begin{equation}
-	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
 \end{equation}
 \begin{equation}
 	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
 \end{equation}
+where $t \sim \mathcal{T}$ is a distribution over syntactic structures, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
-These quatities are estimated using two neural models:
+These quatities are estimated using two neural models, as described in Section X:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
-A \key{language model} calculates the word-by-word surprisal of an utterance: $-\log p_\psi(u) = - \sum_{t=1}^{|u|} \log p_\psi(u_t|u_{1\dots t-1})$.
-The parsers and language models appropriate to a tree distribution $\mathcal{T}$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
+The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is
 \begin{equation}
-	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+	R_{Pars}^{\phi}(u,t) =  \log \frac{p_\phi(t|u)}{p(t)}
 \end{equation}
+%and we can write
+%\begin{equation}
+%	R_{Pars}^\phi := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) R_{Pars}^{\phi}(u,t)
+%\end{equation}
+%
+A \key{language model}, with some parameters $\psi$, calculates the word-by-word surprisal of an utterance:
 \begin{equation}
-\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+	R_{Pred}^{\psi}(u) = - \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1})
 \end{equation}
-
-Using these models, we can rewrite 
+Using this, we can rewrite Efficiency~(\ref{eq:efficiency}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
 \begin{equation}
-	R_{Pars}^{\psi(\theta)}= \E_t \E_{u \sim p_\theta(u|t)} R_{Pars}^{\psi(\theta)}(u,t) 
+	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi} := \max_{\phi,\psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
-where $R_{Pars}(u,t) = \log \frac{p_\phi(t|u)}{p(t)}$, and $p_\theta(u|t)$ is the probability assigned to sentence $u$ by the distribution $\mathcal{L}_\theta(t)$ defined by the differentiable word order grammar $\mathcal{L}_\theta$,
-and
-\begin{equation}
-	R_{Pred} = \E_t \E_{u \sim p_\theta(u|t)} R_{Pred}(u)
-\end{equation}
-where $R_{Pred}(u) = \log p_\psi(u)$.
-Therefore, we can rewrite efficiency as
+%
+%The parsers and language models appropriate to a tree distribution $\mathcal{T}$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
+%\begin{equation}
+%\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
+%\end{equation}
+%\begin{equation}
+%\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
+%\end{equation}
+%
+%Using these models, we can rewrite 
+%\begin{equation}
+%R_{Pars}^{\psi(\theta)}= \E_t \E_{u \sim p_\theta(u|t)} R_{Pars}^{\psi(\theta)}(u,t) 
+%\end{equation}
+%where $R_{Pars}(u,t) = \log \frac{p_\phi(t|u)}{p(t)}$, and $p_\theta(u|t)$ is the probability assigned to sentence $u$ by the distribution $\mathcal{L}_\theta(t)$ defined by the differentiable word order grammar $\mathcal{L}_\theta$,
+%and
+%\begin{equation}
+%R_{Pred} = \E_t \E_{u \sim p_\theta(u|t)} R_{Pred}(u)
+%\end{equation}
+%where $R_{Pred}(u) = \log p_\psi(u)$.
+%Therefore, we can rewrite efficiency as
+%\begin{equation}\label{eq:efficiency}
+%R_{\textit{Eff}}^\theta := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi(\theta)}(u,t) + \lambda R_{Pred}^{\psi(\theta)}(u)\right]
+%\end{equation}
+%Directly applying gradient descent to this expression is hard due to the complicated dependence of $\phi(\theta), \psi(\theta)$ on $\theta$.
+%
+%However, we can rewrite
+%\begin{equation}\label{eq:efficiency}
+%\argmax_\theta\	R_{\textit{Eff}}^\theta 
+%\end{equation}
+%equivalently into
+In order to find an optimal grammar $\theta$, we thus need to solve
 \begin{equation}\label{eq:efficiency}
-	R_{\textit{Eff}}^\theta := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi(\theta)}(u,t) + \lambda R_{Pred}^{\psi(\theta)}(u)\right]
-\end{equation}
-Directly applying gradient descent to this expression is hard due to the complicated dependence of $\phi(\theta), \psi(\theta)$ on $\theta$.
-
-However, we can rewrite
-\begin{equation}\label{eq:efficiency}
-\argmax_\theta\	R_{\textit{Eff}}^\theta 
-\end{equation}
-equivalently into
-\begin{equation}\label{eq:efficiency}
-\argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} = \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+\argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} %= \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
 Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
-
-
 \begin{align}
 \partial_\theta R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)} \left[  \left[\partial_\theta \log p_\theta(u|t)\right] \cdot    \left(R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right) \right] \label{eq:dtheta}\\ 
 \partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
 \partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
 \end{align}
 where \ref{eq:dtheta} is derived using the \emph{score-function} or \emph{REINFORCE} trick~\cite{williams1992simple}.
+Note that the the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures (CITE).
 
-We can therefore apply stochastic gradient descent:
+We can therefore apply stochastic gradient descent to jointly optimize $\theta, \phi, \psi$:
 In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
 Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
 do a gradient descent step using the estimator given by the expressions in the square brackets in \ref{eq:dtheta}-\ref{eq:dpsi}.
 
-\textcolor{red}{fix which one of psi, phi goes with pred, parse}
 
 Optimizing for only parseability (or predictability) is very similar -- in this case, the terms involving $R_{Pred}^\phi$ (or $R_{Pars}^\psi$) are removed.
 
@@ -907,23 +922,19 @@ A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the traini
 
 % user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
 
-
-
-Here, we validate our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
-Among the eight relations that we were able to test, five are annotated in WALS.
-Here, we compare our grammars with WALS on these five relations, and the verb-object relation.
+We validated our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
+Among the eight Greenbergian correlations that we were able to test, five are annotated in WALS.
+In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb-object relation.
 
 WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
 WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
 The grammars we extracted from the corpora agree with WALS in 96~\% out of those cases where WALS records a dominant word order.
 
-For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
-$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
-Finally, `--' indicates that the relation does not occur in the corpus.
 
-
+\begin{table}[ht]
 \small{
-\begin{longtable}{l||ll|ll|ll|ll|ll|ll|llllll}
+\begin{center}
+\begin{tabular}{l||ll|ll|ll|ll|ll|ll|llllll}
 %	   for(dep in c("obj", "lifted_mark", "acl", "nmod", "obl")) {
 		   Language 
 		   &	\multicolumn{2}{|c|}{Objects} 
@@ -933,9 +944,14 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 		   &	\multicolumn{2}{|c|}{Genitive} 
 		   &	\multicolumn{2}{|c|}{PP}  \\ \hline\hline
 	\input{../results/grammars/comparison-table.tex}
-\end{longtable}
+\end{tabular}
+\end{center}
 }
-
+\caption{Comparing grammars extracted from databases to linguistic judgments in the World Atlas of Linguistic Structures. For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
+$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
+Finally, `--' indicates that the relation does not occur in the corpus.
+}\label{tab:grammars-wals}
+\end{table}
 
 
 \section{Relation to the Information Bottleneck}
