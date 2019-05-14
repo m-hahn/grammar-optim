@@ -110,7 +110,7 @@ trafo_pars = read.csv("../plane/pars-z.csv")
 data = merge(data, trafo_surp, by=c("Language"))
 data = merge(data, trafo_pars, by=c("Language"))
 
-data = data %>% mutate(Surp_z = (Surp-MeanSurp)/SDSurp, Pars_z = (Pars-MeanPars)/SDPars)
+data = data %>% mutate(Surp_z = (Surp-MeanSurp)/SDSurp, Pars_z = (Pars-MeanPars)/SDPars, Eff_z =  0.9 * (Surp-MeanSurp)/SDSurp + (Pars-MeanPars)/SDPars)
 
 
 F = E %>% group_by(Language, Model) %>% summarise(Agree = sum(Agree, na.rm=TRUE))
@@ -132,13 +132,16 @@ cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z)
 cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z, method="spearman")
 cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z, method="kendal")
 
-
+library("ggpubr")
 plot = ggplot(u, aes(x=Agree, y=-(0.9*u$Surp_z+u$Pars_z)))
 plot = plot + geom_point()
 plot = plot + geom_smooth(method="lm")
 plot = plot + xlab("Satisfied Correlations")
 plot = plot + ylab("Efficiency")
 plot = plot + theme_bw()
+plot = plot + theme(axis.title=element_text(size=20))
+plot = plot + stat_cor(method = "pearson") #, label.x = 2, label.y = 0.8)
+#plot = plot + stat_cor(method = "spearman", label.x = 2, label.y = 0.5)
 ggsave(plot, file="correlations-by-grammar/ground-corrs-efficiency.pdf")
 
 plot = ggplot(u, aes(x=Agree, y=-u$Surp_z))
@@ -147,6 +150,8 @@ plot = plot + geom_smooth(method="lm")
 plot = plot + xlab("Satisfied Correlations")
 plot = plot + ylab("Predictability")
 plot = plot + theme_bw()
+plot = plot + theme(axis.title=element_text(size=20))
+plot = plot + stat_cor(method = "pearson") #, label.x = 2, label.y = 0.8)
 ggsave(plot, file="correlations-by-grammar/ground-corrs-predictability.pdf")
 
 plot = ggplot(u, aes(x=Agree, y=-u$Pars_z))
@@ -155,6 +160,8 @@ plot = plot + geom_smooth(method="lm")
 plot = plot + xlab("Satisfied Correlations")
 plot = plot + ylab("Parseability")
 plot = plot + theme_bw()
+plot = plot + theme(axis.title=element_text(size=20))
+plot = plot + stat_cor(method = "pearson") #, label.x = 2, label.y = 0.8)
 ggsave(plot, file="correlations-by-grammar/ground-corrs-parseability.pdf")
 
 

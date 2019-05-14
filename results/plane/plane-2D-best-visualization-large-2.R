@@ -411,5 +411,28 @@ plot = plot + theme(legend.text = element_text(size=12))
 ggsave(plot, file="pareto-plane-iso-best-balanced-legend-viz-10.pdf")
 
 
+# TODO Czech is omitted?!
+
+plot = ggplot(dataPlot)  
+plot = plot + theme_bw() 
+#plot = plot + geom_segment(aes(x=-Pars_z, y=-Surp_z, xend=-Pars_z_end, yend = -Surp_z_end, color=TypeN, group=TypeN), size=0.6)
+plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=-Pars, y=-Surp, color=TypeN, group=TypeN), size=0.3, bins=5)
+plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=-ParsMean, y=-SurpMean, group=1), color="gray", size=5)
+#plot = plot + geom_point(data=dataPlot, aes(x=-ParsMean, y=-SurpMean, color=TypeN, group=TypeN), size=6)
+plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=-Pars, y=-Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8, size=4.5)
+plot = plot + theme(legend.title = element_blank())  
+plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + scale_colour_manual(name = "TypeN",values = myColors)
+plot = plot + theme(axis.title.x = element_text(size=17))
+plot = plot + theme(axis.title.y = element_text(size=17))
+plot = plot + theme(legend.text = element_text(size=12))
+#plot = plot + annotate("text", x=-1.5, y=-1.3, label = "Baselines", hjust=0, size=8, color="blue")
+plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
+ggsave(plot, file="pareto-plane-iso-best-balanced-legend-viz-10-fontsize.pdf", width=6.6, height=6.6)
+
+
+
 
 
