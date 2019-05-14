@@ -700,6 +700,83 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 
 
 
+
+
+
+
+\section{Efficiency and Prior Formalizations}
+
+Here, we discuss how our formalization of efficiency relates to prior work testing functional explanations in linguistics.
+
+The efficiency of any information-theoretic communication protocol depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
+Accordingly, computational tests of functional explanations in linguistics have formalized the overall efficiency of language as a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication.
+
+
+
+Our objective function is identical to that of \cite{ferreri2003least}, and very similar to the functions in other computational work formalizing Zipf's ideas~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}.
+
+
+Common to all these accounts is the idea of maximizing the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms; there are some differences in the formalization of complexity.
+
+All these accounts formalize the amount of information provided as the \key{mutual information} between the forms that a listener receives, and the meanings that the speaker intends to communicate to the speaker.
+In our work, the underlying meanings are the syntactic structures; the forms are the linearized sentences.
+In \cite{ferreri2003least, kemp2012kinship}, forms are words referring to objects.
+In \cite{regier2015word} TODO
+In \cite{zaslavsky2018efficient}, forms are color words, and meanings are TODO.
+
+
+The accounts 
+
+- our function
+
+
+
+similar: RSA, there it's utterance-level
+
+\cite{frank2012predicting,goodman2013knowledge}
+
+- number of different forms 
+
+- complexity of the mapping \cite{kemp2012kinship}
+
+- MI between
+\cite{zaslavsky2018efficient}
+
+
+We model the first term as the 
+ degree to which listeners can reconstruct dependency parse structures from an utterance, i.e., the \key{parseability} if the language. This is formalized as the amount of information that utterances $u$ provide about their underlying syntactic structures $t$:
+\begin{equation}
+	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+\end{equation}
+where the sum runs over all possible pairs of sentences $l$ and syntactic structures $t$ in the language.
+%This quantity describes the degree to which syntactic structures can be unambiguously recovered from sentences, and quantifies how successful communication is (cf. Figure~\ref{fig:comm}).
+
+
+
+We formalize the complexity of a language as its entropy~\cite{ferreri2003least,ferrericancho2007global,futrell2017memory}.
+In our setting, this corresponds to the average word-by-word surprisal, the degree to which sentences are unpredictable from the general statistics of the language.
+Surprisal has been found to be a highly accurate and general predictor of human online processing difficulty \cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
+%and can be justified  in terms of predictive coding theories of information processing in the brain \cite{friston2009predictive} as well as the general algorithmic complexity of language generation and comprehension \cite{li2008introduction}.
+
+In expectation over all utterances $u$ in a language, the negative surprisal describes the \key{predictability}, or negative entropy, of the utterances:
+\begin{equation}
+	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+\end{equation}
+where the sum runs over all possible sentences $u$ that belong to the language.
+%In keeping with Zipf's Force of Unification, this quantity describes how homogeneous the language is, i.e., it is larger if the distribution over sentences is concentrated on a smaller number of frequent sentences. 
+
+
+
+The efficiency of a language is the weighted combination of these two scoring functions~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}:
+\begin{equation}\label{eq:efficiency}
+	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
+\end{equation}
+with an interpolation weight $\lambda \in [0,1)$.
+In all results from Study 2 reported here, we set $\lambda := 0.9$ in Equation~\ref{eq:efficiency}.
+See SI appendix section 5 for mathematical discussion of $\lambda$, and robustness to other choices.
+
+
+
 \section{Relation to the Information Bottleneck}
 
 Our efficiency objective (Equation~\ref{eq:efficiency}), to be maximized for word order grammars $L$, is restated below.
