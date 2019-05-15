@@ -960,7 +960,6 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 
 \section{Efficiency and Prior Formalizations}
 
-Here, we discuss how our formalization of efficiency relates to prior work testing functional explanations in linguistics.
 
 %The efficiency of any information-theoretic communication protocol depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
 %Accordingly, computational tests of functional explanations in linguistics have formalized the overall efficiency of language as a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication.
@@ -976,32 +975,38 @@ Here, we discuss how our formalization of efficiency relates to prior work testi
 %	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
 %\end{equation}
 
+Here we discuss how our formalization of efficiency relates to other information-theoretic work on language.
 
-Our objective function is identical to that of \cite{ferreri2003least}, and very similar to the functions in other computational work formalizing Zipf's ideas~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}.
+Our objective function is identical to the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} as a general efficiency metric for communicative systems, with syntactic structures taking the role of underlying meanings that the speaker wants to convey.
+This function is also equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
 
 
+Very similar metrics have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}.
 Common to all these accounts is the idea of maximizing the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms; there are some differences in the formalization of complexity.
 
-
-
 All these accounts formalize the amount of information provided as the \key{mutual information} between the forms that a listener receives, and the meanings that the speaker intends to communicate to the speaker.
+Most previous studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} are concerned with the meanings of individual words; they thus take the forms to be individual words, which refer to individual objects and their properties.
+We instead study how words are composed into sentences.
 In our work, the underlying meanings are the syntactic structures; the forms are the linearized sentences communicated by the speaker to the listener.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure (including the labels on the arcs) specifies how the meanings of words are combined.
 Therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
-In \cite{ferreri2003least, kemp2012kinship}, forms are words referring to objects.
-In \cite{regier2015word} TODO
-In \cite{zaslavsky2018efficient}, forms are color words, and meanings are TODO.
 
-
-The accounts differ in the formalizations of complexity and diversity:
-Like our model, \cite{ferreri2003least} model the complexity as the \emph{entropy} of the distribution of forms.
-Closely related is the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., color words) and meanings (e.g., color chips).
-This mutual information formalization is appropriate to encodes that are nondeterministic \cite{zaslavsky2018efficient}.
-As we assume deterministic grammars that transduce every underlying syntactic structure into one surface order, our model corresponds to the Deterministic Information Bottleneck~\cite{strouse2017deterministic}, which arises when the encoded is deterministic, and which uses the entropy as the complexity measure.
+%These information-theoretic accounts differ in the formalizations of complexity and diversity:
+Like our model, \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} model the complexity as the \key{entropy} of the distribution of forms, which arises naturally from the role played by surprisal in determining human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
+This model is closely related to the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., words) and their referents (e.g., individual objects).
+This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
+As we assume deterministic grammars that transduce every underlying syntactic structure into one surface order, our model corresponds to the Deterministic Information Bottleneck~\cite{strouse2017deterministic}, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure.
 
 A few models have used other measures that are not direct information-theoretic quantities.
-In \cite{regier2015wordTODO}, the cost function is the number of different forms; in \cite{kemp2012kinship} it is the complexity of the concepts encoded.
+In \cite{regier2007color, xu2014numeral, xu2016historical}, the cost function is the number of different forms; in \cite{kemp2012kinship} it is the complexity of the concepts encoded.
+The number of forms is not applicable in our case, as languages will typically have infinitely many sentences.
+Notably, the models in \cite{regier2007color, xu2016historical} have since been reformulated successfully in the information bottleneck formalism, bringing them even closer to our formalization.
+
+
+In addition to these models, which quantify the efficiency of communication systems, there is closely related work formalizing the optimal choice of specific utterances in context in models of pragmatic reasoning in reference games \cite{frank2012predicting,goodman2013knowledge, kao2014nonliteral}.
+In line with the other models, these assume that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely}.
+
 
 
 %In terms of information theory \cite{shannon1948mathematical}, this corresponds to the notion of the rate-distortion tradeoff.
@@ -1011,13 +1016,12 @@ In \cite{regier2015wordTODO}, the cost function is the number of different forms
 
 
 
-- our function
+%- our function
 
 
 
-similar: RSA, there it's utterance-level
+%similar: RSA, there it's utterance-level
 
-\cite{frank2012predicting,goodman2013knowledge}
 
 %- number of different forms 
 %
