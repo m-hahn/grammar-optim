@@ -157,49 +157,51 @@ plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, colo
 plot = ggplot(data, aes(x=(Pars-MeanPars), y=(Surp-MeanSurp), color=Type, group=Type)) +geom_point() + facet_wrap(~Language)
 
 
+data = data %>% mutate(Pars_z = (Pars-MeanPars)/SDPars, Surp_z=(Surp-MeanSurp)/SDSurp)
+
 subData = data %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_large", "manual_output_funchead_langmod_coarse_best_balanced"))
 
 subData = subData[order(subData$Type),]
 
 
-Surp = c()
-Pars = c()
+Surp_z = c()
+Pars_z = c()
 Language = c()
 for(language in unique(subData$Language)) {
    u = subData %>% filter(Language == language)
-   u = u[order(u$Pars),]
-   lastSurp = max(u$Surp)
-   lastPars = u$Pars[[1]]
-   Surp = c(Surp, lastSurp)
-   Pars = c(Pars, lastPars)
+   u = u[order(u$Pars_z),]
+   lastSurp_z = max(u$Surp_z)
+   lastPars_z = u$Pars_z[[1]]
+   Surp_z = c(Surp_z, lastSurp_z)
+   Pars_z = c(Pars_z, lastPars_z)
    Language = c(Language, language)
    for(i in (1:nrow(u))) {
-      surpHere = u$Surp[[i]]
-      parsHere = u$Pars[[i]]
-      if(surpHere < lastSurp) {
-         Surp = c(Surp, surpHere)
-         Pars = c(Pars, parsHere)
+      surpHere = u$Surp_z[[i]]
+      parsHere = u$Pars_z[[i]]
+      if(surpHere < lastSurp_z) {
+         Surp_z = c(Surp_z, surpHere)
+         Pars_z = c(Pars_z, parsHere)
          Language = c(Language, language)
         
-         lastSurp = surpHere
-         lastPars = parsHere
+         lastSurp_z = surpHere
+         lastPars_z = parsHere
       }
    }
-   Surp = c(Surp, lastSurp)
-   Pars = c(Pars, max(u$Pars))
+   Surp_z = c(Surp_z, lastSurp_z)
+   Pars_z = c(Pars_z, max(u$Pars_z))
    Language = c(Language, language)
 }
 
-subData = data.frame(Language=Language, Surp=Surp, Pars=Pars)
+subData = data.frame(Language=Language, Surp_z=Surp_z, Pars_z=Pars_z)
 subData$Type = "Pareto"
 
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter((Surp-MeanSurp)/SDSurp < 3), aes(x=(Pars), y=(Surp), color=Type, group=Type))
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surp_z < 3), aes(x=-Pars_z, y=-Surp_z, color=Type, group=Type))
 plot = plot + geom_point()
-plot = plot + geom_path(data=subData, aes(x=(Pars), y=(Surp), group=1), size=1.5)
+plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surp_z, group=1), size=1.5)
 plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 plot = plot + theme(legend.title = element_blank())  
 plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
 plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
@@ -207,6 +209,7 @@ plot = plot + theme(axis.title.x = element_text(size=17))
 plot = plot + theme(axis.title.y = element_text(size=17))
 plot = plot + theme(legend.text = element_text(size=12))
 plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
+plot = plot + theme(legend.position = "none")
 ggsave(plot, file="pareto-plane-perLanguage.pdf", width=12, height=12)
 
 
