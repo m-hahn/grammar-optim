@@ -1,10 +1,10 @@
-# Puts bar and histogram together (not used in the paper).
+# For the first \lambda=0.9 experiment
 
 
 
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
-dependencies =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
+dependencies =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
 data = read.csv("../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
@@ -48,7 +48,7 @@ for(dependency in dependencies) {
 
 
 
-ofInterest =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
+ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 #ofInterest =  c("acl",  "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
 # , "amod", "nummod"
@@ -98,14 +98,14 @@ library(ggplot2)
 
 cat("\nReading posterior samples\n")
 #parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
-two = read.csv("/home/user/CS_SCR/posteriors/posterior-10-efficiency-large.csv")
+two = read.csv("~/CS_SCR/posteriors/posterior-10-first10-efficiency.csv")
 #langmod = read.csv("/home/user/CS_SCR/posteriors/posterior-10-langmod.csv")
 
 
 
 data = rbind(two %>% mutate(Type="Efficiency"))
 
-data2 = data %>% gather(Dependency, Intercept, b_acl_Intercept,b_advmod_Intercept                                   ,b_aux_Intercept                                       ,  b_liftedcase_Intercept,b_liftedcop_Intercept  ,                                 b_liftedmark_Intercept  ,                                b_nmod_Intercept         ,                               b_nsubj_Intercept         ,                              b_obl_Intercept            ,                             b_xcomp_Intercept           )
+data2 = data %>% gather(Dependency, Intercept, b_acl_Intercept                             ,b_aux_Intercept                                       ,  b_liftedcase_Intercept,b_liftedcop_Intercept  ,                                 b_liftedmark_Intercept  ,                                b_nmod_Intercept         ,                                                             b_obl_Intercept            ,                             b_xcomp_Intercept           )
 
 data2 = data2 %>% mutate(Prevalence = 1/(1+exp(-Intercept)))
 
@@ -115,6 +115,7 @@ data2 = data2 %>% mutate(Dependency = case_when(Dependency == "liftedcase" ~ "li
 data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalence, TRUE ~ Prevalence))
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) +  facet_wrap( ~ Dependency, ncol=1) 
+  ggsave(plot, file=paste("figures/posterior_joint_first10" , ".pdf", sep=""))
 
 
 
@@ -125,6 +126,7 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
 
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) 
+  ggsave(plot, file=paste("figures/posterior_joint_with_ud_first10" , ".pdf", sep=""))
 
 #  plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) + geom_bar(data=E, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type))
 #  ggsave(plot, file=paste("posterior/posterior_joint_with_ud_balanced" , ".pdf", sep=""))
@@ -135,19 +137,17 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
   dependency = "acl"
 
   dependencies =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
+for(type in c("Efficiency")) {
 		color = "blue"
   for(dependency in dependencies) {
-     plot = ggplot()
-     plot = plot  + geom_density(data=data2 %>% filter(Type==type, Dependency==dependency), aes(x=Prevalence, y=..scaled.., fill=Type, group=Type),  fill=color)
+     plot = ggplot(data=data2 %>% filter(Type==type, Dependency==dependency))
+     plot = plot  + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5, fill=color)
      plot = plot + xlim(0,1)
      plot = plot + theme_classic()
      plot = plot + theme_void()
      plot = plot  + theme(legend.position="none")
      plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
-     plot = plot + geom_bar(data=D %>% filter(Dependency==dependency), stat="identity", width = 0.04, fill="green", aes(x=Agree, y=1))
-
-
-
-     ggsave(paste("figures/posteriors/posterior_2in1_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+     ggsave(paste("figures/posteriors/posterior_first10_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
   }
+}
 
