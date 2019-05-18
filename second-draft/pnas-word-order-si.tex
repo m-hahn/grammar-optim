@@ -86,11 +86,10 @@
 
 \section{Formalization of Correlations}\label{sec:correlations}
 
-\textcolor{red}{TODO At some point say something about \cite{dunn2011evolved}, since that got a lot of attention? can refer to follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
 
 Here we describe how we selected the correlations in Table 1 of the main paper, and how we formalized these using syntactic relations defined by Universal Dependencies.
 
-We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.
+We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.\footnote{Regarding objections by \cite{dunn2011evolved}, we refer to the follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
 Greenberg's original study was based on 30 languages; more recently, Dryer \cite{dryer1992greenbergian} documented the word order correlations based on typological data from 625 languages.
 \cite{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
 We test our ordering grammars for these correlations by testing whether the coefficients for these syntactic relations have the same sign as the coefficient of the verb-object relation.
@@ -206,6 +205,8 @@ Figure~\ref{fig:pareto-per-lang}
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
 \caption{per language results. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\textcolor{red}{would be good to have same colors as in main paper} All data are $z$-transformed.}\label{fig:pareto-per-lang}
 \end{figure}
+
+\textcolor{red}{also provide p value, CI for how many baselines are better in either of the two dimensions}
 
 
 \section{Supplementary Analyses for Study 2}
@@ -1178,6 +1179,28 @@ Here we report the results of prior preregistered simulation runs.
 \end{table}
 
 
+
+
+\section{Languages and Corpora}
+
+
+\begin{table}[ht]
+\begin{tabular}{lllllll}
+Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-out) \\ \hline
+\input{../results/corpus-size/corpora-table.tex}
+\end{tabular}
+\caption{Languages}
+\end{table}
+
+
+\section{Dependency Length Minimization}
+
+\textcolor{red}{TODO}
+We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
+Prior work has considered Dependency Length Minimization (DLM) as an approximate formalization of efficiency optimization~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+This is the idea that languages order words so as to minimize the overall length of dependencies.
+This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
+Indeed, directly modeling efficiency optimization predicts DLM, and appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
 
 
 
