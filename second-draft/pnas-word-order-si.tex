@@ -436,6 +436,7 @@ We note that each of the eight correlations is predicted by at least parseabilit
 \section{Creating Optimized Grammars}
 
 In this section, we describe the method we employ for creating grammars that are optimized for efficiency.
+%Our method will be applicable more generally to the task of optimizing grammars for a broad class of objective functions.
 We carry out optimization in an extended space of grammars that interpolates continuously between different grammars (Section~\ref{sec:diff-gramm}).
 More specifically, we include probabilistic relaxations of grammars, which describe probability distributions over different ways of ordering a syntactic structure into a sentence.
 This makes efficiency a \emph{differentiable} function of the grammar parameters, and enables efficient optimization with stochastic gradient descent, as we describe in Section~\ref{sec:optim-eff}.
@@ -444,6 +445,7 @@ This method addresses a major challenge noted in previous work optimizing gramma
 Previously, \citep{gildea2015human} optimized grammars for dependency length and trigram surprisal using a simple hill-climbing method on the grammar parameters, which required reestimating the trigram surprisal model in every iteration.
 Such a method would be computationally prohibitive for efficiency optimization, as it would require reestimating the neural network models after every change to the grammar, which would amount to reestimating them hundreds or thousands of times per grammar.
 Our method, by allowing for the use of stochastic gradient descent, addresses this challenge, as we describe in Section~\ref{sec:optim-eff}.
+
 
 \subsection{Differentiable Ordering Grammars}\label{sec:diff-gramm}
 
@@ -555,8 +557,9 @@ Optimizing for only parseability (or predictability) is very similar -- in this 
 
 
 At the beginning of the optimization procedure, we initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section~\ref{sec:neural-architectures}).
+Empirically, we observe that optimizing differentiable ordering grammars for efficiency leads to convergence towards deterministic behavior, allowing us to extract equivalent deterministic grammars as described in Section~\ref{sec:diff-gramm}.
 
-See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates.
+See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates used in this optimization scheme.
 
 
 
