@@ -79,9 +79,6 @@
 \tableofcontents
 
 
-\textcolor{red}{TODOs}
-
-\textcolor{red}{TODO This idea makes strong predictions, and turns out to overpredict correlations (see SI, Section X).}
 
 
 \section{Formalization of Correlations}\label{sec:correlations}
@@ -169,14 +166,13 @@ We therefore excluded this correlation here.
 
 
 
-\textcolor{blue}{Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
-Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
-The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order, finding 16 correlations to likely be universal.
-Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:corr-dryer}.
-%Due to data availability, we restricted to 11 universals and further collapsed to the eight correlations shown in Table~\ref{table:corr-dryer}.
-Testing efficiency on the excluded correlations would be feasible with additional annotation of data.
-For instance, one of these could be tested by labeling the existing databases for the distinction between manner adverbs from other kinds of adverbs.
-For another one, it would be necessary to annotate databases for additional languages that have independent plural markers (e.g., Hawaiian).}
+%\textcolor{blue}{Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
+%Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
+%The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order, finding 16 correlations to likely be universal.
+%Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:corr-dryer}.
+%Testing efficiency on the excluded correlations would be feasible with additional annotation of data.
+%For instance, one of these could be tested by labeling the existing databases for the distinction between manner adverbs from other kinds of adverbs.
+%For another one, it would be necessary to annotate databases for additional languages that have independent plural markers (e.g., Hawaiian).}
 
 
 \section{Supplementary Analyses for Study 1}
@@ -196,14 +192,13 @@ We z-transformed on the level of individual languages, normalizing the mean and 
 Within each language, we estimate the Pareto curve by connecting the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
 We then estimated the overall average Pareto curve, as shown in Figure (REF), by averaging the z-transformed points (1), (2), (3).
 
-
 \paragraph{Per-Language Results}
-Figure~\ref{fig:pareto-per-lang}
+In Figure~\ref{fig:pareto-per-lang}, we show the predictability-parseability planes for every one the 51 languages, together with Pareto frontiers estimated from optimized grammars.\footnote{Note that in a few languages, the real grammar is at a position slightly \emph{beyond} the estimated Pareto frontier. Due to use of stochastic gradient descent in optimization, there is some amount of noise in the optimization process.}
 
-\begin{figure}[ht]
+\begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-\caption{per language results. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\textcolor{red}{would be good to have same colors as in main paper} All data are $z$-transformed.}\label{fig:pareto-per-lang}
+\caption{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars. All data are $z$-scored.}\label{fig:pareto-per-lang}
 \end{figure}
 
 \textcolor{red}{also provide p value, CI for how many baselines are better in either of the two dimensions}
@@ -307,13 +302,13 @@ Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other
 
 
 
-\textcolor{red}{at some place also say the following: Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. }
 
-Further, we report results for grammars optimized for dependency length minimization (DLM).
+Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
 Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section REF).
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
-Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
-In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section REF.
+Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
 
 
 
@@ -326,7 +321,7 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 \small{
 \begin{tabular}{l|l|l|l|ll|l|l|llllllllllllllllllllllllllll}
 	\hline
-&	Relation & Real & DepL & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
+&	Relation & Real & DLM & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
 % From Dryer	
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&	lifted\_case  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_case.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&	lifted\_cop  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_cop.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
@@ -369,7 +364,7 @@ In line with these ideas, we show that optimizing for DLM makes predictions simi
 \small{
 \begin{tabular}{|l|l|l|ll|l|l|llllllllllllllllllllllllllll}
 	\hline
-	Relation & Real & DepL & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
+	Relation & Real & DLM & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
 \hline
 appos  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_appos.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_appos.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_appos.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_appos.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_appos.pdf}   &                                               Unknown \\           
 lifted\_cc  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_cc.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_cc.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_cc.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cc.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_cc.pdf}   &                  Unknown \\          
@@ -438,12 +433,17 @@ Therefore, if $\lambda \geq 1$, the efficiency objective satisfies
 and it takes the maximally possible value zero if $L(T)$ maps all trees to a single utterance, in which case both $I[L(T); T]$ and $H[L(T)]$ are zero.
 This is a degenerate language with only a single utterance, which is simultaneously used to convey all meanings.
 While the design of our word order grammars precludes a collapse of all trees to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable objective for language efficiency.
+In conclusion, $\lambda$ is constrained to be in $[0,1)$, which values closer to $1$ placing similar weights on both predictability and parsability, whereas values closer to $0$ diminish the role of predictability.
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parsability.
-
 The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
-We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations.
+%We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations, see Table REF.
 We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (Table~\ref{tab:all-predictions-1}).
+%Indeed, the same holds for all of the 38 syntactic relations in UD  (Table~\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})
+%We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
+That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.
+Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}).
+We also verified the robustness of our results by reporting results with $\lambda=1$ in Table REF>
 
 %\section{Joint optimization of grammar, parser, and language model parameters}
 \section{Creating Optimized Grammars}
@@ -695,7 +695,7 @@ See Section~\ref{sec:neural-architectures} for the stopping criterion and learni
 \section{Neural Network Architectures}\label{sec:neural-architectures}
 
 In this section, we describe the details of the neural network architectures.
-All choices described in this section were fixed before evaluating word order properties and the efficiency of real language.
+Choices follow standard practice and machine learning and were fixed before evaluating word order properties, and the efficiency of real languages.
 
 %\paragraph{Locality}
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
@@ -706,7 +706,6 @@ Given the small size of the corpora, this limit is only attained only for few la
 In each time step, the input is a concatenation of embeddings for the word, for language-specific POS tags, and for universal POS tags.
 The model predicts both the next word and its POS tags in each step.
 Using POS tags is intended to prevent overfitting on small corpora.
-These decisions were made before evaluating word order properties.
 
 \paragraph{Estimating Parseability}
 We use a biaffine attention parser architecture \citep{kiperwasser2016simple,zhang2017dependency,dozat2017stanford}. This architecture is remarkably simple: the words of a sentence are encoded into context-sensitive embeddings using bidirectional LSTMs, then a classifier is trained to predict the head for each work. The classifier works by calculating a score for every pair of word embeddings $(w_i, w_j)$, indicating the likelihood that the $j$th word is the head of the $i$th word. This is a highly generic architecture for recovering graph structures from strings, and is a simplification of graph-based parsers which reduce the parsing problem to a minimal spanning tree problem \citep{mcdonald2005nonprojective}.
@@ -720,9 +719,10 @@ This decision was made before evaluating word order properties.
 
 Neural network models have hyperparameters such as the number of hidden units, and the learning rate. 
 For predictability and parseability optimization, we first selected hyperparameters on the respective objectives for selected languages on the provided development partitions.
-Then, for each language and each objective function, we created eight random combinations of these selected hyperparameter values, and selected the setting that yielded the best value of the respective objective function (predictability or parseability) on the language. We then used this setting for creating optimized word order grammars. 
+These parameters are shown in Table~\ref{tab:hyperparameters}.
+Then, for each language and each objective function, we created eight random combinations of these selected hyperparameter values, and selected the setting that yielded the best value of the respective objective function (efficiency, predictability, parseability) on the language. We then used this setting for creating optimized word order grammars. 
 
-\textcolor{red}{TODO random seeds for efficiency}
+%\textcolor{red}{TODO random seeds for efficiency}
 
 
 
@@ -730,25 +730,26 @@ All word and POS embeddings are randomly initialized with uniform values from $[
 We do not use pretrained embeddings \citep{peters2018deep}: While these could improve performance of language models and parsers, they would introduce confounds from the languages' actual word orders as found in the unlabeled data.
 
 
-%\begin{table}[]
-%    \centering
-%    \begin{tabular}{c|cccc}
-%    Entropy penalty     &  0.0001, 0.001 \\
-%    Learning Rate (Word order grammar)     & 5e-6, 1e-5, 2e-5, 5e-5 \\
-%    Momentum (Word order grammar) & 0.8, 0,9 \\
-%    Dropout (Language model) & 0.0, 0.3, 0.5 \\
-%    
-%    \end{tabular}
-%    \caption{Hyperparameters}
-%    \label{tab:my_label}
-%\end{table}
+\begin{table}[]
+    \centering
+    \begin{tabular}{c|cccc}
+    Entropy penalty     &  0.0001, 0.001 \\
+    Learning Rate (Word order grammar)     & 5e-6, 1e-5, 2e-5, 5e-5 \\
+    Momentum (Word order grammar) & 0.8, 0,9 \\
+    Dropout (Language model) & 0.0, 0.3, 0.5 \\
+    
+    \end{tabular}
+    \caption{Selected Hyperparameters}
+    \label{tab:hyperparameters}
+\end{table}
 
-\paragraph{Optimization details}
-
+\paragraph{Improved Unbiased Gradient Estimator}
 We employ two common variance reduction methods to improve the estimator~(\ref{eq:dtheta}), while keeping it unbiased.
 %For dependency length and 
-For predictability, note that the loss incurred for a specific word only depends on ordering decisions made up to that word (and its head, in the case of dependency length). We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:dtheta}) with lower variance.
-Second, we use a word-dependent moving average of recent per-word losses as control variate \cite{williams1992simple}.
+% (and its head, in the case of dependency length)
+For predictability, note that the loss incurred for a specific word only depends on ordering decisions made up to that word.
+We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:dtheta}) with lower variance.
+Second, we use a word-dependent moving average of recent per-word losses as control variate \cite{williams1992simple} (the word's surprisal in the case of predictability, and the negative log-probability of the correct head and relation label in the case of parseability).
 These two methods reduce the variance of the estimator and thereby increase the speed of optimization and reduce training time, without biasing the results.
 For numerical stability, we represent $a_\tau \in [0,1]$ via its logit $\in \mathbb{R}$.
 Furthermore, to encourage exploration of the parameter space, we add an entropy regularization term \citep{xu2015show} for each Direction Parameter $a_\tau$, which penalizes $a_\tau$ values near $0$ or $1$. The weight of the entropy regularization was chosen together with the other hyperparameters.
@@ -757,24 +758,24 @@ Furthermore, to encourage exploration of the parameter space, we add an entropy 
 
 These techniques for improving (\ref{eq:dtheta}) are well-known in the machine learning literature, and we fixed these before evaluating optimized grammars for word order properties.
 
+\paragraph{Learning Rate and Stopping Criterion}
 We update word order grammar parameters $\theta$ using Stochastic Gradient Descent with momentum.
-For the language model parameters $\phi$, we use plain SGD. 
+For the language model parameters $\phi$, we use plain Stochastic Gradient Descent without momentum, as recommended by \citet{merity2018regularizing}. 
 For the parser parameters $\psi$, we use Adam \citep{kingma2014adam}, following \citet{dozat2017stanford}.
 The learning rates and other optimization hyperparameters were determined together with the other hyperparameters.
 
-For each language and objective function, we apply Early Stopping~\citep{prechelt1998early} as follows. We compute a Monte-Carlo estimate of the objective on the UD development set in intervals of 50,000 training steps, and stop optimization once the value of the objective deteriorates compared to the last previous estimate. This technique, well known in the machine learning literature, helps prevent overfitting to the specific corpora used.
+For gramar optimization, we apply Early Stopping~\citep{prechelt1998early} as follows. We compute a Monte-Carlo estimate of the objective on the UD development set in intervals of 50,000 training steps, and stop optimization once the value of the objective deteriorates compared to the last previous estimate.
+This is a standard technique for optimizing neural models, and helps prevent overfitting to the specific corpora used.
 
 The choice of optimization methods and the stopping criterion were fixed before we investigated word order correlations.
 
 \paragraph{Optimized Grammars}
-
 Recall that, for each language, we created 8 optimized languages for each optimization criterion.
 We enforced balanced distribution of object-verb and verb-object ordering among optimized languages by fixing $a_\tau$ for the \textit{obj} dependency to be 0.0 in four of these languages, and 1.0 in the other four.
 This maximizes statistical precision in detecting and quantifying correlations between the \textit{obj} relation and other relations.
 
 For efficiency optimization, for each grammar, we ran efficiency optimization with three different random seeds, selecting among these the seed that yielded the best overall efficiency value.
-This 
-
+This helps control for variation across random seeds for the stochastic gradient descent optimization method.
 
 
  % TODO we could use some language at the top of this section on the general guiding principles for all these decisions. Were these implementation decisions made before or after looking at the word order universals results? If they were made before, we should highlight that.
@@ -1196,7 +1197,7 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 \end{table}
 
 
-\section{Dependency Length Minimization}
+\section{Dependency Length Minimization}\label{sec:DLM}
 
 \textcolor{red}{TODO}
 We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
@@ -1205,6 +1206,13 @@ This is the idea that languages order words so as to minimize the overall length
 This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, directly modeling efficiency optimization predicts DLM, and appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
 
+\textcolor{red}{at some place also say the following: Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. }
+
+Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
+Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
+Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
+In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
 
 
 
