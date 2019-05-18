@@ -167,6 +167,19 @@ We therefore excluded this correlation here.
 %croft2011greenbergian
 %dryer2011evidence
 
+
+
+
+\textcolor{blue}{Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
+Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
+The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order, finding 16 correlations to likely be universal.
+Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:corr-dryer}.
+%Due to data availability, we restricted to 11 universals and further collapsed to the eight correlations shown in Table~\ref{table:corr-dryer}.
+Testing efficiency on the excluded correlations would be feasible with additional annotation of data.
+For instance, one of these could be tested by labeling the existing databases for the distinction between manner adverbs from other kinds of adverbs.
+For another one, it would be necessary to annotate databases for additional languages that have independent plural markers (e.g., Hawaiian).}
+
+
 \section{Supplementary Analyses for Study 1}
 
 
@@ -987,11 +1000,11 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 
 Here we discuss how our formalization of efficiency relates to other information-theoretic work on language.
 
-Our objective function is identical to the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} as a general efficiency metric for communicative systems, with syntactic structures taking the role of underlying meanings that the speaker wants to convey.
+Our objective function is identical to the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems, with syntactic structures taking the role of underlying meanings that the speaker wants to convey.
 This function is also equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
 
 
-Very similar metrics have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}.
+Very similar metrics have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge,piantadosi2012communicative}.
 Common to all these accounts is the idea of maximizing the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms; there are some differences in the formalization of complexity.
 
 All these accounts formalize the amount of information provided as the \key{mutual information} between the forms that a listener receives, and the meanings that the speaker intends to communicate to the speaker.
@@ -1101,6 +1114,11 @@ Assuming the channel $U \rightarrow \hat{U}$ is noiseless, we have $U=\hat{U}$, 
 
 Our efficiency objective is thus closely related to the information bottleneck; the difference is that we are optimizing the mapping from underlying meanings to representations (strings) assuming that these strings will be transmitted in a fixed noiseless channel.
 
+
+
+\section{Relation to DLM}
+
+DLM turns out to be predicted by our model
 
 \section{Other (Preregistered) Experiments}
 
