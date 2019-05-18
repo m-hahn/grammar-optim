@@ -511,12 +511,10 @@ Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other
 
 
 
-Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
-Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
-We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section REF).
-Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
-Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section REF.
-Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM} for discussion).
+This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section REF).
+Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section REF.
+
 
 
 
@@ -1258,24 +1256,78 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 
 \section{Dependency Length Minimization}\label{sec:DLM}
 
-\textcolor{red}{TODO}
-We have directly implemented parseability and predictability using general-purpose statistical models of language and dependency structures.
-Prior work has considered Dependency Length Minimization (DLM) as an approximate formalization of efficiency optimization~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-This is the idea that languages order words so as to minimize the overall length of dependencies.
-This principle is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
-Indeed, directly modeling efficiency optimization predicts DLM, and appears to predict word order universals with greater accuracy than optimizing for DLM (see SI, \emph{Relation to Dependency Length Minimization}).
 
-\textcolor{red}{at some place also say the following: Dependency length quantified in this manner is a heuristic measure of complexity: the actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}. }
 
-Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
-Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+Prior work has suggested \emph{Dependency Length Minimization} (DLM) as a characteristic of efficient word order~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+This is the idea that word order minimizes the average distance between syntactically related words.
+It is known that human languages reduce dependency length compared to random baselines~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
-Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
-In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
+Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
+
+
+Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
+Dependency length quantified in this manner is a heuristic measure of complexity:
+The actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}.
+
+We asked whether efficiency optimization predicts dependency length minimization effects.
+We first computed dependency length for grammars optimized for efficiency.
+We found that 100\% of grammars optimized for efficiency reduce average dependency length compared to baseline grammars ($p < 0.05$, by one-sided $t$-test). \textcolor{red}{TODO}
+This suggests that the reduction of dependency length is predicted by efficiency maximization.
+Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section REF).
+We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
+In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
+We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length.
+We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4langs}, plotting dependency length as a function of sentence length as reported in prior work \cite{futrell2015largescale}.
+Optiziming grammars for efficiency produces dependency lengths similar to those found in the actual orderings.
+
+\begin{figure}[ht]
+    \centering
+     \includegraphics[width=0.5\textwidth]{../results/dependency-length/figures/depl-violin-all.pdf} 
+        \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right).}
+    \label{fig:dlm-avg}
+\end{figure}
+
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.9\textwidth]{../results/dependency-length/figures/depLength-facet.pdf} 
+        \caption{Total dependency length as a function of sentence length, for four diverse languages. We show results for optimized grammars (parseability, predictability, efficiency), for grammars specifically optimized to minimize dependency length, of the actual real orderings, and of the baseline grammars.}
+    \label{fig:dlm-4langs}
+\end{figure}
+
+
+Next, we examined the word order properties of grammars optimized for DLM.
+In Table~\ref{tab:all-predictions-1}, we report the posterior prevalence of word order correlations in grammars optimized for DLM show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+We find that these grammars also exhibit the eight correlations, similar to grammars directly optimized for efficiency.
+On other correlations, predictions of DLM also resemble those of efficiency optimization.
+However, it predicts strong correlations with \textit{amod} (adjectival modifiers) and \textit{nummod} (numeral modifiers) (see bottom of Table~\ref{tab:all-predictions-1}), which are not borne out typologically.
+In these cases, efficiency optimization predicts prevalnces closer to 50\%, in line with typological data.
+
+In conclusion, these results suggest that dependency length minimization is a by-product of efficiency optimization, providing support to theoretical arguments from the linguistic literature~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
+Furthermore, optimizing for dependency length correctly predicts a range of word order facts, though it appears to \emph{overpredict} correlations when compared to direct optimization for efficiency.
 
 
 
-DLM turns out to be predicted by our model
+
+%Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
+%Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+%Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
+%Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
+%In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+
+
+%Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
+%We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section REF).
+%Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section REF.
+%Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+
+
+%\textcolor{red}{TODO}
+
+
+
+%DLM turns out to be predicted by our model
 
 
 
