@@ -264,7 +264,6 @@ In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to 
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parsability.
 The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
-%We previously carried out language optimization for $\lambda = 1$, and obtained essentially identical predictions for word order correlations, see Table REF.
 We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (Table~\ref{tab:all-predictions-1}).
 %Indeed, the same holds for all of the 38 syntactic relations in UD  (Table~\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})
 %We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
@@ -371,7 +370,6 @@ In Figure~\ref{fig:pareto-per-lang}, we show the predictability-parseability pla
 We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
 
 Within each language, we estimate the Pareto curve based on the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
-%We then estimated the overall average Pareto curve, as shown in Figure (REF), by averaging the z-transformed points (1), (2), (3).
 
 Figure (REF) in the main paper shows the average of these per-language plots. \textcolor{red}{unify pareto curve computation in main paper}
 
@@ -447,7 +445,7 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 	\begin{center}
 	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
 	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language. \textcolor{red}{TODO fix order of 1-8}}\label{fig:per-lang}
 %	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
 \end{figure}
 
@@ -512,8 +510,8 @@ Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other
 
 
 Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM} for discussion).
-This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section REF).
-Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section REF.
+This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section~\ref{sec:DLM}).
+Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section~\ref{sec:DLM}.
 
 
 
@@ -551,7 +549,6 @@ Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM m
 %comp. &
 %\multirow{3}{*}{NP}&
 %	AP &
-    \multicolumn{7}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
 \end{tabular}
 }
 
@@ -602,7 +599,6 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 %comp. &
 %\multirow{3}{*}{NP}&
 %	AP &
-    \multicolumn{7}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
 \end{tabular}
 }
 
@@ -620,7 +616,7 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 
 \subsection{Other Experiments}
 In Table~\ref{table:corr-resu} we report the results of the simulations we did before the main experiment reported in the main paper (left and center), together with their preregistrations, besides the results from the main experiment (right).
-These experiments all had the same setup described in Section (REF), which was fixed before starting simulations; differences are that (1) the first simulation places fully equal weight on parseability and predictability ($\lambda=1.0$), and (2) the final experiment uses three random seeds per grammar.
+These experiments all had the same setup described in Section~\ref{sec:neural-architectures}, which was fixed before starting simulations; differences are that (1) the first simulation places fully equal weight on parseability and predictability ($\lambda=1.0$), and (2) the final experiment uses three random seeds per grammar.
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
 \textcolor{red}{TODO also the aggregate posterior}
 
@@ -630,7 +626,7 @@ Results across all three experiments agree; jointly optimizing grammars for pars
 \begin{tabular}{|c|ccc|c}
 	\hline
 	%&
-& $\lambda=1.0$\footnote{\url{https://aspredicted.org/blind.php?x=bg35x7}. Note that we report the locality results as `DLM' in Table REF.} 
+& $\lambda=1.0$\footnote{\url{https://aspredicted.org/blind.php?x=bg35x7}. Note that we report the locality results as `DLM' in Table~\ref{tab:all-predictions-1}, see also Section~\ref{sec:DLM}.} 
 & $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}}
 & $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=ya4qf8}} \\ \hline \hline 
 	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}		  
@@ -721,6 +717,41 @@ To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Baye
 We then extract the posterior means for each parameter $a_\tau, b_\tau$, and convert the resulting differentiable grammar into an ordinary ordering grammar.
 
 
+
+We validated the extracted grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
+Among the eight Greenbergian correlations that we were able to test, five are annotated in WALS.
+In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb-object relation.
+
+WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
+WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
+The grammars we extracted from the corpora agree with WALS in 96~\%  of these cases.
+
+
+\begin{table}
+\small{
+\begin{center}
+\begin{tabular}{l||ll|ll|ll|ll|ll|ll|llllll}
+%	   for(dep in c("obj", "lifted_mark", "acl", "nmod", "obl")) {
+		   Language 
+		   &	\multicolumn{2}{|c|}{Objects} 
+		   &	\multicolumn{2}{|c|}{Adpositions} 
+		   &	\multicolumn{2}{|c|}{Compl.} 
+		   &	\multicolumn{2}{|c|}{Rel.Cl.} 
+		   &	\multicolumn{2}{|c|}{Genitive} 
+		   &	\multicolumn{2}{|c|}{PP}  \\ \hline\hline
+	\input{../results/grammars/comparison-table.tex}
+\end{tabular}
+\end{center}
+}
+\caption{Comparing grammars extracted from databases to linguistic judgments in the World Atlas of Linguistic Structures. For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
+$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
+Finally, `--' indicates that the relation does not occur in the corpus.
+}\label{tab:grammars-wals}
+\end{table}
+
+
+
+
 \subsection{Optimizing Grammars for Efficiency}\label{sec:optim-eff}
 
 In this section, we describe how we optimized grammar parameters for efficiency.
@@ -741,7 +772,7 @@ where
 \end{equation}
 where $t \sim \mathcal{T}$ is a distribution over syntactic structures, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
-These quatities are estimated using two neural models, as described in Section X:
+These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
 The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is
 \begin{equation}
@@ -894,7 +925,7 @@ See Section~\ref{sec:neural-architectures} for the stopping criterion and learni
 %We solve Eqs.~\ref{eq:maximize-pred}--\ref{eq:maximize-efficiency} by performing stochastic gradient descent over all sets of parameters $\theta, \phi$, and/or $\psi$ simultaneously.
 %Below we discuss the process only for the predictability objective (Eq.~\ref{eq:maximize-pred}); the other objectives are optimized analogously.
 %
-%We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section (REF)).
+%We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section).
 %
 %In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
 %Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
@@ -1001,13 +1032,12 @@ We do not use pretrained embeddings \citep{peters2018deep}: While these could im
 We employ two common variance reduction methods to improve the estimator~(\ref{eq:dtheta}), while keeping it unbiased.
 %For dependency length and 
 % (and its head, in the case of dependency length)
-For predictability, note that the loss incurred for a specific word only depends on ordering decisions made up to that word.
+For predictability, note that the surprisal of a specific word only depends on the preceding words (not on the following words), and thus only depends on ordering decisions made up to that word.
 We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:dtheta}) with lower variance.
-Second, we use a word-dependent moving average of recent per-word losses as control variate \cite{williams1992simple} (the word's surprisal in the case of predictability, and the negative log-probability of the correct head and relation label in the case of parseability).
+Second, we use a word-dependent moving average of recent per-word losses (the word's surprisal in the case of predictability, and the negative log-probability of the correct head and relation label in the case of parseability) as control variate \cite{williams1992simple}.
 These two methods reduce the variance of the estimator and thereby increase the speed of optimization and reduce training time, without biasing the results.
 For numerical stability, we represent $a_\tau \in [0,1]$ via its logit $\in \mathbb{R}$.
 Furthermore, to encourage exploration of the parameter space, we add an entropy regularization term \citep{xu2015show} for each Direction Parameter $a_\tau$, which penalizes $a_\tau$ values near $0$ or $1$. The weight of the entropy regularization was chosen together with the other hyperparameters.\footnote{Explored values: 0.0001, 0.001.}
-%, adding the negative entropy of the $Bernoulli(a_\tau)$ to the loss $R$. %, weighted with $\alpha$.
 
 
 These techniques for improving (\ref{eq:dtheta}) are well-known in the machine learning literature, and we fixed these before evaluating optimized grammars for word order properties.
@@ -1070,7 +1100,7 @@ Second, while the graph-based neural parser uses machine learning to induce synt
 %In this sense, the CKY algorithm does not have any architectural biases in itself.
 %On the other hand, the PCFG makes severely simplifying independence assumptions, compared to the universal approximation capabilities of neural network-based systems.
 
-We used the CKY algorithm to compute the parsing loss $H[T|L_\theta(T)]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
+We used the CKY algorithm to compute the parsing loss $H[T|\mathcal{L}_\theta(T)]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
 Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable for exact parsing of a simple PCFG.
 % TODO get UAS for compatibility with other parts of SI
 %We then compared parsability of random and optimized word order grammars on English data.
@@ -1079,7 +1109,7 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 \begin{figure}
     \centering
     \includegraphics[scale=.7]{../results/cky/cky-parse.pdf} 
-	\caption{Parsability loss $H[T|L_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue).\textcolor{red}{make plot nicer}}
+	\caption{Parsability loss $H[T|\mathcal{L}_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length. \textcolor{red}{make plot nicer}}
     \label{fig:cky-parser}
 \end{figure}
 
@@ -1136,7 +1166,7 @@ In all settings, the language optimized for efficiency achieved higher parsing a
     Japanese
     
     \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-japanese.pdf}
-	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $H[T|L_\theta(T)]$ (lower is better), for the four distorted orderings, and the actual orderings (`real').}
+	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $H[T|L_\theta(T)]$ (lower is better), for the four distorted orderings, and the actual orderings (`real'). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length.}
     \label{fig:distorted-parser}
 \end{figure}
 
@@ -1191,7 +1221,7 @@ A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the traini
 %    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech.pdf} 
     \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech-logloss.pdf} 
 
-        \caption{Parsing loss ($H[T|\mathcal{L}_\theta(T)]$) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
+        \caption{Parsing loss ($H[T|\mathcal{L}_\theta(T)]$, normalized by sentence length) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
     \label{fig:learning-czech}
 \end{figure}
 
@@ -1201,40 +1231,9 @@ A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the traini
 
 
 
-\section{Comparing Extracted Grammars to Linguistic Judgments}
+%\section{Comparing Extracted Grammars to Linguistic Judgments}
 
 % user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
-
-We validated our grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
-Among the eight Greenbergian correlations that we were able to test, five are annotated in WALS.
-In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb-object relation.
-
-WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
-WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
-The grammars we extracted from the corpora agree with WALS in 96~\%  of these cases.
-
-
-\begin{table}[htb!]
-\small{
-\begin{center}
-\begin{tabular}{l||ll|ll|ll|ll|ll|ll|llllll}
-%	   for(dep in c("obj", "lifted_mark", "acl", "nmod", "obl")) {
-		   Language 
-		   &	\multicolumn{2}{|c|}{Objects} 
-		   &	\multicolumn{2}{|c|}{Adpositions} 
-		   &	\multicolumn{2}{|c|}{Compl.} 
-		   &	\multicolumn{2}{|c|}{Rel.Cl.} 
-		   &	\multicolumn{2}{|c|}{Genitive} 
-		   &	\multicolumn{2}{|c|}{PP}  \\ \hline\hline
-	\input{../results/grammars/comparison-table.tex}
-\end{tabular}
-\end{center}
-}
-\caption{Comparing grammars extracted from databases to linguistic judgments in the World Atlas of Linguistic Structures. For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
-$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
-Finally, `--' indicates that the relation does not occur in the corpus.
-}\label{tab:grammars-wals}
-\end{table}
 
 
 
@@ -1275,7 +1274,7 @@ We asked whether efficiency optimization predicts dependency length minimization
 We first computed dependency length for grammars optimized for efficiency.
 We found that 100\% of grammars optimized for efficiency reduce average dependency length compared to baseline grammars ($p < 0.05$, by one-sided $t$-test). \textcolor{red}{TODO}
 This suggests that the reduction of dependency length is predicted by efficiency maximization.
-Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section REF).
+Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section~\ref{sec:optim-eff}).
 We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
 In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
 We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length.
@@ -1318,8 +1317,8 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 
 
 %Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
-%We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section REF).
-%Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section REF.
+%We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section ).
+%Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section .
 %Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
 
 
