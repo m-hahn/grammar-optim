@@ -51,7 +51,7 @@ plot = ggplot(data=depl2, aes(x=AverageLengthPerWord-MeanLength, group=Type, fil
 depl3 = depl %>% filter(!(Type %in% c("manual_output_funchead_langmod_coarse_best_balanced", "manual_output_funchead_two_coarse_parser_best_balanced")))
 depl3$Type = factor(depl3$Type, levels=c("manual_output_funchead_coarse_depl", "manual_output_funchead_two_coarse_lambda09_best_balanced", "REAL_REAL",  "manual_output_funchead_RANDOM"  ))
 library(forcats)
-depl3$TypeN = fct_recode(depl3$Type, DLM="manual_output_funchead_coarse_depl", Eff="manual_output_funchead_two_coarse_lambda09_best_balanced", Real="REAL_REAL", Baseline="manual_output_funchead_RANDOM")
+depl3$TypeN = fct_recode(depl3$Type, DLM="manual_output_funchead_coarse_depl", Efficiency="manual_output_funchead_two_coarse_lambda09_best_balanced", Real="REAL_REAL", Baseline="manual_output_funchead_RANDOM")
 
 
 library(ggrepel)
@@ -147,6 +147,22 @@ plot = plot + xlab(NULL)
 plot = plot + ylab("Mean Dependency Length")
 
 ggsave(plot, file="figures/depl-violin.pdf")
+
+
+
+
+
+plot = ggplot(data=depl3, aes(x=TypeN, y=AverageLengthPerWord)) + geom_point() 
+plot = plot + geom_line(data=depl3 %>% group_by(TypeN) %>% summarise(AverageLengthPerWord = mean(AverageLengthPerWord)), aes(x=TypeN, y=AverageLengthPerWord, group=1))
+plot = plot + geom_line(data=depl3 %>% group_by(TypeN, Language) %>% summarise(AverageLengthPerWord = mean(AverageLengthPerWord)), aes(x=TypeN, y=AverageLengthPerWord, group=Language), alpha=0.5)
+plot = plot + geom_flat_violin(data=depl3, aes(x=TypeN, y=AverageLengthPerWord, fill=TypeN))
+plot = plot + theme_bw()
+plot = plot + theme(legend.position="none")
+plot = plot + theme(legend.position="none")
+plot = plot + xlab(NULL)
+plot = plot + ylab("Mean Dependency Length")
+
+ggsave(plot, file="figures/depl-violin-all.pdf")
 
 
 
