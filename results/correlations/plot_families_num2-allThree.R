@@ -20,6 +20,8 @@ D = merge(D, DFam %>% select(FamilyPrint, yOffset), by=c("FamilyPrint"))
 DLang = unique(D %>% select(Language_Ordered, iso_Ordered, LanguageNumeric, yOffset))
 
 
+D = D %>% mutate(CoarseDependency = recode(CoarseDependency, lifted_case=1, lifted_cop=2, aux=3, nmod=4, acl=5, lifted_mark=6, obl=7, xcomp=8))
+
 plot_orders_real = ggplot(D %>% filter(Type == "Real Languages"), aes(x = 1, y = LanguageNumeric+yOffset, group=CoarseDependency)) + 
   geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
 #  scale_color_gradient() + #values=c("blue", "green")) +
@@ -143,6 +145,6 @@ ggsave(plot=plot, "figures/pred-eff-pred-pars-families-2.pdf", width=6, height=8
 D2 = (D %>% select(Family, Language, CoarseDependency, DirB, Type) %>% spread(Type, DirB) %>% rename(Real = 'Real Languages') %>% rename(Predicted = Efficiency))
 
 D2$Agree = (D2$Real == D2$Predicted)
-summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
+#summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
 mean(D2$Agree)
 

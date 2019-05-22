@@ -17,6 +17,6 @@ library(ggplot2)
 plot = ggplot(data=data, aes(x=Loss, group=Directory, color=Directory, fill = Directory)) + 
       geom_histogram(binwidth=0.01)  + facet_grid(~Language, , scales="free") + theme_bw() + theme(legend.position="none")
 
-ggsave(plot=plot, filename="bigrams.pdf")
+ggsave(plot=plot, filename="bigrams.pdf", width=8, height=3)
 
 

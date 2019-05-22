@@ -90,7 +90,6 @@
 \tableofcontents
 
 
-\textcolor{red}{cite rijkhof etc}
 
 
 
@@ -180,7 +179,7 @@ We therefore excluded this correlation here.
 
 
 
-%\textcolor{blue}{Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
+%\textcolor{red}{Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
 %Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
 %The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order, finding 16 correlations to likely be universal.
 %Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:corr-dryer}.
@@ -198,46 +197,54 @@ We therefore excluded this correlation here.
 %The efficiency of any information-theoretic communication protocol depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
 %Accordingly, computational tests of functional explanations in linguistics have formalized the overall efficiency of language as a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication.
 
-%Recall our formalization of efficiency:
-%\begin{equation}
-%	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
-%\end{equation}
-%\begin{equation}
-%	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
-%\end{equation}
-%\begin{equation}\label{eq:efficiency}
-%	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
-%\end{equation}
-
 Here we discuss how our formalization of communicative efficiency relates to other information-theoretic work on language.
-
-Our formalization of efficiency is identical to the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems, with syntactic structures taking the role of underlying meanings that the speaker wants to convey.
-This function is also equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
-Very similar metrics have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge,piantadosi2012communicative}.
-%More generally, these approaches instantiate Shannon's Rate Distortion theory.
-Common to all these accounts is the idea of maximizing the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms; there are some differences in the formalization of complexity.
-
-All these accounts formalize the amount of information provided as the \key{mutual information} between the forms that a listener receives, and the meanings that the speaker intends to communicate to the speaker.
-Most previous studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} are concerned with the meanings of individual words; they thus take the forms to be individual words, which refer to individual objects and their properties.
-We instead study how words are composed into sentences.
-In our work, the underlying meanings are the syntactic structures; the forms are the linearized sentences communicated by the speaker to the listener.
+Our formalization of efficiency is based on the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems.
+The key idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms. %; there are some differences in the formalization of complexity.
+Formally, if $S$ denotes signals (e.g., words, sentences) and $R$ denotes their referents (e.g., objects in a reference game), then this efficiency metric takes the form (notation slightly varies across these publications):
+\begin{equation}\label{eq:eff-general}
+I[S, R] - \lambda H[S]
+\end{equation}
+where $I[S, R]$ describes the \key{informativity} of the signals $S$ about their referents $R$, and $H[S]$ describes the \key{complexity} of the communication system.
+While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} mostly considered settings where the signals $S$ are individual words without further structure, the signals are entire sentences $\mathcal{U}$ in our setting.
+The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\mathcal{T}$.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure specifies how the meanings of words are combined; therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
 
-%These information-theoretic accounts differ in the formalizations of complexity and diversity:
-Like our model, \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} model the complexity as the \key{entropy} of the distribution of forms, which arises naturally from the role played by surprisal in determining human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
-This model is closely related to the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., words) and their referents (e.g., individual objects).
+We therefore arrive at the following efficiency metric:
+\begin{equation}\label{eq:efficiency}
+	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
+\end{equation}
+where \key{parseability} is the amount of information that utterances provide about their underlying syntactic structures:
+\begin{equation}
+	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+\end{equation}
+and \key{predictability} is the negative entropy or surprisal of the language:
+\begin{equation}
+	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+\end{equation}
+This efficiency metric~(\ref{eq:eff-general}) is also equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
+The Information Bottleneck models complexity using a mutual information term instead of the entropy.
 This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
 As we assume deterministic grammars that transduce every underlying syntactic structure into one surface order, our model corresponds to the Deterministic Information Bottleneck~\cite{strouse2017deterministic}, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure.
+Entropy also arises naturally as a complexity measure from the role played by surprisal in determining human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
 
-A few models have used other complexity measures that are not explicitly information-theoretic quantities.
+A few other approaches share the mutual information term for informativity, while using complexity measures that are not explicitly information-theoretic.
+%A few models have used other complexity measures that are not explicitly information-theoretic quantities.
 In \cite{regier2007color, xu2014numeral, xu2016historical}, the complexity function is the number of different forms; in \cite{kemp2012kinship} it is the difficulty of defining the concepts that are encoded.
 The number of forms is not applicable in our case, as languages will typically have infinitely many sentences.
-Notably, the models in \cite{regier2007color, xu2016historical} have since been reformulated successfully in the information bottleneck formalism \cite{zaslavsky2018efficient, zaslavsky2019semantic}, bringing them even closer to our formalization of efficiency.
+Notably, the models in \cite{regier2007color, xu2016historical} have since been reformulated successfully in the Information Bottleneck formalism \cite{zaslavsky2018efficient, zaslavsky2019semantic}, bringing them even closer to our formalization of efficiency.
 
 
 In addition to these models, which quantify the efficiency of communication systems, there is closely related work formalizing the optimal choice of specific utterances in context, such as models of pragmatic reasoning in reference games \cite{frank2012predicting,goodman2013knowledge, kao2014nonliteral}.
 In line with the other models, these assume that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely}.
+
+
+%Other metrics very similar to~(\ref{eq:eff-general}) have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge,piantadosi2012communicative}.
+%The idea of formalizing informativity using the mutual information $I[S, R]$ is common to all these approaches.
+
+%These information-theoretic accounts vary somewhat in the formalizations of complexity.
+%Like our model, \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} model the complexity as the \key{entropy} of the distribution of forms, which .
+%This model is closely related to the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., words) and their referents (e.g., individual objects).
 
 
 
@@ -254,13 +261,13 @@ This means, surprisal must be weighted less strongly than parsability.
 Greater values of $\lambda$ mathematically result in degenerate solutions.
 To show this, note that the following inequality always holds:
 \begin{equation}
-I[L(T); T] \leq H[L(T)].
+I[U; T] \leq H[U].
 \end{equation}
 Therefore, if $\lambda \geq 1$, the efficiency objective satisfies 
 \begin{equation}
-    J_T(L) = I[L(T); T] - \lambda H[L(T)] \leq 0.
+    R_{Eff} = I[U; T] - \lambda H[U] \leq 0.
 \end{equation}
-and it takes the maximally possible value zero if $L(T)$ maps all trees to a single utterance, in which case both $I[L(T); T]$ and $H[L(T)]$ are zero.
+and it takes the maximally possible value zero if $U$ maps all trees to a single utterance, in which case both $I[U; T]$ and $H[U]$ are zero.
 This is a degenerate language with only a single utterance, which is simultaneously used to convey all meanings.
 While the design of our word order grammars precludes a collapse of all trees to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable objective for language efficiency.
 In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to $1$ placing similar weights on both predictability and parsability, whereas values closer to $0$ diminish the role of predictability.
@@ -454,7 +461,6 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 
 \subsection{Regression for Predicted Correlations}
 
-\textcolor{red}{TODO also report the frequentist things, posteriors, numerically}
 
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
 
@@ -559,7 +565,7 @@ Additionally, in Table~\ref{tab:all-predictions-1} we present data for the other
 
 Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM} for discussion).
 This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section~\ref{sec:DLM}).
-Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section~\ref{sec:DLM}.
+Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section~\ref{sec:DLM} for further discussio for further discussionn.
 
 
 
@@ -742,7 +748,7 @@ Results across all three experiments agree; jointly optimizing grammars for pars
 \end{tabular}
 }
 	\end{center}
-\caption{\textcolor{red}{probably should also report parseability results as lambda=0 here}Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
+\caption{\textcolor{red}{parseability color, aux inversion}Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
 \end{table}
 
 
@@ -799,7 +805,7 @@ Results across all three experiments agree; jointly optimizing grammars for pars
 \end{tabular}
 }
 	\end{center}
-\caption{\textcolor{red}{probably should also report parseability results as lambda=0 here}Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
+\caption{Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
 \end{table}
 
 
@@ -848,7 +854,7 @@ We validated the extracted grammars by comparing the dominant orders of six synt
 Among the eight Greenbergian correlations that we were able to test, five are annotated in WALS.
 In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb-object relation.
 
-WALS has some data for all but seven languages.\footnote{Note that Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
+WALS has some data for all but seven languages.\footnote{Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}
 WALS has data for 74\% of the entries, and lists a dominant order for 91\% of these.
 The grammars we extracted from the corpora agree with WALS in 96~\%  of these cases.
 
@@ -889,7 +895,7 @@ Recall the definition of efficiency
 \begin{equation}\label{eq:efficiency}
 	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
 \end{equation}
-where 
+where
 \begin{equation}
 	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
 \end{equation}
@@ -900,7 +906,7 @@ where $t \sim \mathcal{T}$ is a distribution over syntactic structures, and $u \
 
 These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
-The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is
+The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is\footnote{Note that, in the definition of $R_{Pars}$, the term $p(t)$ is a constant independent of $\phi$ and the word order grammar $\mathcal{L}_\theta$; it can therefore be ignored in the optimization process.} 
 \begin{equation}
 	R_{Pars}^{\phi}(u,t) =  \log \frac{p_\phi(t|u)}{p(t)}
 \end{equation}
@@ -1122,7 +1128,6 @@ For predictability and parseability optimization, we first selected hyperparamet
 These parameters are shown in Table~\ref{tab:hyperparameters}.
 Then, for each language and each objective function, we created eight random combinations of these selected hyperparameter values, and selected the setting that yielded the best value of the respective objective function (efficiency, predictability, parseability) on the language. We then used this setting for creating optimized word order grammars. 
 
-%\textcolor{red}{TODO random seeds for efficiency}
 
 
 
@@ -1204,7 +1209,7 @@ Here we address this question by demonstrating that our languages optimized for 
 \subsection{CKY Parsers}
 
 
-We constructed simple Probabilistic Context-Free Grammars (PCFGs) from corpora and word order grammars, using a simplified version of the models of \textcolor{red}{CITE Collins 1997 (Model 1).}
+We constructed simple Probabilistic Context-Free Grammars (PCFGs) from corpora and word order grammars, using a simplified version of the models of \cite{collins2003head} (Model 1).
 In our PCFGs, each head independently generates a set of left and right dependents.
 We formulate this as a PCFG where each rule has the form:
 \begin{center}
@@ -1218,7 +1223,7 @@ for head-final structures, where each symbol is a POS tag.
 Thus, POS tags act both as terminals and as nonterminals.
 
 We estimated probabilities by taking counts in the training partition, and performing Laplace smoothing with a pseudocount $\alpha=1$ for each possible rule of this form.
-For such a PCFG, exact parsing is possible using Dynamic Programming, and specifically the CKY algorithm \textcolor{red}{CITE}.
+For such a PCFG, exact parsing is possible using Dynamic Programming, and specifically the CKY algorithm \cite{kasami1966efficiency}.
 
 This parsing strategy is very different from the neural graph-based parser:
 While the graph-based parser solves a minimum spanning tree problem, the CKY algorithm uses dynamic programming to compute the exact probabilities of trees given a sentence, as specified by the generative model encoded in the PCFG.
@@ -1235,7 +1240,7 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 \begin{figure}
     \centering
     \includegraphics[scale=.7]{../results/cky/cky-parse.pdf} 
-	\caption{Parsability loss $H[T|\mathcal{L}_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length. \textcolor{red}{make plot nicer}}
+	\caption{Parsing loss $H[T|\mathcal{L}_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length.}
     \label{fig:cky-parser}
 \end{figure}
 
@@ -1314,8 +1319,8 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 \begin{figure}
     \centering
-    \includegraphics[scale=.4]{../results/bigrams/bigrams.pdf} 
-	\caption{Surprisal (lower is better) computed from Bigram model, on English and Japanese data ordered according to random ordering grammars (red) and ordering grammars optimized for efficiency (blue).\textcolor{red}{make fig nicer}}
+    \includegraphics[scale=.6]{../results/bigrams/bigrams.pdf} 
+	\caption{Surprisal (lower is better) computed from Bigram model, on English and Japanese data ordered according to random ordering grammars (red) and ordering grammars optimized for efficiency (blue).}
     \label{fig:bigrams}
 \end{figure}
 
@@ -1448,7 +1453,6 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 %Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
 
 
-%\textcolor{red}{TODO}
 
 
 

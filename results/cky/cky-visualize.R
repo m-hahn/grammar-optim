@@ -21,6 +21,6 @@ plot = ggplot(data=data, aes(x=Loss, group=Directory, color=Directory, fill = Di
 #      geom_histogram(binwidth=0.05)  + facet_grid(~Language) + theme_bw() + theme(legend.position="none")
 
 
-ggsave(plot=plot, filename="cky-parse.pdf")
+ggsave(plot=plot, filename="cky-parse.pdf", height=3, width=8)
 
 
