@@ -209,6 +209,7 @@ While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zasla
 The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\mathcal{T}$.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure specifies how the meanings of words are combined; therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
+%The idea that efficient languages will permit the listener to infer grammati
 
 We therefore arrive at the following efficiency metric:
 \begin{equation}\label{eq:efficiency}
@@ -239,6 +240,9 @@ In addition to these models, which quantify the efficiency of communication syst
 In line with the other models, these assume that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely}.
 
 
+%\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
+
+
 %Other metrics very similar to~(\ref{eq:eff-general}) have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge,piantadosi2012communicative}.
 %The idea of formalizing informativity using the mutual information $I[S, R]$ is common to all these approaches.
 
@@ -246,7 +250,6 @@ In line with the other models, these assume that rational speakers choose uttera
 %Like our model, \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} model the complexity as the \key{entropy} of the distribution of forms, which .
 %This model is closely related to the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., words) and their referents (e.g., individual objects).
 
-\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
 
 
 \subsection{Possible values of $\lambda$}\label{sec:lambda}
@@ -381,7 +384,7 @@ We z-transformed on the level of individual languages, normalizing the mean and 
 
 Within each language, we estimate the Pareto curve based on the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
 
-Figure (REF) in the main paper shows the average of these per-language plots. \textcolor{red}{unify pareto curve computation in main paper}
+Figure (REF) in the main paper shows the average of these per-language plots. 
 
 
 
@@ -455,8 +458,8 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 	\begin{center}
 	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
 	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language. \textcolor{red}{TODO fix order of 1-8}}\label{fig:per-lang}
-%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) \textcolor{red}{add other functions to this plot}.}\label{fig:per-lang}
+	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
+%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) .}\label{fig:per-lang}
 \end{figure}
 
 \subsection{Regression for Predicted Correlations}
@@ -465,20 +468,34 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
 
 \paragraph{Bayesian Regression}
-We modeled the 
+We modeled the probabilities $p_{L,j}$ that a grammar optimized for data from language $L$ satisfies the $j$-th correlation ($j=1,...,8$) using a multilevel logistic model \cite{gelman2013bayesian}, with random intercepts for the language for whose data the grammar had been optimized, and for its language family, annotated according to \url{http://universaldependencies.org/}.
+Formally,
+\begin{equation}\label{eq:mixed-effects}
+logit(p_{L,j}) = \alpha_j + u_{L,j} + v_{f_L,j}
+\end{equation}
+where $f_L$ is the language family of $L$.
+The intercepts $\alpha_j$ ($j=1,...8$) encode the population-level prevalence of the correlations when controlling for differences between datasets from different languages and language families; $u_{L,j}$, $v_{f_L,j}$ encode per-language and per-family deviations from the population-level intercept $\alpha_j$.
+%, and
+%$u_{L,1,...8} \sim \mathcal{N}(0, \Sigma_{lang})$,
+%$v_{f_L,1,...8} \sim \mathcal{N}(0, \Sigma_{fam})$.
 
-We modeled the probabilities $p_{i,j}$ that a grammar $g_i$ satisfies the $j$-th correlation ($j=1,...,8$) using a multilevel logistic model \textcolor{red}{TODO (CITE)}, with random intercepts for the language for whose data the grammar had been optimized, and its language family, annotated according to \url{http://universaldependencies.org/}..
-\textcolor{red}{TODO some more details here}
-%See SI Section S4.3 for details.
-
-As we constructed 4 verb-object and 4 object-verb grammars for each of the 51 languages, TODO...
+%As we constructed 4 verb-object and 4 object-verb grammars for each of the 51 languages, TODO...
 
 
 Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
+We used this prior for $\alpha_j, \sigma_{L,j}, \tau_{L,j}$.
 Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
-The covariance matrix is modeled using the LKJ prior, as described in \cite{burkner2018advanced}.
-We used four chains, with 5000 samples each, of which the first 2500 were discarded as warmup samples.
-We confirmed convergence using $\hat{R}$ and visual inspection of chains (REF).
+
+We modeled full covariance matrices of per-language and per-family random intercepts over all eight correlations. We placed an LKJ prior ($\eta=1$) on these matrices, as described in \cite{burkner2018advanced}.
+We used MCMC sampling implemented in Stan \cite{carpenter2017stan, hoffman2014no} using the R package \texttt{brms} \cite{buerkner2017brms}.
+We ran four chains, with 5000 samples each, of which the first 2500 were discarded as warmup samples.
+We confirmed convergence using $\hat{R}$ and visual inspection of chains \cite{gelman2013bayesian}.
+
+We obtained the posterior density plots in Figures (REF main, \ref{tab:all-predictions-1}) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\alpha_j$ (\ref{eq:mixed-effects}).
+
+
+
+
 
 \paragraph{Robustness}
 To ascertain the robustness of our results, we also conducted a frequentist analysis using \texttt{lme4} \cite{bates2015fitting}.
@@ -493,10 +510,6 @@ Note that the Bayesian analysis  also estimates a posterior distribution of the 
 
 %We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
 
-\paragraph{Density Plots}
-We obtained the posterior density plots in Figures (REF main, REF SI) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\beta$.
-
-
 
 \begin{table}
 \small{
@@ -509,7 +522,7 @@ Correlation & Prevalence & \multicolumn{3}{c}{Bayesian} & \multicolumn{4}{c}{Fre
 \end{tabular}
 \end{center}
 }
-\caption{Detailed results for Bayesian and Frequentist mixed-effects analyses for the eight correlations.
+	\caption{Detailed results for Bayesian and Frequentist mixed-effects analyses for the eight correlations. 
 We show (1) the raw prevalence of each correlation in the optimized grammars (8 grammars for each of the 51 languages),
 (2) for the Bayesian analysis, we provide posterior mean and SD of $\beta$, and the posterior probability that $\beta$ has the opposite sign,
 (3) for the Frequentist analysis, we provide the point estimate, SE, $z$, and $p$-values (2-sided).
@@ -672,10 +685,9 @@ reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/fi
 In Table~\ref{table:corr-resu} we report the results of the simulations we did before the main experiment reported in the main paper (left and center), together with their preregistrations, besides the results from the main experiment (right).
 These experiments all had the same setup described in Section~\ref{sec:neural-architectures}, which was fixed before starting simulations; differences are that (1) the first simulation places fully equal weight on parseability and predictability ($\lambda=1.0$), and (2) the final experiment uses three random seeds per grammar.
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
-\textcolor{red}{TODO also the aggregate posterior}
 
 
-
+\textcolor{red}{TODO decide on formatting}
 
 \begin{table}[hbt!]
 	\begin{center}
@@ -813,6 +825,18 @@ Results across all three experiments agree; jointly optimizing grammars for pars
 %  final experiment
 %  0.9
 % 
+
+
+\begin{figure}[ht]
+	\begin{center}
+	\includegraphics[width=0.25\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf}
+	\includegraphics[width=0.25\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
+	\end{center}
+	\caption{(Other experiments) Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior-prior}
+\end{figure}
+
+
+
 
 
 
@@ -964,7 +988,7 @@ Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\thet
 \partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
 \end{align}
 where \ref{eq:dtheta} is derived using the \emph{score-function} or \emph{REINFORCE} trick~\cite{williams1992simple}.
-Note that the the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures (CITE).
+Note that the the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures.
 
 We can therefore apply stochastic gradient descent to jointly optimize $\theta, \phi, \psi$:
 In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
@@ -1107,8 +1131,9 @@ Choices follow standard practice and machine learning and were fixed before eval
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
 
 \paragraph{Estimating Predictability}
-We choose a standard LSTM \citep{hochreiter1997long} language model with vocabulary size restricted to the most frequent 50,000 words in the treebanks for a given language.
-Given the small size of the corpora, this limit is only attained only for few languages.
+We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}.
+We restrict the vocabulary to the most frequent 50,000 words in the treebanks for a given language.
+Given the moderate size of the corpora, this limit is only attained only for few languages.
 In each time step, the input is a concatenation of embeddings for the word, for language-specific POS tags, and for universal POS tags.
 The model predicts both the next word and its POS tags in each step.
 Using POS tags is intended to prevent overfitting on small corpora.
@@ -1116,7 +1141,7 @@ Using POS tags is intended to prevent overfitting on small corpora.
 \paragraph{Estimating Parseability}
 We use a biaffine attention parser architecture \citep{kiperwasser2016simple,zhang2017dependency,dozat2017stanford}. This architecture is remarkably simple: the words of a sentence are encoded into context-sensitive embeddings using bidirectional LSTMs, then a classifier is trained to predict the head for each work. The classifier works by calculating a score for every pair of word embeddings $(w_i, w_j)$, indicating the likelihood that the $j$th word is the head of the $i$th word. This is a highly generic architecture for recovering graph structures from strings, and is a simplification of graph-based parsers which reduce the parsing problem to a minimal spanning tree problem \citep{mcdonald2005nonprojective}.
 
-To reduce overfitting on small corpora, we choose a delexicalized setup, parsing only from POS tags. Preliminary experiments showed that a parser incorporating word forms overfitted long before the ordering model had converged; parsing from POS tags prevents early overfitting.
+To reduce overfitting on small corpora, we choose a delexicalized setup, parsing only from POS tags. Preliminary experiments showed that a parser incorporating word forms overfitted long before the ordering grammar had converged; parsing from POS tags prevents early overfitting.
 This decision was made before evaluating word order properties.
 
 \paragraph{Hyperparameters}
@@ -1223,7 +1248,7 @@ for head-final structures, where each symbol is a POS tag.
 Thus, POS tags act both as terminals and as nonterminals.
 
 We estimated probabilities by taking counts in the training partition, and performing Laplace smoothing with a pseudocount $\alpha=1$ for each possible rule of this form.
-For such a PCFG, exact parsing is possible using Dynamic Programming, and specifically the CKY algorithm \cite{kasami1966efficiency}.
+For such a PCFG, exact parsing is possible using Dynamic Programming, and specifically the CKY algorithm \cite{kasami1966efficient}.
 
 This parsing strategy is very different from the neural graph-based parser:
 While the graph-based parser solves a minimum spanning tree problem, the CKY algorithm uses dynamic programming to compute the exact probabilities of trees given a sentence, as specified by the generative model encoded in the PCFG.

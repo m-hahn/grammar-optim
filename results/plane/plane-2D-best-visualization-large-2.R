@@ -10,12 +10,18 @@ dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Mo
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS4 = read.csv("../../grammars/plane/plane-fixed-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
-dataS = rbind(dataS, dataS2, dataS3, dataS4)
+dataS5 = read.csv("../../grammars/plane/plane-fixed-random3.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
+dataS6 = read.csv("../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
+dataS7 = read.csv("../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
+dataS = rbind(dataS, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
 dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP3 = read.csv("../../grammars/plane/plane-parse-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP4 = read.csv("../../grammars/plane/plane-parse-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP = rbind(dataP, dataP2, dataP3, dataP4)
+dataP5 = read.csv("../../grammars/plane/plane-parse-random3.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP6 = read.csv("../../grammars/plane/plane-parse-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP7 = read.csv("../../grammars/plane/plane-parse-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = rbind(dataP, dataP2, dataP3, dataP4, dataP5, dataP6, dataP7)
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surp = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(UAS = mean(UAS, na.rm=TRUE), Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
@@ -33,6 +39,10 @@ data = merge(dataS, dataP, by=c("Language", "Model", "Type"), all.x=TRUE, all.y=
 
 
 data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM2", "manual_output_funchead_RANDOM", as.character(Type)))
+data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM3", "manual_output_funchead_RANDOM", as.character(Type)))
+data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM4", "manual_output_funchead_RANDOM", as.character(Type)))
+data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM5", "manual_output_funchead_RANDOM", as.character(Type)))
+
 
 
 

@@ -6,8 +6,10 @@ dependencies = ["acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod"
 
 brms = [x for x in brms if x[0] in dependencies]
 
-with open("output/efficiency-results-full.tex", "w") as outFile:
- for lme, brm in zip(lme4, brms):
+ordering = ["lifted_case", "lifted_cop", "aux", "nmod", "acl", "lifted_mark", "obl", "xcomp"]
+
+output = []
+for lme, brm in zip(lme4, brms):
    brm[0] = brm[0].replace("_", "\_")
    line = brm + lme[1:]
    if line[0] == "aux":
@@ -30,8 +32,12 @@ with open("output/efficiency-results-full.tex", "w") as outFile:
              line[j] = round(line[j], 3)
          line[j] = str(line[j])
    # acl & 0.793367346938776 & 1.50549627266397 & 0.326852828127335 & 0 & 1.434444 & 0.2716449 & 5.280586 & 1.287717e-07
+   output.append(line)
+   line[0] = ordering.index(line[0])
 
-   print((" & ".join(line)) + "\\\\", file=outFile)
-
-
+output = sorted(output, key=lambda x:x[0])
+with open("output/efficiency-results-full.tex", "w") as outFile:
+  for line in output:
+      line[0] = "\\raisebox{.5pt}{\\textcircled{\\raisebox{-.9pt} {"+str(line[0])+"}}}"
+      print((" & ".join(line)) + "\\\\", file=outFile)
 

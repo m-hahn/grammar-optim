@@ -26,6 +26,8 @@ model3 = brm(cbind(acl, advmod, aux, lifted_case, lifted_cop, lifted_mark, nmod,
 # advmod, nsubj, 
 
 
+# TODO there is the significant problem that languages where just one count is missing are fully excluded. A total of 9 languages appear to end up excluded. The per-relation analyses make up for this, still it's a loss of statisical precision.
+
 u = posterior_samples(model3) #cbind(posterior_samples(model3, "acl_Intercept"), posterior_samples(model3, "advmod_Intercept"))
 mean(u$b_acl_Intercept < 0 |  u$b_aux_Intercept > 0  | u$b_liftedcase_Intercept < 0  | u$b_liftedcop_Intercept < 0  | u$b_liftedmark_Intercept < 0  | u$b_nmod_Intercept < 0  | u$b_obl_Intercept < 0  | u$b_xcomp_Intercept < 0 )
 # u$b_advmod_Intercept > 0  |
