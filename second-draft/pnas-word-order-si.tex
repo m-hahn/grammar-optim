@@ -99,7 +99,8 @@
 
 Here we describe how we selected the correlations in Table 1 of the main paper, and how we formalized these using syntactic relations defined by Universal Dependencies.
 
-We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}. %\footnote{Regarding objections by \cite{dunn2011evolved}, we refer to the follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
+We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.
+%TODO REF mention this? \footnote{Regarding objections by \cite{dunn2011evolved}, we refer to the follow-ups by \cite{levy2011computational}, and \cite{croft2011greenbergian}.}
 Greenberg's original study was based on 30 languages; more recently, Dryer \cite{dryer1992greenbergian} documented the word order correlations based on typological data from 625 languages.
 \cite{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
 We test our ordering grammars for these correlations by testing whether the coefficients for these syntactic relations have the same sign as the coefficient of the verb-object relation.
@@ -457,13 +458,58 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
 
+\paragraph{Bayesian Regression}
+We modeled the 
+
+We modeled the probabilities $p_{i,j}$ that a grammar $g_i$ satisfies the $j$-th correlation ($j=1,...,8$) using a multilevel logistic model \textcolor{red}{TODO (CITE)}, with random intercepts for the language for whose data the grammar had been optimized, and its language family, annotated according to \url{http://universaldependencies.org/}..
+\textcolor{red}{TODO some more details here}
+%See SI Section S4.3 for details.
+
+As we constructed 4 verb-object and 4 object-verb grammars for each of the 51 languages, TODO...
+
+
 Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
 Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
 The covariance matrix is modeled using the LKJ prior, as described in \cite{burkner2018advanced}.
-We used four chains, with 5000 samples each (2500 warmup).
-The chains had converged ($\hat{R} < 1.01$).
+We used four chains, with 5000 samples each, of which the first 2500 were discarded as warmup samples.
+We confirmed convergence using $\hat{R}$ and visual inspection of chains (REF).
 
-We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+\paragraph{Robustness}
+To ascertain the robustness of our results, we also conducted a frequentist analysis using \texttt{lme4} \cite{bates2015fitting}.
+For each of the correlations, we conducted a logistic mixed-effects analysis predicting whether a grammar satisfies the correlation, with random effects of language and language family.
+The results are shown in Table~\ref{tab:corr-regression} together with those of the Bayesian analysis.
+The frequentist analysis agrees with the Bayesian model; all eight correlations are predicted to hold in more than half of the optimized grammars ($p < 0.01$ each).
+
+Note that the Bayesian analysis  also estimates a posterior distribution of the number of satisfied correlations (see Figure~\ref{fig:posterior}), providing an elegant solution to the multiple-comparisons problem arising from analysing the eight correlation.
+
+% and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+
+
+%We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
+
+\paragraph{Density Plots}
+We obtained the posterior density plots in Figures (REF main, REF SI) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\beta$.
+
+
+
+\begin{table}
+\small{
+\begin{center}
+\begin{tabular}{l||l|lll|llll|ll|llllll}
+Correlation & Prevalence & \multicolumn{3}{c}{Bayesian} & \multicolumn{4}{c}{Frequentist} \\ 
+& & Mean & SD & $p(\beta \leq 0)$ & $\beta$ & SE & $z$ & p \\
+\hline\hline
+	\input{../results/correlations/output/efficiency-results-full.tex}
+\end{tabular}
+\end{center}
+}
+\caption{Detailed results for Bayesian and Frequentist mixed-effects analyses for the eight correlations.
+We show (1) the raw prevalence of each correlation in the optimized grammars (8 grammars for each of the 51 languages),
+(2) for the Bayesian analysis, we provide posterior mean and SD of $\beta$, and the posterior probability that $\beta$ has the opposite sign,
+(3) for the Frequentist analysis, we provide the point estimate, SE, $z$, and $p$-values (2-sided).
+The frequentist analysis confirms the results of the Bayesian analysis.
+}\label{tab:corr-regression}
+\end{table}
 
 
 

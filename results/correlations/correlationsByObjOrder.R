@@ -136,7 +136,7 @@ u = u %>% mutate(DirObj = case_when(DirObj == 0 ~ "Verb-Object", DirObj == 1 ~ "
 
 
 
-plot = ggplot(u, aes(x=Dir+4, y=..count../max(..count..), fill=Type, color=Type)) + geom_bar() + facet_wrap(~DirObj + Type, nrow=2, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")  + theme(legend.position = "none") + xlab("Object Patterners Following Verb Patterners") +
+plot = ggplot(u, aes(x=Dir+4, y=..count../max(..count..), fill=Type, color=Type)) + geom_bar() + facet_wrap(~DirObj + Type, nrow=2, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")  + theme(legend.position = "none") + xlab("Object Patterners Preceding Verb Patterners") +
 theme(
   strip.background = element_blank(),
   strip.text.x = element_blank()
@@ -150,10 +150,12 @@ ggsave(plot, file="figures/correlations-histograms.pdf", height=7, width=7)
 #u = merge(u, v, by=c("DirObj", "Type"))
 #plot = ggplot(u, aes(x=Dir+4, y=count/maxCount, color=DirObj)) + geom_density(size=2) + facet_wrap(~ Type, nrow=1, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")  + theme(legend.position = "none") + xlab("Object Patterners Following Verb Patterners") +
 
-plot = ggplot(u, aes(x=Dir+4, y=..scaled.., color=DirObj)) + geom_density(size=1.5, linetype="dashed") + facet_wrap(~ Type, nrow=1, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")   + xlab("Object Patterners Following Verb Patterners")
+plot = ggplot(u, aes(x=Dir+4, y=..scaled.., color=DirObj)) + geom_density(size=1.5, linetype="dashed") + facet_wrap(~ Type, nrow=1, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")   + xlab("Object Patterners Preceding Verb Patterners")
 plot = plot +  theme(axis.text.y = element_blank())
+plot = plot + theme(legend.position="bottom") +  theme(legend.title = element_blank())
+plot = plot + theme(        legend.margin=margin(0,0,0,0), legend.box.margin=margin(-5,-10,2,-10))
 
-ggsave(plot, file="figures/correlations-curve.pdf", height=7, width=7)
+ggsave(plot, file="figures/correlations-curve.pdf", height=3, width=7)
 
 
 
