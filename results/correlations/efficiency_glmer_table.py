@@ -10,7 +10,7 @@ ordering = ["lifted_case", "lifted_cop", "aux", "nmod", "acl", "lifted_mark", "o
 
 output = []
 for lme, brm in zip(lme4, brms):
-   brm[0] = brm[0].replace("_", "\_")
+#   brm[0] = brm[0].replace("_", "\_")
    line = brm + lme[1:]
    if line[0] == "aux":
       for i in [1,4]:
@@ -38,6 +38,6 @@ for lme, brm in zip(lme4, brms):
 output = sorted(output, key=lambda x:x[0])
 with open("output/efficiency-results-full.tex", "w") as outFile:
   for line in output:
-      line[0] = "\\raisebox{.5pt}{\\textcircled{\\raisebox{-.9pt} {"+str(line[0])+"}}}"
+      line[0] = "\\raisebox{.5pt}{\\textcircled{\\raisebox{-.9pt} {"+str(line[0]+1)+"}}}"
       print((" & ".join(line)) + "\\\\", file=outFile)
 
