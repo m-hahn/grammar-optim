@@ -94,6 +94,13 @@
 
 \textcolor{red}{where do we say that efficiency etc are reported on the held-out set?}
 
+\textcolor{red}{notation U, L(T)}
+
+\textcolor{red}{run czech parser}
+
+\textcolor{red}{run controls on additional random grammars}
+
+
 \section{Formalization of Correlations}\label{sec:correlations}
 
 
@@ -278,11 +285,12 @@ In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to 
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parseability.
 The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
-We note that each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions (Table~\ref{tab:all-predictions-1}).
+To tease apart the relative contributions of the two components, we also examine word order predictions for grammars optimized only to optimize parseability, or only predictability.
+As shown in Table~\ref{tab:all-predictions-1}, each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions.
 %Indeed, the same holds for all of the 38 syntactic relations in UD  (Table~\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})
 %We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
 That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.
-Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}).
+Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
 We also verified the robustness of our results to small variations of $\lambda$, by reporting results with $\lambda=1$ in Table~\ref{table:corr-resu-previous}.
 
 
