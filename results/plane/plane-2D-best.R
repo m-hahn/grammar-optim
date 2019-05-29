@@ -220,9 +220,9 @@ dataGroundArrow = dataGroundArrow %>% mutate(Pars_z_dir = Pars_z_dir/z_length, S
 dataGroundArrow = dataGroundArrow %>% mutate(Pars_z_end = Pars_z + 0.2 * Pars_z_dir, Surp_z_end = Surp_z + 0.2 * Surp_z_dir)
 
 
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
 
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type)) + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes()) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type)) + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes()) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
 
 
 ggsave(plot, file="pareto-plane-best-balanced.pdf")
@@ -230,34 +230,34 @@ ggsave(plot, file="pareto-plane-best-balanced.pdf")
 
 
 plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +
-	geom_point()  + theme_bw() + theme(legend.position="none")  + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") +
+	geom_point()  + theme_bw() + theme(legend.position="none")  + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") +
 #       	geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  +
        	geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) #+ 
 #	geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + 
 #	geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + 
-#	geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") 
+#	geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") 
 
 
 
 plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +
-	geom_point()  + theme_bw() + theme(legend.position="none")  + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") +
+	geom_point()  + theme_bw() + theme(legend.position="none")  + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") +
        	geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0)) + 
        	geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + 
 	geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) #+ 
 #	geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + 
-#	geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") 
+#	geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") 
 
 
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData%>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
-
-
-
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData%>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
 
 
 
 
 
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=dataDepL, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
+
+
+
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() + geom_point(data=dataDepL, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  + geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")
 
 #ggsave(plot, file="pareto-plane-depl-best-balanced.pdf")
 
@@ -268,9 +268,9 @@ iso = read.csv("../languages/languages-iso_codes.tsv")
 data = merge(data, iso, by=c("Language"))
 
 # geom_point(data=data %>% filter(grepl("ground", Type)), aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=1.0))  +
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() +  geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")  +geom_text(data=data %>% filter(grepl("ground", Type)), aes(label=iso_code, alpha=1.0),hjust=0.8, vjust=0.8)
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type, alpha=0.9)) +geom_point()  + theme_bw() +  geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes(alpha=1.0)) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type, alpha=1.0)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1, alpha=1.0)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8, alpha=1.0)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")  +geom_text(data=data %>% filter(grepl("ground", Type)), aes(label=iso_code, alpha=1.0),hjust=0.8, vjust=0.8)
 
-plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type))   + theme_bw() +  geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes()) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8)) + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")  +geom_text(data=data %>% filter(grepl("ground", Type)), aes(label=iso_code),hjust=0.8, vjust=0.8)
+plot = ggplot(data, aes(x=(Pars-MeanPars)/SDPars, y=(Surp-MeanSurp)/SDSurp, color=Type, group=Type))   + theme_bw() +  geom_density_2d(data=data %>% filter(grepl("RANDOM", Type)), aes()) + geom_segment(data=dataGroundArrow, aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_z_end, color=Type, group=Type)) + geom_path(data=summarizedData %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_balanced", "manual_output_funchead_langmod_coarse_best_balanced")), aes(x=Pars, y=Surp, size=5, group=1)) + geom_point(data=summarizedData, aes(x=Pars, y=Surp, size=8)) + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Surprisal") + theme(legend.position="none")  +geom_text(data=data %>% filter(grepl("ground", Type)), aes(label=iso_code),hjust=0.8, vjust=0.8)
 
 
 ggsave(plot, file="pareto-plane-iso-best-balanced.pdf")
@@ -305,7 +305,7 @@ plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
 plot = plot + geom_point(data=dataPlot, aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
 plot = plot + theme(legend.title = element_blank())  
 plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
@@ -324,7 +324,7 @@ plot = plot + theme_bw()
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
 #plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
 #plot = plot + geom_point(data=dataPlot, aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 #plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
 #plot = plot + theme(legend.title = element_blank())  
 #plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
@@ -348,7 +348,7 @@ plot = plot + theme_bw()
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
 plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 #plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
 #plot = plot + theme(legend.title = element_blank())  
 #plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
@@ -372,7 +372,7 @@ plot = plot + theme_bw()
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
 plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability", "Dependency Length")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 #plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
 #plot = plot + theme(legend.title = element_blank())  
 #plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
@@ -396,7 +396,7 @@ plot = plot + geom_segment(aes(x=Pars_z, y=Surp_z, xend=Pars_z_end, yend = Surp_
 plot = plot + geom_density_2d(data=dataPlot %>% filter(grepl("Baseline", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN), size=0.3)
 plot = plot + geom_path(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability")), aes(x=ParsMean, y=SurpMean, group=1), color="gray", size=1)
 plot = plot + geom_point(data=dataPlot %>% filter(TypeN %in% c("Parseability", "Efficiency", "Predictability", "Dependency Length")), aes(x=ParsMean, y=SurpMean, color=TypeN, group=TypeN), size=6)
-plot = plot + scale_x_continuous(name="Parsability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 plot = plot + geom_text(data=dataPlot %>% filter(grepl("Real", TypeN)), aes(x=Pars, y=Surp, color=TypeN, group=TypeN, label=iso_code),hjust=0.8, vjust=0.8)
 #plot = plot + theme(legend.title = element_blank())  
 #plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 

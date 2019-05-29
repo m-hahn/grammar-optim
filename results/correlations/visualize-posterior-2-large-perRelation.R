@@ -116,7 +116,9 @@ for(type in c("Efficiency", "Predictability", "Parseability", "DependencyLength"
   for(dependency in dependencies) {
      data =  read.csv(paste("~/CS_SCR/posteriors/posterior-", dependency, "-", typeName, "-large.csv", sep=""))
      data = data %>% mutate(Prevalence = 1/(1+exp(-b_Intercept)))
-
+     if(dependency == "aux") {
+         data = data %>% mutate(Prevalence=1-Prevalence)
+     }
      plot = ggplot(data=data)
      plot = plot  + geom_density(aes(x=Prevalence, y=..scaled..), alpha=.5, fill=color)
      plot = plot + xlim(0,1)
@@ -136,7 +138,12 @@ for(type in c("Efficiency", "Predictability", "Parseability", "DependencyLength"
 
 type = "Real"
 for(dependency in dependencies) {
-   plot = ggplot(data=D %>% filter(Dependency==dependency))
+data = D %>% filter(Dependency==dependency)
+     if(dependency == "aux") {
+         data = data %>% mutate(Agree=1-Agree)
+     }
+
+   plot = ggplot(data=data)
    plot = plot + geom_bar(stat="identity", width = 0.1, aes(x=Agree, y=1))
    plot = plot + xlim(0,1)
    plot = plot + theme_classic()
