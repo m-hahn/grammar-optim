@@ -57,6 +57,9 @@
 \renewcommand{\thetable}{S\arabic{table}}
 \renewcommand{\thesection}{S\arabic{section}}
 
+\newcommand{\utterance}{\mathcal{U}}
+\newcommand{\tree}{\mathcal{T}}
+
 
 
 \usepackage{mathtools}
@@ -90,8 +93,15 @@
 \tableofcontents
 
 
+\textcolor{red}{word limit}
 
+\textcolor{red}{grammar example in SI}
 
+\textcolor{red}{cover letter goes to broad person}
+
+\textcolor{red}{Czech parser}
+
+\textcolor{red}{random all 50}
 
 \section{Formalization of Correlations}\label{sec:correlations}
 
@@ -205,8 +215,8 @@ Formally, if $S$ denotes signals (e.g., words, sentences) and $R$ denotes their 
 I[S, R] - \lambda H[S]
 \end{equation}
 where $I[S, R]$ describes the \key{informativity} of the signals $S$ about their referents $R$, and $H[S]$ describes the \key{complexity} of the communication system.
-While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} mostly considered settings where the signals $S$ are individual words without further structure, the signals are entire sentences $\mathcal{U}$ in our setting.
-The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\mathcal{T}$.
+While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} mostly considered settings where the signals $S$ are individual words without further structure, the signals are entire sentences $\utterance$ in our setting.
+The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\tree$.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure specifies how the meanings of words are combined; therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
 %The idea that efficient languages will permit the listener to infer grammati
@@ -217,11 +227,11 @@ We therefore arrive at the following efficiency metric:
 \end{equation}
 where \key{parseability} is the amount of information that utterances provide about their underlying syntactic structures:
 \begin{equation}
-	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
 \end{equation}
 and \key{predictability} is the negative entropy or surprisal of the language:
 \begin{equation}
-	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
 \end{equation}
 This efficiency metric~(\ref{eq:eff-general}) is also equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
 The Information Bottleneck models complexity using a mutual information term instead of the entropy.
@@ -264,13 +274,13 @@ This means, surprisal must be weighted less strongly than parsability.
 Greater values of $\lambda$ mathematically result in degenerate solutions.
 To show this, note that the following inequality always holds:
 \begin{equation}
-I[U; T] \leq H[U].
+I[\utterance; \tree] \leq H[\utterance].
 \end{equation}
 Therefore, if $\lambda \geq 1$, the efficiency objective satisfies 
 \begin{equation}
-    R_{Eff} = I[U; T] - \lambda H[U] \leq 0.
+    R_{Eff} = I[\utterance; \tree] - \lambda H[\utterance] \leq 0.
 \end{equation}
-and it takes the maximally possible value zero if $U$ maps all trees to a single utterance, in which case both $I[U; T]$ and $H[U]$ are zero.
+and it takes the maximally possible value zero if there is only a single utterance $\utterance$, in which case both $I[\utterance; \tree]$ and $H[\utterance]$ are zero.
 This is a degenerate language with only a single utterance, which is simultaneously used to convey all meanings.
 While the design of our word order grammars precludes a collapse of all trees to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable objective for language efficiency.
 In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to $1$ placing similar weights on both predictability and parsability, whereas values closer to $0$ diminish the role of predictability.
@@ -311,7 +321,7 @@ We also verified the robustness of our results to small variations of $\lambda$,
 %We model the first term as the 
 % degree to which listeners can reconstruct dependency parse structures from an utterance, i.e., the \key{parseability} if the language. This is formalized as the amount of information that utterances $u$ provide about their underlying syntactic structures $t$:
 %\begin{equation}
-%	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
+%	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
 %\end{equation}
 %where the sum runs over all possible pairs of sentences $l$ and syntactic structures $t$ in the language.
 %%This quantity describes the degree to which syntactic structures can be unambiguously recovered from sentences, and quantifies how successful communication is (cf. Figure~\ref{fig:comm}).
@@ -325,7 +335,7 @@ We also verified the robustness of our results to small variations of $\lambda$,
 %
 %In expectation over all utterances $u$ in a language, the negative surprisal describes the \key{predictability}, or negative entropy, of the utterances:
 %\begin{equation}
-%	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+%	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
 %\end{equation}
 %where the sum runs over all possible sentences $u$ that belong to the language.
 %%In keeping with Zipf's Force of Unification, this quantity describes how homogeneous the language is, i.e., it is larger if the distribution over sentences is concentrated on a smaller number of frequent sentences. 
@@ -896,6 +906,16 @@ Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of 
 If $a_\tau \in \{0, 1\}$, and the distances between values of $b_\tau$ (for different $\tau$) become very large, such a differentiable grammar becomes deterministic, assigning almost full probability to exactly one ordering for each syntactic structure.
 In this case, the grammar can be converted into an equivalent grammar of the form described in Materials and Methods, by extracting a single parameter in $[-1, 1]$ for each relation $\tau$.
 
+\paragraph{Grammar Example}
+
+\begin{tabular}{llllllllll}
+	                             & \multicolumn{3}{English}    &   \\
+	Relation                     &     & $a_\tau$ & $b_\tau$   &   \\
+	object (\textit{obj})        &     &          &            &   \\
+	oblique (\textit{obl})       &     &          &            &   \\
+	case (\textit{lifted\_case}) &     &          &            &   \\
+\end{tabular}
+
 
 \subsection{Extracting Grammars from Datasets}
 We extract grammars for the actual languages by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
@@ -941,8 +961,8 @@ Finally, `--' indicates that the relation does not occur in the corpus.
 \subsection{Optimizing Grammars for Efficiency}\label{sec:optim-eff}
 
 In this section, we describe how we optimized grammar parameters for efficiency.
-A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $\mathcal{L}_\theta(t) = \mathbf{w}$ linearizing the tree.
-More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ defines a \emph{probability distribution} $p_{\mathcal{L}_\theta}(u|t)$ over ordered sequences of words $\mathbf{w}$.
+A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $u = \mathcal{L}_\theta(t)$ linearizing the tree.
+More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Section~\ref{sec:diff-gramm}), then $\mathcal{L}_\theta(t)$ defines a \emph{probability distribution} $p_{\mathcal{L}_\theta}(u|t)$ over ordered sequences of words $u$.
 In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $p_{\mathcal{L}_\theta}(u|t)$ concentrates on a single ordering $u$.
 
 Recall the definition of efficiency
@@ -951,12 +971,12 @@ Recall the definition of efficiency
 \end{equation}
 where
 \begin{equation}
-	R_{Pars} := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
+	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
 \end{equation}
 \begin{equation}
-	R_{Pred} := - H[\mathcal{U}] = \sum_{u} p(u) \log p(u)
+	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
 \end{equation}
-where $t \sim \mathcal{T}$ is a distribution over syntactic structures, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
+where $t \sim \tree$ is a distribution over syntactic structures, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
 These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
@@ -966,7 +986,7 @@ The degree to which a parser with parameters $\phi$ succeeds in parsing a senten
 \end{equation}
 %and we can write
 %\begin{equation}
-%	R_{Pars}^\phi := I[\mathcal{U},\mathcal{T}] = \sum_{t,u} p(t,u) R_{Pars}^{\phi}(u,t)
+%	R_{Pars}^\phi := I[\utterance,\tree] = \sum_{t,u} p(t,u) R_{Pars}^{\phi}(u,t)
 %\end{equation}
 %
 A \key{language model}, with some parameters $\psi$, calculates the word-by-word surprisal of an utterance:
@@ -978,7 +998,7 @@ Using this, we can rewrite Efficiency~(\ref{eq:efficiency}), for a given grammar
 	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi} := \max_{\phi,\psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
 %
-%The parsers and language models appropriate to a tree distribution $\mathcal{T}$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
+%The parsers and language models appropriate to a tree distribution $\tree$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
 %\begin{equation}
 %\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
 %\end{equation}
@@ -1030,7 +1050,9 @@ Optimizing for only parseability (or predictability) is very similar -- in this 
 
 
 At the beginning of the optimization procedure, we initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section~\ref{sec:neural-architectures}).
+The neural parser and language model are also randomly initialized at the beginning of optimization.
 Empirically, we observe that optimizing differentiable ordering grammars for efficiency leads to convergence towards deterministic behavior, allowing us to extract equivalent deterministic grammars as described in Section~\ref{sec:diff-gramm}.
+
 
 See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates used in this optimization scheme.
 
@@ -1286,7 +1308,7 @@ Second, while the graph-based neural parser uses machine learning to induce synt
 %In this sense, the CKY algorithm does not have any architectural biases in itself.
 %On the other hand, the PCFG makes severely simplifying independence assumptions, compared to the universal approximation capabilities of neural network-based systems.
 
-We used the CKY algorithm to compute the parsing loss $H[T|\mathcal{L}_\theta(T)]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
+We used the CKY algorithm to compute the syntactic ambiguity $H[\tree|\utterance]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
 Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable for exact parsing of a simple PCFG.
 % TODO get UAS for compatibility with other parts of SI
 %We then compared parsability of random and optimized word order grammars on English data.
@@ -1295,7 +1317,7 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 \begin{figure}
     \centering
     \includegraphics[scale=.7]{../results/cky/cky-parse.pdf} 
-	\caption{Parsing loss $H[T|\mathcal{L}_\theta(T)]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length.}
+	\caption{Parsing loss $H[\tree|\utterance]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $H[\tree|\utterance]$ normalized by sentence length.}
     \label{fig:cky-parser}
 \end{figure}
 
@@ -1352,7 +1374,7 @@ In all settings, the language optimized for efficiency achieved higher parsing a
     Japanese
     
     \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-japanese.pdf}
-	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $H[T|L_\theta(T)]$ (lower is better), for the four distorted orderings, and the actual orderings (`real'). We report $H[T|\mathcal{L}_\theta(T)]$ normalized by sentence length.}
+	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $H[\tree|\utterance]$ (lower is better), for the four distorted orderings, and the actual orderings (`real'). We report $H[\tree|\utterance]$ normalized by sentence length.}
     \label{fig:distorted-parser}
 \end{figure}
 
@@ -1407,7 +1429,7 @@ A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the traini
 %    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech.pdf} 
     \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech-logloss.pdf} 
 
-        \caption{Parsing loss ($H[T|\mathcal{L}_\theta(T)]$, normalized by sentence length) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
+	\caption{Parsing loss ($H[\tree|\utterance]$, normalized by sentence length) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
     \label{fig:learning-czech}
 \end{figure}
 
