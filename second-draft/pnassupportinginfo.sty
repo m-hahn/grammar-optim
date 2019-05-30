@@ -1,0 +1,195 @@
+%%% PNAS Supporting Information style file
+%%% For use with pnas-new.cls
+\NeedsTeXFormat{LaTeX2e}
+\ProvidesPackage{pnassupportinginfo}[2018/02/09 v1.5 PNAS supporting information style]
+
+%% Set whether the abstract is set into the first column
+\setboolean{shortarticle}{true} 
+% true = set into first column
+% false = spans page width
+
+%% Remove "DRAFT" watermark
+\setboolean{displaywatermark}{false}
+
+%% v1.5: new SI format is single column
+\onecolumn
+
+%% Set colors
+\definecolor{color2}{RGB}{130,0,0} % color
+
+%% keep the value of author for the footer
+\RequirePackage{authoraftertitle}
+
+\RequirePackage{totcount,xpatch}
+\regtotcounter{section}
+\regtotcounter{figure}
+\regtotcounter{table}
+\regtotcounter{NAT@ctr}  %% thanks to natbib
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thefigure}{S\arabic{figure}}
+
+%% v1.5: New counters
+\newtotcounter{movie}
+\newtotcounter{dataset}
+\renewcommand{\themovie}{S\arabic{movie}}
+\renewcommand{\thedataset}{S\arabic{dataset}}
+\newtotcounter{SItext}
+\newcommand{\SItext}{%
+  \section*{Supporting Information Text}
+  \stepcounter{SItext}
+}
+
+\newcommand{\instructionspage}{%
+\pagenumbering{gobble}
+\thispagestyle{empty}
+{\noindent\Huge\sffamily\bfseries PNAS Template for
+Supplementary Information\par}
+
+\bigskip
+
+\noindent This PNAS template for Supplementary Information (SI) may be used to organize your supplementary material. \textbf{Once formatted, this first page should be deleted by removing the \texttt{\textbackslash instructionspage} command.} The template is intended to provide a clearly organized PDF file that will ensure readers can easily navigate to sections or specific figures and tables. Movie files or large datasets can be presented as separate files. Further information is available in our \href{http://www.pnas.org/site/authors/procedures.xhtml\#si}{Information for Authors}. 
+
+\section*{Using the template}
+
+Specify the title, author list, and corresponding authors with the \texttt{\textbackslash title}, \texttt{\textbackslash author} and \texttt{\textbackslash correspondingauthor} commands. The cover page will be automatically generated with the relevant description of the SI, by the \texttt{\textbackslash maketitle} command.
+
+
+Figures should be placed on separate pages with captions set immediately below each figure. Table captions should be set immediately above each table. Note that tables extending beyond the width of the page can be included in the PDF or provided as separate files. Oversized/nonstandard page sizes are accepted as part of your SI appendix file.
+
+References cited in the SI text should be included in a separate reference list at the end of this SI file: \cite{varga2016multilingual} and \cite{olsen1992optimal}.
+
+\section*{Submitting SI}
+
+Delete this first page by removing the \texttt{\textbackslash instructionspage} command, and then save your completed SI file as a PDF for submission, following instructions available \href{http://www.pnas.org/site/authors/procedures.xhtml\#preparation}{here}.
+\clearpage
+\pagenumbering{arabic}
+}
+
+%% v1.5: new title page format
+\renewcommand{\Authfont}{\sffamily\bfseries}
+\renewcommand{\@maketitle}{%
+  \begin{center}
+  \includegraphics[width=9.95cm]{pnas-logo}
+  \end{center}
+  \vskip45pt
+  \begingroup
+  \raggedright
+  {\Huge\sffamily\bfseries Supplementary Information for\par}
+  \bigskip
+  {\LARGE\sffamily\bfseries\@title\par}
+  \bigskip
+  {\@author\par\bigskip\@correspondingauthor\par}
+  \endgroup
+  \bigskip
+  \section*{This PDF file includes:}
+  \ifnum\numexpr\totvalue{SItext}+\totvalue{figure}+\totvalue{table}+\totvalue{movie}+\totvalue{dataset}+\totvalue{NAT@ctr}\relax > 0
+    \begin{list}{}{%
+    \setlength\leftmargin{2em}%
+    \setlength\itemsep{0pt}%
+    \setlength\parsep{0pt}}
+    %% Check if there is some SI text
+    \ifnum\totvalue{SItext}>0
+      \item Supplementary text
+    \fi
+    %% Total # of figures
+    \ifnum\totvalue{figure}>0
+      \item
+      \ifnum\totvalue{figure}=1
+      Fig.~S1
+      \else
+      Figs.~S1 to S\total{figure}
+      \fi
+    \fi
+    %% Total # of tables
+    \ifnum\totvalue{table}>0
+      \item
+      \ifnum\totvalue{table}=1
+      Table S1
+      \else
+      Tables S1 to S\total{table}
+      \fi
+    \fi
+    %%% Total # of movies
+    \ifnum\totvalue{movie}>0
+      \item
+      \ifnum\totvalue{movie}=1
+      Caption for Movie S1
+      \else
+      Captions for Movies S1 to S\total{movie}
+      \fi
+    \fi
+    %%% Total # of datasets
+    \ifnum\totvalue{dataset}>0
+      \item
+      \ifnum\totvalue{dataset}=1
+      Caption for Database S1
+      \else
+      Captions for Databases S1 to S\total{dataset}
+      \fi
+    \fi
+    %%% Whether there's a references section
+    \ifnum\totvalue{NAT@ctr}>0
+      \item References for SI reference citations
+    \fi
+  \end{list}
+  \fi
+%  
+  \ifnum\numexpr\totvalue{movie}+\totvalue{dataset}\relax > 0
+  \section*{Other supplementary materials for this manuscript include the following: }
+  \begin{list}{}{%
+  \setlength\leftmargin{2em}%
+  \setlength\itemsep{0pt}%
+  \setlength\parsep{0pt}}
+  %%% Total # of movies
+  \ifnum\totvalue{movie}>0
+    \item
+    \ifnum\totvalue{movie}=1
+    Movie S1
+    \else
+    Movies S1 to S\total{movie}
+    \fi
+  \fi
+  %%% Total # of datasets
+  \ifnum\totvalue{dataset}>0
+    \item
+    \ifnum\totvalue{dataset}=1
+    Database S1
+    \else
+    Databases S1 to S\total{dataset}
+    \fi
+  \fi
+  \end{list}
+  \fi
+  \clearpage
+}
+
+\additionalelement{}
+\appto{\maketitle}{\thispagestyle{fancy}}
+
+\fancyfoot[RO,LE]{\bfseries\sffamily\thepage\space of \pageref{LastPage}}
+\fancyfoot[LO,RE]{\bfseries\sffamily\MyAuthor\space}
+
+%% v1.5: Reset reference list settings
+\renewcommand{\bibsection}{\section*{\refname}}
+\renewcommand{\bibfont}{}
+
+%% v1.5: Force floats to each occupy one page
+\RequirePackage{float}
+\RequirePackage{placeins}
+\floatplacement{figure}{p}
+\floatplacement{table}{p}
+\renewcommand{\floatpagefraction}{.001}
+\setlength{\@fpsep}{\textheight}
+
+%% v1.5 Typeset Movie and Dataset captions
+\newcommand{\movie}[1]{%
+  \refstepcounter{movie}%
+  \noindent\textbf{Movie \themovie.\space#1}\par\bigskip
+}
+
+\newcommand{\dataset}[2]{%
+  \refstepcounter{dataset}%
+  \noindent\textbf{Additional data table \thedataset\space(\nolinkurl{#1})}\par #2\par\bigskip
+}
+
+\endinput
