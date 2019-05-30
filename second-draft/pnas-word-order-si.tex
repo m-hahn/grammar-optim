@@ -881,10 +881,10 @@ A \key{language model}, with some parameters $\psi$, calculates the word-by-word
 \begin{equation}
 	R_{Pred}^{\psi}(u) = - \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1})
 \end{equation}
-Using this, we can rewrite Efficiency~(\ref{eq:efficiency}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
+Using this, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
 \begin{equation}
 	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi} := \max_{\phi,\psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
-\end{equation}
+\end{equation}\label{eq:efficiency-rewrite}
 %
 %The parsers and language models appropriate to a tree distribution $\tree$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
 %\begin{equation}
