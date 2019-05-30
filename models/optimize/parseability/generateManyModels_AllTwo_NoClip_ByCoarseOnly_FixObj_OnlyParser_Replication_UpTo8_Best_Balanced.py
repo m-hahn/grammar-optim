@@ -9,7 +9,7 @@ import random
 import subprocess
 import os
 
-with open("writeup/best-parse.csv", "r") as inFile:
+with open("../../../results/strongest_models/best-parse.csv", "r") as inFile:
   best = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
   header_best = best[0]
   best = best[1:]

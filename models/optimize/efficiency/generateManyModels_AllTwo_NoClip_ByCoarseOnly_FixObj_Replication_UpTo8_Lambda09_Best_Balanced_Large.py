@@ -8,14 +8,14 @@ languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chines
 import random
 import subprocess
 
-with open("writeup/best-two.csv", "r") as inFile:
+with open("../../../results/strongest_models/best-two.csv", "r") as inFile:
   best = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
   header_best = best[0]
   best = best[1:]
   bestByLanguage = {language : sorted([x[3] for x in best if x[1] == language]) for language in languages}
 
 
-with open("writeup/commands-lambda1.csv", "r") as inFile:
+with open("../../chosen_hyperparameters/commands-lambda1.csv", "r") as inFile:
   config = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
   header_config = config[0]
   config = config[1:]
