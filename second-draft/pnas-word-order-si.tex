@@ -742,156 +742,25 @@ These experiments all had the same setup described in Section~\ref{sec:neural-ar
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
 
 
-\textcolor{red}{TODO decide on formatting}
-
 \begin{table}[hbt!]
+
 	\begin{center}
-\small{
-\begin{tabular}{|c|c|ccc|c}
-	\hline
-	%&
-& $\lambda = 0.0$
-& $\lambda=1.0$\footnote{\url{https://aspredicted.org/blind.php?x=bg35x7}. Note that we report the locality results as `DLM' in Table~\ref{tab:all-predictions-1}, see also Section~\ref{sec:DLM}.} 
-& $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}}
-& $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=ya4qf8}} 
-	\\ \hline \hline 
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}		  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_case.pdf}   }
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_case.pdf}     } 
- 		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_case.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_case.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}}	 
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cop.pdf}   }
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_cop.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_cop.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_cop.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}	 
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_aux.pdf}   }
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_aux.pdf}     }  reverse
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_aux.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_aux.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}}	
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nmod.pdf}   }
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_nmod.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_nmod.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_nmod.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}}	 
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_acl.pdf}   }
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_acl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_acl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_acl.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}	
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_mark.pdf}   }
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_mark.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_mark.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_mark.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{	\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}	
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_obl.pdf}   }
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_obl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_obl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_obl.pdf}     }  
-		\\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}}	
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_xcomp.pdf}   }
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_xcomp.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_xcomp.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_xcomp.pdf}     }  
-		\\
-&&&\\ \hline
- \hline
+\includegraphics[width=0.4\textwidth]{si-table-perrel-3-1.png}  
+\end{center}
+
+	\begin{center}
+\begin{tabular}{cccc}
+$\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
+	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-parseability.pdf}&
+	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf}&
+	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-efficiency-large.pdf}&
+	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
 \end{tabular}
-}
 	\end{center}
-\caption{\textcolor{red}{parseability color, aux inversion}Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
+\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments. For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (left) and the final experiment (right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
+Giving similar weight to parseability and predictability -- that is, $\lambda$ close to $1$ -- results in more accurate word order predictions than choosing a small value of $\lambda$ such as $\lambda=0.0$. Note that $\lambda$ cannot take values smaller than zero, or greater than one, see Section \ref{sec:lambda}.
+}\label{table:corr-resu-previous}
 \end{table}
-
-
-\begin{table}[hbt!]
-	\begin{center}
-\small{
-\begin{tabular}{|c|ccc|c}
-	\hline
-	%&
-& $\lambda=1.0$\footnote{\url{https://aspredicted.org/blind.php?x=bg35x7}. Note that we report the locality results as `DLM' in Table~\ref{tab:all-predictions-1}, see also Section~\ref{sec:DLM}.} 
-& $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}}
-& $\lambda=0.9$\footnote{\url{http://aspredicted.org/blind.php?x=ya4qf8}} \\ \hline \hline 
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}		  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_case.pdf}     } 
- 		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_case.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_case.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}}	 
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_cop.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_cop.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_cop.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}	 
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_aux.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_aux.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_aux.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}}	
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_nmod.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_nmod.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_nmod.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}}	 
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_acl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_acl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_acl.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}	
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_lifted_mark.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_lifted_mark.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_lifted_mark.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{	\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}	
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_obl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_obl.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_obl.pdf}     }  \\
-&&&\\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}}	
-			&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first10_Efficiency_xcomp.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_first09_Efficiency_xcomp.pdf}     }  
-		&   \multirow{2}{*}{  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_Efficiency_xcomp.pdf}     }  \\
-&&&\\ \hline
- \hline
-\end{tabular}
-}
-	\end{center}
-\caption{Results from previous optimization experiments with $\lambda=1.0$ (left) and $\lambda=0.9$ (center), and the main study (right).}\label{table:corr-resu}
-\end{table}
-
-
-%\footnotetext{}
-%  final experiment
-%  0.9
-% 
-
-
-\begin{figure}[ht]
-	\begin{center}
-	\includegraphics[width=0.25\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf}
-	\includegraphics[width=0.25\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
-	\end{center}
-	\caption{(Other experiments) Posterior of the number of correlations correctly predicted by efficiency and its components, in a Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior-prior}
-\end{figure}
-
-
-
 
 
 
