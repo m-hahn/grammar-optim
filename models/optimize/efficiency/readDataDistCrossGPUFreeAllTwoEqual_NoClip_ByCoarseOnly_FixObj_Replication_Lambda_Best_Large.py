@@ -1,4 +1,4 @@
-# Optimizing a grammar for parseability
+# Optimizing a grammar for efficiency
 # Michael Hahn, 2019
 # mhahn2@stanford.edu
 
@@ -11,7 +11,7 @@ backwardAll = [0]
 import random
 import sys
 
-objectiveName = "ParserCoarse"
+objectiveName = "AllTwoEqual"
 
 
 import argparse
@@ -41,8 +41,6 @@ parser.add_argument('--rnn_dim_parser', type=int, dest="rnn_dim_parser")
 parser.add_argument('--bilinearSize', type=int, dest="bilinearSize")
 parser.add_argument('--input_dropoutRate_parser', type=float, dest="input_dropoutRate_parser")
 parser.add_argument('--labelMLPDimension', type=int, dest="labelMLPDimension")
-parser.add_argument('--maxNumberEpochs', type=int, dest="maxNumberEpochs", default=100000)
-
 
 
 args = parser.parse_args()
@@ -276,7 +274,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best/"
+relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_lambda09_best_large/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_")]
@@ -286,8 +284,8 @@ for name in files:
   with open(relevantPath+name, "r") as inFile:
     for line in inFile:
         line = line.split("\t")
-        if line[7] == "obj":
-          dhWeight = float(line[6])
+        if line[8] == "obj":
+          dhWeight = float(line[7])
           if dhWeight < 0:
              negCount += 1
           elif dhWeight > 0:
@@ -296,7 +294,7 @@ for name in files:
 
 print(["Neg count", negCount, "Pos count", posCount])
 
-if posCount >= 4 and negCount >= 4:
+if posCount >= 12 and negCount >= 12:
    print("Enough models!")
    quit()
 
@@ -402,6 +400,57 @@ depRep.weight.data.uniform_(-initrange, initrange)
 
 
 
+#################################################################################3
+# Language Model
+#################################################################################3
+
+
+# Initialize Components of Language Model Network
+word_embeddings_lm = torch.nn.Embedding(num_embeddings = vocab_size_lm+3, embedding_dim = 50).cuda()
+pos_u_embeddings_lm = torch.nn.Embedding(num_embeddings = len(posUni)+3, embedding_dim = 10).cuda()
+pos_p_embeddings_lm = torch.nn.Embedding(num_embeddings = len(posFine)+3, embedding_dim=10).cuda()
+
+# Initialize Control Variate for Predictability
+baseline_lm = torch.nn.Embedding(num_embeddings = vocab_size_lm+3, embedding_dim=1).cuda()
+baseline_upos_lm = torch.nn.Embedding(num_embeddings = len(posUni)+3, embedding_dim=1).cuda()
+baseline_ppos_lm = torch.nn.Embedding(num_embeddings = len(posFine)+3, embedding_dim=1).cuda()
+
+
+dropout_lm = nn.Dropout(args.dropout_prob_lm).cuda()
+
+rnn_lm = nn.LSTM(70, 128, 2).cuda()
+for name, param in rnn_lm.named_parameters():
+  if 'bias' in name:
+     nn.init.constant(param, 0.0)
+  elif 'weight' in name:
+     nn.init.xavier_normal(param)
+
+decoder_lm = nn.Linear(128,vocab_size_lm+3).cuda()
+pos_ptb_decoder_lm = nn.Linear(128,len(posFine)+3).cuda()
+
+components_lm = [word_embeddings_lm, pos_u_embeddings_lm, pos_p_embeddings_lm, rnn_lm, decoder_lm, pos_ptb_decoder_lm, baseline_lm, baseline_upos_lm, baseline_ppos_lm]
+
+def parameters_lm():
+ for c in components_lm:
+   for param in c.parameters():
+      yield param
+
+parameters_lm_cached = [x for x in parameters_lm()]
+
+
+# Initialize Language Model Parameter
+
+initrange = 0.1
+word_embeddings_lm.weight.data.uniform_(-initrange, initrange)
+pos_u_embeddings_lm.weight.data.uniform_(-initrange, initrange)
+pos_p_embeddings_lm.weight.data.uniform_(-initrange, initrange)
+decoder_lm.bias.data.fill_(0)
+decoder_lm.weight.data.uniform_(-initrange, initrange)
+pos_ptb_decoder_lm.bias.data.fill_(0)
+pos_ptb_decoder_lm.weight.data.uniform_(-initrange, initrange)
+baseline_lm.weight.data.fill_(0) #uniform_(-initrange, initrange)
+baseline_upos_lm.weight.data.fill_(0) #uniform_(-initrange, initrange)
+baseline_ppos_lm.weight.data.fill_(0) #uniform_(-initrange, initrange)
 
 
 
@@ -423,10 +472,11 @@ parameters_policy_cached = [x for x in parameters_policy()]
 #################################################################################3
 #################################################################################3
 
-# Keep running averages of ambiguity losses for inspection
+# Keep running averages of surprisal and ambiguity losses for inspection
+crossEntropy_lm = 10.0
 crossEntropy_parser = 10.0
 
-
+# Encode word as an integer
 def encodeWord_lm(w):
    return stoi[w]+3 if stoi[w] < vocab_size_lm else 1
 
@@ -438,17 +488,23 @@ inputDropout_parser = torch.nn.Dropout2d(p=args.input_dropoutRate_parser)
 
 
 # Control variates
+baselineAverageLoss_lm = 0
 baselinePerType_parser = [4.0 for _ in itos_pure_deps]
 
 # Counts gradient steps so far
 counter = 0
 
-
+# Losses on development set for Early Stopping
+lastDevLoss_lm = None
 lastDevLoss_parser = None
 
+failedDevRuns_lm = 0
 failedDevRuns_parser = 0
 
+devLosses_lm = [] 
 devLosses_parser = [] 
+
+
 
 loss_op = torch.nn.NLLLoss(size_average=False, reduce=False, ignore_index = 0)
 
@@ -460,9 +516,12 @@ def doForwardPass(current, train=True, computeAccuracy_parser=False, doDropout_p
        global biasHead
        batchSize = len(current)
        global counter
+       global crossEntropy_lm
        global crossEntropy_parser
 
        global printHere
+       global devLosses_lm
+       global baselineAverageLoss_lm
        batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
       
        batchOrdered = batchOrderedLogits[0]
@@ -485,6 +544,9 @@ def doForwardPass(current, train=True, computeAccuracy_parser=False, doDropout_p
        ###################################################################
 
 
+       for c in components_lm:
+          c.zero_grad()
+
        optimizer_parser.zero_grad()
 
        for p in  [dhWeights, distanceWeights]:
@@ -495,12 +557,17 @@ def doForwardPass(current, train=True, computeAccuracy_parser=False, doDropout_p
 
 
        hidden = None #(Variable(torch.FloatTensor().new(2, batchSize, 128).zero_()), Variable(torch.FloatTensor().new(2, batchSize, 128).zero_()))
+       loss_lm = 0
        loss_parser = 0
 
+       wordNum_lm = 0
+       lossWords_lm = 0
        lossWords_parser = 0
 
+       policyGradientLoss_lm = 0
        policyGradientLoss_parser = 0
 
+       baselineLoss_lm = 0
        baselineLoss_parser = 0
 
 
@@ -676,17 +743,94 @@ def doForwardPass(current, train=True, computeAccuracy_parser=False, doDropout_p
        policy_related_loss_parser = policyGradientLoss_parser # lives on CPU
 
 
-       return (loss_parser, policy_related_loss_parser, accuracy if computeAccuracy_parser else None, accuracyLabeled if computeAccuracy_parser else None, wordNum_parser)
+       #############################################################################
+       # Language Model 
+       #############################################################################
 
-backPropTime = 0.0
 
-def  doBackwardPass(loss_parser, policy_related_loss_parser):
-       global printHere
+       totalQuality = 0.0
+
+       if True:
+           wordIndices = Variable(torch.LongTensor(input_words)).cuda()
+           pos_p_indices = Variable(torch.LongTensor(input_pos_p)).cuda()
+           words_layer = word_embeddings_lm(wordIndices)
+           pos_u_indices = Variable(torch.LongTensor(input_pos_u)).cuda()
+           pos_u_layer = pos_u_embeddings_lm(pos_u_indices)
+           pos_p_layer = pos_p_embeddings_lm(pos_p_indices)
+           input_concat = torch.cat([words_layer, pos_u_layer, pos_p_layer], dim=2)
+           inputEmbeddings = dropout_lm(input_concat) if train else input_concat
+
+           output, hidden = rnn_lm(inputEmbeddings, None)
+           baseline_predictions = log(vocab_size_lm) + log(len(posFine)) + baseline_lm(wordIndices) + baseline_upos_lm(pos_u_indices) + baseline_ppos_lm(pos_p_indices)
+
+           droppedOutput = dropout_lm(output) if train else output
+
+          # word logits
+           word_logits = decoder_lm(droppedOutput)
+           word_logits = word_logits.view(-1, vocab_size_lm+3)
+           word_softmax = logsoftmax(word_logits)
+           word_softmax = word_softmax.view(-1, args.batchSize, vocab_size_lm+3)
+
+           # pos logits
+           pos_logits = pos_ptb_decoder_lm(droppedOutput)
+           pos_logits = pos_logits.view(-1, len(posFine)+3)
+           pos_softmax = logsoftmax(pos_logits)
+           pos_softmax = pos_softmax.view(-1, args.batchSize, len(posFine)+3)
+
+           lossesWord = [[None]*args.batchSize for i in range(maxLength+1)]
+           lossesPOS = [[None]*args.batchSize for i in range(maxLength+1)]
+
+           lossesWord_tensor = loss_op(word_softmax.view(-1, vocab_size_lm+3)[:-1], wordIndices[1:].view(-1)).view(-1, args.batchSize)
+           lossesPOS_tensor = loss_op(pos_softmax.view(-1, len(posFine)+3)[:-1], pos_p_indices[1:].view(-1)).view(-1, args.batchSize)
+
+           reward = (lossesWord_tensor + lossesPOS_tensor).detach()
+
+           baseline_shifted = baseline_predictions[1:]
+
+           baselineLoss_lm = torch.nn.functional.mse_loss(baseline_shifted.view(-1, args.batchSize), reward.view(-1, args.batchSize), size_average=False, reduce=False)
+
+           baselineAverageLoss_lm = 0.99 * baselineAverageLoss_lm + (1-0.99) * baselineLoss_lm.cpu().data.mean().numpy()
+           if printHere:
+              print(baselineLoss_lm)
+              print(["Baseline loss", sqrt(baselineAverageLoss_lm)])
+
+           rewardMinusBaseline_lm = (reward.view(-1, args.batchSize) - baseline_shifted.view(-1, args.batchSize)).detach().cpu().data.numpy()
+
+           for i in range(0,len(input_words)-1): 
+              for j in range(args.batchSize):
+                 if input_words[i+1][j] != 0:
+                    policyGradientLoss_lm += (float(rewardMinusBaseline_lm[i][j]) * batchOrdered[j][i]["relevant_logprob_sum"])
+                    if input_words[i+1] > 2 and j == 0 and printHere:
+                       print [itos[input_words[i+1][j]-3], itos_pos_ptb[input_pos_p[i+1][j]-3], lossesWord_tensor[i][j].data.cpu().numpy(), lossesPOS_tensor[i][j].data.cpu().numpy(), baseline_predictions[i+1][j].data.cpu().numpy()]
+                    wordNum_lm += 1
+
+       lossWords_lm = lossesWord_tensor.sum()
+       lossPOS_lm = lossesPOS_tensor.sum()
+       loss_lm += lossWords_lm
+       loss_lm += lossPOS_lm
+       if wordNum_lm == 0:
+         print input_words
+         print batchOrdered
+         return 0,0,0,0,0
+       if printHere:
+         print loss_lm/wordNum_lm
+         print lossWords_lm/wordNum_lm
+         print ["CROSS ENTROPY LM", crossEntropy_lm, exp(crossEntropy_lm)]
+         print baselineAverageLoss_lm
+       crossEntropy_lm = 0.99 * crossEntropy_lm + 0.01 * (lossWords_lm/wordNum_lm).data.cpu().numpy()
+       totalQuality_lm = loss_lm.data.cpu().numpy() # consists of lossesWord + lossesPOS
+       numberOfWords_lm = wordNum_lm
+
+       policy_related_loss_lm =  policyGradientLoss_lm # lives on CPU
+       return (loss_lm, baselineLoss_lm, policy_related_loss_lm, totalQuality_lm, numberOfWords_lm), (loss_parser, policy_related_loss_parser, accuracy if computeAccuracy_parser else None, accuracyLabeled if computeAccuracy_parser else None, wordNum_parser)
+
+
+def  doBackwardPass(loss_lm, baselineLoss_lm, policy_related_loss_lm, loss_parser, policy_related_loss_parser):
        if printHere:
          print "BACKWARD 1"
 
        # Objective function for grammar
-       policy_related_loss = policy_related_loss_parser
+       policy_related_loss = (0.9/1.9) * policy_related_loss_lm + (1.0/1.9) * policy_related_loss_parser
 
        global dhWeights
 
@@ -710,11 +854,8 @@ def  doBackwardPass(loss_parser, policy_related_loss_parser):
 
        beforeBack = time.time()
 
-
-
-       # Backprop for parser parameters
-       totalLoss = loss_parser
-       totalLoss.backward() # lives on GPU
+       # Backprop for parser and language model parameters
+       (loss_parser + (args.lr_baseline_lm * baselineLoss_lm.sum()) + loss_lm).backward()
 
        # Timing
        backwardAll[int(counter/10000)] += (time.time() - beforeBack)/100
@@ -722,7 +863,10 @@ def  doBackwardPass(loss_parser, policy_related_loss_parser):
 
        if printHere:
          print args 
-         print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)+" "+"  "+(" ".join(map(str,["ENTROPY", args.entropy_weight, "LR_POLICY", args.lr_policy, "MOMENTUM", args.momentum_policy])))
+         print "BACKWARD 3 "+__file__+" "+args.language+" "+str(myID)+" "+str(counter)+" "+str(lastDevLoss_lm)+" "+str(failedDevRuns_lm)+"  "+(" ".join(map(str,["ENTROPY", args.entropy_weight, "LR_POLICY", args.lr_policy, "MOMENTUM", args.momentum_policy])))
+         print "dev losses LM"
+         print devLosses_lm
+         print crossEntropy_lm
          print "dev losses parser"
          print devLosses_parser
          print crossEntropy_parser
@@ -732,8 +876,19 @@ def  doBackwardPass(loss_parser, policy_related_loss_parser):
          print devAccuraciesLabeled_parser
          print backwardAll
 
+       # Gradient clipping for language model
+       torch.nn.utils.clip_grad_norm(parameters_lm_cached, 5.0, norm_type='inf')
+
+
        counterHere = 0
 
+
+       # Update language model parameters (Plain SGD)
+       for param in parameters_lm_cached:
+         counterHere += 1
+         if param.grad is None:
+           assert False
+         param.data.sub_(args.lr_lm * param.grad.data)
 
 
        # Update parser language models (Adam)
@@ -762,6 +917,8 @@ def computeDevLoss():
    global devAccuraciesLabeled_parser
 
 
+   devLoss_lm = 0.0
+   devWords_lm = 0
 
    devLoss_parser = 0.0
    devWords_parser = 0
@@ -785,10 +942,13 @@ def computeDevLoss():
         current = batch[partition*args.batchSize:(partition+1)*args.batchSize]
 
         # run the model on the syntactic trees 
-        fromParser = doForwardPass(current, train=False, computeAccuracy_parser=True, doDropout_parser=False)
+        fromLM, fromParser = doForwardPass(current, train=False, computeAccuracy_parser=True, doDropout_parser=False)
+        _, _, _, newLoss_lm, newWords_lm = fromLM
         loss_parser, _, accuracy_parser ,accuracyLabeled_parser, wordNum_parser = fromParser
 
 
+        devLoss_lm += newLoss_lm
+        devWords_lm += newWords_lm
 
         devLoss_parser += loss_parser.data.cpu().numpy()    
         devAccuracy_parser += accuracy_parser
@@ -801,7 +961,8 @@ def computeDevLoss():
    devAccuracies_parser.append(newDevAccuracy_parser)
    devAccuraciesLabeled_parser.append(newDevAccuracyLabeled_parser)
 
-   return devLoss_parser/devWords_parser
+   return devLoss_lm/devWords_lm, devLoss_parser/devWords_parser
+
 
 # Training Loop
 while True:
@@ -822,41 +983,55 @@ while True:
        current = batch[partition*args.batchSize:(partition+1)*args.batchSize]
 
        # Run model on syntactic tree
-       fromParser = doForwardPass(current)
+       fromLM, fromParser = doForwardPass(current)
+       loss_lm, baselineLoss_lm, policy_related_loss_lm, _, wordNumInPass_lm = fromLM
        loss_parser, policy_related_loss_parser, _ ,_, wordNumInPass_parser = fromParser
 
-       if wordNumInPass_parser > 0:
-         doBackwardPass(loss_parser, policy_related_loss_parser)
+       assert wordNumInPass_lm == wordNumInPass_parser, (wordNumInPass_lm , wordNumInPass_parser)
+
+       # Update model parameters
+       if wordNumInPass_lm > 0:
+         doBackwardPass(loss_lm, baselineLoss_lm, policy_related_loss_lm, loss_parser, policy_related_loss_parser)
        else: # In case a sentence is empty (which can happen if it consists entirely of punctuation), skip.
          print "No words, skipped backward"
 
        # In intervals of 50,000 gradient steps, run on held-out set, and decide whether to stop optimizing.
        if counter % 50000 == 0:
-          newDevLoss_parser = computeDevLoss()
+          newDevLoss_lm, newDevLoss_parser = computeDevLoss()
+          devLosses_lm.append(newDevLoss_lm)
           devLosses_parser.append(newDevLoss_parser)
+          print "New dev loss LM     "+str(newDevLoss_lm)+". previous was: "+str(lastDevLoss_lm)
           print "New dev loss Parser "+str(newDevLoss_parser)+". previous was: "+str(lastDevLoss_parser)
+
+          if lastDevLoss_lm is None or newDevLoss_lm < lastDevLoss_lm:
+             lastDevLoss_lm = newDevLoss_lm
+             failedDevRuns_lm = 0
+          else:
+             failedDevRuns_lm += 1
+             print devLosses_lm
 
           if lastDevLoss_parser is None or newDevLoss_parser < lastDevLoss_parser:
              lastDevLoss_parser = newDevLoss_parser
              failedDevRuns_parser = 0
           else:
              failedDevRuns_parser += 1
-             print "Skip Parser, hoping for better model"
              print devLosses_parser
 
 
+          # Saving grammar parameters to file
           print "Saving"
           save_path = "/u/scr/mhahn/deps/"
-          with open(save_path+"/manual_output_funchead_two_coarse_parser_best/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
-             print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss_Parser", "AverageUAS", "AverageLAS", "DH_Weight","CoarseDependency","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
+          with open(save_path+"/manual_output_funchead_two_coarse_lambda09_best_large/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
+             print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss_LM", "AverageLoss_Parser", "AverageUAS", "AverageLAS", "DH_Weight","CoarseDependency","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
              for i in range(len(itos_deps)):
                 key = itos_deps[i]
                 dhWeight = dhWeights[i].data.numpy()
                 distanceWeight = distanceWeights[i].data.numpy()
                 dependency = key
-                print >> outFile, "\t".join(map(str,[myID, __file__, counter, devLosses_parser[-1], devAccuracies_parser[-1], devAccuraciesLabeled_parser[-1], dhWeight, dependency, distanceWeight, args.entropy_weight, objectiveName]))
+                print >> outFile, "\t".join(map(str,[myID, __file__, counter, devLosses_lm[-1], devLosses_parser[-1], devAccuracies_parser[-1], devAccuraciesLabeled_parser[-1], dhWeight, dependency, distanceWeight, args.entropy_weight, objectiveName]))
 
-          if failedDevRuns_parser > 0:
+          # Stop optimization if held-out losses are not going down any more
+          if failedDevRuns_lm >0 and failedDevRuns_parser > 0:
               quit()
 
 

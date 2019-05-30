@@ -16,7 +16,7 @@ with open("../../../results/strongest_models/best-parse.csv", "r") as inFile:
   bestByLanguage = {language : sorted([x[3] for x in best if x[1] == language]) for language in languages}
 
 
-with open("writeup/commands-lambda1-parse.csv", "r") as inFile:
+with open("../../chosen_hyperparameters/commands-lambda1-parse.csv", "r") as inFile:
   config = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
   header_config = config[0]
   config = config[1:]
@@ -50,7 +50,7 @@ while len(languages) > 0:
                 posCount += 1
              break
    
-   print(["Neg count", negCount, "Pos count", posCount])
+   print([language, "Neg count", negCount, "Pos count", posCount])
    if negCount >= 4 and posCount >= 4:
        languages.remove(language) 
        continue

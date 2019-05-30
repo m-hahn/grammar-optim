@@ -7,6 +7,7 @@ languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chines
 
 import random
 import subprocess
+import os
 
 with open("../../../results/strongest_models/best-two.csv", "r") as inFile:
   best = [x.replace('"', "").split(",") for x in inFile.read().strip().split("\n")]
@@ -48,7 +49,7 @@ while len(languages) > 0:
                 posCount += 1
              break
    
-   print(["Neg count", negCount, "Pos count", posCount])
+   print([language, "Neg count", negCount, "Pos count", posCount])
    if negCount >= 12 and posCount >= 12:
        languages.remove(language) 
        continue
