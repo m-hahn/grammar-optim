@@ -9,4 +9,7 @@ pdftoppm si-table-perrel-2.pdf si-table-perrel-2 -png
 pdftoppm si-table-perrel-3.pdf si-table-perrel-3 -png
 
 pdflatex pnas-word-order-si.tex
+bibtex pnas-word-order-si
+pdflatex pnas-word-order-si.tex
+pdflatex pnas-word-order-si.tex
 

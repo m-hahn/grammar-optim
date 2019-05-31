@@ -1,3 +1,10 @@
+*.swp
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
 *.log
 *.aux
 *.pyc
@@ -5,3 +12,4 @@
 *.swp
 raw-results
 python27
+
