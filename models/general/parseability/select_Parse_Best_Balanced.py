@@ -8,8 +8,8 @@ languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chines
 import random
 import subprocess
 
-relevantPathFrom = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best/"
-relevantPathTo = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best_balanced/"
+relevantPathFrom = "../../../raw-results/manual_output_funchead_two_coarse_parser_best/"
+relevantPathTo = "../../../raw-results/manual_output_funchead_two_coarse_parser_best_balanced/"
 
 from shutil import copyfile
 for language in languages:

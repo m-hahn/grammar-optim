@@ -9,8 +9,8 @@ assert len(languages) == 51
 import random
 import subprocess
 
-relevantPathFrom = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best/"
-relevantPathTo = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best_balanced/"
+relevantPathFrom = "../../../raw-results/manual_output_funchead_langmod_coarse_best/"
+relevantPathTo = "../../../raw-results/manual_output_funchead_langmod_coarse_best_balanced/"
 
 from shutil import copyfile
 for language in languages:

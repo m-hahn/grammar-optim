@@ -1,8 +1,10 @@
 import os
 
-path = "/u/scr/mhahn/deps/manual_output_funchead_ground_coarse_final/"
+BASE_DIR = "manual_output_funchead_ground_coarse_final"
+inPath = "../../../raw-results/"+BASE_DIR+"/"
+outPath = "../../../grammars/"+BASE_DIR+"/"
 
-files = os.listdir(path)
+files = os.listdir(inPath)
 
 cache = {}
 
@@ -23,9 +25,9 @@ inHeader = ["FileName", "ModelName", "Counter", "Dependency", 'Distance_Mean_NoP
 outHeader = ["Language"] + inHeader
 
 
-outpath = path+"auto-summary-lstm.tsv"
-with open(outpath, "w") as outFile:
-  print >> outFile, "\t".join(outHeader) #, "FileName", "ModelName", "Counter", "AverageLoss", "Head", "DH_Weight", "Dependency", "Dependent", "DistanceWeight"])
+
+with open(outPath+"auto-summary-lstm.tsv", "w") as outFile:
+  print >> outFile, "\t".join(outHeader) 
   for filename in files:
      if "model" in filename:
         print "READING "+filename 
@@ -34,34 +36,25 @@ with open(outpath, "w") as outFile:
           language = part1.split("_")[0]
         else:
           language = "English"
-        with open(path+filename, "r") as inFile:
+        with open(inPath+filename, "r") as inFile:
             try:
               header = next(inFile).strip().split("\t")
             except StopIteration:
-              print ["EMPTY FILE?",path+filename]
+              print ["EMPTY FILE?",inPath+filename]
               continue
             missingColumns = len(inHeader) - len(header)
-#            assert missingColumns >= 0, [inHeader, header, set(header) - set(inHeader)]
             
             for i in range(len(header)):
               if header[i] in ["AverageLength", "Perplexity"]:
                   header[i] = "AverageLoss"
             if len(set(header) - set(inHeader)) > 0:
               print set(header) - set(inHeader)
-#            matched = zip(inHeader+([None]*missingColumns), header)          
- #           print filter(lambda x:x[0] != x[1], matched)
             lineCounter = 0
-            if "Pukwac" in filename:
-               language = "Pukwac" 
-
             for line in inFile:
                lineCounter += 1
                line = line.strip().split("\t")
                outLine = [language] #, extractModelType(line[1])]
                for colName in inHeader:
-                  if colName == "Language" and "Pukwac" in filename:
-                      outLine.append("Pukwac")
-                      continue
                   try:
                     i = header.index(colName)
                     outLine.append(line[i])
@@ -76,28 +69,7 @@ with open(outpath, "w") as outFile:
                        outLine.append(extractModelTypeCached(line[1], "NONE"))
                     else:
                        outLine.append("NA")
-#                    print colName
-#               outLine += (["NA"]*missingColumns)
                assert len(outLine) == len(outHeader)
                print >> outFile, "\t".join(outLine)
 
 
-
-#> unique(data$ModelName)
-# [1] 
-# [2] 
-# [3] 
-# [4] 
-# [5] 
-# [6] 
-# [7] 
-# [8] 
-# [9] 
-#[10] 
-#[11] 
-#[12] 
-#[13] 
-#[14] 
-#[15] 
-#15 Levels: readDataDistEnglishGPUFree.py ...
-print(outpath)
