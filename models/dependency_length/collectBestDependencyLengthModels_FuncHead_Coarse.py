@@ -1,3 +1,5 @@
+# TODO what does this file do
+
 import os
 
 dirs = []
@@ -18,10 +20,10 @@ dirs.append("manual_output_funchead_two_coarse_lambda09_best_balanced")
 
 # find relevant model IDs
 
-summariesDir = "/u/scr/mhahn/deps/dependency_length/summaries/"
+summariesDir = "../../grammars/dependency_length/summaries/"
 summaries = os.listdir(summariesDir)
 
-outPath = "/u/scr/mhahn/deps/dependency_length/total_summary_funchead_coarse.tsv"
+outPath = "../../grammars/dependency_length/total_summary_funchead_coarse.tsv"
 with open(outPath, "w") as outFile:
  globalHeader = "\t".join(map(str,["Language", "FileName","ModelName","Counter", "Model", "Temperature", "OriginalCounter", "AverageLengthPerWord", "AverageLengthPerSentence", "OriginalLoss"]))
  print >> outFile, globalHeader+"\tType"
@@ -48,7 +50,7 @@ with open(outPath, "w") as outFile:
     else:   
        languages = None
        
-       models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+       models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
        modelsProcessed = []
        for i in range(len(models)):
          if "ground" in BASE_DIR:

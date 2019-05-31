@@ -28,9 +28,6 @@ def reverse_content_head(sentence):
              sentence[i]["dep"] = sentence[head]["dep"]
              sentence[head]["dep"] = "lifted_"+dep
              assert sentence[i]["index"] == i+1
-#             print(i, dep)
- #            print(sentence)
-  #           quit()
    return sentence
 
 class CorpusIteratorFuncHead():
@@ -64,9 +61,6 @@ class CorpusIteratorFuncHeadFraction():
      counter = 0
      print("Actual length", self.length())
      for sentence in iterator:
-#         if counter > self.fraction * self.length():
- #           break
-  #          counter += 1
          reverse_content_head(sentence)
          yield sentence
    def getSentence(self, index):

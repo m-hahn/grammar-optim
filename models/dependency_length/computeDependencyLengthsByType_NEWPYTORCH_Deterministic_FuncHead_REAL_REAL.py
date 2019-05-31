@@ -604,10 +604,7 @@ if True:
 originalCounter = 100000
 if True:
           print "Saving"
-          save_path = "/juicier/scr120/scr/mhahn/deps/"
-          #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
-#          dhGradients_WSurp_mean = sum([x for x in dhGradients_WSurp])/len(dhGradients_WSurp) # deque(maxlen=corpus.length())
-#          distanceGradients_WSurp_mean = sum([x for x in distanceGradients_WSurp])/len(distanceGradients_WSurp)
+          save_path = "../../raw-results/"
 
           with open(save_path+"/dependency_length/summaries/"+language+"_"+my_fileName+"_model_"+str(myID)+"_"+model+"_SHORT.tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["Language", "FileName","ModelName","Counter", "Model", "Temperature", "OriginalCounter", "AverageLengthPerWord", "AverageLengthPerSentence", "OriginalLoss"]))

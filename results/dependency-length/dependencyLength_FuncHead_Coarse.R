@@ -10,7 +10,7 @@ for(LanguageName in c("English", "Chinese", "Hindi", "Japanese")) {
       data2$Language = LanguageName
       data = rbind(data, data2)
 
-   relevantModels =  unique(read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_forVisualization.tsv", sep=""), sep="\t"))
+   relevantModels =  unique(read.csv(paste("forVisualization/", LanguageName, "_forVisualization.tsv", sep=""), sep="\t"))
    for(i in (1:nrow(relevantModels))) {
       cat(i,nrow(relevantModels),"\n")
       data2 = read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_Coarse.py_model_",(relevantModels$Model[[i]]),".tsv", sep=""), sep="\t")

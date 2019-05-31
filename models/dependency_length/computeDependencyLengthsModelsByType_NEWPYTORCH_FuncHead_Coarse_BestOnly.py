@@ -25,7 +25,7 @@ print models
 print(len(models))
 for model in models[int(starting*len(models)):int(ending*len(models))]:
   modelNumber = model[2]
-  relevantRuns = [x for x in os.listdir("/u/scr/mhahn/deps/dependency_length/summaries/") if "_"+modelNumber+"_" in x]
+  relevantRuns = [x for x in os.listdir("../../raw-results/dependency_length/summaries/") if "_"+modelNumber+"_" in x]
   if len(relevantRuns) > 0:
       print("Skipping model")
       continue
