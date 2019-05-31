@@ -9,8 +9,6 @@ from collections import deque
 
 language = sys.argv[1]
 languageCode = sys.argv[2]
-model = sys.argv[3]
-temperature = float(sys.argv[4]) if len(sys.argv) > 4 else 1.0
 
 myID = random.randint(0,10000000)
 
@@ -74,21 +72,21 @@ def initializeOrderTable():
       originalDistanceWeights[key] = (distanceSum[key] / distanceCounts[key])
    return dhLogits, vocab, keys, depsVocab
 
-#import torch.distributions
-import torch.nn as nn
-import torch
-from torch.autograd import Variable
+##import torch.distributions
+#import torch.nn as nn
+#import torch
+#from torch.autograd import Variable
 
 
 # "linearization_logprobability"
 def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum):
    line = sentence[position-1]
    # Loop Invariant: these are the gradients relevant at everything starting at the left end of the domain of the current element
-   allGradients = gradients_from_the_left_sum + sum(line.get("children_decisions_logprobs",[]))
-   if "linearization_logprobability" in line:
-      allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at this word, but nothing to the left of it
-   else:
-      assert line["dep"] == "root"
+   allGradients = None #gradients_from_the_left_sum + sum(line.get("children_decisions_logprobs",[]))
+#   if "linearization_logprobability" in line:
+#      allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at this word, but nothing to the left of it
+#   else:
+#      assert line["dep"] == "root"
 
    # there are the gradients of its children
    if "children_DH" in line:
@@ -96,7 +94,7 @@ def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum
          allGradients = recursivelyLinearize(sentence, child, result, allGradients)
    result.append(line)
 #   print ["DECISIONS_PREPARED", line["index"], line["word"], line["dep"], line["head"], allGradients.data.numpy()[0]]
-   line["relevant_logprob_sum"] = allGradients
+#   line["relevant_logprob_sum"] = allGradients
    if "children_HD" in line:
       for child in line["children_HD"]:
          allGradients = recursivelyLinearize(sentence, child, result, allGradients)
@@ -104,24 +102,24 @@ def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum
 
 import numpy.random
 
-softmax_layer = torch.nn.Softmax()
-logsoftmax = torch.nn.LogSoftmax()
+#softmax_layer = torch.nn.Softmax()
+#logsoftmax = torch.nn.LogSoftmax()
 
 
 
 def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
        childrenLinearized = []
        while len(remainingChildren) > 0:
-           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]].view(1) for x in remainingChildren])
-           #print logits
-           if reverseSoftmax:
-              logits = -logits
-           #print (reverseSoftmax, logits)
-           softmax = softmax_layer(logits.view(1,-1)).view(-1)
-           selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           log_probability = torch.log(softmax[selected])
-           assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
-           sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
+#           logits = torch.cat([distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]] for x in remainingChildren])
+#           #print logits
+#           if reverseSoftmax:
+#              logits = -logits
+#           #print (reverseSoftmax, logits)
+#           softmax = softmax_layer(logits.view(1,-1)).view(-1)
+           selected = 0 #numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
+#           log_probability = torch.log(softmax[selected])
+#           assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
+#           sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
            childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
        return childrenLinearized           
@@ -145,23 +143,23 @@ def orderSentence(sentence, dhLogits, printThings):
          continue
       key = (sentence[line["head"]-1]["posUni"], line["dep"], line["posUni"])
       line["dependency_key"] = key
-      dhLogit = dhWeights[stoi_deps[key]]
-      probability = 1/(1 + torch.exp(-dhLogit))
-      dhSampled = (random() < probability.data.numpy())
+#      dhLogit = dhWeights[stoi_deps[key]]
+#      probability = 1/(1 + torch.exp(-dhLogit))
+      dhSampled = (line["head"] > line["index"]) #(random() < probability.data.numpy()[0])
 #      logProbabilityGradient = (1 if dhSampled else -1) * (1-probability)
 #      line["ordering_decision_gradient"] = logProbabilityGradient
-      line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
+#      line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
 
       
      
       direction = "DH" if dhSampled else "HD"
 #torch.exp(line["ordering_decision_log_probability"]).data.numpy()[0],
       if printThings: 
-         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], ("->".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(probability.data.numpy())+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]].data.numpy())+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
+         print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], ("->".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction  ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
-      sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
+      #sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
 
 
 
@@ -176,7 +174,7 @@ def orderSentence(sentence, dhLogits, printThings):
 #         shuffle(line["children_HD"])
    
    linearized = []
-   recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
+   recursivelyLinearize(sentence, root, linearized, 0)
    if printThings:
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized))
@@ -194,7 +192,7 @@ def orderSentence(sentence, dhLogits, printThings):
          x["reordered_head"] = 0
       else:
          x["reordered_head"] = 1+moved[x["head"]-1]
-   return linearized, logits
+   return linearized,None 
 
 
 dhLogits, vocab, vocab_deps, depsVocab = initializeOrderTable()
@@ -218,48 +216,10 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 
 print itos_deps
 
-dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
+#dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
+#distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
 
 
-
-if model != "RANDOM":
-   inpModels_path = "/juicier/scr120/scr/mhahn/deps/"+"/manual_output_funchead/"
-   models = os.listdir(inpModels_path)
-   models = filter(lambda x:"_"+model+".tsv" in x, models)
-   if len(models) == 0:
-     assert False, "No model exists"
-   if len(models) > 1:
-     assert False, [models, "Multiple models exist"]
-   
-   with open(inpModels_path+models[0], "r") as inFile:
-      data = map(lambda x:x.split("\t"), inFile.read().strip().split("\n"))
-      header = data[0]
-      data = data[1:]
-    
-   #print header
-   #quit()
-   # there might be a divergence because 'inferWeights...' models did not necessarily run on the full set of corpora per language (if there is no AllCorpora in the filename)
-   #assert len(data) == len(itos_deps), [len(data), len(itos_deps)]
-   for line in data:
-   #   print line
-      head = line[header.index("Head")]
-      dependent = line[header.index("Dependent")]
-      dependency = line[header.index("Dependency")]
-      key = (head, dependency, dependent)
-      dhWeights.data[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
-      distanceWeights.data[stoi_deps[key]] = temperature*float(line[header.index("DistanceWeight")])
-      originalCounter = int(line[header.index("Counter")])
-
-#for i, key in enumerate(itos_deps):
-#
-#   # take from treebank, or randomize
-#   dhLogits[key] = 2*(random()-0.5)
-#   dhWeights.data[i] = dhLogits[key]
-#
-#   originalDistanceWeights[key] = random()  
-#   distanceWeights.data[i] = originalDistanceWeights[key]
-#
 
 
 words = list(vocab.iteritems())
@@ -339,8 +299,8 @@ def encodeWord(w):
 
 
 
-import torch.cuda
-import torch.nn.functional
+#import torch.cuda
+#import torch.nn.functional
 
 
 
@@ -532,8 +492,7 @@ def doForwardPass(current):
 assert batchSize == 1
 
 depLengths = []
-#while True:
-if True:
+while True:
   corpus = CorpusIteratorFuncHead(language,"train")
   corpusIterator = corpus.iterator()
   if corpus.length() == 0:
@@ -549,13 +508,13 @@ if True:
     
     for partition in partitions:
        counter += 1
-       printHere = (counter % 100 == 0)
+       printHere = (counter % 20 == 0)
        current = batch[partition*batchSize:(partition+1)*batchSize]
 
        depLength = doForwardPass(current)
        depLengths.append(depLength)
-       if counter % 100 == 0:
-          print  "Average dep length "+str(sum(map(lambda x:x[0], depLengths))/float(len(depLengths)))+" "+str(counter)+" "+str(float(counter)/corpus.length())+"%"
+       if counter % 10 == 0:
+          print  "Average dep length "+str(sum(map(lambda x:x[0], depLengths))/float(len(depLengths)))+" "+str(counter)
 #       doBackwardPass(loss, baselineLoss, policy_related_loss)
 
 
@@ -575,7 +534,7 @@ if True:
 
 
 
-#       if counter % 10000 == 0:
+       if counter % 10000 == 0:
 #          newDevLoss = computeDevLoss()
 #          devLosses.append(newDevLoss)
 #          print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
@@ -588,20 +547,19 @@ if True:
 #             lr_lm *= 0.5
 #             continue
 
-if True:
           print "Saving"
           save_path = "/juicier/scr120/scr/mhahn/deps/"
           #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
 #          dhGradients_WSurp_mean = sum([x for x in dhGradients_WSurp])/len(dhGradients_WSurp) # deque(maxlen=corpus.length())
 #          distanceGradients_WSurp_mean = sum([x for x in distanceGradients_WSurp])/len(distanceGradients_WSurp)
 
-          with open(save_path+"/dependency_length/"+language+"_"+my_fileName+"_model_"+str(myID)+"_"+model+".tsv", "w") as outFile:
-             print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "Model", "SentenceNumber", "Type", "Length", "Temperature", "OriginalCounter"]))
+          with open(save_path+"/dependency_length/"+language+"_"+my_fileName+"_model_"+str(myID)+".tsv", "w") as outFile:
+             print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "SentenceNumber", "Type", "Length"]))
              for y, l in enumerate(depLengths):
                for e in l[2]:
-                 print >> outFile, "\t".join(map(str,[myID, my_fileName, counter, model, y, e[0], e[1], temperature, originalCounter]))
+                 print >> outFile, "\t".join(map(str,[myID, my_fileName, counter, y, e[0], e[1]]))
 
-#          print "Stopping after 10000 sentences"
+          print "Stopping after 10000 sentences"
           quit()
 
 #dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)

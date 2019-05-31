@@ -13,7 +13,7 @@ language = sys.argv[1]
 models = []
 
 # random
-with open("/u/scr/mhahn/deps/plane-fixed.tsv", "r") as inFile:
+with open("../../grammars/plane/plane-fixed.tsv", "r") as inFile:
    plane = [x.split("\t") for x in inFile.read().strip().split("\n")]
 header = dict(zip(plane[0], range(len(plane[0]))))
 for line in plane[1:]:
@@ -32,7 +32,7 @@ for obj in objectives:
     
 
 #print(models)
-outpath = "/u/scr/mhahn/deps/dependency_length/"+language+"_forVisualization.tsv"
+outpath = "../results/dependency-length/forVisualization/"+language+"_forVisualization.tsv"
 print(outpath)
 with open(outpath, "w") as outFile:
   print >> outFile, "\t".join(["Model", "Type"])

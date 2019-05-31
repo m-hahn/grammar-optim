@@ -6,7 +6,7 @@ header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep",
 
 
 def readUDCorpus(language, partition):
-      basePaths = ["/u/scr/corpora/Universal_Dependencies_2.2/ud-treebanks-v2.2/", "/u/scr/corpora/Universal_Dependencies_2.1/ud-treebanks-v2.1/"]
+      basePaths = ["/u/scr/mhahn/grammar-optim_ADDITIONAL/corpora/"]
       files = []
       while len(files) == 0:
         if len(basePaths) == 0:
@@ -26,10 +26,7 @@ def readUDCorpus(language, partition):
            print "Skipping "+name
            continue
         suffix = name[len("UD_"+language):]
-        if name == "UD_French-FTB":
-            subDirectory = "/juicier/scr120/scr/mhahn/corpus-temp/UD_French-FTB/"
-        else:
-            subDirectory =basePath+"/"+name
+        subDirectory =basePath+"/"+name
         subDirFiles = os.listdir(subDirectory)
         partitionHere = partition
             
@@ -57,31 +54,13 @@ def readUDCorpus(language, partition):
 
 class CorpusIterator():
    def __init__(self, language, partition="train", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False):
-      if splitLemmas:
-           assert language == "Korean"
+      assert not splitLemmas:
       self.splitLemmas = splitLemmas
       self.splitWords = splitWords
-      assert self.splitWords == (language == "BKTreebank_Vietnamese")
+      assert not self.splitWords
 
       self.storeMorph = storeMorph
-      if language.startswith("ISWOC_"):
-          data = accessISWOCData.readISWOCCorpus(language.replace("ISWOC_",""), partition)
-      elif language.startswith("TOROT_"):
-          data = accessTOROTData.readTOROTCorpus(language.replace("TOROT_",""), partition)
-      elif language == "BKTreebank_Vietnamese":
-          import accessBKTreebank
-          data = accessBKTreebank.readBKTreebank(partition)
-      elif language == "TuebaJS":
-         import accessTuebaJS
-         data = accessTuebaJS.readTuebaJSTreebank(partition)
-         assert len(data) > 0, (language, partition)
-      elif language == "LDC2012T05":
-         import accessChineseDependencyTreebank
-         data = accessChineseDependencyTreebank.readChineseDependencyTreebank(partition)
-         assert len(data) > 0, (language, partition)
-        
-      else:
-          data = readUDCorpus(language, partition)
+      data = readUDCorpus(language, partition)
       if shuffleData:
        if shuffleDataSeed is None:
          random.shuffle(data)

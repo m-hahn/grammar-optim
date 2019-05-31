@@ -5,3 +5,11 @@
 *.toc
 *.bbl
 *.blg
+*.log
+*.aux
+*.pyc
+*.sh
+*.swp
+raw-results
+python27
+

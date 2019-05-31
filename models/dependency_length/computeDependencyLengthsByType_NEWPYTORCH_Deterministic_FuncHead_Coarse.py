@@ -1,11 +1,9 @@
-#/u/nlp/bin/stake.py -g 11.5g -s run-stats-pretrain2.json "python readDataDistEnglishGPUFree.py"
 
 import random
 import sys
 
 from collections import deque
 
-#objectiveName = "gradients_WordSurp"
 
 language = sys.argv[1]
 languageCode = sys.argv[2]
@@ -21,20 +19,15 @@ assert temperature == "Infinity"
 
 myID = random.randint(0,10000000)
 
-posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
+posUni = set() 
+posFine = set() 
 
-posFine = set() #[ "``", ",", ":", ".", "''", "$", "ADD", "AFX", "CC",  "CD", "DT", "EX", "FW", "GW", "HYPH", "IN", "JJ", "JJR",  "JJS", "-LRB-", "LS", "MD", "NFP", "NN", "NNP", "NNPS", "NNS",  "PDT", "POS", "PRP", "PRP$", "RB", "RBR", "RBS", "RP", "-RRB-", "SYM", "TO", "UH", "VB", "VBD", "VBG", "VBN", "VBP", "VBZ",  "WDT", "WP", "WP$", "WRB", "XX" ]
-
-deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass", "case", "cc", "ccomp", "compound", "compound:prt", "conj", "conj:preconj", "cop", "csubj", "csubjpass", "dep", "det", "det:predet", "discourse", "dobj", "expl", "foreign", "goeswith", "iobj", "list", "mark", "mwe", "neg", "nmod", "nmod:npmod", "nmod:poss", "nmod:tmod", "nsubj", "nsubjpass", "nummod", "parataxis", "punct", "remnant", "reparandum", "root", "vocative", "xcomp"] 
-
-#deps = ["acl", " advcl", " advmod", " amod", " appos", " aux", " case cc", " ccompclf", " compound", " conj", " cop", " csubjdep", " det", " discourse", " dislocated", " expl", " fixed", " flat", " goeswith", " iobj", " list", " mark", " nmod", " nsubj", " nummod", " obj", " obl", " orphan", " parataxis", " punct", " reparandum", " root", " vocative", " xcomp"]
 
 
 from math import log, exp
 from random import random, shuffle
 import os
 
-conll_header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
 my_fileName = __file__.split("/")[-1]
 
@@ -95,19 +88,11 @@ from torch.autograd import Variable
 # "linearization_logprobability"
 def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum):
    line = sentence[position-1]
-   # Loop Invariant: these are the gradients relevant at everything starting at the left end of the domain of the current element
    allGradients = gradients_from_the_left_sum # + sum(line.get("children_decisions_logprobs",[]))
-  # if "linearization_logprobability" in line:
-  #    allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at this word, but nothing to the left of it
-  # else:
-  #    assert line["dep"] == "root"
-
-   # there are the gradients of its children
    if "children_DH" in line:
       for child in line["children_DH"]:
          allGradients = recursivelyLinearize(sentence, child, result, allGradients)
    result.append(line)
-#   print ["DECISIONS_PREPARED", line["index"], line["word"], line["dep"], line["head"], allGradients.data.numpy()[0]]
    line["relevant_logprob_sum"] = allGradients
    if "children_HD" in line:
       for child in line["children_HD"]:
@@ -127,27 +112,7 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
        logits = [(x, distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]]) for x in remainingChildren]
        logits = sorted(logits, key=lambda x:x[1], reverse=(not reverseSoftmax))
        childrenLinearized = map(lambda x:x[0], logits)
-           
-#           #print logits
-#           if reverseSoftmax:
-#              
-#              logits = -logits
-#           #print (reverseSoftmax, logits)
-#           softmax = softmax_layer(logits.view(1,-1)).view(-1)
-#           selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-#    #       log_probability = torch.log(softmax[selected])
-#   #        assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
-#  #         sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
-#           childrenLinearized.append(remainingChildren[selected])
-#           del remainingChildren[selected]
        return childrenLinearized           
-#           softmax = torch.distributions.Categorical(logits=logits)
-#           selected = softmax.sample()
-#           print selected
-#           quit()
-#           softmax = torch.cat(logits)
-
-
 
 def orderSentence(sentence, dhLogits, printThings):
    root = None
@@ -163,22 +128,15 @@ def orderSentence(sentence, dhLogits, printThings):
       key = line["coarse_dep"]
       line["dependency_key"] = key
       dhLogit = dhWeights[stoi_deps[key]]
-#      probability = 1/(1 + torch.exp(-dhLogit))
       dhSampled = (dhLogit > 0) #(random() < probability.data.numpy())
-#      logProbabilityGradient = (1 if dhSampled else -1) * (1-probability)
-#      line["ordering_decision_gradient"] = logProbabilityGradient
-      #line["ordering_decision_log_probability"] = torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
-
       
      
       direction = "DH" if dhSampled else "HD"
-#torch.exp(line["ordering_decision_log_probability"]).data.numpy()[0],
       if printThings: 
          print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], ("".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]])+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
-      #sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
 
 
 
@@ -190,7 +148,6 @@ def orderSentence(sentence, dhLogits, printThings):
          childrenLinearized = orderChildrenRelative(sentence, line["children_HD"][:], True)
          line["children_HD"] = childrenLinearized
 
-#         shuffle(line["children_HD"])
    
    linearized = []
    recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
@@ -202,11 +159,8 @@ def orderSentence(sentence, dhLogits, printThings):
    # store new dependency links
    moved = [None] * len(sentence)
    for i, x in enumerate(linearized):
-#      print x
       moved[x["index"]-1] = i
- #  print moved
    for i,x in enumerate(linearized):
-  #    print x
       if x["head"] == 0: # root
          x["reordered_head"] = 0
       else:
@@ -241,7 +195,7 @@ distanceWeights = [0.0] * len(itos_deps)
 
 
 if model != "RANDOM":
-   inpModels_path = "/juicier/scr120/scr/mhahn/deps/"+BASE_DIR+"/"
+   inpModels_path = "../../raw-results/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -254,10 +208,6 @@ if model != "RANDOM":
       header = data[0]
       data = data[1:]
     
-   #print header
-   #quit()
-   # there might be a divergence because 'inferWeights...' models did not necessarily run on the full set of corpora per language (if there is no AllCorpora in the filename)
-   #assert len(data) == len(itos_deps), [len(data), len(itos_deps)]
    if "CoarseDependency" not in header:
      header[header.index("Dependency")] = "CoarseDependency"
    if "DH_Weight" not in header:
@@ -266,9 +216,6 @@ if model != "RANDOM":
      header[header.index("Distance_Mean_NoPunct")] = "DistanceWeight"
 
    for line in data:
-   #   print line
-#      head = line[header.index("Head")]
- #     dependent = line[header.index("Dependent")]
       dependency = line[header.index("CoarseDependency")]
       key = dependency
       dhWeights[stoi_deps[key]] = float(line[header.index("DH_Weight")])
@@ -278,81 +225,16 @@ if model != "RANDOM":
         originalCounter = int(line[header.index("Counter")])
       else:
         originalCounter = 200000
-      #originalLoss = float(line[header.index("AverageLoss")])
-
-#for i, key in enumerate(itos_deps):
-#
-#   # take from treebank, or randomize
-#   dhLogits[key] = 2*(random()-0.5)
-#   dhWeights.data[i] = dhLogits[key]
-#
-#   originalDistanceWeights[key] = random()  
-#   distanceWeights.data[i] = originalDistanceWeights[key]
-#
-
 
 words = list(vocab.iteritems())
 words = sorted(words, key = lambda x:x[1], reverse=True)
 itos = map(lambda x:x[0], words)
 stoi = dict(zip(itos, range(len(itos))))
-#print stoi
-#print itos[5]
-#print stoi[itos[5]]
 
 if len(itos) > 6:
    assert stoi[itos[5]] == 5
 
-#print dhLogits
-
-#for sentence in getNextSentence():
-#   print orderSentence(sentence, dhLogits)
-
 vocab_size = 50000
-
-
-## 0 EOS, 1 UNK, 2 BOS
-#word_embeddings = torch.nn.Embedding(num_embeddings = vocab_size+3, embedding_dim = 50).cuda()
-##pos_u_embeddings = torch.nn.Embedding(num_embeddings = len(posUni)+3, embedding_dim = 10).cuda()
-##pos_p_embeddings = torch.nn.Embedding(num_embeddings = len(posFine)+3, embedding_dim=10).cuda()
-#
-#
-#baseline = nn.Linear(50, 1).cuda()
-#
-#dropout = nn.Dropout(0.5).cuda()
-#
-#rnn = nn.LSTM(70, 128, 2).cuda()
-#for name, param in rnn.named_parameters():
-#  if 'bias' in name:
-#     nn.init.constant(param, 0.0)
-#  elif 'weight' in name:
-#     nn.init.xavier_normal(param)
-#
-#decoder = nn.Linear(128,vocab_size+3).cuda()
-##pos_ptb_decoder = nn.Linear(128,len(posFine)+3).cuda()
-#
-#components = [word_embeddings, rnn, decoder,  baseline] # pos_ptb_decoder,
-## pos_u_embeddings, pos_p_embeddings, 
-#
-#def parameters():
-# for c in components:
-#   for param in c.parameters():
-#      yield param
-## yield dhWeights
-## yield distanceWeights
-#
-##for pa in parameters():
-##  print pa
-#
-#initrange = 0.1
-#word_embeddings.weight.data.uniform_(-initrange, initrange)
-##pos_u_embeddings.weight.data.uniform_(-initrange, initrange)
-##pos_p_embeddings.weight.data.uniform_(-initrange, initrange)
-#decoder.bias.data.fill_(0)
-#decoder.weight.data.uniform_(-initrange, initrange)
-##pos_ptb_decoder.bias.data.fill_(0)
-##pos_ptb_decoder.weight.data.uniform_(-initrange, initrange)
-#baseline.bias.data.fill_(0)
-#baseline.weight.data.uniform_(-initrange, initrange)
 
 batchSize = 1
 
@@ -363,8 +245,6 @@ crossEntropy = 10.0
 
 def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
-
-#loss = torch.nn.CrossEntropyLoss(reduce=False, ignore_index = 0)
 
 
 
@@ -409,54 +289,10 @@ def doForwardPass(current):
        lossWords = 0
        policyGradientLoss = 0
        baselineLoss = 0
-       #for c in components:
-       #   c.zero_grad()
-
-       #momentum = 0.0
-       #assert momentum == 0.0 # her taking offline estimate, so no momentum
-       #for p in  [dhWeights, distanceWeights]:
-       #   if p.grad is not None:
-       #      p.grad.data = p.grad.data.mul(momentum)
-
 
        totalQuality = 0.0
 
-# (Variable(weight.new(2, bsz, self.nhid).zero_()),Variable(weight.new(self.nlayers, bsz, self.nhid).zero_()))
-#       for i in range(maxLength+1):
        if True:
-           # TODO word dropout could also be added: randomly sprinkle `1' (UNK) in the LongTensor (not into input_words -- this will also be used for the softmax!)
- #          words_layer = word_embeddings(Variable(torch.LongTensor(input_words)).cuda())
- #          #pos_u_layer = pos_u_embeddings(Variable(torch.LongTensor(input_pos_u)).cuda())
- #          #pos_p_layer = pos_p_embeddings(Variable(torch.LongTensor(input_pos_p)).cuda())
- #          inputEmbeddings = dropout(words_layer) #torch.cat([words_layer, pos_u_layer, pos_p_layer], dim=2))
-##           print hidden
- #          output, hidden = rnn(inputEmbeddings, hidden)
-##           print maxLength
- #          
-##           print inputEmbeddings
-##           print output
- #          baseline_predictions = baseline(words_layer.detach())
-
- #          # word logits
- #          word_logits = decoder(dropout(output))
- #          word_logits = word_logits.view(-1, vocab_size+3)
- #          word_softmax = logsoftmax(word_logits)
- #          word_softmax = word_softmax.view(-1, batchSize, vocab_size+3)
-
- #          # pos logits
-##           pos_logits = pos_ptb_decoder(dropout(output))
-##           pos_logits = pos_logits.view(-1, len(posFine)+3)
-##           pos_softmax = logsoftmax(pos_logits)
- ##          pos_softmax = pos_softmax.view(-1, batchSize, len(posFine)+3)
-
- #       
- #
-##           print word_logits
-##           print predictions
- #          lossesWord = [[None]*batchSize for i in range(maxLength+1)]
-#           lossesPOS = [[None]*batchSize for i in range(maxLength+1)]
-
-#           print word_logits
            totalDepLength = 0
            byType = []
            for i in range(1,len(input_words)): #range(1,maxLength+1): # don't include i==0
@@ -467,31 +303,15 @@ def doForwardPass(current):
                     else:
                        realHead = batchOrdered[j][i-1]["reordered_head"] # this starts at 1, so just right for the purposes here
                     if batchOrdered[j][i-1]["coarse_dep"] == "root":
-#                       print batchOrdered[j][i-1]
                        continue
-                    # discard punctuation
-#                    if batchOrdered[j][i-1]["dep"] == ".":
-#                       continue
-                    # to make sure reward attribution considers this correctly
-#                    registerAt = max(i, realHead)
-#                    print (i, realHead)
                     depLength = abs(i - realHead) # - 1 # to be consistent with Richard's stuff
                     assert depLength >= 1
                     totalDepLength += depLength
                     byType.append((batchOrdered[j][i-1]["coarse_dep"], depLength))
-#                    if j == 0:
- #                     print ["DECISION_PROB",batchOrdered[j][i]["relevant_logprob_sum"].data.numpy()[0] ]
                     if input_words[i] > 2 and j == 0 and printHere:
                        print [itos[input_words[i][j]-3], itos_pos_ptb[input_pos_p[i][j]-3] ]
                     wordNum += 1
 
-#       if printHere:
-#         print totalDepLength/wordNum
-##           losses = loss(predictions, input_words[i+1]) 
-##           print losses
-##    for i, sentence in enumerate(batchOrderLogits):
-##       embeddingsLayer
-#         print ["CROSS ENTROPY", crossEntropy]
        if wordNum > 0:
           crossEntropy = 0.99 * crossEntropy + 0.01 * (totalDepLength/wordNum)
        else:
@@ -500,68 +320,10 @@ def doForwardPass(current):
        return (totalDepLength, numberOfWords, byType)
 
 
-#def  doBackwardPass(loss, baselineLoss, policy_related_loss):
-#       global lastDevLoss
-#       global failedDevRuns
-#       if printHere:
-#         print "BACKWARD 1"
-#       policy_related_loss.backward()
-#       if printHere:
-#         print "BACKWARD 2"
-#
-##       loss += entropy_weight * neg_entropy
-##       loss += lr_policy * policyGradientLoss
-#
-#       loss += baselineLoss # lives on GPU
-#       loss.backward()
-#       if printHere:
-#         print "BACKWARD 3 "+my_fileName+" "+language+" "+str(myID)+" "+str(counter)+" "+str(lastDevLoss)+" "+str(failedDevRuns)
-#         print devLosses
-#       torch.nn.utils.clip_grad_norm(parameters(), 5.0, norm_type='inf')
-#       for param in parameters():
-#         #print "UPDATING"
-#         if param.grad is None:
-#           print "WARNING: None gradient"
-#           continue
-#         param.data.sub_(lr_lm * param.grad.data)
-#        
-#       dhGradients_WSurp.append(dhWeights.grad.data.numpy())
-#       distanceGradients_WSurp.append(distanceWeights.grad.data.numpy())
-
-
-
-
-#def computeDevLoss():
-#   global printHere
-#   global counter
-#   devLoss = 0.0
-#   devWords = 0
-#   corpusDev = CorpusIteratorFuncHead(language,"dev").iterator()
-#   while True:
-#     try:
-#        batch = map(lambda x:next(corpusDev), 10*range(batchSize))
-#     except StopIteration:
-#        break
-#     batch = sorted(batch, key=len)
-#     partitions = range(10)
-#     shuffle(partitions)
-#     for partition in partitions:
-#        counter += 1
-#        printHere = (counter % 5 == 0)
-#        current = batch[partition*batchSize:(partition+1)*batchSize]
-# 
-#        _, _, _, newLoss, newWords = doForwardPass(current)
-#        devLoss += newLoss
-#        devWords += newWords
-#   return devLoss/devWords
-
-#dhGradients_WSurp = deque(maxlen=50000) # * corpus.length())
-#distanceGradients_WSurp = deque(maxlen=50000) # * corpus.length())
 
 assert batchSize == 1
 
 depLengths = []
-#while True:
 if True:
   corpus = CorpusIteratorFuncHead(language,"train")
   corpusIterator = corpus.iterator()
@@ -585,44 +347,12 @@ if True:
        depLengths.append(depLength)
        if counter % 100 == 0:
           print  "Average dep length "+str(sum(map(lambda x:x[0], depLengths))/float(len(depLengths)))+" "+str(counter)+" "+str(float(counter)/corpus.length())+"%"
-#       doBackwardPass(loss, baselineLoss, policy_related_loss)
 
 
-#       if counter % 20 == 0:
-#          dhGradients_WSurp_mean = sum([x for x in dhGradients_WSurp])/len(dhGradients_WSurp) # deque(maxlen=corpus.length())
-#          distanceGradients_WSurp_mean = sum([x for x in distanceGradients_WSurp])/len(distanceGradients_WSurp)
-#
-#
-#          print "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss","Head","D_WordSurp_DH_Weight","Dependency","Dependent","D_WordSurp_DistanceWeight", "ObjectiveName"]))
-#          for i in range(len(itos_deps)):
-#             key = itos_deps[i]
-#             dhWeight = dhGradients_WSurp_mean[i]
-#             distanceWeight = distanceGradients_WSurp_mean[i]
-#             head, dependency, dependent = key
-#             print "\t".join(map(str,[myID, my_fileName, counter, crossEntropy, head, dhWeight, dependency, dependent, distanceWeight, entropy_weight, objectiveName]))
-
-
-
-
-#       if counter % 10000 == 0:
-#          newDevLoss = computeDevLoss()
-#          devLosses.append(newDevLoss)
-#          print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
-#          if lastDevLoss is None or newDevLoss < lastDevLoss:
-#             lastDevLoss = newDevLoss
-#             failedDevRuns = 0
-#          else:
-#             failedDevRuns += 1
-#             print "Skip saving, hoping for better model"
-#             lr_lm *= 0.5
-#             continue
 
 if True:
           print "Saving"
-          save_path = "/juicier/scr120/scr/mhahn/deps/"
-          #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
-#          dhGradients_WSurp_mean = sum([x for x in dhGradients_WSurp])/len(dhGradients_WSurp) # deque(maxlen=corpus.length())
-#          distanceGradients_WSurp_mean = sum([x for x in distanceGradients_WSurp])/len(distanceGradients_WSurp)
+          save_path = "../../raw-results/"
 
           with open(save_path+"/dependency_length/summaries/"+language+"_"+my_fileName+"_model_"+str(myID)+"_"+model+"_SHORT.tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["Language", "FileName","ModelName","Counter", "Model", "Temperature", "OriginalCounter", "AverageLengthPerWord", "AverageLengthPerSentence", "OriginalLoss"]))
@@ -644,19 +374,6 @@ if True:
   
 
 
-#          print "Stopping after 10000 sentences"
           quit()
 
-#dhWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-#distanceWeights = Variable(torch.FloatTensor([0.0] * len(itos_deps)), requires_grad=True)
-#for i, key in enumerate(itos_deps):
-#
-#   # take from treebank, or randomize
-#   dhLogits[key] = 2*(random()-0.5)
-#   dhWeights.data[i] = dhLogits[key]
-#
-#   originalDistanceWeights[key] = random()  
-#   distanceWeights.data[i] = originalDistanceWeights[key]
-#
-#
-#
+
