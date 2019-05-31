@@ -3,7 +3,7 @@ dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "com
 
 dependencies =  c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
 
-data = read.csv("../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
 
@@ -17,7 +17,7 @@ data = data %>% mutate(DH_Weight = DH_Mean_NoPunct)
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
 
-languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
+languages = read.csv("../../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -112,7 +112,7 @@ data2 = data2 %>% mutate(Dependency = case_when(Dependency == "liftedcase" ~ "li
 data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalence, TRUE ~ Prevalence))
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) +  facet_wrap( ~ Dependency, ncol=1) 
-  ggsave(plot, file=paste("figures/posterior_joint_large" , ".pdf", sep=""))
+  ggsave(plot, file=paste("../figures/posterior_joint_large" , ".pdf", sep=""))
 
 
 
@@ -123,7 +123,7 @@ data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalen
 
 
   plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) 
-  ggsave(plot, file=paste("figures/posterior_joint_with_ud_large" , ".pdf", sep=""))
+  ggsave(plot, file=paste("../figures/posterior_joint_with_ud_large" , ".pdf", sep=""))
 
 #  plot = ggplot(data=data2) + geom_density(aes(x=Prevalence, y=..scaled.., fill=Type, group=Type), alpha=.5) + xlim(0,1) + geom_bar(data=D, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type)) + facet_wrap( ~ Dependency, ncol=1) + geom_bar(data=E, stat="identity", width = 0.01, aes(x=Agree, y=1, fill=Type, group=Type))
 #  ggsave(plot, file=paste("posterior/posterior_joint_with_ud_balanced" , ".pdf", sep=""))
@@ -150,7 +150,7 @@ for(type in c("Efficiency", "Predictability", "Parseability")) {
      plot = plot + theme_void()
      plot = plot  + theme(legend.position="none")
      plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
-     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+     ggsave(paste("../figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
   }
 }
 
@@ -164,8 +164,7 @@ type = "Real"
      plot = plot  + theme(legend.position="none")
      plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
      plot = plot + theme(axis.line.x = element_line(colour = "black"))
-#     plot = plot + theme(panel.border = element_rect(colour = "black", fill=NA, size=1))
-     ggsave(paste("figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+     ggsave(paste("../figures/posteriors/posterior_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
   }
 
 

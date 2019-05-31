@@ -6,7 +6,7 @@ dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "com
 
 dependencies =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
-data = read.csv("../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
 
@@ -20,7 +20,7 @@ data = data %>% mutate(DH_Weight = DH_Mean_NoPunct)
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
 
-languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
+languages = read.csv("../../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -126,7 +126,7 @@ plot = plot + theme(text = element_text(size=14),
         axis.text.x = element_text(angle=90, hjust=1)) 
 plot = plot + theme(legend.position="none")
 
-ggsave(plot=plot, filename="figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf", width=3, height=3)
+ggsave(plot=plot, filename="../figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf", width=3, height=3)
 
 
 

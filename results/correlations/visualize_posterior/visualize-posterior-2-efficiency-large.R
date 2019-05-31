@@ -39,7 +39,7 @@ plot = plot + theme(text = element_text(size=14),
         axis.text.x = element_text(angle=90, hjust=1)) 
 plot = plot + theme(legend.position="none")
 
-ggsave(plot=plot, filename="figures/posterior-satisfied-universals-efficiency-large.pdf", width=3, height=3)
+ggsave(plot=plot, filename="../figures/posterior-satisfied-universals-efficiency-large.pdf", width=3, height=3)
 
 
 

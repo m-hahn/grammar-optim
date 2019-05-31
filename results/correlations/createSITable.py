@@ -1,3 +1,5 @@
+# Creates source for per-relation results tables in the SI.
+
 with open("../relations.tsv", "r") as inFile:
    rels = [x.strip() for x in inFile.read().strip().split("\n")]
 for x in rels:

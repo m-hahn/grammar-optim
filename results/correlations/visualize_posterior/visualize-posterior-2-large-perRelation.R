@@ -1,5 +1,5 @@
 
-data = read.csv("../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+data = read.csv("../../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
 
@@ -13,7 +13,7 @@ data = data %>% mutate(DH_Weight = DH_Mean_NoPunct)
 library(forcats)
 data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
 
-languages = read.csv("../languages/languages-iso_codes.tsv", sep=",")
+languages = read.csv("../../languages/languages-iso_codes.tsv", sep=",")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 
 
@@ -80,21 +80,6 @@ library(tidyr)
 library(ggplot2)
 
 
-#
-#
-#data = rbind(langmod %>% mutate(Type="Predictability"), parse %>% mutate(Type="Parseability"), two %>% mutate(Type="Efficiency"))
-#
-#data2 = data %>% gather(Dependency, Intercept, b_acl_Intercept,b_advmod_Intercept                                   ,b_aux_Intercept                                       ,  b_liftedcase_Intercept,b_liftedcop_Intercept  ,                                 b_liftedmark_Intercept  ,                                b_nmod_Intercept         ,                               b_nsubj_Intercept         ,                              b_obl_Intercept            ,                             b_xcomp_Intercept           )
-#
-#data2 = data2 %>% mutate(Prevalence = 1/(1+exp(-Intercept)))
-#
-#data2 = data2 %>% mutate(Dependency = substring(Dependency,3, nchar(Dependency)-10))
-#data2 = data2 %>% mutate(Dependency = case_when(Dependency == "liftedcase" ~ "lifted_case", Dependency == "liftedcop" ~ "lifted_cop", Dependency == "liftedmark" ~ "lifted_mark", TRUE ~ Dependency))
-#
-#data2 = data2 %>% mutate(Prevalence = case_when(Dependency == "aux" ~ 1-Prevalence, TRUE ~ Prevalence))
-#
-
-
 
 type = "Efficiency"
 dependency = "acl"
@@ -126,7 +111,7 @@ for(type in c("Efficiency", "Predictability", "Parseability", "DependencyLength"
      plot = plot + theme_void()
      plot = plot  + theme(legend.position="none")
      plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
-     ggsave(paste("figures/posteriors/posterior_perRelation_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+     ggsave(paste("../figures/posteriors/posterior_perRelation_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
   }
 }
 
@@ -151,7 +136,7 @@ data = D %>% filter(Dependency==dependency)
    plot = plot  + theme(legend.position="none")
    plot = plot + geom_segment(aes(x=0.5, xend=0.5, y=0, yend=1), linetype=2)
    plot = plot + theme(axis.line.x = element_line(colour = "black"))
-   ggsave(paste("figures/posteriors/posterior_perRelation_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
+   ggsave(paste("../figures/posteriors/posterior_perRelation_", type, "_", dependency, ".pdf", sep=""), plot=plot, height=1, width=2)
 }
 
 

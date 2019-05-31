@@ -1,4 +1,4 @@
-# tiles-real_eff_large-byObj-restricted-viz-pred-allThree.R
+source("../tiles-real_eff_large-byObj-restricted-viz-pred-large-all8.R")
 
 
 
@@ -47,35 +47,6 @@ plot_orders_eff = ggplot(D %>% filter(Type == "Efficiency"), aes(x = 1, y = Lang
   scale_x_continuous(breaks = NULL) +
   scale_y_continuous(breaks = NULL)
 
-plot_orders_surp = ggplot(D %>% filter(Type == "Predictability"), aes(x = 1, y = LanguageNumeric+yOffset, group=CoarseDependency)) + 
-  geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
-#  scale_color_gradient() + #values=c("blue", "green")) +
-  theme_classic() +
- theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_blank(),axis.ticks=element_blank(),
-                     plot.title=element_text(size=11)) +
-  theme(axis.title=element_blank()) + 
-  theme(legend.position="none") + labs(x=NULL) +
-  scale_x_continuous(breaks = NULL) +
-  scale_y_continuous(breaks = NULL)
-
-plot_orders_pars = ggplot(D %>% filter(Type == "Parseability"), aes(x = 1, y = LanguageNumeric+yOffset, group=CoarseDependency)) + 
-  geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
-#  scale_color_gradient() + #values=c("blue", "green")) +
-  theme_classic() +
- theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-                     axis.text.y=element_blank(),axis.ticks=element_blank(),
-                     plot.title=element_text(size=11)) +
-  theme(axis.title=element_blank()) + 
-  theme(legend.position="none") + labs(x=NULL) +
-  scale_x_continuous(breaks = NULL) +
-  scale_y_continuous(breaks = NULL)
-
-
-
-
-
-
 plot_langs = ggplot(DLang) 
 plot_langs = plot_langs +  theme_classic() 
 plot_langs = plot_langs + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
@@ -95,12 +66,10 @@ plot_langs = plot_langs + theme(panel.grid.major = element_blank(), panel.grid.m
 library("gridExtra")
 plot_orders_real = plot_orders_real + theme(                    plot.margin=unit(c(0,0,0,0), "mm"))
 plot_orders_eff = plot_orders_eff + theme(                    plot.margin=unit(c(0,0,0,0), "mm"))
-plot_orders_surp = plot_orders_surp + theme(                    plot.margin=unit(c(0,0,0,0), "mm"))
-plot_orders_pars = plot_orders_pars + theme(                    plot.margin=unit(c(0,0,0,0), "mm"))
 
 
-plot = grid.arrange(plot_langs, plot_orders_real, plot_orders_eff, plot_orders_surp, plot_orders_pars, nrow=1, widths=c(1, 1.2, 1.2, 1.2, 1.2))
-ggsave(plot=plot, "figures/pred-eff-pred-pars-families.pdf", width=6, height=8)
+plot = grid.arrange(plot_langs, plot_orders_real, plot_orders_eff, nrow=1, widths=c(1, 1.2, 1.2))
+ggsave(plot=plot, "../figures/pred-eff-families-all8.pdf", width=4, height=8)
 
 #plot1 = ggplot(DLang)
 #plot2 = ggplot(DLang) + annotate("text", label="Real")
@@ -113,38 +82,35 @@ ggsave(plot=plot, "figures/pred-eff-pred-pars-families.pdf", width=6, height=8)
 
 plot_langs2 = plot_langs + annotate("text", label="", x=1, y=58.5, size=6)
 
+
+
+
+
 plot_orders_real2 = plot_orders_real + annotate("text", label="Real", x=1, y=58.5, size=6)
 plot_orders_real2 = plot_orders_real2 + geom_point(data=data.frame(num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=NA, y=56.7, colour=NA, fill=NA), color="black", fill=NA, size=4.5, shape=21)
 plot_orders_real2 = plot_orders_real2 + geom_text(data=data.frame(CoarseDependency=unique(D$CoarseDependency), num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=CoarseDependency, y=56.55, label=as.character(num)))
 plot_orders_real2
 
-plot_orders_eff2 = plot_orders_eff + annotate("text", label="Efficiency", x=1, y=58.5, size=5)
+
+
+plot_orders_eff2 = plot_orders_eff + annotate("text", label="Optimized", x=1, y=58.5, size=6)
 plot_orders_eff2 = plot_orders_eff2 + geom_point(data=data.frame(num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=NA, y=56.7, colour=NA, fill=NA), color="black", fill=NA, size=4.5, shape=21)
 plot_orders_eff2 = plot_orders_eff2 + geom_text(data=data.frame(CoarseDependency=unique(D$CoarseDependency), num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=CoarseDependency, y=56.55, label=as.character(num)))
 plot_orders_eff2
 
-plot_orders_surp2 = plot_orders_surp + annotate("text", label="Predictability", x=1, y=58.5, size=5)
-plot_orders_surp2 = plot_orders_surp2 + geom_point(data=data.frame(num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=NA, y=56.7, colour=NA, fill=NA), color="black", fill=NA, size=4.5, shape=21)
-plot_orders_surp2 = plot_orders_surp2 + geom_text(data=data.frame(CoarseDependency=unique(D$CoarseDependency), num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=CoarseDependency, y=56.55, label=as.character(num)))
-plot_orders_surp2
-
-plot_orders_pars2 = plot_orders_pars + annotate("text", label="Parseability", x=1, y=58.5, size=5)
-plot_orders_pars2 = plot_orders_pars2 + geom_point(data=data.frame(num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=NA, y=56.7, colour=NA, fill=NA), color="black", fill=NA, size=4.5, shape=21)
-plot_orders_pars2 = plot_orders_pars2 + geom_text(data=data.frame(CoarseDependency=unique(D$CoarseDependency), num=c(1,2,3,4,5,6,7,8)), aes(x=0.25 * num - 0.12, group=CoarseDependency, y=56.55, label=as.character(num)))
-plot_orders_pars2
 
 
-plot = grid.arrange(plot_langs2, plot_orders_real2, plot_orders_eff2, plot_orders_surp2, plot_orders_pars2, nrow=1, widths=c(1, 1.2, 1.2, 1.2, 1.2))
+
+plot = grid.arrange(plot_langs2, plot_orders_real2, plot_orders_eff2, nrow=1, widths=c(1, 1.2, 1.2))
 plot
 
-ggsave(plot=plot, "figures/pred-eff-pred-pars-families-2.pdf", width=6, height=8)
 
 
 
 
-D2 = (D %>% select(Family, Language, CoarseDependency, DirB, Type) %>% spread(Type, DirB) %>% rename(Real = 'Real Languages') %>% rename(Predicted = Efficiency))
 
-D2$Agree = (D2$Real == D2$Predicted)
-#summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
-mean(D2$Agree)
+
+
+
+ggsave(plot=plot, "../figures/pred-eff-families-2-all8.pdf", width=4, height=8)
 

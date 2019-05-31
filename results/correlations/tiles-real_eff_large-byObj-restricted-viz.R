@@ -74,27 +74,4 @@ D$Language_Ordered = factor(D$Language, levels=unique(D_Ground_Mean[order(D_Grou
 
 D = D[order(D$Language_Ordered),]
 
-#plot = ggplot(D %>% filter(Type == "Efficiency"), aes(x =Family , y = Language_Ordered)) + 
-#  geom_point(aes(fill=DirB, colour = DirB, size =1)) +
-##  scale_color_gradient() + #values=c("blue", "green")) +
-#  theme_bw() + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-#                     axis.text.y=element_text(size=9),
-#                     plot.title=element_text(size=11)) +
-#  theme(axis.title=element_blank()) + 
-#  theme(legend.position="none") #+ facet_grid(~Family) 
-#ggsave(file="test1.pdf")
-#
-#
-#plot = ggplot(D %>% filter(Type == "Real Languages"), aes(x = Family, y = Language_Ordered)) + 
-#  geom_point(aes(fill=DirB, colour = DirB, size =1)) +
-##  scale_color_gradient() + #values=c("blue", "green")) +
-#  theme_bw() + theme(axis.text.x=element_blank(), #element_text(size=9, angle=0, vjust=0.3),
-#                     axis.text.y=element_text(size=9),
-#                     plot.title=element_text(size=11)) +
-#  theme(axis.title=element_blank()) + 
-#  theme(legend.position="none") #+ facet_grid(~Family) 
-#ggsave(file="test2.pdf")
-#
-##ggsave(file="figures/coverage-ground_eff-byObj-circles-viz.pdf", plot=plot)
-#
-#
+
