@@ -1,32 +1,21 @@
-#echo -e "Language\tModel\tType\tUAS\tPars" > ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_two_coarse_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_two_coarse_parser_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_langmod_coarse_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py REAL_REAL >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_langmod_coarse_tuning >> ~/scr/deps/plane-parse.tsv
-
 
 
 
 import os
 import sys
 
-#print("manual_output_funchead_two_coarse_final")
-#print("manual_output_funchead_two_coarse_parser_final")
 
 
 dirs = []
 dirs.append("manual_output_funchead_two_coarse_final")
 dirs.append("manual_output_funchead_two_coarse_parser_final")
 dirs.append("manual_output_funchead_langmod_coarse_final")
-dirs.append("REAL_REAL")
-dirs.append("manual_output_funchead_langmod_coarse_tuning")
 dirs.append("manual_output_funchead_RANDOM")
 dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
 
 
-with open("/u/scr/mhahn/deps/plane-parse.tsv", "w") as outFile:
+with open("../../grammars/plane/plane-parse.tsv", "w") as outFile:
   print >> outFile, "Language\tModel\tType\tUAS\tPars"
   for BASE_DIR in dirs:
     
@@ -43,7 +32,7 @@ with open("/u/scr/mhahn/deps/plane-parse.tsv", "w") as outFile:
    import sys
    
    modelNumbers = None
-   if BASE_DIR in ["REAL_REAL", "RANDOM"]:
+   if BASE_DIR in ["RANDOM"]:
       modelsProcessed = []
       for language in languages:
          modelsProcessed.append((language, BASE_DIR))
