@@ -1,29 +1,15 @@
-#echo -e "Language\tModel\tType\tSurp" > ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_two_coarse_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_two_coarse_parser_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_langmod_coarse_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py REAL_REAL >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_langmod_coarse_tuning >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_RANDOM >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_coarse_depl >> ~/scr/deps/plane-fixed.tsv
-
-
+# Preregistration for these optimized grammars: http://aspredicted.org/blind.php?x=ya4qf8
 
 
 import os
 import sys
 
-#print("manual_output_funchead_two_coarse_final")
-#print("manual_output_funchead_two_coarse_parser_final")
-
 
 dirs = []
 dirs.append("manual_output_funchead_two_coarse_lambda09_best_large")
-#dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
-#dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
 
-
-with open("/u/scr/mhahn/deps/plane-fixed-best-large.tsv", "w") as outFile:
+outPath = "../../grammars/plane/plane-fixed-best-large.tsv"
+with open(outPath, "w") as outFile:
   print >> outFile, "Language\tModel\tType\tSurp\tFullSurp"
   for BASE_DIR in dirs:
     found = 0
@@ -31,14 +17,6 @@ with open("/u/scr/mhahn/deps/plane-fixed-best-large.tsv", "w") as outFile:
     
     languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chinese", "Slovenian", "Estonian", "Norwegian", "Serbian", "Croatian", "Finnish", "Portuguese", "Catalan", "Russian", "Arabic", "Czech", "Japanese", "French", "Latvian", "Basque", "Danish", "Dutch", "Ukrainian", "Gothic", "Hebrew", "Hungarian", "Latin", "Persian", "Bulgarian", "Romanian", "Indonesian", "Greek", "Turkish", "Slovak", "Belarusian", "Galician", "Italian", "Lithuanian", "Polish", "Vietnamese", "Korean", "Tamil", "Irish", "Marathi", "Afrikaans", "Telugu", "Coptic", "Ancient_Greek", "Old_Church_Slavonic"]
     assert len(languages) == 51, len(languages)
-    #else:
-    #   languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chinese", "Slovenian", "Estonian", "Norwegian", "Serbian", "Croatian", "Finnish", "Portuguese", "Catalan", "Russian", "Arabic", "Czech", "Japanese", "French", "Latvian", "Basque", "Danish", "Dutch", "Ukrainian", "Gothic", "Hebrew", "Hungarian", "Latin", "Persian", "Bulgarian", "Romanian", "Indonesian", "Greek", "Turkish", "Slovak", "Belarusian", "Galician", "Italian", "Lithuanian", "Polish", "Vietnamese", "Kazakh", "Korean", "Tamil", "Irish", "Marathi", "Afrikaans", "Telugu", "Coptic"]
-    #
-    #if len(sys.argv) > 2:
-    #  modelNumbers = sys.argv[2].split(",")
-    #else:
-    #  modelNumbers = None
-    #
     
     import os
     
@@ -106,9 +84,8 @@ with open("/u/scr/mhahn/deps/plane-fixed-best-large.tsv", "w") as outFile:
     import os
     
     
-    #print(parsingDone)
     
-    planePath = "/u/scr/mhahn/deps/language_modeling_coarse_plane_fixed/"
+    planePath = "../../raw-results/language_modeling_coarse_plane_fixed/"
     
     if True:
       existingFiles = os.listdir(planePath)
@@ -137,6 +114,5 @@ with open("/u/scr/mhahn/deps/plane-fixed-best-large.tsv", "w") as outFile:
                      continue
                   found+=1
                   print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2]]))
-    #print("Done", done, "out of", 51*8)
     print([BASE_DIR, found])
-print("/u/scr/mhahn/deps/plane-fixed-best-large.tsv")
+print(outPath)

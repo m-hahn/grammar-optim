@@ -281,7 +281,7 @@ assert model is not "RANDOM", "I think this shouldn't happen"
 
 if model not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] and model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "/u/scr/mhahn/deps/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -719,7 +719,7 @@ while True:
 
          computeDevLoss()
 
-         with open("/juicier/scr120/scr/mhahn/deps/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
+         with open("../../../raw-results/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
               print >> outFile, " ".join(names)
               print >> outFile, " ".join(map(str,params))
               print >> outFile, " ".join(map(str,devLosses))

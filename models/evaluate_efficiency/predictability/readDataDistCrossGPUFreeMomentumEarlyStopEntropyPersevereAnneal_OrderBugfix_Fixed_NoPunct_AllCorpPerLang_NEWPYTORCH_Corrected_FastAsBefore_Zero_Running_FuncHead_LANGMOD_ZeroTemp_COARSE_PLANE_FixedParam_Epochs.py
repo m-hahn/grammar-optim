@@ -24,7 +24,7 @@ myID = random.randint(0,10000000)
 
 FILENAME = "dotdotdot_COARSE_PLANE_noise.py"
 
-with open("/juicier/scr120/scr/mhahn/deps/LOG"+language+"_"+FILENAME+"_model_"+str(myID)+".txt", "w") as outFile:
+with open("../../../raw-results/LOG"+language+"_"+FILENAME+"_model_"+str(myID)+".txt", "w") as outFile:
     print >> outFile, " ".join(sys.argv)
 
 
@@ -228,7 +228,7 @@ import os
 
 if model != "RANDOM" and model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "/u/scr/mhahn/deps/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -255,7 +255,7 @@ if model != "RANDOM" and model != "REAL_REAL":
       distanceWeights[stoi_deps[key]] = temperature*float(line[header.index("DistanceWeight")])
 elif model == "RANDOM":
    assert BASE_DIR == "RANDOM"
-   save_path = "/juicier/scr120/scr/mhahn/deps/"
+   save_path = "../../../raw-results/"
    with open(save_path+"/manual_output_funchead_RANDOM/"+language+"_"+"RANDOM"+"_model_"+str(myID)+".tsv", "w") as outFile:
       print >> outFile, "\t".join(map(str,["FileName","DH_Weight", "CoarseDependency","DistanceWeight" ]))
       for i in range(len(itos_deps)):
@@ -545,7 +545,7 @@ while True:
           devLossesPOS.append(newDevLossPOS)
           print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
           print "Saving"
-          save_path = "/u/scr/mhahn/deps/"
+          save_path = "../../../raw-results/"
           with open(save_path+"/language_modeling_coarse_plane_fixed/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, language
              print >> outFile, "\t".join(map(str, devLosses))

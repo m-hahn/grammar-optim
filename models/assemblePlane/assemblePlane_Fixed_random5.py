@@ -22,8 +22,8 @@ dirs.append("manual_output_funchead_RANDOM5")
 #dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
 #dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
 
-
-with open("/u/scr/mhahn/deps/plane-fixed-random5.tsv", "w") as outFile:
+outPath = "../../grammars/plane/plane-fixed-random5.tsv"
+with open(outPath, "w") as outFile:
   print >> outFile, "Language\tModel\tType\tSurp\tFullSurp"
   for BASE_DIR in dirs:
     found = 0
@@ -57,7 +57,7 @@ with open("/u/scr/mhahn/deps/plane-fixed-random5.tsv", "w") as outFile:
     else:   
        languages = None
        
-       models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+       models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
        modelsProcessed = []
        for i in range(len(models)):
          if "ground" in BASE_DIR:
@@ -108,7 +108,7 @@ with open("/u/scr/mhahn/deps/plane-fixed-random5.tsv", "w") as outFile:
     
     #print(parsingDone)
     
-    planePath = "/u/scr/mhahn/deps/language_modeling_coarse_plane_fixed/"
+    planePath = "../../raw-results/language_modeling_coarse_plane_fixed/"
     
     if True:
       existingFiles = sorted(os.listdir(planePath))
@@ -139,4 +139,4 @@ with open("/u/scr/mhahn/deps/plane-fixed-random5.tsv", "w") as outFile:
                   print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2]]))
     #print("Done", done, "out of", 51*8)
     print([BASE_DIR, found])
-print("/u/scr/mhahn/deps/plane-fixed-random5.tsv")
+print(outPath)

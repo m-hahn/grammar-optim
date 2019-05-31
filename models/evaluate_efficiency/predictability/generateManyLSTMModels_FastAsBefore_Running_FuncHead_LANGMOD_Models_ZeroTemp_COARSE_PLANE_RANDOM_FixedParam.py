@@ -37,7 +37,7 @@ scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_Orde
 failures = 0
 
 while failures < 200:
-  existingFiles = os.listdir("/u/scr/mhahn/deps/language_modeling_coarse_plane_fixed")
+  existingFiles = os.listdir("../../../raw-results/language_modeling_coarse_plane_fixed")
   script = random.choice(scripts) #scripts[0] if random.random() < 0.8 else scripts[1]
   language, model = random.choice(models)
   if languages is not None and language not in languages:

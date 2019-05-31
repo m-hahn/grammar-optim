@@ -1,6 +1,3 @@
-
-
-
 import os
 import sys
 
@@ -14,8 +11,8 @@ dirs.append("manual_output_funchead_RANDOM")
 dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
 
-
-with open("../../grammars/plane/plane-parse.tsv", "w") as outFile:
+outPath = "../../grammars/plane/plane-parse.tsv"
+with open(outPath, "w") as outFile:
   print >> outFile, "Language\tModel\tType\tUAS\tPars"
   for BASE_DIR in dirs:
     
@@ -40,7 +37,7 @@ with open("../../grammars/plane/plane-parse.tsv", "w") as outFile:
    else:   
       languages = None
       
-      models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+      models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
       modelsProcessed = []
       for i in range(len(models)):
          if "ground" in BASE_DIR:
@@ -78,7 +75,7 @@ with open("../../grammars/plane/plane-parse.tsv", "w") as outFile:
    import os
    
    
-   planePath = "/u/scr/mhahn/deps/parsing-upos/"
+   planePath = "../../raw-results/parsing-upos/"
    
    if True:
      existingFiles = os.listdir(planePath)
@@ -99,4 +96,4 @@ with open("../../grammars/plane/plane-parse.tsv", "w") as outFile:
                  if float(data[0][-1]) < float(data[0][-2]):
                     continue
                  print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2]]))
-   #print("Done", done, "out of", 51*8)
+print(outPath)

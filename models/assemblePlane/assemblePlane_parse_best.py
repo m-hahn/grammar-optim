@@ -1,18 +1,6 @@
-#echo -e "Language\tModel\tType\tUAS\tPars" > ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_two_coarse_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_two_coarse_parser_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_langmod_coarse_final >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py REAL_REAL >> ~/scr/deps/plane-parse.tsv
-#./python27 assemblePlane_parse.py manual_output_funchead_langmod_coarse_tuning >> ~/scr/deps/plane-parse.tsv
-
-
-
-
 import os
 import sys
 
-#print("manual_output_funchead_two_coarse_final")
-#print("manual_output_funchead_two_coarse_parser_final")
 
 
 dirs = []
@@ -20,8 +8,8 @@ dirs.append("manual_output_funchead_two_coarse_lambda09_best_balanced")
 dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
 dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
 
-
-with open("/u/scr/mhahn/deps/plane-parse-best.tsv", "w") as outFile:
+outPath = "../../grammars/plane/plane-parse-best.tsv"
+with open(outPath, "w") as outFile:
   print >> outFile, "Language\tModel\tType\tUAS\tPars"
   for BASE_DIR in dirs:
     
@@ -46,7 +34,7 @@ with open("/u/scr/mhahn/deps/plane-parse-best.tsv", "w") as outFile:
    else:   
       languages = None
       
-      models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+      models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
       modelsProcessed = []
       for i in range(len(models)):
          if "ground" in BASE_DIR:
@@ -84,7 +72,7 @@ with open("/u/scr/mhahn/deps/plane-parse-best.tsv", "w") as outFile:
    import os
    
    
-   planePath = "/u/scr/mhahn/deps/parsing-upos/"
+   planePath = "../../raw-results/parsing-upos/"
    
    if True:
      existingFiles = os.listdir(planePath)
@@ -105,4 +93,4 @@ with open("/u/scr/mhahn/deps/plane-parse-best.tsv", "w") as outFile:
                  if float(data[0][-1]) < float(data[0][-2]):
                     continue
                  print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2]]))
-   #print("Done", done, "out of", 51*8)
+

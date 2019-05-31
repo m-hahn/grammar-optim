@@ -39,7 +39,7 @@ if listPath is not None:
 if BASE_DIR == "REAL_REAL":
    models = [(language, "REAL_REAL") for language in languages]
 else:
-   models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+   models =[x for x in  os.listdir("../../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
    modelsProcessed = []
    for i in range(len(models)):
 
@@ -81,7 +81,7 @@ print(modelNumbers)
 models = [model for model in models if len(model) == 2]
 
 import os
-parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("/u/scr/mhahn/deps/parsing_coarse_plane/") if "ZeroTemp" in x]
+parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../../raw-results/parsing_coarse_plane/") if "ZeroTemp" in x]
 
 
 script = "readDataDistEnglishGPUFreeParsingUnbiasedEntropy_Fixed_REAL_Fast_Broad_Config_Dev_Labeled_MLP_Batch_ContentOnly_Controlled_Reinforce_AllWords_Zero_FuncHead_PARSING_ZeroTemp_COARSE_PLANE_Epochs.py"
@@ -95,28 +95,16 @@ if listPath is None:
    relevantModels = models
 
 while failures < 300:
-  existingFiles = os.listdir("/u/scr/mhahn/deps/parsing-upos/")
-#  script = random.choice(scripts) #scripts[0] if random.random() < 0.8 else scripts[1]
+  existingFiles = os.listdir("../../../raw-results/parsing-upos/")
   language, model = random.choice(relevantModels)
- # if language not in ["Ancient_Greek", "Old_Church_Slavonic"]:
-#     continue
   if languages is not None and language not in languages:
       continue
- # print(existingFiles)
-#  print(model)
   existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
-#  assert ((1.0/(1+len(existing)))) > 0
   if len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))):
      print("Language model for this model exists "+str(((1.0/(1+len(existing))))))
      failures += 1
      continue
   failures = 0
-#  quit()
-#  existing = [x for x in existingFiles if x.startswith(language)]
-#  if len(existing) > 5:
-#    if random.random() > 0.3:
-#        print("Skipping "+language)
-#        continue
   lr_policy = random.choice([0.002, 0.001, 0.001, 0.0005, 0.0005, 0.0005]) #random.choice([0.01, 0.001])
   entropy_weight = random.choice([1.0, 0.1, 0.01, 0.001, 0.001, 0.001, 0.0001])
   
@@ -127,6 +115,5 @@ while failures < 300:
 
   command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script, language, "NONE"] + parameters + [max_updates, model, BASE_DIR]) 
   print " ".join(command)
-  #quit()
   subprocess.call(command)
  

@@ -30,7 +30,7 @@ if listPath is not None:
    assert all([x[typeIndex] == BASE_DIR for x in relevantModels[1:]]), [x[typeIndex] for x in relevantModels[1:]]
    relevantModels = [(x[languageIndex], x[modelIndex]) for x in relevantModels[1:]]
 
-models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+models =[x for x in  os.listdir("../../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
 modelsProcessed = []
 for i in range(len(models)):
    if "ground" in BASE_DIR:
@@ -66,13 +66,12 @@ scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_Orde
 failures = 0
 
 while failures < 200:
-  existingFiles = os.listdir("/u/scr/mhahn/deps/language_modeling_coarse_plane_fixed")
+  existingFiles = os.listdir("../../../raw-results//language_modeling_coarse_plane_fixed")
   script = random.choice(scripts) #scripts[0] if random.random() < 0.8 else scripts[1]
   language, model = random.choice(relevantModels)
   if languages is not None and language not in languages:
       continue
   existing = [x for x in existingFiles if x.startswith(language) and "_"+model+"_" in x]
-#  assert ((1.0/(1+len(existing)))) > 0
   if len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))):
      print(existing)
      print("Language model for this model exists "+str(((1.0/(1+len(existing))))))
@@ -92,17 +91,7 @@ while failures < 200:
   lr_lm = random.choice([0.1])
   batchSize = random.choice([1])
   command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script, language, "L", entropy_weight, lr_policy, momentum, lr_baseline, dropout_prob, lr_lm, batchSize, model, BASE_DIR])
-  #print " ".join(command)
-  #quit()
   subprocess.call(command)
-
-
-# test for variance across random initializations:
-#./python27 readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE_FixedParam.py English L 0.001 0.1 0.9 1.0 0.3 0.1 1 3516168 manual_output_funchead_langmod_coarse_final
-
-#./python27 readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE_FixedParam.py English L 0.001 0.1 0.9 1.0 0.3 0.1 1 2138590 manual_output_funchead_RANDOM
-
-
 
 
  
