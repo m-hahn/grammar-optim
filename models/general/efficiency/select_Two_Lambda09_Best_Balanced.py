@@ -1,4 +1,3 @@
-# /u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7 generateManyModels_AllTwo.py
 import os
 import sys
 
@@ -8,8 +7,8 @@ languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chines
 import random
 import subprocess
 
-relevantPathFrom = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_lambda09_best/"
-relevantPathTo = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_lambda09_best_balanced/"
+relevantPathFrom = "../../../raw-results/manual_output_funchead_two_coarse_lambda09_best/"
+relevantPathTo = "../../../raw-results/manual_output_funchead_two_coarse_lambda09_best_balanced/"
 
 from shutil import copyfile
 for language in languages:

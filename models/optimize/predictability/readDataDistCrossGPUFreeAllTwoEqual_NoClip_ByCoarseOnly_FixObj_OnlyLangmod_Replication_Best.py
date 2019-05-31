@@ -274,7 +274,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best/"
+relevantPath = "../../../raw-results/manual_output_funchead_langmod_coarse_best/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_")]
@@ -298,7 +298,7 @@ if posCount >= 4 and negCount >= 4:
    print("Enough models!")
    quit()
 
-with open("/juicier/scr120/scr/mhahn/deps/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
+with open("../../../raw-results/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
     print >> outFile, " ".join(sys.argv)
 #
 
@@ -720,7 +720,7 @@ while True:
 
           # Saving grammar parameters to file
           print "Saving"
-          save_path = "/u/scr/mhahn/deps/"
+          save_path = "../../../raw-results/"
           with open(save_path+"/manual_output_funchead_langmod_coarse_best/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss_LM", "DH_Weight","CoarseDependency","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
              for i in range(len(itos_deps)):

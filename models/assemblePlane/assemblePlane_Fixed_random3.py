@@ -1,12 +1,3 @@
-#echo -e "Language\tModel\tType\tSurp" > ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_two_coarse_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_two_coarse_parser_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_langmod_coarse_final >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py REAL_REAL >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_langmod_coarse_tuning >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_RANDOM >> ~/scr/deps/plane-fixed.tsv
-#./python27 assemblePlane_Fixed.py manual_output_funchead_coarse_depl >> ~/scr/deps/plane-fixed.tsv
-
 
 
 

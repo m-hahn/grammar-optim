@@ -1,8 +1,9 @@
 import os
 
-path = "/u/scr/mhahn/deps/manual_output_funchead_RANDOM4/"
+inPath = "../../../raw-results/manual_output_funchead_RANDOM4/"
+outPath = "../../../grammars/manual_output_funchead_RANDOM4/"
 
-files = os.listdir(path)
+files = os.listdir(inPath)
 
 cache = {}
 
@@ -24,18 +25,18 @@ outHeader = ["Language"] + inHeader
 
 
 
-with open(path+"auto-summary-lstm.tsv", "w") as outFile:
+with open(outPath+"auto-summary-lstm.tsv", "w") as outFile:
   print >> outFile, "\t".join(outHeader) #, "FileName", "ModelName", "Counter", "AverageLoss", "Head", "DH_Weight", "Dependency", "Dependent", "DistanceWeight"])
   for filename in files:
      if "model" in filename:
         print "READING "+filename 
         part1 = filename.split("_model_")[0]
         language = part1.split("_")[0]
-        with open(path+filename, "r") as inFile:
+        with open(inPath+filename, "r") as inFile:
             try:
               header = next(inFile).strip().split("\t")
             except StopIteration:
-              print ["EMPTY FILE?",path+filename]
+              print ["EMPTY FILE?",inPath+filename]
               continue
             missingColumns = len(inHeader) - len(header)
 #            assert missingColumns >= 0, [inHeader, header, set(header) - set(inHeader)]
@@ -88,4 +89,4 @@ with open(path+"auto-summary-lstm.tsv", "w") as outFile:
 #[14] 
 #[15] 
 #15 Levels: readDataDistEnglishGPUFree.py ...
-print(path+"auto-summary-lstm.tsv")
+print(outPath+"auto-summary-lstm.tsv")

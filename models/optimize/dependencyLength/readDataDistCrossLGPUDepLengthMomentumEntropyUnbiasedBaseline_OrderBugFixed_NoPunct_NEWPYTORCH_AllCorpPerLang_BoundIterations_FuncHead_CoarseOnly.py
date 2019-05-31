@@ -13,7 +13,7 @@ momentum = float(sys.argv[5]) if len(sys.argv) > 5 else 0.9
 
 myID = random.randint(0,10000000)
 
-with open("/juicier/scr120/scr/mhahn/deps/LOG"+language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
+with open("../../../raw-results/LOG"+language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
     print >> outFile, " ".join(sys.argv)
 #
 #
@@ -205,7 +205,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_coarse_depl/"
+relevantPath = "../../../raw-results/manual_output_funchead_coarse_depl/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(language+"_")]
@@ -425,7 +425,7 @@ while True:
          param.data.sub_(lr_lm * param.grad.data)
        if counter % 10000 == 0:
           print "Saving"
-          save_path = "/u/scr/mhahn/deps/"
+          save_path = "../../../raw-results/"
           with open(save_path+"/manual_output_funchead_coarse_depl/"+language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss","DH_Weight","Dependency","DistanceWeight", "EntropyWeight", "ObjectiveName", "LR_POLICY"]))
              for i in range(len(itos_deps)):

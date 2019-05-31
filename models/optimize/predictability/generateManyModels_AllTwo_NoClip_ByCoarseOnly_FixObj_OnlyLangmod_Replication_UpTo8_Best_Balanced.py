@@ -1,4 +1,3 @@
-# /u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7 generateManyModels_AllTwo.py
 import os
 import sys
 
@@ -24,14 +23,11 @@ with open("writeup/commands-lambda1-langmod.csv", "r") as inFile:
 
 #print(byLanguage)
 #quit()
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best/"
+relevantPath = "../../../raw-results/manual_output_funchead_langmod_coarse_best/"
 
 while len(languages) > 0:
    script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyLangmod_Replication_Best.py"
 
-#   relevantLanguages = [language for language in languages if len([x for x in os.listdir("/u/scr/mhahn/deps/manual_output_funchead_two_coarse_lambda09_best/") if x.startswith(language+"_")]) < 8]
-#   if len(relevantLanguages) == 0:
-#     quit()
    language = random.choice(languages)
    import os
    files = [x for x in os.listdir(relevantPath) if x.startswith(language+"_")]
@@ -64,7 +60,6 @@ while len(languages) > 0:
    else:
       continue
    print((" "+(command.strip())).split(" --") )
-#   command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script] + ["--"+x for x in (" "+command.strip()).split(" --")[1:]]  )
    command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script] + command.split(" ")  )
 
    print(command)

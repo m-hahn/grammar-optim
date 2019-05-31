@@ -1,10 +1,3 @@
-#echo -e "Language\tModel\tType\tSurp" > ~/scr/deps/plane.tsv
-#./python27 assemblePlane.py manual_output_funchead_two_coarse_final >> ~/scr/deps/plane.tsv
-#./python27 assemblePlane.py manual_output_funchead_two_coarse_parser_final >> ~/scr/deps/plane.tsv
-#./python27 assemblePlane.py manual_output_funchead_langmod_coarse_final >> ~/scr/deps/plane.tsv
-#./python27 assemblePlane.py REAL_REAL >> ~/scr/deps/plane.tsv
-#./python27 assemblePlane.py manual_output_funchead_langmod_coarse_tuning >> ~/scr/deps/plane.tsv
-
 
 
 
