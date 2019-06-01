@@ -1,3 +1,5 @@
+# Visualize posterior for grammars optimized for parseability
+
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -11,7 +13,6 @@ library(ggplot2)
 
 
 cat("\nReading posterior samples\n")
-#parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
 u = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv") %>% mutate(Type = "Parseability")
 
 
@@ -24,9 +25,6 @@ library(ggplot2)
 u$SamplesNum = NROW(u)
 data2 = u %>% group_by(satisfied) %>% summarise(SamplesNum = mean(SamplesNum), posterior = NROW(satisfied)) %>% mutate(posteriorProb = posterior/SamplesNum)
 u = NULL
-
-#plot = ggplot(data = data, aes(x=satisfiedCount)) + geom_histogram() + theme_bw() + xlim(0,10.5) + ggtitle("Dependency Length") + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples")
-
 
 
 plot = ggplot(data = data2, aes(x=satisfied, y=posteriorProb)) + geom_bar(stat="identity") + theme_bw() 

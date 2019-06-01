@@ -1,3 +1,4 @@
+# Visualizes posterior for efficiency and its components
 
 library(dplyr)
 library(tidyr)
@@ -10,7 +11,6 @@ u_efficiency = read.csv("/home/user/CS_SCR/posteriors/posterior-10-efficiency-la
 
 u = rbind(u_langmod, u_parser, u_efficiency)
 
-#u$satisfied = 10 - ((u$b_acl_Intercept < 0) + (u$b_advmod_Intercept > 0)  + (u$b_aux_Intercept > 0 ) + (u$b_liftedcase_Intercept < 0 ) + (u$b_liftedcop_Intercept < 0 ) + (u$b_liftedmark_Intercept < 0 ) + (u$b_nmod_Intercept < 0 ) + (u$b_nsubj_Intercept > 0 ) + (u$b_obl_Intercept < 0 ) + (u$b_xcomp_Intercept < 0 ))
 
 u$satisfied = 8 - ((u$b_acl_Intercept < 0) + (u$b_aux_Intercept > 0 ) + (u$b_liftedcase_Intercept < 0 ) + (u$b_liftedcop_Intercept < 0 ) + (u$b_liftedmark_Intercept < 0 ) + (u$b_nmod_Intercept < 0 ) + (u$b_obl_Intercept < 0 ) + (u$b_xcomp_Intercept < 0 ))
 
@@ -22,7 +22,6 @@ u = merge(u, v, by=c("Type"))
 data2 = u %>% group_by(Type, satisfied) %>% summarise(SamplesNum = mean(SamplesNum), posterior = NROW(satisfied)) %>% mutate(posteriorProb = posterior/SamplesNum)
 u = NULL
 
-#plot = ggplot(data = data, aes(x=satisfiedCount)) + geom_histogram() + theme_bw() + xlim(0,10.5) + ggtitle("Dependency Length") + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples")
 
 
 data2$Type <- factor(data2$Type, levels = c("Predictability", "Parseability", "Efficiency"))

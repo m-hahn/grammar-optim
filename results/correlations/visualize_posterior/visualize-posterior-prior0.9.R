@@ -49,9 +49,7 @@ for(dependency in dependencies) {
 
 
 ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
-#ofInterest =  c("acl",  "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 
-# , "amod", "nummod"
 
 
 data = data %>% select(Dependency, Family, Language, FileName, DH_Weight)
@@ -80,10 +78,6 @@ E = data %>% group_by(Language, Family, Dependency) %>% summarise(Agree = mean(A
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
 
-
-#balanced = read.csv("results-ground-agree.tsv", sep="\t")
-#balanced = balanced %>% 
-
 library(dplyr)
 library(tidyr)
 library(ggplot2)
@@ -97,9 +91,7 @@ library(ggplot2)
 
 
 cat("\nReading posterior samples\n")
-#parse = read.csv("/home/user/CS_SCR/posteriors/posterior-10-parseability.csv")
 u = read.csv("/home/user/CS_SCR/posteriors/posterior-10-efficiency.csv")
-#langmod = read.csv("/home/user/CS_SCR/posteriors/posterior-10-langmod.csv")
 
 
 
@@ -112,7 +104,6 @@ u$SamplesNum = NROW(u)
 data2 = u %>% group_by(satisfied) %>% summarise(SamplesNum = mean(SamplesNum), posterior = NROW(satisfied)) %>% mutate(posteriorProb = posterior/SamplesNum)
 u = NULL
 
-#plot = ggplot(data = data, aes(x=satisfiedCount)) + geom_histogram() + theme_bw() + xlim(0,10.5) + ggtitle("Dependency Length") + xlab("Number of Predicted Correlations") + ylab("Number of Posterior Samples")
 
 
 

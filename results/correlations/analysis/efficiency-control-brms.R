@@ -1,3 +1,5 @@
+# Bayesian regression analysis for each UD relation
+
 
 data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
@@ -25,8 +27,6 @@ dryer_greenberg_fine  = merge(dryer_greenberg_fine, languages, by=c("Language"),
 
 library("brms")
 
-#options(mc.cores = parallel::detectCores())
-#rstan_options(auto_write = TRUE)
 
 dependency = "nmod"
 
@@ -35,7 +35,6 @@ getCorrPair = function(dependency) {
    corr_pair = unique(corr_pair %>% select(Family, Language, FileName, CoarseDependency, DH_Weight )) %>% spread(CoarseDependency, DH_Weight)
    corr_pair$correlator = corr_pair[[dependency]]
    corr_pair = corr_pair %>% mutate(correlator_s = pmax(0,sign(correlator)), obj_s=pmax(0,sign(obj)))
-#   corr_pair = corr_pair %>% mutate(obj_s = obj_s - mean(obj_s))
    corr_pair = corr_pair %>% mutate(correlator_s = ifelse(correlator == 0, NA, correlator_s)) # special case of actual zero, indicating fully random ordering: has to be excluded from analysis. Such cases occur when a dependency does not occur in the training partition, but does occur in the validation partition.
    corr_pair$agree = (corr_pair$correlator_s == corr_pair$obj_s)
    return(corr_pair)

@@ -1,3 +1,5 @@
+# Visualizes posteriors per relation, for optimized and real grammars
+
 
 data = read.csv("../../../grammars/manual_output_funchead_ground_coarse_final/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 

@@ -1,4 +1,6 @@
-data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+# Control using frequentist regression model
+
+data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")
 best = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/successful-seeds.tsv")
 
 library(forcats)
@@ -12,7 +14,7 @@ data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename
 languages = read.csv("../languages/languages-iso_codes.tsv")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 dependency = "nmod"
-dependencies = c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp") # "nsubj",  "advmod",
+dependencies = c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
 objs = data %>% filter(CoarseDependency == "obj") %>% mutate(obj = pmax(0, sign(DH_Weight))) %>% select(obj, Language, FileName)
 data = data %>% filter((CoarseDependency %in% dependencies))
 data = merge(data, objs, by=c("Language", "FileName"))
