@@ -1,10 +1,17 @@
-# Code and Results for ``Universals of word order result from optimizationof grammars for efficient communication''
+# Universals of word order result from optimization of grammars for efficient communication
 
-* `grammars`: all grammars (real, optimized, baseline), and predictability+parseability scores for all grammars
+This repository contains all code and results from the paper.
 
-* `models`: code for running models (evaluating predictability+parseability, optimizing grammars, and others)
+Code for reproducing statistical analyses and figures is in `results`.
+Code for running the neural network models and the control studies reported in SI is in `models`.
+Grammar parameters and efficiency scores for all grammars are in `grammars`.
 
-* `results`: code for producing statistical analyses and figures
+## Requirements
+Most analyses only require:
+* R
+Creating optimized grammars, or evaluating the efficiency of grammars, requires:
+* Python 2.7
+* PyTorch, with CUDA
+* corpus data, see `models/corpus_reader/README.md` for instructions.
 
-* `writeup`
 

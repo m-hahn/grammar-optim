@@ -92,7 +92,7 @@
 
 \tableofcontents
 
-
+\textcolor{red}{TODOs}
 
 
 \textcolor{red}{run czech parser}
@@ -106,7 +106,7 @@ Here we describe how we selected the word order correlations in Table 1 of the m
 
 We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.\footnote{Regarding objections by \citet{dunn2011evolved}, we refer to the follow-ups by \citet{levy2011computational}, and \citet{croft2011greenbergian}.}
 Greenberg's original study was based on 30 languages; more recently, Dryer \cite{dryer1992greenbergian} documented the word order correlations based on typological data from 625 languages.
-\cite{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
+\citet{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
 We test our ordering grammars for these correlations by testing whether the coefficients for these syntactic relations have the same sign as the coefficient of the verb-object relation.
 Testing correlations is therefore constrained by the degree to which these relations are annotated in UD.
 The verb-object relation corresponds to the  \emph{obj} relation defined by UD.
@@ -198,11 +198,12 @@ Future work should examine whether these universals can also be linked to effici
 \subsection{Relation to Other Work}
 
 
+
 %The efficiency of any information-theoretic communication protocol depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
 %Accordingly, computational tests of functional explanations in linguistics have formalized the overall efficiency of language as a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication.
 
 Here we discuss how our formalization of communicative efficiency relates to formalizations that have been proposed in the information-theoretic literature on language.
-Across the literature, the core idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms, with some differences in the precise formalization of these two quantities \cite{ferreri2003least,ferrericancho2007global, kemp2012kinship,xu2014numeral, regier2015word,xu2016historical, zaslavsky2018efficient,futrell2017memory,peloquin2019interactions, zaslavsky2019semantic, frank2012predicting,goodman2013knowledge, kao2014nonliteral, bennett2018extremely}.
+Across the literature, the core idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms, with some differences in the precise formalization of these two quantities \cite{ferreri2003least,ferrericancho2007global,kemp2012kinship,frank2012predicting,goodman2013knowledge,kao2014nonliteral,xu2014numeral,kirby2015compression,regier2015word,xu2016historical,futrell2017memory,zaslavsky2018efficient,bennett2018extremely, peloquin2019interactions,zaslavsky2019semantic}.
 
 The basis for our precise formalization is the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems.
 %The key idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms. %; there are some differences in the formalization of complexity.
@@ -248,6 +249,7 @@ In addition to these models, which quantify the efficiency of communication syst
 In line with the other models, these assume that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely}.
 
 
+
 %\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
 
 
@@ -290,6 +292,7 @@ As shown in Table~\ref{tab:all-predictions-1}, each of the eight correlations is
 %We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
 That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.\footnote{Results from one of the preliminary experiments reported in Figure~\ref{table:corr-resu-previous} show that results are stable to small variation of $\lambda$: Essentially equivalent predictions are obtained for $\lambda=1.0$. While $\lambda=1.0$ is not a valid choice for communicative efficiency in general due to the possibility of collapse to a single utterance, our setting does not allow such a collapse, as the syntactic structure already determines which words are present in the sentence.}
 Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
+See also Figure~\ref{table:corr-resu-previous} for converging evidence from our preregistered preliminary experiments.
 %Finally, the robustness of our results to small variations of $\lambda$ is confime by reporting results with $\lambda=1$ in Table~\ref{table:corr-resu-previous}.
 
 
@@ -836,7 +839,7 @@ More complex and powerful ordering grammar models have been proposed \cite{futre
 \end{center}
 }
 \caption{Comparing grammars extracted from databases to linguistic judgments in the World Atlas of Linguistic Structures. For each of the six syntactic relation, the first column provides the ordered coded in the extracted grammar; the second column provides the order coded in WALS (DH for dependent-head, HD for head-dependent order). `?' indicates that WALS has no data.
-$*$ indicates that WALS does not list a dominant order, which can mean that both orders occur at similar rates in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
+$*$ indicates that WALS does not list a dominant order, which can mean that neither order is dominant in the language, or that insufficient data was available when compiling WALS \citep{dryer2011evidence}.
 Finally, `--' indicates that the relation does not occur in the corpus.
 }\label{tab:grammars-wals}
 \end{table}
@@ -856,7 +859,7 @@ Recall the definition of efficiency
 	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
 \end{equation}
 where
-\begin{equation}
+\begin{equation}\label{eq:rpars}
 	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
 \end{equation}
 \begin{equation}
@@ -866,9 +869,9 @@ where $t \sim \tree$ is a distribution over syntactic structures, and $u \sim p_
 
 These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
-The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is\footnote{Note that, in the definition of $R_{Pars}$, the term $p(t)$ is a constant independent of $\phi$ and the word order grammar $\mathcal{L}_\theta$; it can therefore be ignored in the optimization process.} 
+The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is\footnote{Note that, in the definition of $R_{Pars}$ (\ref{eq:rpars}), the term $p(t)$ is a constant independent of $\phi$ and the word order grammar $\mathcal{L}_\theta$; it can therefore be ignored in the optimization process.} 
 \begin{equation}
-	R_{Pars}^{\phi}(u,t) =  \log \frac{p_\phi(t|u)}{p(t)}
+	R_{Pars}^{\phi}(u,t) =  \log p_\phi(t|u)
 \end{equation}
 %and we can write
 %\begin{equation}
@@ -879,10 +882,14 @@ A \key{language model}, with some parameters $\psi$, calculates the word-by-word
 \begin{equation}
 	R_{Pred}^{\psi}(u) = - \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1})
 \end{equation}
-Using this, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
+Using this and Gibbs' inequality~\cite{cover2006elements}, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
 \begin{equation}
-	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi} := \max_{\phi,\psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi}
 \end{equation}\label{eq:efficiency-rewrite}
+where we have written
+\begin{equation}
+R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+\end{equation}
 %
 %The parsers and language models appropriate to a tree distribution $\tree$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
 %\begin{equation}
@@ -913,9 +920,10 @@ Using this, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given 
 %\argmax_\theta\	R_{\textit{Eff}}^\theta 
 %\end{equation}
 %equivalently into
-In order to find an optimal grammar $\theta$, we thus need to solve
+In order to find an optimal grammar $\theta$, we thus need to compute 
 \begin{equation}\label{eq:efficiency}
-\argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} %= \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+\argmax_\theta\	R_{\textit{Eff}}^{\theta} = \argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} 
+%= \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
 Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
 \begin{align}
@@ -923,13 +931,13 @@ Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\thet
 \partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
 \partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
 \end{align}
-where \ref{eq:dtheta} is derived using the \emph{score-function} or \emph{REINFORCE} trick~\cite{williams1992simple}.
+where (\ref{eq:dtheta}) is derived using the \emph{score-function} or \emph{REINFORCE} theorem~\cite{williams1992simple}.
 Note that the the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures.
 
 We can therefore apply stochastic gradient descent to jointly optimize $\theta, \phi, \psi$:
 In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
 Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
-do a gradient descent step using the estimator given by the expressions in the square brackets in \ref{eq:dtheta}-\ref{eq:dpsi}.
+do a gradient descent step using the estimator given by the expressions in the square brackets in (\ref{eq:dtheta}-\ref{eq:dpsi}).
 
 
 Optimizing for only parseability (or predictability) is very similar -- in this case, the terms involving $R_{Pred}^\phi$ (or $R_{Pars}^\psi$) are removed.
