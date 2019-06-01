@@ -13,7 +13,7 @@ else:
 import random
 import subprocess
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_coarse_depl/"
+relevantPath = "../../../raw-results/manual_output_funchead_coarse_depl/"
 
 while len(languages) > 0:
    script = 'readDataDistCrossLGPUDepLengthMomentumEntropyUnbiasedBaseline_OrderBugFixed_NoPunct_NEWPYTORCH_AllCorpPerLang_BoundIterations_FuncHead_CoarseOnly.py'

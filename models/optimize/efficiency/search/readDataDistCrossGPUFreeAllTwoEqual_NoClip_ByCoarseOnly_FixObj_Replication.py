@@ -85,7 +85,7 @@ params_parser = [args.rnn_dim_parser, args.lr_parser, args.beta1, args.beta2, ar
 
 myID = random.randint(0,10000000)
 #
-with open("/juicier/scr120/scr/mhahn/deps/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
+with open("../../../../raw-results/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
     print >> outFile, " ".join(sys.argv)
 #
 
@@ -618,7 +618,6 @@ def doForwardPass(current, train=True, computeAccuracy_parser=False, doDropout_p
 
 
 
-# /u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7 readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_Replication.py --clip_at_parser 15.0 --dropout_rate_parser 0.2 --lstm_layers_parser 2 --language Vietnamese --rnn_dim_parser 200 --lr_baseline_lm 1.0 --dropout_prob_lm 0.3 --shallow True --input_dropoutRate_parser 0.0 --clip_norm_parser 2 --entropy_weight 0.0001 --lr_parser 0.001 --labelMLPDimension 300 --beta2 0.999 --beta1 0.9 --lr_lm 0.1 --lr_policy 0.0001 --bilinearSize 300 --momentum_policy 0.9 --batchSize 1 --pos_embedding_size_parser 100
 
 
 
@@ -1121,7 +1120,7 @@ while True:
 #             print("DEMO, NOT SAVING SO FAR")
 #             continue
           print "Saving"
-          save_path = "/juicier/scr120/scr/mhahn/deps/"
+          save_path = "../../../../raw-results/"
           #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
           with open(save_path+"/manual_output_funchead_two_coarse/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss_LM", "AverageLoss_Parser", "AverageUAS", "AverageLAS", "DH_Weight","CoarseDependency","DistanceWeight", "EntropyWeight", "ObjectiveName"]))

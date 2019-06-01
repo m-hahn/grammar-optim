@@ -1,8 +1,10 @@
 import os
 
-path = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best_reordered/"
+BASE_DIR = "manual_output_funchead_two_coarse_parser_best_reordered"
+inPath = "../../../../raw-results/"+BASE_DIR+"/"
+outPath = "../../../../grammars/"+BASE_DIR+"/"
 
-files = os.listdir(path)
+files = os.listdir(inPath)
 
 cache = {}
 
@@ -19,12 +21,12 @@ def extractModelType(modelName, objName):
    return modelName
 
 
-inHeader = ["FileName", "Counter", 'AverageLAS', 'AverageLoss_Parser', 'AverageUAS', "DH_Weight", "CoarseDependency", "DistanceWeight"] #, "EntropyWeight"] #, "LR_POLICY"] #, "Lagrange_Lambda", "Lagrange_B", "L2_Weight", 'DH_Sigma', 'Distance_Mean', 'Distance_Sigma', 'DH_Mean', 'Var_Slope_DepLength', 'Mean_Slope_DepLength', 'Mean_Slope_Surp_POS', 'Var_Slope_Surp_POS', 'POS', 'Var_Slope_Surp_Word', 'Mean_Slope_Surp_Word', 'Var_Slope_UID', 'Mean_Slope_UID', 'Mean_Slope_UIDRate', 'LogVar_Slope_Surp_POS', 'LogVar_Slope_Surp_Word', 'LogVar_Slope_UIDRate', 'LogVar_Slope_DepLogLength', 'Distance_LogSigma', 'Mean_Slope_DepLogLength', 'DH_LogSigma', 'LogVar_Slope_DepLength', 'LogVar_Slope_UID', 'Mean_Slope_UIDRate_rateVariance', 'LogVar_Slope_UIDRate_plainVariance', 'Mean_Slope_UIDRate_rateL1Divergence', 'LogVar_Slope_UIDRate_successiveL1', 'Mean_Slope_UIDRate_successiveL1', 'LogVar_Slope_UIDRate_rateVariance', 'Mean_Slope_UIDRate_plainL1Divergence', 'Mean_Slope_UIDRate_plainVariance', 'Mean_Slope_UIDRate_successiveL1Rate', 'LogVar_Slope_UIDRate_plainL1Divergence', 'LogVar_Slope_UIDRate_successiveL1Rate', 'LogVar_Slope_UIDRate_rateL1Divergence', 'LogExpVar_Slope_Surp_POS', 'LogExpVar_Slope_Surp_Word', 'DevLikelihood', 'Distance_LogExpSigma', 'DH_LogExpSigma', 'LogExpVar_Slope_DepLength', 'LogExpVar_Slope_UID', 'LogExpVar_Slope_UIDRate', 'D_plainVariance_DH_Weight', 'D_successiveL1Rate_DH_Weight', 'D_successiveL1_DH_Weight', 'D_UIDplainL1Divergence_DistanceWeight', 'D_UIDrateVariance_DistanceWeight', 'D_plainL1Divergence_DH_Weight', 'D_UIDrateL1Divergence_DistanceWeight', 'D_rateVariance_DH_Weight', 'D_UIDplainVariance_DistanceWeight', 'D_rateL1Divergence_DH_Weight', 'D_UIDsuccessiveL1_DistanceWeight', 'D_UIDsuccessiveL1Rate_DistanceWeight', 'D_DepL_DH_Weight', 'D_DepL_DistanceWeight', 'D_WordSurp_DistanceWeight', 'Dummy', 'D_WordSurp_DH_Weight', "MI", 'D_WordSurp_DistanceWeight_HD', 'D_WordSurp_DistanceWeight_DH', 'DistanceHD_Sigma', 'DistanceDH_Mean', 'DistanceHD_Mean', 'DistanceDH_Sigma', 'Distance_Mean_NoPunct', 'Distance_Sigma_NoPunct', 'DH_Sigma_NoPunct', 'DH_Mean_NoPunct', 'DependentLength_Median', 'MeanDependentLength', 'DependentLength_FirstQuartile', 'DependentLength_ThirdQuartile']
+inHeader = ["FileName", "Counter", 'AverageLAS', 'AverageLoss_Parser', 'AverageUAS', "DH_Weight", "CoarseDependency", "DistanceWeight"] 
 outHeader = ["Language"] + inHeader
 
 
 
-with open(path+"auto-summary-lstm.tsv", "w") as outFile:
+with open(outPath+"auto-summary-lstm.tsv", "w") as outFile:
   print >> outFile, "\t".join(outHeader) #, "FileName", "ModelName", "Counter", "AverageLoss", "Head", "DH_Weight", "Dependency", "Dependent", "DistanceWeight"])
   for filename in files:
      if "model" in filename:
@@ -34,22 +36,19 @@ with open(path+"auto-summary-lstm.tsv", "w") as outFile:
           language = part1.split("_")[0]
         else:
           language = "English"
-        with open(path+filename, "r") as inFile:
+        with open(inPath+filename, "r") as inFile:
             try:
               header = next(inFile).strip().split("\t")
             except StopIteration:
-              print ["EMPTY FILE?",path+filename]
+              print ["EMPTY FILE?",inPath+filename]
               continue
             missingColumns = len(inHeader) - len(header)
-            #assert missingColumns >= 0, [inHeader, header, set(header) - set(inHeader)]
             
             for i in range(len(header)):
               if header[i] in ["AverageLength", "Perplexity"]:
                   header[i] = "AverageLoss"
             if len(set(header) - set(inHeader)) > 0:
               print set(header) - set(inHeader)
-#            matched = zip(inHeader+([None]*missingColumns), header)          
- #           print filter(lambda x:x[0] != x[1], matched)
             lineCounter = 0
             if "Pukwac" in filename:
                language = "Pukwac" 
@@ -76,28 +75,7 @@ with open(path+"auto-summary-lstm.tsv", "w") as outFile:
                        outLine.append(extractModelTypeCached(line[1], "NONE"))
                     else:
                        outLine.append("NA")
-#                    print colName
-#               outLine += (["NA"]*missingColumns)
                assert len(outLine) == len(outHeader)
                print >> outFile, "\t".join(outLine)
 
-
-
-#> unique(data$ModelName)
-# [1] 
-# [2] 
-# [3] 
-# [4] 
-# [5] 
-# [6] 
-# [7] 
-# [8] 
-# [9] 
-#[10] 
-#[11] 
-#[12] 
-#[13] 
-#[14] 
-#[15] 
-#15 Levels: readDataDistEnglishGPUFree.py ...
 

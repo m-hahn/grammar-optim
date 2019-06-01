@@ -37,7 +37,7 @@ if BASE_DIR == "REAL_REAL":
 else:   
    languages = None
    
-   models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+   models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]
    modelsProcessed = []
    for i in range(len(models)):
       if "_readData" not in models[i]:
@@ -54,7 +54,7 @@ assert len(models) > 0
 models = [model for model in models if len(model) == 2]
 
 import os
-parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("/u/scr/mhahn/deps/language_modeling_coarse_plane/") if "ZeroTemp" in x]
+parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../raw-results/language_modeling_coarse_plane/") if "ZeroTemp" in x]
 
 
 scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE.py"]
@@ -63,7 +63,7 @@ scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_Orde
 
 #print(parsingDone)
 
-planePath = "/u/scr/mhahn/deps/language_modeling_coarse_plane/"
+planePath = "../../raw-results/language_modeling_coarse_plane/"
 
 if True:
   existingFiles = os.listdir(planePath)

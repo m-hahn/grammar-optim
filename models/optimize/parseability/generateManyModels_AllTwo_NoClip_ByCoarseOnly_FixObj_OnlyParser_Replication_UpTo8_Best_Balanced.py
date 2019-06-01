@@ -25,21 +25,19 @@ with open("../../chosen_hyperparameters/commands-lambda1-parse.csv", "r") as inF
 #print(byLanguage)
 #quit()
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best/"
+BASE_DIR = "manual_output_funchead_two_coarse_parser_best"
+inPath = "../../../raw-results/"+BASE_DIR+"/"
 
 while len(languages) > 0:
    script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyParser_Replication_Best.py"
 
-#   relevantLanguages = [language for language in languages if len([x for x in os.listdir("/u/scr/mhahn/deps/manual_output_funchead_two_coarse_lambda09_best/") if x.startswith(language+"_")]) < 8]
-#   if len(relevantLanguages) == 0:
-#     quit()
    language = random.choice(languages)
    import os
-   files = [x for x in os.listdir(relevantPath) if x.startswith(language+"_")]
+   files = [x for x in os.listdir(inPath) if x.startswith(language+"_")]
    posCount = 0
    negCount = 0
    for name in files:
-     with open(relevantPath+name, "r") as inFile:
+     with open(inPath+name, "r") as inFile:
        for line in inFile:
            line = line.split("\t")
            if line[7] == "obj":
@@ -65,7 +63,6 @@ while len(languages) > 0:
    else:
       continue
    print((" "+(command.strip())).split(" --") )
-#   command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script] + ["--"+x for x in (" "+command.strip()).split(" --")[1:]]  )
    command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script] + command.split(" ")  )
 
    print(command)

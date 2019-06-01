@@ -84,7 +84,7 @@ myID = random.randint(0,10000000000)
 random.seed(a=myID)
 
 # Log the arguments
-with open("/juicier/scr120/scr/mhahn/deps/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
+with open("../../../raw-results/LOG"+args.language+"_"+__file__+"_model_"+str(myID)+".txt", "w") as outFile:
     print >> outFile, " ".join(sys.argv)
 
 
@@ -276,7 +276,7 @@ stoi_deps = dict(zip(itos_deps, range(len(itos_deps))))
 print itos_deps
 
 
-relevantPath = "/u/scr/mhahn/deps/manual_output_funchead_two_coarse_parser_best/"
+relevantPath = "../../../raw-results/manual_output_funchead_two_coarse_parser_best/"
 
 import os
 files = [x for x in os.listdir(relevantPath) if x.startswith(args.language+"_")]
@@ -846,7 +846,7 @@ while True:
 
 
           print "Saving"
-          save_path = "/u/scr/mhahn/deps/"
+          save_path = "../../../grammars/"
           with open(save_path+"/manual_output_funchead_two_coarse_parser_best/"+args.language+"_"+__file__+"_model_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss_Parser", "AverageUAS", "AverageLAS", "DH_Weight","CoarseDependency","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
              for i in range(len(itos_deps)):

@@ -54,7 +54,7 @@ def readUDCorpus(language, partition):
 
 class CorpusIterator():
    def __init__(self, language, partition="train", storeMorph=False, splitLemmas=False, shuffleData=True, shuffleDataSeed=None, splitWords=False):
-      assert not splitLemmas:
+      assert not splitLemmas
       self.splitLemmas = splitLemmas
       self.splitWords = splitWords
       assert not self.splitWords

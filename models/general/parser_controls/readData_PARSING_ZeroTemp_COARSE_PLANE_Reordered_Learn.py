@@ -115,9 +115,6 @@ if prescribedID is not None and prescribedID != "NONE":
 else:
   myID = random.randint(0,10000000)
 
-#with open("/juicier/scr120/scr/mhahn/deps/LOG"+language+"_"+FILE_NAME+"_model_"+str(myID)+".txt", "w") as outFile:
-#    print >> outFile, " ".join(sys.argv)
-
 
 
 posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
@@ -383,7 +380,7 @@ import os
 
 if model != "RANDOM" and model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "/u/scr/mhahn/deps/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -1008,24 +1005,13 @@ while True:
           print >> sys.stderr, (difference/len(itos_deps), maxDifference)
 
 
-#       if crossEntropy > 30:
-#           with open("/juicier/scr120/scr/mhahn/deps/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
-#              print >> outFile, " ".join(names)
-#              print >> outFile, " ".join(map(str,params))
-#              print >> outFile, " ".join(map(str,[100]))
-#              print >> outFile, " ".join(map(str,[-1]))
-#              print >> outFile, " ".join(map(str,[-1]))
-#              print >> outFile, " ".join(sys.argv)
-#           print "Loss exploding"
-#           quit()
-
   if True: #counter % 5000 == 0:
          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter)
 
          computeDevLoss()
 
 #         if False:
-         with open("/u/scr/mhahn/deps/ADVERSARIAL_PARSER/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
+         with open("../../../raw-results/ADVERSARIAL_PARSER/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
               print >> outFile, " ".join(names)
               print >> outFile, " ".join(map(str,params))
               print >> outFile, " ".join(map(str,devLosses))
@@ -1041,22 +1027,6 @@ while True:
             del devLosses[-1]
             print "Loss deteriorating, stop"
             quit()
-
-#         print "Saving"
-#         save_path = "/juicier/scr120/scr/mhahn/deps/"
-#         #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
-#         with open(save_path+"/manual_output_funchead/"+language+"_"+FILE_NAME+"_model_"+str(myID)+".tsv", "w") as outFile:
-#            print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss","Head","DH_Weight","Dependency","Dependent","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
-#            for i in range(len(itos_deps)):
-#               key = itos_deps[i]
-#               dhWeight = dhWeights[i].data.numpy()
-#               distanceWeight = distanceWeights[i].data.numpy()
-#               head, dependency, dependent = key
-#               print >> outFile, "\t".join(map(str,[myID, FILE_NAME, counter, devLosses[-1], head, dhWeight, dependency, dependent, distanceWeight, entropy_weight, objectiveName]))
-#
-
-
-
 
 
 

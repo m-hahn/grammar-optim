@@ -11,7 +11,7 @@ arguments = "NONE 0.001 0.9 0.001 0.001 0.9 0.999 0.2 20 15 2 100 2 True 200 300
 
 # RANDOM
 modelDir = "manual_output_funchead_RANDOM"
-with open("/u/scr/mhahn/deps/plane-parse.tsv", "r") as inFile:
+with open("../../../grammars/plane/plane-parse.tsv", "r") as inFile:
    models = [x.split("\t") for x in inFile.read().strip().split("\n")]
 
    header = dict(zip(models[0], range(len(models[0]))))

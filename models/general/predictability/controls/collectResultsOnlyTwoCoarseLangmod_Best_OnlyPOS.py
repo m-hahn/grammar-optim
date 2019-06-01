@@ -1,8 +1,10 @@
 import os
 
-path = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best_onlyPOS/"
+BASE_DIR = "manual_output_funchead_langmod_coarse_best_onlyPOS"
+inPath = "../../../../raw-results/"+BASE_DIR+"/"
+outPath = "../../../../grammars/"+BASE_DIR+"/"
 
-files = os.listdir(path)
+files = os.listdir(inPath)
 
 cache = {}
 
@@ -24,7 +26,7 @@ outHeader = ["Language"] + inHeader
 
 
 
-with open(path+"auto-summary-lstm.tsv", "w") as outFile:
+with open(outPath+"auto-summary-lstm.tsv", "w") as outFile:
   print >> outFile, "\t".join(outHeader) #, "FileName", "ModelName", "Counter", "AverageLoss", "Head", "DH_Weight", "Dependency", "Dependent", "DistanceWeight"])
   for filename in files:
      if "model" in filename:
@@ -34,11 +36,11 @@ with open(path+"auto-summary-lstm.tsv", "w") as outFile:
           language = part1.split("_")[0]
         else:
           language = "English"
-        with open(path+filename, "r") as inFile:
+        with open(inPath+filename, "r") as inFile:
             try:
               header = next(inFile).strip().split("\t")
             except StopIteration:
-              print ["EMPTY FILE?",path+filename]
+              print ["EMPTY FILE?",inPath+filename]
               continue
             missingColumns = len(inHeader) - len(header)
 #            assert missingColumns >= 0, [inHeader, header, set(header) - set(inHeader)]

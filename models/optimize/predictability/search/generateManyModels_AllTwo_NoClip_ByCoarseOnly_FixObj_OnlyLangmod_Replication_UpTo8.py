@@ -1,4 +1,3 @@
-# /u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7 generateManyModels_AllTwo.py
 
 import sys
 if len(sys.argv) > 1:
@@ -14,13 +13,13 @@ while True:
    script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyLangmod_Replication.py"
    args = {}
 
-   relevantLanguages = [language for language in languages if len([x for x in os.listdir("/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse/") if x.startswith(language+"_")]) < 8]
+   relevantLanguages = [language for language in languages if len([x for x in os.listdir("../../../../raw-results/manual_output_funchead_langmod_coarse/") if x.startswith(language+"_")]) < 8]
    if len(relevantLanguages) == 0:
      quit()
    args["language"] = random.choice(relevantLanguages)
 
-   args["entropy_weight"] = random.choice([0.0001, 0.0001, 0.0001,0.001, 0.001,  0.001, 0.001,0.001, 0.001]) #, 0.5, 1.0, 1.0, 1.0]) ,  0.01, 0.1, 0.5 0.01, 0.1, 
-   args["lr_policy"] = random.choice([0.000005, 0.00001, 0.00001, 0.00001, 0.00002, 0.00002, 0.00003]) #0.000005,0.000005,0.000005, 0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00001,0.00002,0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002, 0.00002,  0.00003,0.00003,0.00003, 0.00003, 0.00003,0.00002,0.00002,0.00001,0.00002,0.00002,0.00002, 0.00003,0.00002,0.00003, 0.00002,0.00003,0.00002, 0.00003,0.00002,0.00003, 0.00005,0.00005,0.00005, 0.00005,0.00005,0.00005, 0.00005,0.00005,0.00005, 0.00005,0.00005,0.00005, 0.00005,0.00005,0.00005, 0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003,0.00003, 0.0001, 0.0001,0.0001, 0.0001, 0.0001, 0.0001, 0.0001, 0.0001]) # this was changed from the previous versions, not clear what is a good value here
+   args["entropy_weight"] = random.choice([0.0001, 0.0001, 0.0001,0.001, 0.001,  0.001, 0.001,0.001, 0.001]) 
+   args["lr_policy"] = random.choice([0.000005, 0.00001, 0.00001, 0.00001, 0.00002, 0.00002, 0.00003]) 
    args["momentum_policy"] = random.choice([0.8, 0.9])
    args["lr_baseline_lm"] = random.choice([1.0])
    args["dropout_prob_lm"] = random.choice([0.0, 0.3, 0.5])
@@ -42,7 +41,6 @@ while True:
    args["labelMLPDimension"] = 300
 
    
-#   command = map(str,["python", script] +["--"+x+" "+str(y) for x,y in args.iteritems() ]   )
   
    command = map(str,["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", script] +(" ".join(["--"+x+" "+str(y) for x,y in args.iteritems() ])).split(" ")   )
    print(command)

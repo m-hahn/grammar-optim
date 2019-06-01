@@ -1,8 +1,10 @@
 import os
 
-path = "/u/scr/mhahn/deps/manual_output_funchead_langmod_coarse_best/"
+BASE_DIR = "manual_output_funchead_langmod_coarse_best"
+inpath = "../../../../raw-results/"+BASE_DIR+"/"
+outpath = "../../../../grammars/"+BASE_DIR+"/"
 
-files = os.listdir(path)
+files = os.listdir(inPath)
 
 cache = {}
 

@@ -269,7 +269,7 @@ import os
 
 if model != "RANDOM" and model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "/u/scr/mhahn/deps/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -525,9 +525,8 @@ if True:
           devLossesPOS.append(newDevLossPOS)
           print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
           print "Saving"
-          save_path = "/u/scr/mhahn/deps/"
+          save_path = "../../../../raw-results/"
           if True:
-             #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
              print(save_path+"/language_modeling_adversarial/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv")
              with open(save_path+"/language_modeling_adversarial/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv", "w") as outFile:
                 print >> outFile, "\t".join(sys.argv)

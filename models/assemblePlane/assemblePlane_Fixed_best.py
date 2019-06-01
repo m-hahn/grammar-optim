@@ -35,8 +35,8 @@ with open(outPath, "w") as outFile:
        models = modelsProcessed
     else:   
        languages = None
-       
-       models =[x for x in  os.listdir("/u/scr/mhahn/deps/"+BASE_DIR+"/") if x.endswith(".tsv")]
+
+       models =[x for x in  os.listdir("../../raw-results/"+BASE_DIR+"/") if x.endswith(".tsv")]     
        modelsProcessed = []
        for i in range(len(models)):
          if "ground" in BASE_DIR:
