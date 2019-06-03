@@ -289,13 +289,15 @@ While the design of our word order grammars (see \emph{Materials and Methods}) p
 In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to $1$ placing similar weights on both predictability and parseability, whereas values closer to $0$ diminish the role of predictability.
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parseability.
-While the computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
+The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
+However, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
 As shown in Table~\ref{tab:all-predictions-1}, each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions.
-%Indeed, the same holds for all of the 38 syntactic relations in UD  (Table~\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})
-%We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
 That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.\footnote{Results from one of the preliminary experiments reported in Figure~\ref{table:corr-resu-previous} show that results are stable to small variation of $\lambda$: Essentially equivalent predictions are obtained for $\lambda=1.0$. While $\lambda=1.0$ is not a valid choice for communicative efficiency in general due to the possibility of collapse to a single utterance, our setting does not allow such a collapse, as the syntactic structure already determines which words are present in the sentence.}
 Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
-See also Figure~\ref{table:corr-resu-previous} for converging evidence from our preregistered preliminary experiments.
+This is confirmed by converging evidence from our preregistered preliminary experiments in Figure~\ref{table:corr-resu-previous}.
+
+
+
 %Finally, the robustness of our results to small variations of $\lambda$ is confime by reporting results with $\lambda=1$ in Table~\ref{table:corr-resu-previous}.
 
 
@@ -593,7 +595,7 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 
 
 
-
+\textcolor{red}{have to improve DLM coverage}
 Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM} for discussion).
 This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section~\ref{sec:DLM}).
 Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section~\ref{sec:DLM} for further discussion.
@@ -606,7 +608,9 @@ Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM m
 \includegraphics[width=0.8\textwidth]{si-table-perrel-1-1.png}
 \end{center}
 \caption{Predictions on UD relations with predictions from the typological literature.
-The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically. See Section~\ref{sec:DLM} for the `DLM' column.}
+The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
+In the last column, we indicate what direction would be expected typologically. 
+We additionally report results when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion. \textcolor{red}{have to improve DLM coverage}   }
 \label{tab:all-predictions-1}
 \end{table*}
 
@@ -1078,6 +1082,8 @@ All choices, except where explicitly noted otherwise, were made before evaluatin
 
 %\paragraph{Locality}
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
+
+\textcolor{red}{TODO put language modeling and parsing formulas to make this more explicit}
 
 \paragraph{Estimating Predictability}
 We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}.
