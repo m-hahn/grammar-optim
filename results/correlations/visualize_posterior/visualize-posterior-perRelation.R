@@ -101,7 +101,7 @@ for(type in c("Efficiency", "Predictability", "Parseability", "DependencyLength"
         typeName = "depl"
   }
   for(dependency in dependencies) {
-     data =  read.csv(paste("~/CS_SCR/posteriors/posterior-", dependency, "-", typeName, "-large.csv", sep=""))
+     data =  read.csv(paste("CS_SCR/posteriors/posterior-", dependency, "-", typeName, "-large.csv", sep=""))
      data = data %>% mutate(Prevalence = 1/(1+exp(-b_Intercept)))
      if(dependency == "aux") {
          data = data %>% mutate(Prevalence=1-Prevalence)
