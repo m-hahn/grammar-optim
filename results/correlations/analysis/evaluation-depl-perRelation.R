@@ -33,7 +33,7 @@ for(dependency in dependencies) {
    u = data %>% filter(Dependency == dependency)
    model3 = update(model3, newdata=u, iter=5000)
    u = posterior_samples(model3)
-   write.csv(u, file=paste("~/CS_SCR/posteriors/posterior-", dependency, "-", type, "-large.csv", sep=""))
+   write.csv(u, file=paste("CS_SCR/posteriors/posterior-", dependency, "-", type, "-large.csv", sep=""))
 }
 
 
