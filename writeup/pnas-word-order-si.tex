@@ -104,7 +104,7 @@
 
 Here we describe how we selected the word order correlations in Table 1 of the main paper, and how we formalized these using syntactic relations defined by Universal Dependencies.
 
-We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.\footnote{Regarding objections by \citet{dunn2011evolved}, we refer to the follow-ups by \citet{levy2011computational}, and \citet{croft2011greenbergian}.}
+We base our formalization on the comprehensive study by Dryer \cite{dryer1992greenbergian}.\footnote{Regarding the objections by \citet{dunn2011evolved}, we refer to the follow-ups by \citet{levy2011computational}, and \citet{croft2011greenbergian}.}
 Greenberg's original study was based on 30 languages; more recently, Dryer \cite{dryer1992greenbergian} documented the word order correlations based on typological data from 625 languages.
 \citet{dryer1992greenbergian} formulated these universals as correlations between the order of objects and verbs and the orders of other syntactic relations.
 We test our ordering grammars for these correlations by testing whether the coefficients for these syntactic relations have the same sign as the coefficient of the verb-object relation.
@@ -158,13 +158,16 @@ For clarity, we refer to these reversed relations as \emph{lifted\_case}, \emph{
 \paragraph{Excluded Correlations}
 We excluded three correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
-Among these three types of elements, the one most prominent in our sample of 51 languages is articles (occurring in many European languages); UD subsumes them under the \emph{det} relation, which is also used for other frequent elements, such as demonstratives and quantifiers.
+Among these three types of elements, the one most prominent in our sample of 51 languages is articles, which occur in many European languages.
+However, UD subsumes them under the \emph{det} relation, which is also used for other highly frequent elements, such as demonstratives and quantifiers.
+%Testing this correlation would require augmenting these corpora with detailed annotation of articles, which is beyond the scope of this study.
+The other elements (question particles and plural words) are found at most in a handful of UD languages, and are not specifically annotated in these either.
 
 We also excluded the verb-manner adverb correlation.
 UD does not distinguish manner adverbs from other elements labeled as adverbs, such as sentence-level adverbs and negation markers, whose ordering is very different from manner adverbs.
 All types of adverbs are unified under the \emph{advmod} relation.
-In the real orderings in our sample of 51 UD languages, the dominant ordering of \emph{advmod} almost always matches that of subjects -- that is, \emph{advmod} dependents are ordered after the verb only in VSO languages.
-This ordering behavior is very different from that documented for manner adverbs by Dryer.
+In the real orderings in our sample of 51 UD languages, the dominant ordering of \emph{advmod} almost always matches that of subjects -- that is, \emph{advmod} dependents are predominantly ordered after the verb only in VSO languages.
+This observed ordering behavior in the 51 languages is very different from that documented for manner adverbs by Dryer, showing that a large part of \emph{advmod} dependencies as annotated in UD consists of elements that are not manner adverbs.
 
 
 
@@ -236,7 +239,7 @@ This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is equ
 The Information Bottleneck models complexity using a mutual information term instead of the entropy appearing in~(\ref{eq:eff-general}).
 This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
 As we assume deterministic grammars that transduce every underlying syntactic structure into one surface order, our model corresponds to the Deterministic Information Bottleneck~\cite{strouse2017deterministic}, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure.
-Furthermore, entropy also arises naturally as a complexity measure from the role played by surprisal in determining human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
+Entropy also corresponds to the average of surprisal, which is a strong and linear predictor of human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
 
 A few other approaches share the mutual information term for informativity in (\ref{eq:eff-general}), while using complexity measures that are not explicitly information-theoretic.
 %A few models have used other complexity measures that are not explicitly information-theoretic quantities.
@@ -286,13 +289,15 @@ While the design of our word order grammars (see \emph{Materials and Methods}) p
 In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to $1$ placing similar weights on both predictability and parseability, whereas values closer to $0$ diminish the role of predictability.
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parseability.
-While the computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
+The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
+However, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
 As shown in Table~\ref{tab:all-predictions-1}, each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions.
-%Indeed, the same holds for all of the 38 syntactic relations in UD  (Table~\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})
-%We additionally report results with $\lambda = 0$, i.e., placing all weight on parseability.
 That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.\footnote{Results from one of the preliminary experiments reported in Figure~\ref{table:corr-resu-previous} show that results are stable to small variation of $\lambda$: Essentially equivalent predictions are obtained for $\lambda=1.0$. While $\lambda=1.0$ is not a valid choice for communicative efficiency in general due to the possibility of collapse to a single utterance, our setting does not allow such a collapse, as the syntactic structure already determines which words are present in the sentence.}
 Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
-See also Figure~\ref{table:corr-resu-previous} for converging evidence from our preregistered preliminary experiments.
+This is confirmed by converging evidence from our preregistered preliminary experiments in Figure~\ref{table:corr-resu-previous}.
+
+
+
 %Finally, the robustness of our results to small variations of $\lambda$ is confime by reporting results with $\lambda=1$ in Table~\ref{table:corr-resu-previous}.
 
 
@@ -590,20 +595,24 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 
 
 
-
-Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM} for discussion).
-This has been suggested as a property of efficient word order in prior work, and, indeed, we found that DLM is predicted by efficiency optimization (Section~\ref{sec:DLM}).
-Results in Table~\ref{tab:all-predictions-1} also show that optimizing for DLM makes predictions similar to efficiency optimization. See Section~\ref{sec:DLM} for further discussion.
-
+%We also report results for grammars optimized for Dependency Length Minimization (DLM), which has been argued to be a property of efficient word order, and which we find to be predicted by efficiency optimization (see Section~\ref{sec:DLM}).
+%In line with this idea, our results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization.
+%These results suggest that it is in part through favoring short dependencies that efficiency predicts word order universals, an idea that has been proposed in prior theoretical studies \citep{hawkins1994performance, hawkins2004efficiency}.
+%%Previous theoretical studies arguing for efficiency explanations of word order universals have already suggested that principles akin to DLM explain the Greenberg correlations ; our results provide the first large-scale empirical confirmation of this idea, and show that this can be reduced to efficiency optimization.
+%See Section~\ref{sec:DLM} for further discussion.
+%
 
 
 
 \begin{table*} % TODO figure out away to make this table more aesthetic
 	\begin{center}	
-\includegraphics[width=0.8\textwidth]{si-table-perrel-1-1.png}
+\includegraphics[width=0.8\textwidth]{si-table-perrel-1a-1.png}
 \end{center}
 \caption{Predictions on UD relations with predictions from the typological literature.
-The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically.}
+The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
+In the last column, we indicate what direction would be expected typologically. 
+%We additionally report results obtained when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion of DLM and its relation to efficiency. 
+}
 \label{tab:all-predictions-1}
 \end{table*}
 
@@ -664,7 +673,7 @@ The first section contains the eight correlations discussed in the main paper (S
 
 \begin{table*} % TODO figure out away to make this table more aesthetic
 	\begin{center}	
-\includegraphics[width=0.8\textwidth]{si-table-perrel-2-1.png}  
+\includegraphics[width=0.8\textwidth]{si-table-perrel-2a-1.png}  
 \end{center}
 \caption{Predictions on UD relations for which no predictions are available in the typological literature.  ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).}
 \label{tab:all-predictions-2}
@@ -728,7 +737,7 @@ The first section contains the eight correlations discussed in the main paper (S
 
 
 \subsection{Previous Experiments}\label{sec:previous-exps}
-In Table~\ref{table:corr-resu-previous} we report the results of our two previous, preregistered, simulations\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}, \url{https://aspredicted.org/blind.php?x=bg35x7}. For the results of the locality simulations described in the first preregistration, see the DLM results in Table~\ref{tab:all-predictions-1}, see also Section~\ref{sec:DLM} for discussion.} together with results from the main experiment.
+In Table~\ref{table:corr-resu-previous} we report the results of our two previous, preregistered, simulations\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}, \url{https://aspredicted.org/blind.php?x=bg35x7}. For the results of the locality simulations described in the first preregistration, see the Dependency Length Minimization results in Table~\ref{tab:all-predictions-1a}, with discussion in Section~\ref{sec:DLM}.} together with results from the main experiment.
 These experiments all had the same setup described in Section~\ref{sec:neural-architectures}, which was fixed before starting simulations; differences are that (1) one simulation places fully equal weight on parseability and predictability ($\lambda=1.0$), and (2) the final experiment uses three random seeds per grammar.
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
 
@@ -800,7 +809,7 @@ We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar p
 
 \subsection{Extracting Grammars from Datasets}\label{sec:extract-grammars}
 We extract grammars for the actual languages by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
-To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.
+To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.\footnote{We implemented this regularized optimization as mean-field ELBO variational inference in Pyro~\cite{bingham2018pyro}.}
 We then extract the posterior means for each parameter $a_\tau, b_\tau$, and convert the resulting differentiable grammar into an ordinary ordering grammar.
 
 
@@ -1075,6 +1084,8 @@ All choices, except where explicitly noted otherwise, were made before evaluatin
 
 %\paragraph{Locality}
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
+
+\textcolor{red}{TODO put language modeling and parsing formulas to make this more explicit}
 
 \paragraph{Estimating Predictability}
 We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}.
@@ -1370,11 +1381,9 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 Prior work has suggested \emph{Dependency Length Minimization} (DLM) as a characteristic of efficient word order~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 This is the idea that word order minimizes the average distance between syntactically related words.
 It is known that human languages reduce dependency length compared to random baselines~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
-
-Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
+Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
-
 
 Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
@@ -1382,8 +1391,8 @@ The actual processing complexity induced by long dependencies is not a linear fu
 
 We asked whether efficiency optimization predicts dependency length minimization effects.
 We first computed dependency length for grammars optimized for efficiency.
-We found that 100\% of grammars optimized for efficiency reduce average dependency length compared to baseline grammars ($p < 0.05$, by one-sided $t$-test). \textcolor{red}{TODO}
-This suggests that the reduction of dependency length is predicted by efficiency maximization.
+We found that 100\% of grammars optimized for efficiency reduce average dependency length compared to baseline grammars ($p < 0.05$, by one-sided $t$-test). 
+This suggests that the reduction of dependency length observed in natural language is indeed predicted by efficiency maximization, confirming theoretical arguments made in prior work~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section~\ref{sec:optim-eff}).
 We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
 In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
@@ -1407,15 +1416,57 @@ Optiziming grammars for efficiency produces dependency lengths similar to those 
 
 
 Next, we examined the word order properties of grammars optimized for DLM.
-In Table~\ref{tab:all-predictions-1}, we report the posterior prevalence of word order correlations in grammars optimized for DLM show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
+In Table~\ref{tab:all-predictions-1b}, we report the posterior prevalence of word order correlations in grammars optimized for DLM; our results show that optimizing for DLM makes predictions similar to efficiency optimization.
+This is itself a novel result, suggesting that it is in part through favoring short dependencies that efficiency predicts word order universals, an idea that has been proposed in prior theoretical studies \citep{hawkins1994performance, hawkins2004efficiency}.
 We find that these grammars also exhibit the eight correlations, similar to grammars directly optimized for efficiency.
 On other correlations, predictions of DLM also resemble those of efficiency optimization.
-However, it predicts strong correlations with \textit{amod} (adjectival modifiers) and \textit{nummod} (numeral modifiers) (see bottom of Table~\ref{tab:all-predictions-1}), which are not borne out typologically.
+However, it predicts strong correlations with \textit{amod} (adjectival modifiers) and \textit{nummod} (numeral modifiers) (see bottom of Table~\ref{tab:all-predictions-1b}), which are not borne out typologically.
 In these cases, efficiency optimization predicts prevalences closer to 50\%, in line with typological data.
 
-In conclusion, these results suggest that dependency length minimization is a by-product of efficiency optimization, providing support to theoretical arguments from the linguistic literature~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
-Furthermore, optimizing for dependency length correctly predicts a range of word order facts, though it appears to \emph{overpredict} correlations when compared to direct optimization for efficiency.
 
+\begin{table}[ht] % TODO figure out away to make this table more aesthetic
+	\begin{center}	
+\includegraphics[width=0.7\textwidth]{si-table-perrel-1b-1.png}
+\end{center}
+\caption{Predictions on UD relations with predictions from the typological literature (compare Table~\ref{tab:all-predictions-1}), for languages optimized for Efficiency and Dependency Length Minimization.
+}
+\label{tab:all-predictions-1b}
+\end{table}
+
+
+
+
+In conclusion, these results suggest that the phenomenon of dependency length minimization is a by-product of efficiency optimization, providing support to theoretical arguments from the linguistic literature~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
+Furthermore, optimizing for dependency length correctly predicts a range of word order facts, though it appears to \emph{overpredict} correlations when compared to direct optimization for communicative efficiency.
+
+
+
+
+
+%
+%We also report results for grammars optimized for Dependency Length Minimization (DLM), which has been argued to be a property of efficient word order, and which we find to be predicted by efficiency optimization (see Section~\ref{sec:DLM}).
+%In line with this idea, our results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization.
+%These results suggest that it is in part through favoring short dependencies that efficiency predicts word order universals, an idea that has been proposed in prior theoretical studies \citep{hawkins1994performance, hawkins2004efficiency}.
+%%Previous theoretical studies arguing for efficiency explanations of word order universals have already suggested that principles akin to DLM explain the Greenberg correlations ; our results provide the first large-scale empirical confirmation of this idea, and show that this can be reduced to efficiency optimization.
+%See Section~\ref{sec:DLM} for further discussion.
+%
+%
+%
+%
+%\begin{table*} % TODO figure out away to make this table more aesthetic
+%        \begin{center}
+%\includegraphics[width=0.8\textwidth]{si-table-perrel-1a-1.png}
+%\end{center}
+%\caption{Predictions on UD relations with predictions from the typological literature.
+%The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
+%In the last column, we indicate what direction would be expected typologically.
+%We additionally report results obtained when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion of DLM and its relation to efficiency. }
+%\label{tab:all-predictions-1}
+%\end{table*}
+%
+%
+%
+%
 
 
 
