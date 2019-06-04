@@ -15,6 +15,6 @@ while failures < 1000:
   if len(relevant) > 0:
      failures += 1
      continue
-  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "inferWeightsCrossVariationalAllCorpora_NoPunct_NEWPYTORCH_FuncHead_Coarse.py", language, language])
+  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "inferRealGrammars.py", language, language])
   break
 

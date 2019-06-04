@@ -19,7 +19,7 @@ with open("writeup/best-two-lambda09-best-balanced.csv", "r") as inFile:
 
 for modelID in models:
   for controlType in ["inwards", "interleave", "even_odd",  "pos"]:
-    subprocess.call(["./python27", ("readData_PARSING_ZeroTemp_COARSE_PLANE_Adversarial.py" if controlType != "pos" else "readData_PARSING_ZeroTemp_COARSE_PLANE_Reordered_Learn.py"), language] + arguments + [modelID, modelDir, controlType])
+    subprocess.call(["./python27", ("estimate_Parseability_Reordered.py" if controlType != "pos" else "estimate_Parseability_Reordered_POS.py"), language] + arguments + [modelID, modelDir, controlType])
 
 
 

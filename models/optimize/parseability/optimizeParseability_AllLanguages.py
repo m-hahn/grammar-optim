@@ -29,7 +29,7 @@ BASE_DIR = "manual_output_funchead_two_coarse_parser_best"
 inPath = "../../../raw-results/"+BASE_DIR+"/"
 
 while len(languages) > 0:
-   script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyParser_Replication_Best.py"
+   script = "optimizeParseability.py"
 
    language = random.choice(languages)
    import os

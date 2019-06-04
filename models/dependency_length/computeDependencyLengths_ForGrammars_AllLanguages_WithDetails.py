@@ -43,7 +43,7 @@ with open(outpath, "w") as outFile:
 
 for modelNumber, BASE_DIR in models:
   assert temperature == "Infinity"
-  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_Coarse.py", language, language, modelNumber, str(temperature), BASE_DIR, "True"])
+  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengths_ForGrammars.py", language, language, modelNumber, str(temperature), BASE_DIR, "True"])
 
 
 #Czech_computeDependencyLengthsByType_NEWPYTORCH.py_model_3931200_2937602.tsv

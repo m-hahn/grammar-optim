@@ -1,7 +1,7 @@
 # Estimating Predictability
 
-* `readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE_FixedParam_Epochs.py`: Estimating predictability of a grammar for a language
-* `generateManyLSTMModels_FastAsBefore_Running_FuncHead_LANGMOD_Models_ZeroTemp_COARSE_PLANE_FixedParam_OnlyFromList.py`: Wrapper estimating predictability for all grammars
-* `generateManyLSTMModels_FastAsBefore_Running_FuncHead_LANGMOD_Models_ZeroTemp_COARSE_PLANE_RANDOM_FixedParam.py`: Wrapper generating baseline grammars and estimating their predictability
+* `estimatePredictability.py`: Estimating predictability of a grammar for a language
+* `estimatePredictability_AllLanguages.py`: Wrapper estimating predictability for all grammars
+* `estimatePredictability_Baselines.py`: Wrapper generating baseline grammars and estimating their predictability
 
 

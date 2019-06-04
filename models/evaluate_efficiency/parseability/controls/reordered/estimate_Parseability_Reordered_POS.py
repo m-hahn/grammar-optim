@@ -1,53 +1,3 @@
-#/u/nlp/bin/stake.py -g 11.5g -s run-stats-pretrain2.json "python readDataDistEnglishGPUFree.py"
-
-
-
-# DepL
-#  ./python27 readData_PARSING_ZeroTemp_COARSE_PLANE_Reordered_Learn.py English NONE 0.001 0.9 0.001 0.001 0.9 0.999 0.2 20 15 2 100 2 True 200 300 0.0 300 20000000 2189630 manual_output_funchead_coarse_depl pos
-
-# compare modeling on garbled orders
-#  ./python27 readData_PARSING_ZeroTemp_COARSE_PLANE_Reordered.py English NONE 0.001 0.9 0.001 0.001 0.9 0.999 0.2 20 15 2 100 2 True 200 300 0.0 300 20000000 6313610 manual_output_funchead_two_coarse_parser_final 
-
-#  ./python27 readData_PARSING_ZeroTemp_COARSE_PLANE_Reordered.py English NONE 0.001 0.9 0.001 0.001 0.9 0.999 0.2 20 15 2 100 2 True 200 300 0.0 300 20000000 RANDOM manual_output_funchead_two_coarse_parser_final 
-
-
-
-#['readData_PARSING_ZeroTemp_COARSE_PLANE_Reordered.py', 'English', 'NONE', '0.001', '0.9', '0.001', '0.001', '0.9', '0.999', '0.2', '20', '15', '2', '100', '2', 'True', '200', '300', '0.0', '300', '200000
-#00', 'RANDOM', 'manual_output_funchead_two_coarse_parser_final']
-#sososo_coarse_parser_reordered English 6831027 78300 8 9811 MODEL RANDOM
-#[('rnn_dim', 200), ('lr_lm', 0.001), ('beta1', 0.9), ('beta2', 0.999), ('dropout_rate', 0.2), ('tokensPerBatch', 20), ('clip_at', 15.0), ('pos_embedding_size', 100), ('lstm_layers', 2), ('bilinearSize', 4
-#00), ('useMean', False), ('shallow', True), ('clip_norm', 2), ('input_dropoutRate', 0.0), ('labelMLPDimension', 300), ('lr_policy', 0.001), ('momentum_policy', 0.9), ('entropy_weight', 0.001)]
-#[1.6410783771920985, 1.526151594396475, 1.4739153548093171, 1.437109866329259, 1.4144148448994518, 1.4078437334851335, 1.372962507664636]
-#[0.6183431952662722, 0.6438072118545491, 0.6576644919840187, 0.6670459717796996, 0.6733677236635817, 0.6747079350629647, 0.6816365751276994]
-#[0.5822333485055379, 0.6025135285490315, 0.617711020077884, 0.6274718049865979, 0.6354877863753603, 0.6366004147069236, 0.6428463055681991]
-
-
-# on random order
-#sososo_coarse_parser_reordered English 150329 88200 9 9811 MODEL RANDOM                                                                                                                           [170/1898]
-#[('rnn_dim', 200), ('lr_lm', 0.001), ('beta1', 0.9), ('beta2', 0.999), ('dropout_rate', 0.2), ('tokensPerBatch', 20), ('clip_at', 15.0), ('pos_embedding_size', 100), ('lstm_layers', 2), ('bilinearSize', 4
-#00), ('useMean', False), ('shallow', True), ('clip_norm', 2), ('input_dropoutRate', 0.0), ('labelMLPDimension', 300), ('lr_policy', 0.001), ('momentum_policy', 0.9), ('entropy_weight', 0.001)]
-#[1.5595468577602858, 1.4613660292560797, 1.4308605954892801, 1.3846707316463573, 1.3678805177438986, 1.363458865964014, 1.3580072233130753, 1.3494857637010937]
-#[0.6389015323926567, 0.6597380266019319, 0.6698528296161432, 0.6739746118444343, 0.6818641581955192, 0.686592828604663, 0.688514641177363, 0.6904870277651343]
-#[0.6081272442219188, 0.6273959439639913, 0.6365751276993881, 0.6419865473119911, 0.6494715015425074, 0.6533151266879077, 0.6563748545997067, 0.6584989632326911]
-
-
-
-# on random order:
-#sososo_coarse_parser_reordered English 4533687 58700 6 9811 MODEL RANDOM                                                                                                                          [228/1903]
-#[('rnn_dim', 200), ('lr_lm', 0.001), ('beta1', 0.9), ('beta2', 0.999), ('dropout_rate', 0.2), ('tokensPerBatch', 20), ('clip_at', 15.0), ('pos_embedding_size', 100), ('lstm_layers', 2), ('bilinearSize', 4
-#00), ('useMean', False), ('shallow', True), ('clip_norm', 2), ('input_dropoutRate', 0.0), ('labelMLPDimension', 300), ('lr_policy', 0.001), ('momentum_policy', 0.9), ('entropy_weight', 0.001)]
-#[1.5678516125209176, 1.4619792745949942, 1.408905909614643, 1.3796909327266889, 1.3516702741310653]
-#[0.6426440095079148, 0.6649471501542508, 0.6757447023719213, 0.6883882061396854, 0.6897031305315329]
-#[0.6070399028978911, 0.6320487533505285, 0.6429221665908057, 0.6558185404339251, 0.6580437970970515]
-
-
-# on optimized language:
-#sososo_coarse_parser_reordered English 8554210 87300 9 9811 MODEL 6313610
-#[('rnn_dim', 200), ('lr_lm', 0.001), ('beta1', 0.9), ('beta2', 0.999), ('dropout_rate', 0.2), ('tokensPerBatch', 20), ('clip_at', 15.0), ('pos_embedding_size', 100), ('lstm_layers', 2), ('bilinearSize', 4
-#00), ('useMean', False), ('shallow', True), ('clip_norm', 2), ('input_dropoutRate', 0.0), ('labelMLPDimension', 300), ('lr_policy', 0.001), ('momentum_policy', 0.9), ('entropy_weight', 0.001)]
-#[1.2259340782225485, 1.1415312873249603, 1.108850280678012, 1.0942945379914752, 1.0831680815262412, 1.0746147771555428, 1.0726922541277992, 1.0616005890891698]
-#[0.7545390178526273, 0.7737065695645577, 0.7818995600060689, 0.7848328528801901, 0.7878167197693825, 0.7910281697263946, 0.7930005563141658, 0.7943660547210843]
-#[0.7009811358923785, 0.7179234309411824, 0.7264451524806554, 0.7303646386486623, 0.7348657259899863, 0.7378243058716432, 0.7394679613614524, 0.740833459768371]
 
 
 import random
@@ -94,7 +44,6 @@ assert input_dropoutRate in [0.0, 0.05, 0.1, 0.2]
 labelMLPDimension = int(sys.argv[19]) #random.choice([100, 200, 300, 400])
 assert labelMLPDimension in [100, 200, 300], labelMLPDimension
 
-# English RANDOM_BY_TYPE 0.002 0.9 0.9 0.3 1000 15 50 3 True 300 2 0.05 200 300 742002619
 
 maxNumberOfUpdates = int(sys.argv[20]) if len(sys.argv) > 20 else 20000
 
@@ -117,22 +66,15 @@ else:
 
 
 
-posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
 
-posFine = set() #[ "``", ",", ":", ".", "''", "$", "ADD", "AFX", "CC",  "CD", "DT", "EX", "FW", "GW", "HYPH", "IN", "JJ", "JJR",  "JJS", "-LRB-", "LS", "MD", "NFP", "NN", "NNP", "NNPS", "NNS",  "PDT", "POS", "PRP", "PRP$", "RB", "RBR", "RBS", "RP", "-RRB-", "SYM", "TO", "UH", "VB", "VBD", "VBG", "VBN", "VBP", "VBZ",  "WDT", "WP", "WP$", "WRB", "XX" ]
-
-
-
-deps = ["acl", "acl:relcl", "advcl", "advmod", "amod", "appos", "aux", "auxpass", "case", "cc", "ccomp", "compound", "compound:prt", "conj", "conj:preconj", "cop", "csubj", "csubjpass", "dep", "det", "det:predet", "discourse", "dobj", "expl", "foreign", "goeswith", "iobj", "list", "mark", "mwe", "neg", "nmod", "nmod:npmod", "nmod:poss", "nmod:tmod", "nsubj", "nsubjpass", "nummod", "parataxis", "punct", "remnant", "reparandum", "root", "vocative", "xcomp"] 
-
-#deps = ["acl", " advcl", " advmod", " amod", " appos", " aux", " case cc", " ccompclf", " compound", " conj", " cop", " csubjdep", " det", " discourse", " dislocated", " expl", " fixed", " flat", " goeswith", " iobj", " list", " mark", " nmod", " nsubj", " nummod", " obj", " obl", " orphan", " parataxis", " punct", " reparandum", " root", " vocative", " xcomp"]
+posUni = set() 
+posFine = set() 
 
 
 from math import log, exp, sqrt
 from random import random, shuffle, randint
 import os
 
-header = ["index", "word", "lemma", "posUni", "posFine", "morph", "head", "dep", "_", "_"]
 
 from corpusIterator_FuncHead import CorpusIteratorFuncHead
 
@@ -191,21 +133,12 @@ from torch.autograd import Variable
 # "linearization_logprobability"
 def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum):
    line = sentence[position-1]
-   # Loop Invariant: these are the gradients relevant at everything starting at the left end of the domain of the current element
    allGradients = gradients_from_the_left_sum #+ sum(line.get("children_decisions_logprobs",[]))
 
-#   if "linearization_logprobability" in line:
-#      allGradients += line["linearization_logprobability"] # the linearization of this element relative to its siblings affects everything starting at the start of the constituent, but nothing to the left of it
-#   else:
-#      assert line["coarse_dep"] == "root"
-#
-
-   # there are the gradients of its children
    if "children_DH" in line:
       for child in line["children_DH"]:
          allGradients = recursivelyLinearize(sentence, child, result, allGradients)
    result.append(line)
-#   print ["DECISIONS_PREPARED", line["index"], line["word"], line["dep"], line["head"], allGradients.data.numpy()[0]]
    line["relevant_logprob_sum"] = allGradients
    if "children_HD" in line:
       for child in line["children_HD"]:
@@ -225,25 +158,14 @@ def orderChildrenRelative(sentence, remainingChildren, reverseSoftmax):
        childrenLinearized = []
        while len(remainingChildren) > 0:
            logits = [distanceWeights[stoi_deps[sentence[x-1]["dependency_key"]]] for x in remainingChildren]
-           #print logits
            if reverseSoftmax:
               logits = [-x for x in logits]
-           #print (reverseSoftmax, logits)
            softmax = logits #.view(1,-1).view(-1)
            selected = numpy.argmax(softmax)
-           #selected = numpy.random.choice(range(0, len(remainingChildren)), p=softmax.data.numpy())
-           #log_probability = torch.log(softmax[selected])
            assert "linearization_logprobability" not in sentence[remainingChildren[selected]-1]
-           #sentence[remainingChildren[selected]-1]["linearization_logprobability"] = log_probability
            childrenLinearized.append(remainingChildren[selected])
            del remainingChildren[selected]
        return childrenLinearized           
-#           softmax = torch.distributions.Categorical(logits=logits)
-#           selected = softmax.sample()
-#           print selected
-#           quit()
-#           softmax = torch.cat(logits)
-
 
 
 def orderSentence(sentence, dhLogits, printThings):
@@ -268,21 +190,16 @@ def orderSentence(sentence, dhLogits, printThings):
       dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + exp(-dhLogit))
       dhSampled = (0.5 < probability)
-#      logProbabilityGradient = (1 if dhSampled else -1) * (1-probability)
-#      line["ordering_decision_gradient"] = logProbabilityGradient
       line["ordering_decision_log_probability"] = 0 #torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
 
       
      
       direction = "DH" if dhSampled else "HD"
-#torch.exp(line["ordering_decision_log_probability"]).data.numpy(),
       if printThings: 
          print "\t".join(map(str,["ORD", line["index"], (line["word"]+"           ")[:10], ("".join(list(key)) + "         ")[:22], line["head"], dhSampled, direction, (str(probability)+"      ")[:8], str(1/(1+exp(-dhLogits[key])))[:8], (str(distanceWeights[stoi_deps[key]])+"    ")[:8] , str(originalDistanceWeights[key])[:8]    ]  ))
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
-#      sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
-
 
 
    if model != "REAL_REAL":
@@ -307,8 +224,6 @@ def orderSentence(sentence, dhLogits, printThings):
             assert 0 not in line["children_HD"]
             eliminated = eliminated + [sentence[x-1] for x in line["children_HD"]]
 
-
-#         shuffle(line["children_HD"])
    
    linearized = []
    recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
@@ -332,11 +247,8 @@ def orderSentence(sentence, dhLogits, printThings):
    # store new dependency links
    moved = [None] * len(sentence)
    for i, x in enumerate(linearized):
-#      print x
       moved[x["index"]-1] = i
- #  print moved
    for i,x in enumerate(linearized):
-  #    print x
       if x["head"] == 0: # root
          x["reordered_head"] = 0
       else:
@@ -368,8 +280,6 @@ print itos_deps
 dhWeights = [0.0] * len(itos_deps)
 distanceWeights = [0.0] * len(itos_deps)
 for i, key in enumerate(itos_deps):
-
-   # take from treebank, or randomize
    dhLogits[key] = 100 * 2*(random()-0.5)
    dhWeights[i] = dhLogits[key]
 
@@ -393,10 +303,6 @@ if model != "RANDOM" and model != "REAL_REAL":
       header = data[0]
       data = data[1:]
     
-   #print header
-   #quit()
-   # there might be a divergence because 'inferWeights...' models did not necessarily run on the full set of corpora per language (if there is no AllCorpora in the filename)
-   #assert len(data) == len(itos_deps), [len(data), len(itos_deps)]
    if "Dependency" not in header:
       header[header.index("CoarseDependency")] = "Dependency"
    if "DH_Weight" not in header:
@@ -405,9 +311,6 @@ if model != "RANDOM" and model != "REAL_REAL":
       header[header.index("Distance_Mean_NoPunct")] = "DistanceWeight"
 
    for line in data:
-   #   print line
-#      head = line[header.index("Head")]
- #     dependent = line[header.index("Dependent")]
       dependency = line[header.index("Dependency")]
       key = dependency
       dhWeights[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
@@ -422,29 +325,19 @@ words = list(vocab.iteritems())
 words = sorted(words, key = lambda x:x[1], reverse=True)
 itos = map(lambda x:x[0], words)
 stoi = dict(zip(itos, range(len(itos))))
-#print stoi
-#print itos[5]
-#print stoi[itos[5]]
+
 
 if len(itos) > 6:
    assert stoi[itos[5]] == 5
 
-#print dhLogits
-
-#for sentence in getNextSentence():
-#   print orderSentence(sentence, dhLogits)
 
 vocab_size = 5
 
 word_embedding_size = 0
-# 0 EOS, 1 UNK, 2 BOS
-#word_embeddings = torch.nn.Embedding(num_embeddings = vocab_size+3, embedding_dim = word_embedding_size).cuda()
 pos_u_embeddings = torch.nn.Embedding(num_embeddings = len(posUni)+3, embedding_dim = pos_embedding_size).cuda()
-pos_p_embeddings = torch.nn.Embedding(num_embeddings = len(posFine)+3, embedding_dim=pos_embedding_size).cuda()
 
 pos_pos_embeddings = torch.nn.Embedding(num_embeddings = 500+3, embedding_dim=pos_embedding_size).cuda()
 
-#baseline = nn.Linear(50, 1).cuda()
 
 dropout = nn.Dropout(dropout_rate).cuda()
 
@@ -465,20 +358,11 @@ dependentMLPOut = nn.Linear(bilinearSize, bilinearSize).cuda()
 labelMLP = nn.Linear(2*bilinearSize, labelMLPDimension).cuda()
 labelDecoder = nn.Linear(labelMLPDimension, len(itos_pure_deps)+1).cuda()
 
-#bilinearMatrix = nn.Bilinear(rnn_dim, rnn_dim, 1).cuda()
 
 U = nn.Parameter(torch.Tensor(bilinearSize,bilinearSize).cuda())
 
 
 biasHead = nn.Parameter(torch.Tensor(1,bilinearSize,1).cuda())
-##biasDependent = nn.Parameter(torch.Tensor(bilinearSize).cuda())
-#
-#
-#biasLabel = Variable(torch.Tensor((1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#U_label = Variable(torch.Tensor((1+len(itos_pure_deps)), bilinearSize,bilinearSize).cuda(), requires_grad=True)
-#linear_Label_dep = Variable(torch.Tensor(bilinearSize, (1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#linear_Label_head = Variable(torch.Tensor(bilinearSize, (1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#
 
 
 components = [pos_pos_embeddings, pos_u_embeddings, rnn, headRep, depRep, headMLPOut, dependentMLPOut, labelMLP, labelDecoder] # baseline, word_embeddings, pos_p_embeddings, 
@@ -489,33 +373,13 @@ def parameters_lm():
       yield param
  yield U
  yield biasHead
-# yield biasLabel
-# yield U_label
-# yield linear_Label_dep
-# yield linear_Label_head
-
-
-#def parameters_ordering():
-# yield dhWeights
-# yield distanceWeights
-#
-
-
 
 from torch import optim
 
 optimizer = optim.Adam(parameters_lm(), lr = lr_lm, betas=[beta1, beta2])
-#optimizer = optim.SGD(parameters_lm(), lr = 0.0002, momentum=0.9) #, betas=[0.9, 0.9])
-#optimizer_policy = optim.SGD(parameters_ordering(), lr = lr_policy, momentum=momentum_policy)
-
-
-#for pa in parameters():
-#  print pa
 
 initrange = 0.01
-#word_embeddings.weight.data.uniform_(-initrange, initrange)
 pos_u_embeddings.weight.data.uniform_(-initrange, initrange)
-pos_p_embeddings.weight.data.uniform_(-initrange, initrange)
 
 pos_pos_embeddings.weight.data.uniform_(-initrange, initrange)
 
@@ -523,10 +387,6 @@ pos_pos_embeddings.weight.data.uniform_(-initrange, initrange)
 
 U.data.fill_(0)
 biasHead.data.fill_(0)
-#biasLabel.data.fill_(0)
-#U_label.data.fill_(0)
-#linear_Label_dep.data.fill_(0)
-#linear_Label_head.data.fill_(0)
 
 
 headMLPOut.bias.data.fill_(0)
@@ -550,14 +410,6 @@ headRep.weight.data.uniform_(-initrange, initrange)
 depRep.bias.data.fill_(0)
 depRep.weight.data.uniform_(-initrange, initrange)
 
-#bilinearMatrix.bias.data.fill_(0)
-#bilinearMatrix.weight.data.uniform_(-0.01, 0.01)
-
-
-#baseline.bias.data.fill_(0)
-#baseline.weight.data.uniform_(-initrange, initrange)
-
-
 #
 def prod(x):
    r = 1
@@ -569,9 +421,6 @@ crossEntropy = 10.0
 
 def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
-
-#loss = torch.nn.CrossEntropyLoss(reduce=False, ignore_index = 0)
-
 
 import torch.cuda
 import torch.nn.functional
@@ -585,9 +434,6 @@ content_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni, [
 function_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni,["ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "PART", "PRON", "PUNCT", "SCONJ", "SYM", "X"]))
 
 
-#data = list(corpus)[:20]
-
-
 baselinePerType = [4.0 for _ in itos_pure_deps]
 
 def forward(current, computeAccuracy=False, doDropout=True):
@@ -595,20 +441,13 @@ def forward(current, computeAccuracy=False, doDropout=True):
        global crossEntropy
        global batchSize
        batchSize = len(current)
-#       if printHere:
-#         print (batchSize, tokensPerBatch, sum(map(len, current)))
        batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
       
        batchOrdered = batchOrderedLogits[0]
        logits = batchOrderedLogits[1]
    
        lengths = map(len, batchOrdered)
-       # current is already sorted by length
        maxLength = max(lengths)
-#       if maxLength <= 2:
-##         print current
-#         print "Skipping extremely short sentence"
-#         continue
        input_words = []
        input_pos_u = []
        input_pos_p = []
@@ -628,22 +467,13 @@ def forward(current, computeAccuracy=False, doDropout=True):
        optimizer.zero_grad()
 
        if True:
-           # TODO word dropout could also be added: randomly sprinkle `1' (UNK) in the LongTensor (not into input_words -- this will also be used for the softmax!)
-#           words_layer = word_embeddings(Variable(torch.LongTensor(input_words)).cuda())
            pos_u_layer = pos_u_embeddings(Variable(torch.LongTensor(input_pos_u).transpose(0,1)).cuda())
            pos_pos_layer = pos_pos_embeddings(Variable(torch.LongTensor(input_pos_pos).transpose(0,1)).cuda())
 
-#           pos_p_layer = pos_p_embeddings(Variable(torch.LongTensor(input_pos_p)).cuda())
            inputEmbeddings = torch.cat([pos_u_layer, pos_pos_layer], dim=2) # words_layer, 
-#           print(input_pos_pos)
- #          print(pos_pos_layer)
            if doDropout:
               inputEmbeddings = inputDropout(inputEmbeddings)
- #             if printHere:
- #               print inputEmbeddings
               inputEmbeddings = dropout(inputEmbeddings)
-#           print hidden
-#           print inputEmbeddings
            output, hidden = rnn(inputEmbeddings, hidden)
 
            outputFlat = output.contiguous().view(-1, 2*rnn_dim)
@@ -652,19 +482,10 @@ def forward(current, computeAccuracy=False, doDropout=True):
               if doDropout:
                  heads = dropout(heads)
               heads = nn.ReLU()(heads)
-#              if printHere:
-#                print heads
-#                print torch.nonzero(heads.data.view(-1)).size()
-#                print prod(heads.size())
-   #           heads = headMLPOut(heads)
               dependents = depRep(outputFlat)
               if doDropout:
                  dependents = dropout(dependents)
               dependents = nn.ReLU()(dependents)
-#              if printHere:
-#                print dependents
-#                print torch.nonzero(dependents.data.view(-1)).size()
-#                print prod(dependents.size())
            else:
               heads = outputFlat
               if doDropout:
@@ -674,61 +495,20 @@ def forward(current, computeAccuracy=False, doDropout=True):
                  dependents = dropout(dependents)
 
 
-#           dependents = dependentMLPOut(dependents)
-
- #          baseline_predictions = baseline(words_layer.detach())
-
-           
+          
            heads = heads.view(batchSize, maxLength+2, 1, bilinearSize).contiguous() # .expand(batchSize, maxLength+2, maxLength+2, rnn_dim)
            dependents = dependents.view(batchSize, 1, maxLength+2, bilinearSize).contiguous() # .expand(batchSize, maxLength+2, maxLength+2, rnn_dim)
-#           if printHere:
-#              print "HEADS"
-#              print heads
-#              print dependents
-#           dependents = dependents.view(-1, rnn_dim)
-
            
            part1 = torch.matmul(heads, U)
-#           print part1.size()
-#           print torch.transpose(dependents, 2, 3).size() # torch.transpose(dependents, 1, 2).size()
            bilinearAttention = torch.matmul(part1, torch.transpose(dependents, 2, 3)) # 
 
-           #biasHead = biasHead.view(1,bilinearSize,1) #.unsqueeze(0).unsqueeze(0)
            heads = heads.view(-1, 1, bilinearSize)
          
-#           print biasHead.size()
-#           print heads.size()
-#           print bilinearAttention.size()
-#           print torch.matmul(heads,biasHead).view(batchSize, 1, 1, maxLength+2).size()
-
            biasFromHeads = torch.matmul(heads,biasHead).view(batchSize, 1, 1, maxLength+2)
-#           if printHere:
-#              print biasFromHeads
            bilinearAttention = bilinearAttention + biasFromHeads
-
-
-
-
-#           print bilinearAttention.size()
-#           quit()
-
-#           bilinearAttention = bilinearMatrix(heads, dependents)
-#           print bilinearAttention
            bilinearAttention = bilinearAttention.view(-1, maxLength+2)
- #          print bilinearAttention
-#           if printHere:
-#             print "BILINEAR"
-#             print bilinearAttention
-
-
            bilinearAttention = logsoftmax(bilinearAttention)
            bilinearAttention = bilinearAttention.view(batchSize, maxLength+2, maxLength+2)
-
-
-
-           
-
-
 
 
            lossesHead = [[None]*batchSize for i in range(maxLength+1)]
@@ -747,7 +527,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-#               posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
                if False and pos-3 in function_pos:
                   continue
                else:
@@ -755,7 +534,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
                if batchOrdered[j][i-1]["head"] == 0:
                   realHead = 0
                else:
-                  realHead = batchOrdered[j][i-1]["reordered_head"] # this starts at 1, so just right for the purposes here
+                  realHead = batchOrdered[j][i-1]["reordered_head"]
                targetTensor[j][i] = realHead
                wordNum += 1
 
@@ -775,10 +554,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
            heads = heads.view(batchSize, maxLength+2, bilinearSize)
            targetIndices = targetTensorVariable.unsqueeze(2).expand(batchSize, maxLength+2, bilinearSize)
-           #print heads.size()
-           #print targetIndices.size()
            headStates = torch.gather(heads, 1, targetIndices)
-           #print headStates
            dependents = dependents.view(batchSize, maxLength+2, bilinearSize)
            headStates = headStates.view(batchSize, maxLength+2, bilinearSize)
            headsAndDependents = torch.cat([dependents, headStates], dim=2)
@@ -789,7 +565,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
            labelLogits = labelDecoder(labelHidden)
            labelSoftmax = logsoftmaxLabels(labelLogits)
 
-   #        print labelSoftmax
            labelTargetTensor = [[len(itos_pure_deps) for _ in range(maxLength+2)] for _ in range(batchSize)]
            
            for j in range(batchSize):
@@ -809,37 +584,14 @@ def forward(current, computeAccuracy=False, doDropout=True):
            loss += lossesLabels.sum()
 
            lossesHeadsAndLabels = (lossesHead + lossesLabels).data.cpu().numpy()
-#           policyGradientLosses = [0 for _ in range(batchSize)]
-         #  policyGradientLoss = 0
-        #   for j in range(batchSize):
-       #      lossForThisSentenceMinusBaselines = 0
-      #       for i in range(1,len(batchOrdered[j])+1):
-     #          pos = input_pos_u[i][j]
-    #           assert pos >= 3, (i,j)
-   #            if False and pos-3 in function_pos:
-  #                continue
- #              else:
-#                  assert True or pos-3 in content_pos  
-              # lossForThisSentenceMinusBaselines += (lossesHeadsAndLabels[j][i]  - log(len(batchOrdered[j])) - baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]])
-              # if printHere:
-              #    print (lossesHeadsAndLabels[j][i], baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] + log(len(batchOrdered[j])), (lossesHeadsAndLabels[j][i]  - log(len(batchOrdered[j])) - baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]]))
-#             print batchOrdered[j][-1]["relevant_logprob_sum"] * lossForThisSentenceMinusBaselines
-#             policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * lossForThisSentenceMinusBaselines
-
-       #    for j in range(batchSize):
-        #     for i in range(1,len(batchOrdered[j])+1):
-         #      baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] = 0.99 * baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] + (1-0.99) * (lossesHeadsAndLabels[j][i] - log(len(batchOrdered[j])))
-
 
 
            if computeAccuracy:
               wordNumAcc = 0
               for j in range(batchSize):
                   for i in range(1,len(batchOrdered[j])+1):
-    #             for i in range(1,maxLength+1):
                        pos = input_pos_u[i][j]
                        assert pos >= 3, (i,j)
-        #               posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
                        if False and pos-3 in function_pos:
                           continue
                        else:
@@ -859,8 +611,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          accuracyLabeled += 1 if (predictedHead == realHead) and (predictedLabel == realLabel) else 0
                          accuracy += 1 if (predictedHead == realHead) else 0
                          wordNumAcc += 1
-                       if (True or input_words[i] > 2) and printHere and j == batchSize/2: 
-#                          print predictions.data.cpu().numpy()
+                       if printHere and j == batchSize/2: 
                           results = [j]
                           results.append(i)
                           results.append(itos[input_words[i][j]-3])
@@ -880,21 +631,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
          print sys.argv
        if wordNum > 0:  
           crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum).data.cpu().numpy()
-#       if printHere:
-#         print "BACKWARD 1"
-#       if printHere:
-#         print "BACKWARD 2"
-
- #      probabilities = torch.sigmoid(dhWeights)
-#       print ["MEAN PROBABILITIES", torch.mean(probabilities)]
-       #print ["PG", policyGradientLoss]
-
-#       neg_entropy = torch.sum( probabilities * torch.log(probabilities) + (1-probabilities) * torch.log(1-probabilities))
-
-       policy_related_loss = 0 #entropy_weight * neg_entropy + policyGradientLoss # lives on CPU
-
-
-
+       policy_related_loss = 0
        return loss, policy_related_loss, accuracy if computeAccuracy else None, accuracyLabeled if computeAccuracy else None, wordNum
 
 def backward(loss, policy_related_loss):
@@ -905,14 +642,8 @@ def backward(loss, policy_related_loss):
 
        loss.backward()
 
-#       policy_related_loss.backward()
-#       if printHere:
-#         print "BACKWARD 3 "+FILE_NAME+" "+language+" "+str(myID)+" "+str(counter)
-#         print zip(names, params)
        torch.nn.utils.clip_grad_norm(parameters_lm(), clip_at, norm_type=clip_norm)
-#       torch.nn.utils.clip_grad_norm(parameters_ordering(), 5.0, norm_type='inf')
        optimizer.step()
-       #optimizer_policy.step()
 
 
 def getPartitions(corpus):
@@ -956,7 +687,6 @@ def computeDevLoss():
               devAccuracy += accuracy
               devAccuracyLabeled += accuracyLabeled
               devWords += wordNum
-#              print (loss.data.cpu().numpy()    , accuracy)
               if counterDev % 50 == 0:
                 print "Run on dev "+str(counterDev)
                 print (devLoss/devWords, float(devAccuracy)/devWords, float(devAccuracyLabeled)/devWords, devWords)
@@ -979,8 +709,6 @@ while True:
             print "Ran for a long time, quitting."
             quit()
 
-#       if counter > 100:
-#           break
        counter += 1
        printHere = (counter % 100 == 0)
        loss, policyLoss, _, _, wordNum = forward(partition)
@@ -1005,12 +733,12 @@ while True:
           print >> sys.stderr, (difference/len(itos_deps), maxDifference)
 
 
+
   if True: #counter % 5000 == 0:
          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter)
 
          computeDevLoss()
 
-#         if False:
          with open("../../../raw-results/ADVERSARIAL_PARSER/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
               print >> outFile, " ".join(names)
               print >> outFile, " ".join(map(str,params))
@@ -1027,6 +755,9 @@ while True:
             del devLosses[-1]
             print "Loss deteriorating, stop"
             quit()
+
+
+
 
 
 

@@ -57,7 +57,6 @@ import os
 parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../raw-results/language_modeling_coarse_plane/") if "ZeroTemp" in x]
 
 
-scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE.py"]
 
 
 
@@ -67,7 +66,6 @@ planePath = "../../raw-results/language_modeling_coarse_plane/"
 
 if True:
   existingFiles = os.listdir(planePath)
-  script = random.choice(scripts) #scripts[0] if random.random() < 0.8 else scripts[1]
   done = 0
   for language, model in models:
     existing = [x for x in existingFiles if x.startswith(language) and "_"+model+"_" in x]

@@ -26,7 +26,7 @@ with open("writeup/commands-lambda1-langmod.csv", "r") as inFile:
 relevantPath = "../../../raw-results/manual_output_funchead_langmod_coarse_best/"
 
 while len(languages) > 0:
-   script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyLangmod_Replication_Best.py"
+   script = "optimizePredictability.py"
 
    language = random.choice(languages)
    import os

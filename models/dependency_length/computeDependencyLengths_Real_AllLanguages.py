@@ -33,7 +33,7 @@ for language in languages[int(starting*len(languages)):int(ending*len(languages)
   print "Doing model"
   print language 
   assert temperature == "Infinity"
-  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_REAL_REAL.py", language, language, "REAL_REAL", str(temperature), "REAL_REAL"])
+  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengths_Real.py", language, language, "REAL_REAL", str(temperature), "REAL_REAL"])
 
 
 

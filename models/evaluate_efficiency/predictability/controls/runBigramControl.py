@@ -31,7 +31,7 @@ for modelID in models:
     files = os.listdir("../../../../raw-results/language_modeling_adversarial/")
     if len([x for x in files if "_"+modelID+"_" in x and "_dotdotdot_COARSE_PLANE_ngram.py_" in x]) > 0:
       continue
-    subprocess.call(["./python27", "readData_LANGMOD_ZeroTemp_COARSE_PLANE_Bigrams.py", language, modelID, modelDir, "none"])
+    subprocess.call(["./python27", "estimatePredictability_Bigrams.py", language, modelID, modelDir, "none"])
 
 
 

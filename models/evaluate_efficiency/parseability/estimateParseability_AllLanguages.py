@@ -84,7 +84,7 @@ import os
 parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../../raw-results/parsing_coarse_plane/") if "ZeroTemp" in x]
 
 
-script = "readDataDistEnglishGPUFreeParsingUnbiasedEntropy_Fixed_REAL_Fast_Broad_Config_Dev_Labeled_MLP_Batch_ContentOnly_Controlled_Reinforce_AllWords_Zero_FuncHead_PARSING_ZeroTemp_COARSE_PLANE_Epochs.py"
+script = "estimateParseability.py"
 
 
 print(parsingDone)

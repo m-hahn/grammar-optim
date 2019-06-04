@@ -11,7 +11,7 @@ import subprocess
 import os
 
 while True:
-   script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_OnlyParser_Replication.py"
+   script = "optimize_Parseability_Search.py"
    args = {}
    relevantLanguages = [language for language in languages if len([x for x in os.listdir("../../../../raw-results/manual_output_funchead_two_coarse_parser/") if x.startswith(language+"_")]) < 8]
    if len(relevantLanguages) == 0:

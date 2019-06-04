@@ -16,7 +16,7 @@ import subprocess
 relevantPath = "../../../raw-results/manual_output_funchead_coarse_depl/"
 
 while len(languages) > 0:
-   script = 'readDataDistCrossLGPUDepLengthMomentumEntropyUnbiasedBaseline_OrderBugFixed_NoPunct_NEWPYTORCH_AllCorpPerLang_BoundIterations_FuncHead_CoarseOnly.py'
+   script = 'optimizeDependencyLength.py'
 
    language = random.choice(languages)
    import os

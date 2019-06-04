@@ -26,7 +26,7 @@ with open("../../chosen_hyperparameters/commands-lambda1.csv", "r") as inFile:
 relevantPath = "../../../raw-results/manual_output_funchead_two_coarse_lambda09_best_large/"
 
 while len(languages) > 0:
-   script = "readDataDistCrossGPUFreeAllTwoEqual_NoClip_ByCoarseOnly_FixObj_Replication_Lambda_Best_Large.py"
+   script = "optimizeEfficiency.py"
 
    language = random.choice(languages)
    import os

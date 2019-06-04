@@ -32,7 +32,7 @@ for model in models[int(starting*len(models)):int(ending*len(models))]:
   print "Doing model"
   print model
   assert temperature == "Infinity"
-  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_Coarse.py", model[0], model[0], modelNumber, str(temperature), model[1]])
+  subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "computeDependencyLengths/computeDependencyLengths_ForGrammars.py", model[0], model[0], modelNumber, str(temperature), model[1]])
 
 
 #Czech_computeDependencyLengthsByType_NEWPYTORCH.py_model_3931200_2937602.tsv

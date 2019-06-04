@@ -30,7 +30,7 @@ models = [model for model in models if len(model) == 2]
 import os
 
 
-scripts = ["readDataDistCrossGPUFreeMomentumEarlyStopEntropyPersevereAnneal_OrderBugfix_Fixed_NoPunct_AllCorpPerLang_NEWPYTORCH_Corrected_FastAsBefore_Zero_Running_FuncHead_LANGMOD_ZeroTemp_COARSE_PLANE_FixedParam.py"]
+scripts = ["estimatePredictability.py"]
 
 
 

@@ -226,7 +226,7 @@ for i, key in enumerate(itos_deps):
 
 import os
 
-if model != "RANDOM" and model != "REAL_REAL":
+if model not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] and model != "REAL_REAL" and model != "RLR":
    temperature = 1.0
    inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
@@ -264,6 +264,55 @@ elif model == "RANDOM":
          distanceWeight = distanceWeights[i]
          dependency = key
          print >> outFile, "\t".join(map(str,[myID, dhWeight, dependency, distanceWeight]))
+elif model == "RANDOM2":
+   assert BASE_DIR == "RANDOM2"
+   save_path = "/u/scr/mhahn/deps/"
+   #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
+   with open(save_path+"/manual_output_funchead_RANDOM2/"+language+"_"+"RANDOM2"+"_model_"+str(myID)+".tsv", "w") as outFile:
+      print >> outFile, "\t".join(map(str,["FileName","DH_Weight", "CoarseDependency","DistanceWeight" ]))
+      for i in range(len(itos_deps)):
+         key = itos_deps[i]
+         dhWeight = dhWeights[i]
+         distanceWeight = distanceWeights[i]
+         dependency = key
+         print >> outFile, "\t".join(map(str,[myID, dhWeight, dependency, distanceWeight]))
+elif model == "RANDOM3":
+   assert BASE_DIR == "RANDOM3"
+   save_path = "/u/scr/mhahn/deps/"
+   #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
+   with open(save_path+"/manual_output_funchead_RANDOM3/"+language+"_"+"RANDOM3"+"_model_"+str(myID)+".tsv", "w") as outFile:
+      print >> outFile, "\t".join(map(str,["FileName","DH_Weight", "CoarseDependency","DistanceWeight" ]))
+      for i in range(len(itos_deps)):
+         key = itos_deps[i]
+         dhWeight = dhWeights[i]
+         distanceWeight = distanceWeights[i]
+         dependency = key
+         print >> outFile, "\t".join(map(str,[myID, dhWeight, dependency, distanceWeight]))
+elif model == "RANDOM4":
+   assert BASE_DIR == "RANDOM4"
+   save_path = "/u/scr/mhahn/deps/"
+   #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
+   with open(save_path+"/manual_output_funchead_RANDOM4/"+language+"_"+"RANDOM4"+"_model_"+str(myID)+".tsv", "w") as outFile:
+      print >> outFile, "\t".join(map(str,["FileName","DH_Weight", "CoarseDependency","DistanceWeight" ]))
+      for i in range(len(itos_deps)):
+         key = itos_deps[i]
+         dhWeight = dhWeights[i]
+         distanceWeight = distanceWeights[i]
+         dependency = key
+         print >> outFile, "\t".join(map(str,[myID, dhWeight, dependency, distanceWeight]))
+elif model == "RANDOM5":
+   assert BASE_DIR == "RANDOM5"
+   save_path = "/u/scr/mhahn/deps/"
+   #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
+   with open(save_path+"/manual_output_funchead_RANDOM5/"+language+"_"+"RANDOM5"+"_model_"+str(myID)+".tsv", "w") as outFile:
+      print >> outFile, "\t".join(map(str,["FileName","DH_Weight", "CoarseDependency","DistanceWeight" ]))
+      for i in range(len(itos_deps)):
+         key = itos_deps[i]
+         dhWeight = dhWeights[i]
+         distanceWeight = distanceWeights[i]
+         dependency = key
+         print >> outFile, "\t".join(map(str,[myID, dhWeight, dependency, distanceWeight]))
+
 
 
 

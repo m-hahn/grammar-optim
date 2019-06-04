@@ -4,7 +4,7 @@ library(dplyr)
 data = data.frame()
 
 for(LanguageName in c("English", "Chinese", "Hindi", "Japanese")) {
-      data2 = read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_REAL_REAL.py_model_REAL_REAL.tsv", sep=""), sep="\t")
+      data2 = read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_computeDependencyLengths_Real.py_model_REAL_REAL.tsv", sep=""), sep="\t")
       data2 = data2 %>% group_by(SentenceNumber) %>% summarise(SentenceLength = NROW(Length), DepLength = sum(Length))
       data2$Type = "REAL_REAL"
       data2$Language = LanguageName
@@ -13,7 +13,7 @@ for(LanguageName in c("English", "Chinese", "Hindi", "Japanese")) {
    relevantModels =  unique(read.csv(paste("forVisualization/", LanguageName, "_forVisualization.tsv", sep=""), sep="\t"))
    for(i in (1:nrow(relevantModels))) {
       cat(i,nrow(relevantModels),"\n")
-      data2 = read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_computeDependencyLengthsByType_NEWPYTORCH_Deterministic_FuncHead_Coarse.py_model_",(relevantModels$Model[[i]]),".tsv", sep=""), sep="\t")
+      data2 = read.csv(paste("/home/user/CS_SCR/deps/dependency_length/", LanguageName, "_computeDependencyLengths_ForGrammars.py_model_",(relevantModels$Model[[i]]),".tsv", sep=""), sep="\t")
       data2 = data2 %>% group_by(SentenceNumber) %>% summarise(SentenceLength = NROW(Length), DepLength = sum(Length))
       data2$Type = relevantModels$Type[[i]]
       data2$Language = LanguageName
