@@ -55,11 +55,11 @@ dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "com
 
 
 
-sink("output/results-prevalence-two-09-large.tsv")
+sink("../output/results-prevalence-two-09-large.tsv")
 cat("")
 sink()
 
-cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="output/results-prevalence-two-09-large.tsv", append=TRUE, sep="\n")
+cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="../output/results-prevalence-two-09-large.tsv", append=TRUE, sep="\n")
 
 
 for(dependency in dependencies) {
@@ -72,7 +72,7 @@ for(dependency in dependencies) {
    posteriorMean = mean(samples)
    posteriorSD = sd(samples)
    satisfiedFraction = mean((corr_pair$correlator_s == corr_pair$obj_s), na.rm=TRUE)
-   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file="output/results-prevalence-two-09-large.tsv", append=TRUE, sep="\n")
+   cat(paste(dependency, satisfiedFraction, posteriorMean, posteriorSD, posteriorOpposite, sep="\t"), file="../output/results-prevalence-two-09-large.tsv", append=TRUE, sep="\n")
 }
 
 
