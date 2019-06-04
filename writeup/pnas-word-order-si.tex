@@ -956,7 +956,7 @@ At the beginning of the optimization procedure, we initialize all values $a_\tau
 The neural parser and language model are also randomly initialized at the beginning of optimization.
 Empirically, we observe that optimizing differentiable ordering grammars for efficiency leads to convergence towards deterministic behavior, allowing us to extract equivalent deterministic grammars as described in Section~\ref{sec:diff-gramm}.
 
-See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates used in this optimization scheme.
+See Section~\ref{sec:neural-architectures}, paragraph `Optimization Details' for the stopping criterion and learning rates used in this optimization scheme.
 
 
 
@@ -1085,18 +1085,46 @@ All choices, except where explicitly noted otherwise, were made before evaluatin
 %\paragraph{Locality}
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
 
-\textcolor{red}{TODO put language modeling and parsing formulas to make this more explicit}
-
 \paragraph{Estimating Predictability}
-We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}.
+We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}. This model uses a recurrent neural network to compute the predictability of a sentence $u = u_1...u_n$\footnote{Technically, $u_1...u_{n-1}$ are words, and $u_n$ is an end-of-sentence token, to ensure the probability distribution over all sentences is normalized.}:
+\begin{equation}
+\log p_\psi(u) = \sum_{i=1}^n \log p_\psi(u_i|u_{1\dots i-1})
+\end{equation}
+where $\psi$ are the parameters of the recurrent LSTM network, optimized on training data (see paragraph `Optimization Details').
+We estimate the average predictability of a language as a Monte Carlo estimate on held-out data:
+\begin{equation}
+	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p_\psi(u) \approx \frac{1}{|\text{Heldout Data}|} \sum_{u \in \text{Heldout Data}} \log p_\psi(u)
+\end{equation}
+by averaging over all sentences $u$ occurring in the corpus.
+
 For computational reasons, we restrict the vocabulary to the most frequent 50,000 words in the treebanks for a given language.
 Given the moderate size of the corpora, this limit is only attained only for few languages.
 In each time step, the input is a concatenation of embeddings for the word, for language-specific POS tags, and for universal POS tags.
 The model predicts both the next word and its POS tags in each step.
 Using POS tags is intended to prevent overfitting on small corpora.
 
+%\begin{equation}\label{eq:rpars}
+%	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
+%\end{equation}
+%\begin{equation}
+%	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
+%\end{equation}
+
+
+
 \paragraph{Estimating Parseability}
 We use a biaffine attention parser architecture \citep{kiperwasser2016simple,zhang2017dependency,dozat2017stanford}. This architecture is remarkably simple: the words of a sentence are encoded into context-sensitive embeddings using bidirectional LSTMs, then a classifier is trained to predict the head for each work. The classifier works by calculating a score for every pair of word embeddings $(w_i, w_j)$, indicating the likelihood that the $j$th word is the head of the $i$th word. This is a highly generic architecture for recovering graph structures from strings, and is a simplification of graph-based parsers which reduce the parsing problem to a minimal spanning tree problem \citep{mcdonald2005nonprojective}.
+The parseability of a sentence $u = u_1\dots u_n$ with syntactic structure $t$ is computed as
+\begin{equation}
+	\log p_\phi(t|u) = \sum_{i=1}^n \log p_\phi(\text{head}_i, \text{label}_i | u, i)
+\end{equation}
+where $\text{head}_i \in \{\textsc{root}, 1,\dots,n\}$ is the index of the head of $u_i$ in the syntactic structure, and $\text{label}_i$ is its syntactic relation as formalized in UD; $\phi$ denotes the parameters estimated on the training data (see paragraph `Optimization Details').
+The overall parseability is estimated as a Monte Carlo estimate on held-out data:
+\begin{equation}\label{eq:rpars}
+	R_{Pars} := I[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p_\phi(t|u)}{p(t)} = \frac{1}{|\text{Heldout Data}|} \sum_{t,u \in \text{Heldout Data}} \log \frac{p_\phi(t|u)}{p(t)}
+\end{equation}
+The constant $p(t)$ only depends on the language (but not on the word order rules), and can thus be ignored when comparing different grammars applied to the same language, and when optimizing grammars for a given language; we therefore do not attempt to explicitly estimate it.
+
 
 To reduce overfitting on small corpora, we choose a delexicalized setup, parsing only from POS tags. Preliminary experiments showed that a parser incorporating word forms overfitted long before the ordering grammar had converged; parsing from POS tags prevents early overfitting.
 This decision was made before evaluating word order properties.
@@ -1152,7 +1180,7 @@ Furthermore, to encourage exploration of the parameter space, we add an entropy 
 
 These techniques for improving (\ref{eq:dtheta}) are well-known in the machine learning literature, and we fixed these before evaluating optimized grammars for word order properties.
 
-\paragraph{Learning Rate and Stopping Criterion}
+\paragraph{Optimization Details}
 We update word order grammar parameters $\theta$ using Stochastic Gradient Descent with momentum.
 For the language model parameters $\phi$, we use plain Stochastic Gradient Descent without momentum, as recommended by \citet{merity2018regularizing}. 
 For the parser parameters $\psi$, we use Adam \citep{kingma2014adam}, following \citet{dozat2017stanford}.
