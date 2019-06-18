@@ -182,27 +182,33 @@ Pars_z = c()
 Language = c()
 for(language in unique(subData$Language)) {
    u = subData %>% filter(Language == language)
-   u = u[order(u$Pars_z),]
-   lastSurp_z = max(u$Surp_z)
-   lastPars_z = u$Pars_z[[1]]
-   Surp_z = c(Surp_z, lastSurp_z)
-   Pars_z = c(Pars_z, lastPars_z)
+
+   # Pareto hull
+
+   pred = min(u$Surp_z)
+   pars = (u %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced"))$Pars_z[1]
+
+   Surp_z = c(Surp_z, pred)
+   Pars_z = c(Pars_z, pars)
    Language = c(Language, language)
-   for(i in (1:nrow(u))) {
-      surpHere = u$Surp_z[[i]]
-      parsHere = u$Pars_z[[i]]
-      if(surpHere < lastSurp_z) {
-         Surp_z = c(Surp_z, surpHere)
-         Pars_z = c(Pars_z, parsHere)
-         Language = c(Language, language)
-        
-         lastSurp_z = surpHere
-         lastPars_z = parsHere
-      }
-   }
-   Surp_z = c(Surp_z, lastSurp_z)
-   Pars_z = c(Pars_z, max(u$Pars_z))
+   Step = c(Step, 1)
+
+   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Surp_z[1]
+   pars = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Pars_z[1]
+
+   Surp_z = c(Surp_z, pred)
+   Pars_z = c(Pars_z, pars)
    Language = c(Language, language)
+   Step = c(Step, 2)
+
+   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced"))$Surp_z[1]
+   pars = min(u$Pars_z)
+
+   Surp_z = c(Surp_z, pred)
+   Pars_z = c(Pars_z, pars)
+   Language = c(Language, language)
+   Step = c(Step, 3)
+
 }
 
 subData = data.frame(Language=Language, Surp_z=Surp_z, Pars_z=Pars_z)
