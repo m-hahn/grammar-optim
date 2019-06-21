@@ -1352,11 +1352,12 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 \section{Effects of data sparsity}
 
 Here, we investigate whether the difference between real and baseline grammars is affected by the size of available datasets.
-If the difference between random and real grammars is due to data sparsity, we expect that it decreases as the amount of training data is increased.
-If, on the other hand, there is an inherent difference in efficiency between random and real grammars, we expect that the difference persists as training data is increased.
+We are addressing the following confound: It is conceivable that with enough data, our neural network language models and parsers would do equally well on real grammars and baseline grammars.
+If the difference between random and real grammars is due to data sparsity in this way, then we expect that the difference will decrease as the amount of training data is increased.
+If, on the other hand, there is an inherent difference in efficiency between random and real grammars, we expect that the difference will persists as training data is increased.
 
 We considered Czech, the UD language with the largest amount of available treebank data (approx. 2.2 Million words), up to $\approx$ 300 times more data than is available for some other UD languages.
-We cosidered both a random ordering grammar, and the best ordering grammar optimized for parseabaility.
+We considered both a random ordering grammar, and the best ordering grammar optimized for parseabaility.
 For both of these ordering grammars, we trained the parser on successively larger portions of the training data (0.1 \%, 1 \%, 5\%, 10\%, 20 \%, ..., 90 \%, 100 \%) and recorded parsing accuracy.
 Furthermore, for the random grammar, we varied the number of neurons in the BiLSTM (200, 400, 800) to test whether results depend on the capacity of the network.
 
@@ -1415,7 +1416,7 @@ Indeed, \cite{futrell2017memory} argues specifically that it emerges from effici
 
 Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
-The actual processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}.
+The actual empirically-measured processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}.
 
 We asked whether efficiency optimization predicts dependency length minimization effects.
 We first computed dependency length for grammars optimized for efficiency.
