@@ -92,12 +92,6 @@
 
 \tableofcontents
 
-\textcolor{red}{TODOs}
-
-
-\textcolor{red}{run czech parser}
-
-\textcolor{red}{keep in mind: pareto plot unify with SI plot}
 
 \section{Formalization of Greenberg Correlation Universals}\label{sec:correlations}
 
@@ -212,18 +206,17 @@ The basis for our precise formalization is the function proposed in \cite{ferrer
 %The key idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms. %; there are some differences in the formalization of complexity.
 If $S$ denotes signals (e.g., words, sentences) and $R$ denotes their referents (e.g., objects in a reference game), then this efficiency metric takes the form (notation slightly varies across these publications):
 \begin{equation}\label{eq:eff-general}
-I[S, R] - \lambda H[S]
+I[S, R] - \lambda \cdot H[S]
 \end{equation}
-where $I[S, R]$ describes the \key{informativity} of the signals $S$ about their referents $R$, and $H[S]$ describes the \key{complexity} of the communication system.
+where $I[S, R]$ describes the \key{informativity} of the signals $S$ about their referents $R$, and $H[S]$ describes the \key{complexity} of the communication system, and $\lambda > 0$ trades off the two aspects of efficiency.
 While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} mostly considered settings where the signals $S$ are individual words without further structure, the signals are entire sentences $\utterance$ in our setting.
 The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\tree$.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure specifies how the meanings of words are combined; therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
 %The idea that efficient languages will permit the listener to infer grammati
-
-We therefore arrive at the following efficiency metric:
+Hence, substituting utterances $\utterance$ for signals $S$, and syntactic structures $\tree$ for underlying messages $R$, into (\ref{eq:eff-general}), we  arrive at the following efficiency metric for word order:
 \begin{equation}\label{eq:efficiency-derived}
-	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
+	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda \cdot R_\textit{Pred}
 \end{equation}
 where \key{parseability} is the amount of information that utterances provide about their underlying syntactic structures:
 \begin{equation}
@@ -234,7 +227,7 @@ and \key{predictability} is the negative entropy or surprisal of the language:
 	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
 \end{equation}
 
-We now discuss how this metric relates to other variants that have been proposed in the information-theoretic literature on language, and describe why~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is particularly appropriate to our setting.
+We now discuss how this metric relates to other variants that have been proposed in the information-theoretic literature on language, and describe why~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is most appropriate to our setting.
 This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains \cite{zaslavsky2018efficient, zaslavsky2019semantic}.
 The Information Bottleneck models complexity using a mutual information term instead of the entropy appearing in~(\ref{eq:eff-general}).
 This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
@@ -252,6 +245,9 @@ In addition to these models, which quantify the efficiency of communication syst
 In line with the other models, these assume that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely}.
 
 
+Beyond the study of natural language, the eficiency metric (\ref{eq:eff-general}) is also closely related to information-theoretic models in other disciplines.
+The tradeoff between informativity and complexity of communication systems is studied by Rate-distortion theory \cite{shannon1948mathematical, berger1971rate}.
+The \emph{Infomax Principle} derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) \cite{friston2010free}. 
 
 %\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
 
@@ -267,7 +263,7 @@ In line with the other models, these assume that rational speakers choose uttera
 
 \subsection{Possible values of $\lambda$}\label{sec:lambda}
 
-In the efficiency objective
+In the efficiency objective (\ref{eq:efficiency-derived})
 \begin{equation}\label{eq:efficiency}
 	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda R_\textit{Pred}
 \end{equation}
@@ -289,8 +285,7 @@ While the design of our word order grammars (see \emph{Materials and Methods}) p
 In conclusion, $\lambda$ is constrained to be in $[0,1)$, with values closer to $1$ placing similar weights on both predictability and parseability, whereas values closer to $0$ diminish the role of predictability.
 
 In our experiments, we chose $\lambda = 0.9$ as a mathematically valid value that puts similar weight on both predictability and parseability.
-The computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$.
-However, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
+While the computational cost of grammar optimization precluded repeating the experiment for many values of $\lambda$, we also examined word order predictions for grammars optimized for only parseability or only predictability, in order to tease apart predictions made by these two components.
 As shown in Table~\ref{tab:all-predictions-1}, each of the eight correlations is predicted by at least parseability or predictability, without any contradictory predictions.
 That is, at $\lambda$ close to its maximal value, the predictions of optimizing the two scoring functions individually add up to the predictions of efficiency optimization.\footnote{Results from one of the preliminary experiments reported in Figure~\ref{table:corr-resu-previous} show that results are stable to small variation of $\lambda$: Essentially equivalent predictions are obtained for $\lambda=1.0$. While $\lambda=1.0$ is not a valid choice for communicative efficiency in general due to the possibility of collapse to a single utterance, our setting does not allow such a collapse, as the syntactic structure already determines which words are present in the sentence.}
 Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
@@ -400,7 +395,7 @@ We z-transformed on the level of individual languages, normalizing the mean and 
 
 Within each language, we estimate the Pareto curve based on the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
 
-Figure 4 in the main paper shows the average of these per-language plots. 
+Figure 4 in the main paper shows the average of these per-language plots, with a kernel density estimate of the distribution of baseline grammars. 
 
 
 
@@ -737,7 +732,7 @@ In the last column, we indicate what direction would be expected typologically.
 
 
 \subsection{Previous Experiments}\label{sec:previous-exps}
-In Table~\ref{table:corr-resu-previous} we report the results of our two previous, preregistered, simulations\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}, \url{https://aspredicted.org/blind.php?x=bg35x7}. For the results of the locality simulations described in the first preregistration, see the Dependency Length Minimization results in Table~\ref{tab:all-predictions-1a}, with discussion in Section~\ref{sec:DLM}.} together with results from the main experiment.
+In Table~\ref{table:corr-resu-previous} we report the results of our two previous, preregistered, simulations\footnote{\url{http://aspredicted.org/blind.php?x=8gp2bt}, \url{https://aspredicted.org/blind.php?x=bg35x7}. For the results of the Locality simulations described in the first preregistration, see the Dependency Length Minimization results in Table~\ref{tab:all-predictions-1b}, with discussion in Section~\ref{sec:DLM}.} together with results from the main experiment.
 These experiments all had the same setup described in Section~\ref{sec:neural-architectures}, which was fixed before starting simulations; differences are that (1) one simulation places fully equal weight on parseability and predictability ($\lambda=1.0$), and (2) the final experiment uses three random seeds per grammar.
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
 
@@ -809,7 +804,8 @@ We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar p
 
 \subsection{Extracting Grammars from Datasets}\label{sec:extract-grammars}
 We extract grammars for the actual languages by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
-To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.\footnote{We implemented this regularized optimization as mean-field ELBO variational inference in Pyro~\cite{bingham2018pyro}.}
+To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.
+We implemented this regularized optimization as mean-field ELBO variational inference in Pyro~\cite{bingham2018pyro}.
 We then extract the posterior means for each parameter $a_\tau, b_\tau$, and convert the resulting differentiable grammar into an ordinary ordering grammar.
 
 
