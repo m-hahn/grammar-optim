@@ -171,6 +171,20 @@ plot = plot + geom_segment(data=data.frame(x=c(0), xend=c(3.5), y=c(0), Type=c("
 ggsave(plot, file="figures/correlations-curve-whiteaxis.pdf", height=2.2, width=5.5)
 
 
+plot = ggplot(u, aes(x=Dir+4, y=..scaled.., color=DirObj)) 
+plot = plot +   scale_linetype_manual(values=c("dashed", "dotdash"))
+plot = plot + geom_density(size=1.5, aes(linetype=Type))
+plot = plot + facet_wrap(~ Type, nrow=1, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")   + xlab("Object Patterners Preceding Verb Patterners")
+plot = plot + theme(axis.text.y = element_blank())
+plot = plot + theme(legend.position="bottom") +  theme(legend.title = element_blank())
+plot = plot + theme(        legend.margin=margin(0,0,0,0), legend.box.margin=margin(-5,-10,2,-10))
+plot = plot + geom_segment(data=data.frame(x=c(1), xend=c(7), y=c(0), Type=c("Baselines")), aes(x=x, xend=xend, y=0, yend=0), color="white", size=1.8)
+plot = plot + geom_segment(data=data.frame(x=c(0), xend=c(8), y=c(0), Type=c("Optimized")), aes(x=x, xend=xend, y=0, yend=0), color="white", size=1.8)
+plot = plot + geom_segment(data=data.frame(x=c(0), xend=c(3.5), y=c(0), Type=c("Real")), aes(x=x, xend=xend, y=0, yend=0), color="white", size=1.8)
+
+ggsave(plot, file="figures/correlations-curve-whiteaxis-bw.pdf", height=2.2, width=5.5)
+
+
 
 
 # scale_x_continuous(breaks=c(0,2,4,6,8))
