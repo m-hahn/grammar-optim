@@ -1,4 +1,4 @@
-source("tiles-real_eff_large-byObj-restricted-viz-pred-large-surp.R")
+source("../readGrammarsPerLanguage_Parseability.py")
 
 
 
@@ -69,7 +69,12 @@ plot_orders_eff = plot_orders_eff + theme(                    plot.margin=unit(c
 
 
 plot = grid.arrange(plot_langs, plot_orders_real, plot_orders_eff, nrow=1, widths=c(1, 1.2, 1.2))
-ggsave(plot=plot, "../figures/pred-eff-families-surp.pdf", width=4, height=8)
+ggsave(plot=plot, "../figures/pred-eff-families-pars.pdf", width=4, height=8)
+
+#plot1 = ggplot(DLang)
+#plot2 = ggplot(DLang) + annotate("text", label="Real")
+#plot3 = ggplot(DLang) + annotate("text", label="Optimized")
+
 
 
 
@@ -99,19 +104,19 @@ plot_orders_eff2
 plot = grid.arrange(plot_langs2, plot_orders_real2, plot_orders_eff2, nrow=1, widths=c(1, 1.2, 1.2))
 plot
 
-ggsave(plot=plot, "../figures/pred-eff-families-2-surp.pdf", width=4, height=8)
+
+
+
+
+
+
+
+
+ggsave(plot=plot, "../figures/pred-eff-families-2-pars.pdf", width=4, height=8)
 
 D2 = (D %>% select(Family, Language, CoarseDependency, DirB, Type) %>% spread(Type, DirB) %>% rename(Real = 'Real Languages') %>% rename(Predicted = Efficiency))
 
 D2$Agree = (D2$Real == D2$Predicted)
 summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
-
 mean(D2$Agree)
-
-
-
-D %>% filter(Type == "Efficiency") %>% filter(Language == "English")
-
-
-
 

@@ -1,4 +1,4 @@
-source("../tiles-real_eff_large-byObj-restricted-viz-pred-large-all8.R")
+source("readGrammarsPerLanguage_Efficiency.py")
 
 
 
@@ -19,8 +19,6 @@ D = merge(D, DFam %>% select(FamilyPrint, yOffset), by=c("FamilyPrint"))
 
 DLang = unique(D %>% select(Language_Ordered, iso_Ordered, LanguageNumeric, yOffset))
 
-
-D = D %>% mutate(CoarseDependency = recode(CoarseDependency, lifted_case=1, lifted_cop=2, aux=3, nmod=4, acl=5, lifted_mark=6, obl=7, xcomp=8))
 
 plot_orders_real = ggplot(D %>% filter(Type == "Real Languages"), aes(x = 1, y = LanguageNumeric+yOffset, group=CoarseDependency)) + 
   geom_point(aes(fill=DirB, colour = DirB, size =1), position = position_dodge(width=2.0)) +
@@ -69,13 +67,7 @@ plot_orders_eff = plot_orders_eff + theme(                    plot.margin=unit(c
 
 
 plot = grid.arrange(plot_langs, plot_orders_real, plot_orders_eff, nrow=1, widths=c(1, 1.2, 1.2))
-ggsave(plot=plot, "../figures/pred-eff-families-all8.pdf", width=4, height=8)
-
-#plot1 = ggplot(DLang)
-#plot2 = ggplot(DLang) + annotate("text", label="Real")
-#plot3 = ggplot(DLang) + annotate("text", label="Optimized")
-
-
+ggsave(plot=plot, "../figures/pred-eff-families.pdf", width=4, height=8)
 
 
 
@@ -112,5 +104,11 @@ plot
 
 
 
-ggsave(plot=plot, "../figures/pred-eff-families-2-all8.pdf", width=4, height=8)
+ggsave(plot=plot, "../figures/pred-eff-families-2.pdf", width=4, height=8)
+
+D2 = (D %>% select(Family, Language, CoarseDependency, DirB, Type) %>% spread(Type, DirB) %>% rename(Real = 'Real Languages') %>% rename(Predicted = Efficiency))
+
+D2$Agree = (D2$Real == D2$Predicted)
+summary(glmer(Agree ~ (1|CoarseDependency) + (1|Family), data=D2, family="binomial"))
+mean(D2$Agree)
 
