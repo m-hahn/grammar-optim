@@ -107,7 +107,7 @@ We test our ordering grammars for these correlations by testing whether the coef
 Testing correlations is therefore constrained by the degree to which these relations are annotated in UD.
 The verb-object relation corresponds to the  \emph{obj} relation defined by UD.
 While most of the other relations also correspond to UD relations, some are not annotated reliably.
-We were able formalize eleven out of Dryer's seventeen correlations in UD.
+We were able formalize eleven out of Dryer's sixteen correlations in UD.
 Six of these could not be expressed individually in UD, and were collapsed into three coarse-grained correlations:
 First, tense/aspect and negative auxiliaries are together represented by the \emph{aux} relation in UD.
 Second, the relation between complementizers and adverbial subordinators with their complement clauses is represented by the \emph{mark} relation.
@@ -152,7 +152,8 @@ For clarity, we refer to these reversed relations as \emph{lifted\_case}, \emph{
 
 
 \paragraph{Excluded Correlations}
-We excluded three correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
+Here, we discuss in more detail the five correlations from Dryer's study that we had to exclude.
+First, we excluded three correlations that are not annotated reliably in UD, and are only relevant to some of the world's languages: Question particles, plural words (i.e., independent plural markers), and articles.
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
 Among these three types of elements, the one most prominent in our sample of 51 languages is articles, which occur in many European languages.
 However, UD subsumes them under the \emph{det} relation, which is also used for other highly frequent elements, such as demonstratives and quantifiers.
@@ -754,7 +755,7 @@ $\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
 \end{tabular}
 	\end{center}
-\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments. For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (left) and the final experiment (right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
+	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (left) and the final experiment (right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
 Giving similar weight to parseability and predictability -- that is, $\lambda$ close to $1$ -- results in more accurate word order predictions than choosing a small value of $\lambda$ such as $\lambda=0.0$. Note that $\lambda$ cannot take values smaller than zero, or greater than one, see Section \ref{sec:lambda}.
 }\label{table:corr-resu-previous}
 \end{table}
@@ -1429,14 +1430,14 @@ Optiziming grammars for efficiency produces dependency lengths similar to those 
 
 \begin{figure}[ht]
     \centering
-     \includegraphics[width=0.5\textwidth]{../results/dependency-length/figures/depl-violin-all.pdf} 
+     \includegraphics[width=0.5\textwidth]{depl-violin-all-1.png} % ../results/dependency-length/figures/depl-violin-all.pdf 
         \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the means points for each of the 51 languages in our sample.}
     \label{fig:dlm-avg}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=0.9\textwidth]{../results/dependency-length/figures/depLength-facet.pdf} 
+	\includegraphics[width=0.9\textwidth]{depLength-facet-1.png} %../results/dependency-length/figures/depLength-facet.pdf} 
         \caption{Total dependency length as a function of sentence length, for four diverse languages. We show results for optimized grammars (parseability, predictability, efficiency), for grammars specifically optimized to minimize dependency length, of the actual real orderings, and of the baseline grammars.}
     \label{fig:dlm-4langs}
 \end{figure}
