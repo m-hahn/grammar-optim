@@ -11,7 +11,7 @@ library(tidyr)
 library(ggplot2)
 library(forcats)
 
-data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
+#data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
 
 
 
@@ -173,7 +173,7 @@ ggsave(plot, file="figures/correlations-curve-whiteaxis.pdf", height=2.2, width=
 
 plot = ggplot(u, aes(x=Dir+4, y=..scaled.., color=DirObj)) 
 plot = plot +   scale_linetype_manual(values=c("dashed", "dotdash"))
-plot = plot + geom_density(size=1.5, aes(linetype=Type))
+plot = plot + geom_density(size=1.5, aes(linetype=DirObj))
 plot = plot + facet_wrap(~ Type, nrow=1, scales="free_y") + xlim(-0.5,8.5) + theme_classic() + ylab("Grammars")   + xlab("Object Patterners Preceding Verb Patterners")
 plot = plot + theme(axis.text.y = element_blank())
 plot = plot + theme(legend.position="bottom") +  theme(legend.title = element_blank())
