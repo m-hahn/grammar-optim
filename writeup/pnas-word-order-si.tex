@@ -207,7 +207,7 @@ Across the literature, the core idea is to maximize the \key{amount of informati
 \begin{equation}\label{eq:eff-basic}
 \text{Informativity} - \lambda \cdot \text{Complexity}
 \end{equation}
-with some differences in the precise formalization of these two quantities \cite{ferreri2003least,ferrericancho2007global,kemp2012kinship,frank2012predicting,goodman2013knowledge,kao2014nonliteral,xu2014numeral,kirby2015compression,regier2015word,xu2016historical,futrell2017memory,zaslavsky2018efficient,bennett2018extremely, peloquin2019interactions,zaslavsky2019semantic}.
+with some differences in the precise formalization of these two quantities \cite{ferreri2003least,ferrericancho2007global,kemp2012kinship,frank2012predicting,goodman2013knowledge,kao2014nonliteral,xu2014numeral,kirby2015compression,regier2015word,xu2016historical,futrell2017memory,zaslavsky2018efficient,bennett2018extremely,hahn2018information, peloquin2019interactions,zaslavsky2019semantic}.
 
 \paragraph{Derivation of our Formalization}
 The basis for our precise formalization is the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems.
@@ -240,21 +240,26 @@ Predictability $- \operatorname{H}[\utterance]$ is higher if the distribution ov
 It is also equal to the negative average of surprisal, which is a strong and linear predictor of human language processing effort~\cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
 
 
-\paragraph{Relation to Formalizations in Semantic Typology}
-We now discuss how this metric relates to other variants that have been proposed in the information-theoretic literature on language, and describe why~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is most appropriate to our setting.
-This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been successfully applied to modeling word meaning across different domains by \citet{zaslavsky2018efficient} and \citet{zaslavsky2019semantic}.
+\paragraph{Relation to Models of Semantic Typology}
+Our model of language efficiency is closely related to models of semantic typology that quantify the efficiency of mappings between concepts and individual words, applied with great success across different domains such color words, container names, and kinship terms~\cite{kemp2012kinship,xu2014numeral,regier2015word,xu2016historical,zaslavsky2018efficient,zaslavsky2019semantic}.
+We discuss how our metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) relates to metrics assumed in this literature, and describe why~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is most appropriate to our setting.
+
+This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been applied to modeling word meaning across different domains by \citet{zaslavsky2018efficient} and \citet{zaslavsky2019semantic}.
 The Information Bottleneck models complexity using a mutual information term instead of the entropy appearing in~(\ref{eq:eff-general}).
 This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
 We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
 
 A few other approaches share the mutual information term for informativity in (\ref{eq:eff-general}), while using complexity measures that are not explicitly information-theoretic.
-In studies of semantic typology by \citet{regier2007color, xu2014numeral, xu2016historical}, the complexity function is the number of different forms; in \citet{kemp2012kinship} it is the complexity of defining the concepts that are encoded.
-%The number of forms is not applicable in our case, as languages will typically have infinitely many sentences.
+In studies of semantic typology by \citet{regier2007color, xu2014numeral, xu2016historical}, the complexity function is the number of different forms.
+As the entropy of a finite and uniform distribution is the logarithm of the number of objects, this complexity function arises from the entropy measure $\operatorname{H}[S]$~(\ref{eq:eff-general}) in the special case where all forms are used at equal frequency.
+%In \citet{kemp2012kinship} it is the complexity of defining the concepts that are encoded.
+%The number of forms is not applicable as a complexity metric in our case, as languages will typically have infinitely many sentences.
+%As the logarithm of the number of forms upper-bounds the entropy, entropy $\operatorname{H}[S]$ can nevertheless be seen as a generalization of 
 Notably, the models of \citet{regier2007color} and \citet{xu2016historical} have since been reformulated successfully in the Information Bottleneck formalism \cite{zaslavsky2018efficient, zaslavsky2019semantic}, bringing them even closer to our formalization of efficiency.
 
-\paragraph{Relation to Formalizations of Language Evolution}
-There are also related models of the evolution of languages.
-Most related to our work, \citet{kirby2015compression} describe a model of language evolution balancing the pressure for languages to be informative about the intended meanings, while minimizing complexity.
+\paragraph{Relation to Models of Language Evolution}
+Our model is also related to models of language evolution.
+Most closely related to our work, \citet{kirby2015compression} model language evolution as balancing the pressure towards simple languages with the pressure for languages to be informative about the intended meanings.
 Formally, their model studies a Bayesian language learner who infers a language $h$ from data $d$ according to $P(h|d) \propto P(d|h) P(h)$, where $P(h)$ defines a prior distribution over languages, and $P(d|h)$ is the likelihood of observed data $d$ under the grammar $h$, assuming that speakers produce utterances pragmatically.
 The prior $P(h)$ favors less complex languages; the likelihood $P(d|h)$ favors languages that communicate meanings unambiguously.
 We now show that this model instantiates the basic objective~(\ref{eq:eff-basic}). 
@@ -274,12 +279,12 @@ The overall log probablity assigned by the Bayesian learner thus comes out to (u
 \log P(h|d) = \operatorname{I}[t, f] + \lambda \log P(h)
 \end{equation}
 where the prior $P(h)$ favors simpler languages.
-This result shows that the model of \citet{kirby2015compression} predicts that language evolution favors languages optimizing a function of the form~(\ref{eq:eff-basic}), with a informativity term identical to that of our model~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
+This result shows that the model of \citet{kirby2015compression} predicts that language evolution favors languages optimizing a function of the form~(\ref{eq:eff-basic}), with an informativity term identical to that of our model~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 
 \paragraph{Relation to Formalizations of Pragmatics}
 In addition to these models, which model the efficiency and evolution of communication systems, there is closely related work formalizing the optimal choice of specific utterances in context.
 Our work is most closely related to the Rational Speech Acts model of pragmatic reasoning \cite{frank2012predicting,goodman2013knowledge, kao2014nonliteral}.
-In line with the other models discussed here, it assumes that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely, peloquin2019interactions}.
+In line with the other models discussed here, it assumes that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely, hahn2018information, peloquin2019interactions}.
 \citet{peloquin2019interactions} provide further discussion of the links between pragmatics and the efficiency metric (\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 
 \paragraph{Relation to Models in Other Disciplines}
