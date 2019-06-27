@@ -250,7 +250,7 @@ In line with the other models, these assume that rational speakers choose uttera
 
 Beyond the study of natural language, the eficiency metric (\ref{eq:eff-general}) is also closely related to information-theoretic models in other disciplines.
 The tradeoff between informativity and complexity of communication systems is studied by Rate-distortion theory \cite{shannon1948mathematical, berger1971rate}.
-The \emph{Infomax Principle} derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) \cite{friston2010free}. 
+The \emph{Infomax Principle} derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) and to a version of the Free-Energy principle (see Section S3 in \citet{friston2010free}). 
 
 %\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
 
@@ -264,7 +264,7 @@ The \emph{Infomax Principle} derives parsimonious data representations by maximi
 
 
 
-\subsection{Possible values of $\lambda$}\label{sec:lambda}
+\subsection{Choice of $\lambda$}\label{sec:lambda}
 
 In the efficiency objective (\ref{eq:efficiency-derived})
 \begin{equation}\label{eq:efficiency}
@@ -273,15 +273,15 @@ In the efficiency objective (\ref{eq:efficiency-derived})
 the value of $\lambda$ is constrained to be in $[0,1)$.
 This means, surprisal must be weighted less strongly than parseability.
 
-Greater values of $\lambda$ can mathematically result in degenerate solutions.
+The reason is that greater values of $\lambda$ can mathematically result in degenerate solutions.
 To show this, note that the following inequality always holds:
 \begin{equation}
 I[\utterance; \tree] \leq H[\utterance].
 \end{equation}
 Therefore, if $\lambda \geq 1$, the efficiency objective satisfies 
-\begin{equation}
-    R_{Eff} = I[\utterance; \tree] - \lambda H[\utterance] \leq 0.
-\end{equation}
+%\begin{equation}
+$R_{\textit{Eff}} = I[\utterance; \tree] - \lambda H[\utterance] \leq 0$,
+%\end{equation}
 and it takes the maximally possible value zero if there is only a single utterance $\utterance$, in which case both $I[\utterance; \tree]$ and $H[\utterance]$ are zero.
 This is a degenerate language with only a single utterance, which is simultaneously used to convey all meanings.
 While the design of our word order grammars (see \emph{Materials and Methods}) precludes a collapse of all syntactic structures to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable description of the efficiency of communication systems.
@@ -671,7 +671,7 @@ In the last column, we indicate what direction would be expected typologically.
 
 \begin{table*} % TODO figure out away to make this table more aesthetic
 	\begin{center}	
-\includegraphics[width=0.8\textwidth]{si-table-perrel-2a-1.png}  
+\includegraphics[width=0.7\textwidth]{si-table-perrel-2a-1.png}  
 \end{center}
 \caption{Predictions on UD relations for which no predictions are available in the typological literature.  ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).}
 \label{tab:all-predictions-2}
@@ -806,7 +806,7 @@ We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar p
 
 
 \subsection{Extracting Grammars from Datasets}\label{sec:extract-grammars}
-We extract grammars for the actual languages by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
+We extract grammars for each actual language by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
 To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.
 We implemented this regularized optimization as mean-field ELBO variational inference in Pyro~\cite{bingham2018pyro}.
 We then extract the posterior means for each parameter $a_\tau, b_\tau$, and convert the resulting differentiable grammar into an ordinary ordering grammar.
@@ -864,7 +864,7 @@ In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution 
 
 Recall the definition of efficiency
 \begin{equation}\label{eq:efficiency-recall}
-	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
+	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda R_\textit{Pred}
 \end{equation}
 where
 \begin{equation}\label{eq:rpars}
@@ -873,7 +873,7 @@ where
 \begin{equation}
 	R_{Pred} := - H[\utterance] = \sum_{u} p(u) \log p(u)
 \end{equation}
-where $t \sim \tree$ is a distribution over syntactic structures, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
+where $t \sim \tree$ is the distribution over syntactic structures as found in databases of the language, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
 These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
@@ -888,7 +888,7 @@ The degree to which a parser with parameters $\phi$ succeeds in parsing a senten
 %
 A \key{language model}, with some parameters $\psi$, calculates the word-by-word surprisal of an utterance:
 \begin{equation}
-	R_{Pred}^{\psi}(u) = - \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1})
+	R_{Pred}^{\psi}(u) = \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1})
 \end{equation}
 Using this and Gibbs' inequality~\cite{cover2006elements}, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
 \begin{equation}
@@ -896,7 +896,7 @@ Using this and Gibbs' inequality~\cite{cover2006elements}, we can rewrite Effici
 \end{equation}\label{eq:efficiency-rewrite}
 where we have written
 \begin{equation}
-R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
+R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_{t \sim \mathcal{T}} \E_{u \sim p_{\mathcal{L}_\theta}(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
 %
 %The parsers and language models appropriate to a tree distribution $\tree$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
@@ -935,15 +935,15 @@ In order to find an optimal grammar $\theta$, we thus need to compute
 \end{equation}
 Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
 \begin{align}
-\partial_\theta R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)} \left[  \left[\partial_\theta \log p_\theta(u|t)\right] \cdot    \left(R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right) \right] \label{eq:dtheta}\\ 
-\partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
-\partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_\theta(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
+\partial_\theta R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)} \left[  \left[\partial_\theta \log p_{\mathcal{L}_\theta}(u|t)\right] \cdot    \left(R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right) \right] \label{eq:dtheta}\\ 
+\partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
+\partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi}
 \end{align}
 where (\ref{eq:dtheta}) is derived using the \emph{score-function} or \emph{REINFORCE} theorem~\cite{williams1992simple}.
 Note that the the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures.
 
 We can therefore apply stochastic gradient descent to jointly optimize $\theta, \phi, \psi$:
-In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
+In each optimization step, we sample a dependency tree $t$ from the database, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
 Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
 do a gradient descent step using the estimator given by the expressions in the square brackets in (\ref{eq:dtheta}-\ref{eq:dpsi}).
 
@@ -1249,7 +1249,7 @@ Second, while the graph-based neural parser uses machine learning to induce synt
 %On the other hand, the PCFG makes severely simplifying independence assumptions, compared to the universal approximation capabilities of neural network-based systems.
 
 We used the CKY algorithm to compute the syntactic ambiguity $H[\tree|\utterance]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
-Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable for exact parsing of a simple PCFG.
+Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable than baseline grammars, for exact parsing of a simple PCFG.
 % TODO get UAS for compatibility with other parts of SI
 %We then compared parsability of random and optimized word order grammars on English data.
 
@@ -1300,7 +1300,7 @@ The numbers are provided to the parser as atomic symbols from a vocabulary rangi
 The result is that distance between words in the input is not indicative at all of the presence of absence of syntactic relations between them.
 
 \paragraph{Experiments}
-Using English and Japanese data, we trained parsers for the ten random word order grammars and for the best grammar optimized for efficiency, with the input presented in each of the distorted orderings.
+Using English and Japanese data, we trained parsers for ten random word order grammars and for the best grammar optimized for efficiency, with the input presented in each of the distorted orderings.
 Resulting parsing scores are shown in Figure~\ref{fig:distorted-parser}.
 In all settings, the language optimized for efficiency achieved lower parsing loss (i.e., higher parseability) than random ordering grammars, showing that the parser's preference for optimized languages cannot be attributed to a locality bias.
 %Note that absolute values of parsing accuracy vary between the orderings, being higher for the actual orderings than for distorted orderings, in which trees become nonprojective.
@@ -1331,8 +1331,8 @@ This contrasts with LSTMs, which take the entire context into consideration.
 Thus, bigram models and LSTMs stand on opposing ends of a spectrum of language models taking more and more aspects of the context into account.
 
 We estimated language models on the training partitions, and used the validation partitions to estimate surprisal.
-We conducted this for the ten random and the best optimized ordering grammars on English and Japanese data.
-Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency are optimal for a bigram language model.
+We conducted this for ten random and the best optimized ordering grammars on English and Japanese data.
+Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency are also optimal for a bigram language model.
 
 \begin{figure}
     \centering
@@ -1364,6 +1364,7 @@ Furthermore, for the random grammar, we varied the number of neurons in the BiLS
 The resulting curves are shown in Figure~\ref{fig:learning-czech}.
 %A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
 A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
+This shows that the observed efficiency differences between grammars cannot be attributed to data sparsity. 
 
 \begin{figure}[ht]
     \centering
@@ -1397,7 +1398,7 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 \input{../results/corpus-size/corpora-table.tex}
 \end{tabular}
 }
-\caption{Languages with ISO codes, families (according to \url{https://universaldependencies.org/}), and the number of available sentence and words.}\label{tab:langs-iso-sizes}
+\caption{Languages with ISO codes, families (according to \url{https://universaldependencies.org/}), and the number of available sentences and words.}\label{tab:langs-iso-sizes}
 \end{table}
 
 
