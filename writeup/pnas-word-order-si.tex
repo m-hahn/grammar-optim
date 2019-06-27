@@ -1281,7 +1281,7 @@ We address this by changing the order in which the parser sees words, in such a 
 
 \paragraph{Inwards order.} A sequence originally ordered as $w_1 w_2 w_3 \cdots w_{n-1} w_n$ is ordered from the edges of the string inwards, as $w_1 w_n w_2 w_{n-1} \cdots w_{\ceiling{n/2}}$. This corresponds to folding the string in on itself once, or equivalently, splitting the sequence in half at the middle, then interleaving the two resulting sequences after reversing the second one. The result is that the most non-local possible dependencies in the original order become the most local dependencies in the distorted order.
 
-\paragraph{Sorted order.} A sequence is reordered by sorting by POS tags, and randomizing the order within each block of identical POS tags.
+\paragraph{Lexicographic order.} A sequence is reordered by sorting by POS tags, and randomizing the order within each block of identical POS tags.
 To each word, we then add a symbol encoding the original position in the sequence.
 For instance
 \begin{center}
