@@ -521,7 +521,7 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
 
-\paragraph{Bayesian Regression}
+\paragraph{Bayesian Mixed-Effects Regression}
 We modeled the probabilities $p_{L,j}$ that a grammar optimized for data from language $L$ satisfies the $j$-th correlation ($j=1,...,8$) using a multilevel logistic model \cite{gelman2013bayesian}, with random intercepts for the language for whose data the grammar had been optimized, and for its language family, annotated according to \url{http://universaldependencies.org/}.
 Formally,
 \begin{equation}\label{eq:mixed-effects}
@@ -538,7 +538,7 @@ The intercepts $\alpha_j$ ($j=1,...8$) encode the population-level prevalence of
 
 Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
 We used this prior for $\alpha_j, \sigma_{L,j}, \tau_{L,j}$.
-Note that a correlation that holds in 90\% of cases corresponds to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
+A correlation that holds in 90\% of cases would correspond to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
 
 We modeled full covariance matrices of per-language and per-family random intercepts over all eight correlations. We placed an LKJ prior ($\eta=1$) on these matrices, as described in \cite{burkner2018advanced}.
 We used MCMC sampling implemented in Stan \cite{carpenter2017stan, hoffman2014no} using the R package \texttt{brms} \cite{buerkner2017brms}.
@@ -546,6 +546,8 @@ We ran four chains, with 5000 samples each, of which the first 2500 were discard
 We confirmed convergence using $\hat{R}$ and visual inspection of chains \cite{gelman2013bayesian}.
 
 We obtained the posterior density plots in Table 2 (Main Paper) and in Figure (\ref{tab:all-predictions-1}) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\alpha_j$ (\ref{eq:mixed-effects}).
+As the logistic transformation is inverse to the logit transform (\ref{eq:mixed-effects}), this corresponds to the posterior distribution of the prevalence (between 0.0 and 1.0) of each correlation, controlling for languages and language families.
+
 
 
 
@@ -602,7 +604,7 @@ Efficiency predicts all eight correlations with high posterior probability; pred
 	\begin{center}
 	\includegraphics[width=0.98\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
 	\end{center}
-	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in the Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families.}\label{fig:posterior}
+	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in the Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families. We show results for grammars optimized for only Predictability (left), only Parseability (center), and full Efficiency (right).}\label{fig:posterior}
 \end{figure}
 
 
@@ -648,7 +650,9 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 \end{center}
 \caption{Predictions on UD relations with predictions from the typological literature.
 The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
-In the last column, we indicate what direction would be expected typologically. 
+The `Real' column provides the prevalence among the 51 languages in the Universal Dependencies data.
+We provide posterior prevalences for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone, obtained from the Bayesian mixed-effects analysis controlling for languages and language families (as in Table 2 of the main paper).
+In the last column, we indicate what prevalence is expected according to the typological literature. 
 %We additionally report results obtained when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion of DLM and its relation to efficiency. 
 }
 \label{tab:all-predictions-1}
@@ -713,7 +717,9 @@ In the last column, we indicate what direction would be expected typologically.
 	\begin{center}	
 \includegraphics[width=0.7\textwidth]{si-table-perrel-2a-1.png}  
 \end{center}
-\caption{Predictions on UD relations for which no predictions are available in the typological literature.  ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).}
+\caption{Predictions on UD relations for which no predictions are available in the typological literature.  ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).
+We provide results for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone.
+}
 \label{tab:all-predictions-2}
 \end{table*}
 
@@ -1125,16 +1131,20 @@ All choices, except where explicitly noted otherwise, were made before evaluatin
 %In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
 
 \paragraph{Estimating Predictability}
-We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}. This model uses a recurrent neural network to compute the predictability of a sentence $u = u_1...u_n$\footnote{Technically, $u_1...u_{n-1}$ are words, and $u_n$ is an end-of-sentence token, to ensure the probability distribution over all sentences is normalized.}:
+We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}, as such recurrent neural models are the strongest known predictors of the surprisal effect on human processing effort~\cite{frank2011insensitivity,goodkind2018predictive}.
+This model uses a recurrent neural network to compute the predictability of a sentence $u = u_1...u_n$\footnote{Technically, $u_1...u_{n-1}$ are words, and $u_n$ is an end-of-sentence token, to ensure the probability distribution over all sentences is normalized.}:
 \begin{equation}
 \log p_\psi(u) = \sum_{i=1}^n \log p_\psi(u_i|u_{1\dots i-1})
 \end{equation}
 where $\psi$ are the parameters of the recurrent LSTM network, optimized on training data (see paragraph `Optimization Details').
+
+
 We estimate the average predictability of a language as a Monte Carlo estimate on held-out data:
 \begin{equation}
 	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p_\psi(u) \approx \frac{1}{|\text{Heldout Data}|} \sum_{u \in \text{Heldout Data}} \log p_\psi(u)
 \end{equation}
 by averaging over all sentences $u$ occurring in the corpus.
+
 
 For computational reasons, we restrict the vocabulary to the most frequent 50,000 words in the treebanks for a given language.
 Given the moderate size of the corpora, this limit is only attained only for few languages.
@@ -1472,7 +1482,7 @@ Optiziming grammars for efficiency produces dependency lengths similar to those 
 \begin{figure}[ht]
     \centering
      \includegraphics[width=0.5\textwidth]{depl-violin-all-1.png} % ../results/dependency-length/figures/depl-violin-all.pdf 
-        \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the means points for each of the 51 languages in our sample.}
+        \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the mean points for each of the 51 languages in our sample.}
     \label{fig:dlm-avg}
 \end{figure}
 
