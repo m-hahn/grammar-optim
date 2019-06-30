@@ -236,8 +236,6 @@ def orderSentence(sentence, dhLogits, printThings):
 
       headIndex = line["head"]-1
       sentence[headIndex]["children_"+direction] = (sentence[headIndex].get("children_"+direction, []) + [line["index"]])
-#      sentence[headIndex]["children_decisions_logprobs"] = (sentence[headIndex].get("children_decisions_logprobs", []) + [line["ordering_decision_log_probability"]])
-
 
 
    if model != "REAL_REAL":
@@ -262,8 +260,6 @@ def orderSentence(sentence, dhLogits, printThings):
             assert 0 not in line["children_HD"]
             eliminated = eliminated + [sentence[x-1] for x in line["children_HD"]]
 
-
-#         shuffle(line["children_HD"])
    
    linearized = []
    recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
@@ -277,11 +273,8 @@ def orderSentence(sentence, dhLogits, printThings):
    # store new dependency links
    moved = [None] * len(sentence)
    for i, x in enumerate(linearized):
-#      print x
       moved[x["index"]-1] = i
- #  print moved
    for i,x in enumerate(linearized):
-  #    print x
       if x["head"] == 0: # root
          x["reordered_head"] = 0
       else:
@@ -313,8 +306,6 @@ print itos_deps
 dhWeights = [0.0] * len(itos_deps)
 distanceWeights = [0.0] * len(itos_deps)
 for i, key in enumerate(itos_deps):
-
-   # take from treebank, or randomize
    dhLogits[key] = 100 * 2*(random()-0.5)
    dhWeights[i] = dhLogits[key]
 
@@ -323,9 +314,9 @@ for i, key in enumerate(itos_deps):
 
 import os
 
-if model != "RANDOM" and model != "REAL_REAL":
+if model not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] and model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "/u/scr/mhahn/deps/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -338,10 +329,6 @@ if model != "RANDOM" and model != "REAL_REAL":
       header = data[0]
       data = data[1:]
     
-   #print header
-   #quit()
-   # there might be a divergence because 'inferWeights...' models did not necessarily run on the full set of corpora per language (if there is no AllCorpora in the filename)
-   #assert len(data) == len(itos_deps), [len(data), len(itos_deps)]
    if "Dependency" not in header:
       header[header.index("CoarseDependency")] = "Dependency"
    if "DH_Weight" not in header:
@@ -350,9 +337,6 @@ if model != "RANDOM" and model != "REAL_REAL":
       header[header.index("Distance_Mean_NoPunct")] = "DistanceWeight"
 
    for line in data:
-   #   print line
-#      head = line[header.index("Head")]
- #     dependent = line[header.index("Dependent")]
       dependency = line[header.index("Dependency")]
       key = dependency
       dhWeights[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
@@ -367,28 +351,18 @@ words = list(vocab.iteritems())
 words = sorted(words, key = lambda x:x[1], reverse=True)
 itos = map(lambda x:x[0], words)
 stoi = dict(zip(itos, range(len(itos))))
-#print stoi
-#print itos[5]
-#print stoi[itos[5]]
+
 
 if len(itos) > 6:
    assert stoi[itos[5]] == 5
 
-#print dhLogits
-
-#for sentence in getNextSentence():
-#   print orderSentence(sentence, dhLogits)
 
 vocab_size = 5
 
 word_embedding_size = 0
-# 0 EOS, 1 UNK, 2 BOS
-#word_embeddings = torch.nn.Embedding(num_embeddings = vocab_size+3, embedding_dim = word_embedding_size).cuda()
 pos_u_embeddings = torch.nn.Embedding(num_embeddings = len(posUni)+3, embedding_dim = pos_embedding_size).cuda()
-pos_p_embeddings = torch.nn.Embedding(num_embeddings = len(posFine)+3, embedding_dim=pos_embedding_size).cuda()
 
 
-#baseline = nn.Linear(50, 1).cuda()
 
 dropout = nn.Dropout(dropout_rate).cuda()
 
@@ -409,23 +383,12 @@ dependentMLPOut = nn.Linear(bilinearSize, bilinearSize).cuda()
 labelMLP = nn.Linear(2*bilinearSize, labelMLPDimension).cuda()
 labelDecoder = nn.Linear(labelMLPDimension, len(itos_pure_deps)+1).cuda()
 
-#bilinearMatrix = nn.Bilinear(rnn_dim, rnn_dim, 1).cuda()
 
 U = nn.Parameter(torch.Tensor(bilinearSize,bilinearSize).cuda())
 
-
 biasHead = nn.Parameter(torch.Tensor(1,bilinearSize,1).cuda())
-##biasDependent = nn.Parameter(torch.Tensor(bilinearSize).cuda())
-#
-#
-#biasLabel = Variable(torch.Tensor((1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#U_label = Variable(torch.Tensor((1+len(itos_pure_deps)), bilinearSize,bilinearSize).cuda(), requires_grad=True)
-#linear_Label_dep = Variable(torch.Tensor(bilinearSize, (1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#linear_Label_head = Variable(torch.Tensor(bilinearSize, (1+len(itos_pure_deps))).cuda(), requires_grad=True)
-#
 
-
-components = [ pos_u_embeddings, rnn, headRep, depRep, headMLPOut, dependentMLPOut, labelMLP, labelDecoder] # baseline, word_embeddings, pos_p_embeddings, 
+components = [ pos_u_embeddings, rnn, headRep, depRep, headMLPOut, dependentMLPOut, labelMLP, labelDecoder] 
 
 def parameters_lm():
  for c in components:
@@ -433,41 +396,17 @@ def parameters_lm():
       yield param
  yield U
  yield biasHead
-# yield biasLabel
-# yield U_label
-# yield linear_Label_dep
-# yield linear_Label_head
-
-
-#def parameters_ordering():
-# yield dhWeights
-# yield distanceWeights
-#
-
-
 
 from torch import optim
 
 optimizer = optim.Adam(parameters_lm(), lr = lr_lm, betas=[beta1, beta2])
-#optimizer = optim.SGD(parameters_lm(), lr = 0.0002, momentum=0.9) #, betas=[0.9, 0.9])
-#optimizer_policy = optim.SGD(parameters_ordering(), lr = lr_policy, momentum=momentum_policy)
-
-
-#for pa in parameters():
-#  print pa
 
 initrange = 0.01
-#word_embeddings.weight.data.uniform_(-initrange, initrange)
 pos_u_embeddings.weight.data.uniform_(-initrange, initrange)
-pos_p_embeddings.weight.data.uniform_(-initrange, initrange)
 
 
 U.data.fill_(0)
 biasHead.data.fill_(0)
-#biasLabel.data.fill_(0)
-#U_label.data.fill_(0)
-#linear_Label_dep.data.fill_(0)
-#linear_Label_head.data.fill_(0)
 
 
 headMLPOut.bias.data.fill_(0)
@@ -490,14 +429,6 @@ headRep.weight.data.uniform_(-initrange, initrange)
 
 depRep.bias.data.fill_(0)
 depRep.weight.data.uniform_(-initrange, initrange)
-
-#bilinearMatrix.bias.data.fill_(0)
-#bilinearMatrix.weight.data.uniform_(-0.01, 0.01)
-
-
-#baseline.bias.data.fill_(0)
-#baseline.weight.data.uniform_(-initrange, initrange)
-
 
 #
 def prod(x):
@@ -522,11 +453,6 @@ inputDropout = torch.nn.Dropout2d(p=input_dropoutRate)
 
 
 
-content_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni, ["ADJ", "ADV", "NOUN", "NUM", "PROPN", "VERB"]))
-function_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni,["ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "PART", "PRON", "PUNCT", "SCONJ", "SYM", "X"]))
-
-
-#data = list(corpus)[:20]
 
 
 baselinePerType = [4.0 for _ in itos_pure_deps]
@@ -536,20 +462,13 @@ def forward(current, computeAccuracy=False, doDropout=True):
        global crossEntropy
        global batchSize
        batchSize = len(current)
-#       if printHere:
-#         print (batchSize, tokensPerBatch, sum(map(len, current)))
        batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y==0 and printHere), zip(range(len(current)),current)))
       
        batchOrdered = batchOrderedLogits[0]
        logits = batchOrderedLogits[1]
    
        lengths = map(len, batchOrdered)
-       # current is already sorted by length
        maxLength = max(lengths)
-#       if maxLength <= 2:
-##         print current
-#         print "Skipping extremely short sentence"
-#         continue
        input_words = []
        input_pos_u = []
        input_pos_p = []
@@ -560,39 +479,17 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
        hidden = None #(Variable(torch.FloatTensor().new(2, batchSize, rnn_dim).zero_()), Variable(torch.FloatTensor().new(2, batchSize, rnn_dim).zero_()))
        loss = 0
-       #wordNum = 0
        lossWords = 0
        policyGradientLoss = 0
        baselineLoss = 0
-#       for param in parameters_lm():
-#         if param.grad is not None:
-#           param.grad.data.fill_(0)
-##       for c in components:
-##          c.zero_grad()
-#
-##       momentum = 0.9
-#       for p in  [dhWeights, distanceWeights]:
-#          if p.grad is not None:
-#             p.grad.data = p.grad.data.mul(momentum)
        optimizer.zero_grad()
-       #optimizer_policy.zero_grad()
 
-
-# (Variable(weight.new(2, bsz, self.nhid).zero_()),Variable(weight.new(self.nlayers, bsz, self.nhid).zero_()))
-#       for i in range(maxLength+1):
        if True:
-           # TODO word dropout could also be added: randomly sprinkle `1' (UNK) in the LongTensor (not into input_words -- this will also be used for the softmax!)
-#           words_layer = word_embeddings(Variable(torch.LongTensor(input_words)).cuda())
            pos_u_layer = pos_u_embeddings(Variable(torch.LongTensor(input_pos_u).transpose(0,1)).cuda())
-#           pos_p_layer = pos_p_embeddings(Variable(torch.LongTensor(input_pos_p)).cuda())
-           inputEmbeddings = pos_u_layer # torch.cat([pos_u_layer, pos_p_layer], dim=2) # words_layer, 
+           inputEmbeddings = pos_u_layer 
            if doDropout:
               inputEmbeddings = inputDropout(inputEmbeddings)
- #             if printHere:
- #               print inputEmbeddings
               inputEmbeddings = dropout(inputEmbeddings)
-#           print hidden
-#           print inputEmbeddings
            output, hidden = rnn(inputEmbeddings, hidden)
 
            outputFlat = output.contiguous().view(-1, 2*rnn_dim)
@@ -601,19 +498,10 @@ def forward(current, computeAccuracy=False, doDropout=True):
               if doDropout:
                  heads = dropout(heads)
               heads = nn.ReLU()(heads)
-#              if printHere:
-#                print heads
-#                print torch.nonzero(heads.data.view(-1)).size()
-#                print prod(heads.size())
-   #           heads = headMLPOut(heads)
               dependents = depRep(outputFlat)
               if doDropout:
                  dependents = dropout(dependents)
               dependents = nn.ReLU()(dependents)
-#              if printHere:
-#                print dependents
-#                print torch.nonzero(dependents.data.view(-1)).size()
-#                print prod(dependents.size())
            else:
               heads = outputFlat
               if doDropout:
@@ -623,61 +511,20 @@ def forward(current, computeAccuracy=False, doDropout=True):
                  dependents = dropout(dependents)
 
 
-#           dependents = dependentMLPOut(dependents)
-
- #          baseline_predictions = baseline(words_layer.detach())
-
-           
+          
            heads = heads.view(batchSize, maxLength+2, 1, bilinearSize).contiguous() # .expand(batchSize, maxLength+2, maxLength+2, rnn_dim)
            dependents = dependents.view(batchSize, 1, maxLength+2, bilinearSize).contiguous() # .expand(batchSize, maxLength+2, maxLength+2, rnn_dim)
-#           if printHere:
-#              print "HEADS"
-#              print heads
-#              print dependents
-#           dependents = dependents.view(-1, rnn_dim)
-
            
            part1 = torch.matmul(heads, U)
-#           print part1.size()
-#           print torch.transpose(dependents, 2, 3).size() # torch.transpose(dependents, 1, 2).size()
            bilinearAttention = torch.matmul(part1, torch.transpose(dependents, 2, 3)) # 
 
-           #biasHead = biasHead.view(1,bilinearSize,1) #.unsqueeze(0).unsqueeze(0)
            heads = heads.view(-1, 1, bilinearSize)
          
-#           print biasHead.size()
-#           print heads.size()
-#           print bilinearAttention.size()
-#           print torch.matmul(heads,biasHead).view(batchSize, 1, 1, maxLength+2).size()
-
            biasFromHeads = torch.matmul(heads,biasHead).view(batchSize, 1, 1, maxLength+2)
-#           if printHere:
-#              print biasFromHeads
            bilinearAttention = bilinearAttention + biasFromHeads
-
-
-
-
-#           print bilinearAttention.size()
-#           quit()
-
-#           bilinearAttention = bilinearMatrix(heads, dependents)
-#           print bilinearAttention
            bilinearAttention = bilinearAttention.view(-1, maxLength+2)
- #          print bilinearAttention
-#           if printHere:
-#             print "BILINEAR"
-#             print bilinearAttention
-
-
            bilinearAttention = logsoftmax(bilinearAttention)
            bilinearAttention = bilinearAttention.view(batchSize, maxLength+2, maxLength+2)
-
-
-
-           
-
-
 
 
            lossesHead = [[None]*batchSize for i in range(maxLength+1)]
@@ -696,15 +543,10 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-#               posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos, (pos-3, itos_pos_uni[pos-3]) 
                if batchOrdered[j][i-1]["head"] == 0:
                   realHead = 0
                else:
-                  realHead = batchOrdered[j][i-1]["reordered_head"] # this starts at 1, so just right for the purposes here
+                  realHead = batchOrdered[j][i-1]["reordered_head"]
                targetTensor[j][i] = realHead
                wordNum += 1
 
@@ -724,10 +566,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
            heads = heads.view(batchSize, maxLength+2, bilinearSize)
            targetIndices = targetTensorVariable.unsqueeze(2).expand(batchSize, maxLength+2, bilinearSize)
-           #print heads.size()
-           #print targetIndices.size()
            headStates = torch.gather(heads, 1, targetIndices)
-           #print headStates
            dependents = dependents.view(batchSize, maxLength+2, bilinearSize)
            headStates = headStates.view(batchSize, maxLength+2, bilinearSize)
            headsAndDependents = torch.cat([dependents, headStates], dim=2)
@@ -738,17 +577,12 @@ def forward(current, computeAccuracy=False, doDropout=True):
            labelLogits = labelDecoder(labelHidden)
            labelSoftmax = logsoftmaxLabels(labelLogits)
 
-   #        print labelSoftmax
            labelTargetTensor = [[len(itos_pure_deps) for _ in range(maxLength+2)] for _ in range(batchSize)]
            
            for j in range(batchSize):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos  
 
 
                labelTargetTensor[j][i] = stoi_pure_deps[batchOrdered[j][i-1]["coarse_dep"]]
@@ -758,41 +592,14 @@ def forward(current, computeAccuracy=False, doDropout=True):
            loss += lossesLabels.sum()
 
            lossesHeadsAndLabels = (lossesHead + lossesLabels).data.cpu().numpy()
-#           policyGradientLosses = [0 for _ in range(batchSize)]
-         #  policyGradientLoss = 0
-        #   for j in range(batchSize):
-       #      lossForThisSentenceMinusBaselines = 0
-      #       for i in range(1,len(batchOrdered[j])+1):
-     #          pos = input_pos_u[i][j]
-    #           assert pos >= 3, (i,j)
-   #            if False and pos-3 in function_pos:
-  #                continue
- #              else:
-#                  assert True or pos-3 in content_pos  
-              # lossForThisSentenceMinusBaselines += (lossesHeadsAndLabels[j][i]  - log(len(batchOrdered[j])) - baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]])
-              # if printHere:
-              #    print (lossesHeadsAndLabels[j][i], baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] + log(len(batchOrdered[j])), (lossesHeadsAndLabels[j][i]  - log(len(batchOrdered[j])) - baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]]))
-#             print batchOrdered[j][-1]["relevant_logprob_sum"] * lossForThisSentenceMinusBaselines
-#             policyGradientLoss += batchOrdered[j][-1]["relevant_logprob_sum"] * lossForThisSentenceMinusBaselines
-
-       #    for j in range(batchSize):
-        #     for i in range(1,len(batchOrdered[j])+1):
-         #      baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] = 0.99 * baselinePerType[stoi_pure_deps[batchOrdered[j][i-1]["dep"]]] + (1-0.99) * (lossesHeadsAndLabels[j][i] - log(len(batchOrdered[j])))
-
 
 
            if computeAccuracy:
               wordNumAcc = 0
               for j in range(batchSize):
                   for i in range(1,len(batchOrdered[j])+1):
-    #             for i in range(1,maxLength+1):
                        pos = input_pos_u[i][j]
                        assert pos >= 3, (i,j)
-        #               posUni = set() #[ "ADJ", "ADP", "ADV", "AUX", "CONJ", "DET", "INTJ", "NOUN", "NUM", "PART", "PRON", "PROPN", "PUNCT", "SCONJ", "SYM", "VERB", "X"] 
-                       if False and pos-3 in function_pos:
-                          continue
-                       else:
-                          assert True or pos-3 in content_pos  
 
                        predictions = bilinearAttention[j][i]
                        predictionsLabels = labelSoftmax[j][i]
@@ -808,8 +615,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          accuracyLabeled += 1 if (predictedHead == realHead) and (predictedLabel == realLabel) else 0
                          accuracy += 1 if (predictedHead == realHead) else 0
                          wordNumAcc += 1
-                       if (True or input_words[i] > 2) and printHere and j == batchSize/2: 
-#                          print predictions.data.cpu().numpy()
+                       if printHere and j == batchSize/2: 
                           results = [j]
                           results.append(i)
                           results.append(itos[input_words[i][j]-3])
@@ -829,21 +635,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
          print sys.argv
        if wordNum > 0:  
           crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum).data.cpu().numpy()
-#       if printHere:
-#         print "BACKWARD 1"
-#       if printHere:
-#         print "BACKWARD 2"
-
- #      probabilities = torch.sigmoid(dhWeights)
-#       print ["MEAN PROBABILITIES", torch.mean(probabilities)]
-       #print ["PG", policyGradientLoss]
-
-#       neg_entropy = torch.sum( probabilities * torch.log(probabilities) + (1-probabilities) * torch.log(1-probabilities))
-
-       policy_related_loss = 0 #entropy_weight * neg_entropy + policyGradientLoss # lives on CPU
-
-
-
+       policy_related_loss = 0
        return loss, policy_related_loss, accuracy if computeAccuracy else None, accuracyLabeled if computeAccuracy else None, wordNum
 
 def backward(loss, policy_related_loss):
@@ -854,14 +646,8 @@ def backward(loss, policy_related_loss):
 
        loss.backward()
 
-#       policy_related_loss.backward()
-#       if printHere:
-#         print "BACKWARD 3 "+FILE_NAME+" "+language+" "+str(myID)+" "+str(counter)
-#         print zip(names, params)
        torch.nn.utils.clip_grad_norm(parameters_lm(), clip_at, norm_type=clip_norm)
-#       torch.nn.utils.clip_grad_norm(parameters_ordering(), 5.0, norm_type='inf')
        optimizer.step()
-       #optimizer_policy.step()
 
 
 def getPartitions(corpus):
@@ -905,7 +691,6 @@ def computeDevLoss():
               devAccuracy += accuracy
               devAccuracyLabeled += accuracyLabeled
               devWords += wordNum
-#              print (loss.data.cpu().numpy()    , accuracy)
               if counterDev % 50 == 0:
                 print "Run on dev "+str(counterDev)
                 print (devLoss/devWords, float(devAccuracy)/devWords, float(devAccuracyLabeled)/devWords, devWords)
@@ -928,8 +713,6 @@ while True:
             print "Ran for a long time, quitting."
             quit()
 
-#       if counter > 100:
-#           break
        counter += 1
        printHere = (counter % 100 == 0)
        loss, policyLoss, _, _, wordNum = forward(partition)
@@ -954,23 +737,13 @@ while True:
           print >> sys.stderr, (difference/len(itos_deps), maxDifference)
 
 
-#       if crossEntropy > 30:
-#           with open("/juicier/scr120/scr/mhahn/deps/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
-#              print >> outFile, " ".join(names)
-#              print >> outFile, " ".join(map(str,params))
-#              print >> outFile, " ".join(map(str,[100]))
-#              print >> outFile, " ".join(map(str,[-1]))
-#              print >> outFile, " ".join(map(str,[-1]))
-#              print >> outFile, " ".join(sys.argv)
-#           print "Loss exploding"
-#           quit()
 
-  if True: #counter % 5000 == 0:
+  if True:
          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter)
 
          computeDevLoss()
 
-         with open("/juicier/scr120/scr/mhahn/deps/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
+         with open("../../../raw-results/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
               print >> outFile, " ".join(names)
               print >> outFile, " ".join(map(str,params))
               print >> outFile, " ".join(map(str,devLosses))
@@ -986,19 +759,6 @@ while True:
             del devLosses[-1]
             print "Loss deteriorating, stop"
             quit()
-
-#         print "Saving"
-#         save_path = "/juicier/scr120/scr/mhahn/deps/"
-#         #save_path = "/afs/cs.stanford.edu/u/mhahn/scr/deps/"
-#         with open(save_path+"/manual_output_funchead/"+language+"_"+FILE_NAME+"_model_"+str(myID)+".tsv", "w") as outFile:
-#            print >> outFile, "\t".join(map(str,["FileName","ModelName","Counter", "AverageLoss","Head","DH_Weight","Dependency","Dependent","DistanceWeight", "EntropyWeight", "ObjectiveName"]))
-#            for i in range(len(itos_deps)):
-#               key = itos_deps[i]
-#               dhWeight = dhWeights[i].data.numpy()
-#               distanceWeight = distanceWeights[i].data.numpy()
-#               head, dependency, dependent = key
-#               print >> outFile, "\t".join(map(str,[myID, FILE_NAME, counter, devLosses[-1], head, dhWeight, dependency, dependent, distanceWeight, entropy_weight, objectiveName]))
-#
 
 
 

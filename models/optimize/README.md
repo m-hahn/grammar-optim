@@ -7,4 +7,4 @@ Main experiments:
 
 Supplementary experiments:
 
-* `dependencyLength`, `parseability`, `predictability`: optimizing grammars for further criteria (results reported in Section S4)
+* `dependencyLength`, `parseability`, `predictability`: optimizing grammars for further criteria (results reported in SI Sections S4 and S10)

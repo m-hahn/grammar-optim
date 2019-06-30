@@ -1,4 +1,3 @@
-#/u/nlp/bin/stake.py -g 11.5g -s run-stats-pretrain2.json "python readDataDistEnglishGPUFree.py"
 
 import random
 import sys
@@ -123,16 +122,14 @@ def initializeOrderTable():
       originalDistanceWeights[key] = (distanceSum[key] / distanceCounts[key])
    return dhLogits, vocab, keys, depsVocab
 
-#import torch.distributions
 import torch.nn as nn
 import torch
 from torch.autograd import Variable
 
 
-# "linearization_logprobability"
 def recursivelyLinearize(sentence, position, result, gradients_from_the_left_sum):
    line = sentence[position-1]
-   allGradients = gradients_from_the_left_sum #+ sum(line.get("children_decisions_logprobs",[]))
+   allGradients = gradients_from_the_left_sum 
 
    if "children_DH" in line:
       for child in line["children_DH"]:
@@ -180,7 +177,7 @@ def orderSentence(sentence, dhLogits, printThings):
       if line["coarse_dep"] == "root":
           root = line["index"]
           continue
-      if line["coarse_dep"].startswith("punct"): # assumes that punctuation does not have non-punctuation dependents!
+      if line["coarse_dep"].startswith("punct"): 
          if model == "REAL_REAL":
             eliminated.append(line)
          continue
@@ -189,7 +186,7 @@ def orderSentence(sentence, dhLogits, printThings):
       dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + exp(-dhLogit))
       dhSampled = (0.5 < probability)
-      line["ordering_decision_log_probability"] = 0 #torch.log(1/(1 + torch.exp(- (1 if dhSampled else -1) * dhLogit)))
+      line["ordering_decision_log_probability"] = 0 
 
       
      
@@ -407,6 +404,9 @@ crossEntropy = 10.0
 def encodeWord(w):
    return stoi[w]+3 if stoi[w] < vocab_size else 1
 
+#loss = torch.nn.CrossEntropyLoss(reduce=False, ignore_index = 0)
+
+
 import torch.cuda
 import torch.nn.functional
 
@@ -415,8 +415,6 @@ inputDropout = torch.nn.Dropout2d(p=input_dropoutRate)
 
 
 
-content_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni, ["ADJ", "ADV", "NOUN", "NUM", "PROPN", "VERB"]))
-function_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni,["ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "PART", "PRON", "PUNCT", "SCONJ", "SYM", "X"]))
 
 
 baselinePerType = [4.0 for _ in itos_pure_deps]
@@ -450,7 +448,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
        if True:
            pos_u_layer = pos_u_embeddings(Variable(torch.LongTensor(input_pos_u).transpose(0,1)).cuda())
-           inputEmbeddings = pos_u_layer # torch.cat([pos_u_layer, pos_p_layer], dim=2) # words_layer, 
+           inputEmbeddings = pos_u_layer 
            if doDropout:
               inputEmbeddings = inputDropout(inputEmbeddings)
               inputEmbeddings = dropout(inputEmbeddings)
@@ -507,10 +505,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos, (pos-3, itos_pos_uni[pos-3]) 
                if batchOrdered[j][i-1]["head"] == 0:
                   realHead = 0
                else:
@@ -551,10 +545,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos  
 
 
                labelTargetTensor[j][i] = stoi_pure_deps[batchOrdered[j][i-1]["coarse_dep"]]
@@ -572,10 +562,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
                   for i in range(1,len(batchOrdered[j])+1):
                        pos = input_pos_u[i][j]
                        assert pos >= 3, (i,j)
-                       if False and pos-3 in function_pos:
-                          continue
-                       else:
-                          assert True or pos-3 in content_pos  
 
                        predictions = bilinearAttention[j][i]
                        predictionsLabels = labelSoftmax[j][i]
@@ -714,7 +700,7 @@ while True:
 
 
 
-  if True: #counter % 5000 == 0:
+  if True:
          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter)
 
          computeDevLoss()

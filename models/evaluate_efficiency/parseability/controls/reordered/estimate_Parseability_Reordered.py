@@ -468,8 +468,6 @@ inputDropout = torch.nn.Dropout2d(p=input_dropoutRate)
 
 
 
-content_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni, ["ADJ", "ADV", "NOUN", "NUM", "PROPN", "VERB"]))
-function_pos = map(lambda x:stoi_pos_uni[x], filter(lambda y:y in itos_pos_uni,["ADP", "ADV", "AUX", "CCONJ", "DET", "INTJ", "PART", "PRON", "PUNCT", "SCONJ", "SYM", "X"]))
 
 
 baselinePerType = [4.0 for _ in itos_pure_deps]
@@ -560,10 +558,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos, (pos-3, itos_pos_uni[pos-3]) 
                if batchOrdered[j][i-1]["head"] == 0:
                   realHead = 0
                else:
@@ -604,10 +598,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
              for i in range(1,len(batchOrdered[j])+1):
                pos = input_pos_u[i][j]
                assert pos >= 3, (i,j)
-               if False and pos-3 in function_pos:
-                  continue
-               else:
-                  assert True or pos-3 in content_pos  
 
 
                labelTargetTensor[j][i] = stoi_pure_deps[batchOrdered[j][i-1]["coarse_dep"]]
@@ -625,10 +615,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
                   for i in range(1,len(batchOrdered[j])+1):
                        pos = input_pos_u[i][j]
                        assert pos >= 3, (i,j)
-                       if False and pos-3 in function_pos:
-                          continue
-                       else:
-                          assert True or pos-3 in content_pos  
 
                        predictions = bilinearAttention[j][i]
                        predictionsLabels = labelSoftmax[j][i]
@@ -767,7 +753,7 @@ while True:
 
 
 
-  if True: #counter % 5000 == 0:
+  if True:
          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter)
 
          computeDevLoss()
