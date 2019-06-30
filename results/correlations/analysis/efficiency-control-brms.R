@@ -50,8 +50,6 @@ model3 = brm(agree ~ (1|Family) + (1|Language), family="bernoulli", data=corr_pa
 # The full set of UD relations
 dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
-# Relations formalizing Dryer's correlations
-#dependencies = c("acl", "advmod", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "nsubj", "obl", "xcomp")
 
 
 
