@@ -62,7 +62,7 @@ with open("xcomp_verbs.tsv", "w") as outFile:
        for lemma in sorted(list(counts[dep][lang]), key=lambda x:-counts[dep][lang][x]):
          direction = directions[dep][lang][lemma]
          count = counts[dep][lang][lemma]
-         if count == 1:
+         if count < 10:
             continue
          # direction = count * (P - (1-P)) = count * (2P-1)
          P = (direction/float(count) + 1)/2
