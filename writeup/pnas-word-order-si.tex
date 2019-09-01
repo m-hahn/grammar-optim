@@ -194,6 +194,43 @@ This includes dominance principles~\cite{croft2003typology} such as the strong p
 Furthermore, there has been interest in Greenberg's universals 18 and 20, which describe correlations not with verb-object order, but of different elements of noun phrases~\cite{cinque2005deriving, culbertson2014language, dryer2018order}.
 Future work should examine whether these universals can also be linked to efficiency optimization.
 
+
+\paragraph{Evaluating Accuracy of Formalization}
+An anonymous reviewer notes that the mapping between Dryer's relations and UD is not perfect, since some of the UD relations subsume other relations.
+Here we show that this is not a problem, since the ordering of the various relations subsumed under the UD label typologically strongly agree.
+
+\begin{enumerate}
+\item aux also covers modal, ... auxiliaries
+
+Universals Archive 501 provides references, other people have made the statement for auxiliaires in general.
+
+We also collected, for each language, all auxiliaires, that is, all dependents of the \emph{aux} dependency, occurring at least 10 times, and compared their dominant orders.
+In X languages, all extracted auxiliaries had the same dominant order.
+In X languages, there were auxiliaires with divergent order. In Y cases, these were modal auxiliaries, or uninflected elements. In Z cases, these were tense-aspect auxiliaries.
+Taken together, this shows that the dominant order of the \emph{aux} relation strongly coincides with that of inflected tense-aspect or negation auxiliaries.
+
+\item nmod covers all noun-modifying NPs and PPs:
+WALS evaluation, 37 entries, agreement in all but 2 cases (Danish, Swedish).
+
+\item acl not  just relative clauses: In the WALS evaluation, acl agrees with the WALS entry for relative clauses: WALS has an entry in 36 languages where acl occurs in the treebank, which agrees with the extracted grammars in all but 3 languages (Estonian, Finnish, Tamil).
+Also, UD provides a specific acl:relcl label in 21 of the languages.
+In all but 3 languages, the majority order is the same for the general acl label as for the specific acl:relcl one (exceptions: Estonian, Finnish, Hindi).
+
+\item obl covers adjunct NPs, ...: WALS evaluation: has 18 entries, no disagreement with extracted grammars
+
+\item xcomp covers other control verbs, not just volition.
+
+For each language, we extracted all lemmas of words heading an \emph{xcomp} dependency, occurring at least 2 times.
+In X languages, all extracted words had the same dominant order.
+
+In Ancient Greek, Latin, and Old Church Slavonic, verbs of volition agree with the extracted order, while several other verbs that do not indicate volition show opposite order.
+In Gothic, the verb of volition (wiljan) has opposite order, resulting in an apparent violation of Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}.
+
+In four Germanic languages (Afrikaans, Danish, Dutch, and German), the verb of volition (Afrikaans \emph{wil}, Danish \emph{ville}, Dutch \emph{willen}, German \emph{wollen}) is mostly annotated with the \emph{aux} relation due to UD annotation guidelines, but in all languages, its dominant order (verb of volition before its complement) is compatible with the dominant order of the \emph{xcomp} dependency (head-initial).
+
+Taken together, the order of the xcomp dependency tends to agree with that of most other xcomp dependencies, with the sole exception of Gothic.
+\end{enumerate}
+
 \section{Formalizing Comunicative Efficiency}
 \subsection{Derivation and Relation to Other Work}
 
@@ -288,7 +325,7 @@ In line with the other models discussed here, it assumes that rational speakers 
 \citet{peloquin2019interactions} provide further discussion of the links between pragmatics and the efficiency metric (\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 
 \paragraph{Relation to Models in Other Disciplines}
-Beyond the study of natural language, the eficiency metric (\ref{eq:eff-general}) is also closely related to information-theoretic models in other disciplines.
+Beyond the study of natural language, the efficiency metric (\ref{eq:eff-general}) is also closely related to information-theoretic models in other disciplines.
 The tradeoff between informativity and complexity of communication systems is studied by Rate-distortion theory \cite{shannon1948mathematical, berger1971rate}.
 The \emph{Infomax Principle} derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) and to a version of the Free-Energy principle (see Section S3 in \citet{friston2010free}). 
 
@@ -431,7 +468,7 @@ This is confirmed by converging evidence from our preregistered preliminary expe
 
 
 In Figure~\ref{fig:pareto-per-lang}, we show the predictability-parseability planes for every one the 51 languages, together with Pareto frontiers estimated from optimized grammars.
-
+We also provide the raw numerical values, before $z$-scoring, in Figure~\ref{fig:pareto-per-lang-raw}.
 
 
 We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
@@ -450,6 +487,15 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
 \caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored.}\label{fig:pareto-per-lang}
 \end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-raw.pdf}
+	\caption[Predictability and Parseability]{Raw numerical values estimated for Predictability (negative surprisal), and negative syntactic ambiguity $-H[T|U]$, before $z$-scoring. For more meaningful comparison, both quantities are normalized by the number of words in the corpus, i.e., we plot per-word negative surprisal and per-word difficulty in recovering syntactic structures.  Note that the negative syntactic ambiguity $-H[T|U]$ equals parseability $I[T,U] = H[T] - H[T|U]$ up to a per-language constant $H[T]$, which we do not attempt to estimate.}\label{fig:pareto-per-lang-raw}
+\end{figure}
+
+
 
 
 \footnotetext{Note that, in a few languages, the real grammar is at a position slightly \emph{beyond} the estimated Pareto frontier. This can be attributed to two reasons: First, stochastic gradient descent introduces noise due to its stochasticity and will only approximately find an optimal solution; second, for some corpora, there may be some degree of distributional mismatch between the training partitions (on which grammars are optimized) and held-out partitions (on which efficiency is estimated). This in particular applies to very small corpora such as Irish (121 training sentences).}
@@ -589,6 +635,15 @@ The frequentist analysis confirms the results of the Bayesian analysis.
 \end{table}
 
 
+
+
+\paragraph{Comparison to other Formalizations}
+
+Greenberg's original correlations/implications
+
+\cite{justeson1990explanation} conducted a log-linear analysis on typological judgments of 147 languages, constructing an undirected graphical model.
+For the relations examined here, beyond correlations with verb-object order, they found additional correlations between G-N, N-Adp and between Rel-N, N-Adp.
+With their model, they found no evidence for a direct correlation V-O, G-N.
 
 
 \subsection{Comparing Efficiency to its Components}\label{sec:posterior-number}
@@ -921,7 +976,7 @@ where
 \end{equation}
 where $t \sim \tree$ is the distribution over syntactic structures as found in databases of the language, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
-These quatities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
+These quantities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
 The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is\footnote{Note that, in the definition of $R_{Pars}$ (\ref{eq:rpars}), the term $p(t)$ is a constant independent of $\phi$ and the word order grammar $\mathcal{L}_\theta$; it can therefore be ignored in the optimization process.} 
 \begin{equation}
