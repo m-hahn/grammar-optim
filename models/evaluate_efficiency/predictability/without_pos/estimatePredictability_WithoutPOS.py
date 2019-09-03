@@ -248,6 +248,8 @@ if model != "REAL_REAL" and model != "RLR":
    for line in data:
       dependency = line[header.index("Dependency")]
       key = dependency
+      if key not in stoi_deps:
+          continue
       dhWeights[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
       distanceWeights[stoi_deps[key]] = temperature*float(line[header.index("DistanceWeight")])
 

@@ -301,6 +301,8 @@ if model not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] and model
    for line in data:
       dependency = line[header.index("Dependency")]
       key = dependency
+      if key not in stoi_deps:
+         continue
       dhWeights[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
       distanceWeights[stoi_deps[key]] = temperature*float(line[header.index("DistanceWeight")])
 
