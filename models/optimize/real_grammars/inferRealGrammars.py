@@ -289,7 +289,7 @@ def model(corpus):
        point = corpus.getSentence(q)
        current = [point]
        counter += 1
-       printHere = (counter % 100 == 0)
+       printHere = (counter % 500 == 0)
        batchOrderedLogits = zip(*map(lambda (y,x):orderSentence(x, dhLogits, y % batchSize==0 and printHere, dhWeights, distanceWeights), zip(range(len(current)),current)))
       
        batchOrdered = batchOrderedLogits[0]
@@ -317,7 +317,7 @@ svi = SVI(model, guide, optimizer, loss=Trace_ELBO()) #, num_particles=7)
 n_steps = 400000
 # do gradient steps
 for step in range(1,n_steps):
-    if step % 100 == 1:
+    if step % 500 == 1:
       print "DOING A STEP"
       print "......."
       print step

@@ -16,5 +16,5 @@ while failures < 1000:
      failures += 1
      continue
   subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "inferRealGrammars_PureUD.py", language, language])
-  break
+#  break
 
