@@ -2,8 +2,6 @@ languages = set(["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Ch
 
 assert len(languages) == 51
 
-for language in ['Afrikaans', 'Amharic-Adap', 'Arabic', 'Armenian-Adap', 'Basque', 'Belarusian', 'Breton-Adap', 'Bulgarian', 'Buryat-Adap', 'Cantonese-Adap', 'Catalan', 'Chinese', 'Croatian', 'Czech', 'Danish', 'Dutch', 'Estonian', 'Faroese-Adap', 'Finnish', 'French', 'German', 'Greek', 'Hebrew', 'Hindi', 'Hungarian', 'Indonesian', 'Irish', 'Japanese', 'Kazakh-Adap', 'Kurmanji-Adap', 'Latvian', 'Lithuanian', 'Marathi', 'Naija-Adap', 'North_Sami', 'Norwegian', 'Persian', 'Polish', 'Romanian', 'Serbian', 'Slovak', 'Slovenian', 'Spanish', 'Swedish', 'Tamil', 'Thai-Adap', 'Turkish', 'Ukrainian', 'Uyghur-Adap', 'Vietnamese', 'Polish-LFG']:
-   languages.add(language)
 
 
 languages = list(languages)
@@ -16,14 +14,15 @@ import random
 
 import subprocess
 
-modelsDir = "../../../../raw-results/manual_output_ground_coarse_pureUD/"
-modelsDirOut = "../../../../raw-results/manual_output_ground_coarse_pureUD_final/"
+modelsDir = "../../../../raw-results/manual_output_funchead_ground_coarse_pureUD/"
+modelsDirOut = "../../../../raw-results/manual_output_funchead_ground_coarse_pureUD_final/"
 
 files = os.listdir(modelsDir)
 import shutil
 
 for language in languages:
   relevant = [x for x in files if x.startswith(language+"_infer")]
+  assert len(relevant) > 0, language
   relevantModelExists = False
   farthestName, farthestCounter = None, 0
   for filename in relevant:

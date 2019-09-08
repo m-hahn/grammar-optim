@@ -4,15 +4,16 @@ assert len(languages) == 51
 import os
 import random
 
-files = os.listdir("../../../../raw-results/manual_output_funchead_ground_coarse_pureUD/")
 
 import subprocess
 
 failures = 0
 while failures < 1000:
+  files = os.listdir("../../../../raw-results/manual_output_funchead_ground_coarse_pureUD/")
   language = random.choice(languages)
   relevant = [x for x in files if x.startswith(language+"_infer")]
   if len(relevant) > 0:
+     print("Has been done ", language)
      failures += 1
      continue
   subprocess.call(["/u/nlp/anaconda/ubuntu_16/envs/py27-mhahn/bin/python2.7", "inferRealGrammars_PureUD.py", language, language])
