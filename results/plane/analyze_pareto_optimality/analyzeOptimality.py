@@ -16,7 +16,7 @@ print(languages)
 import torch
 
 with open("optimality-by-lambda.tsv", "w") as outFile:
-  print >> outFile, ("\t".join(["Language", "Lambda", "Quantile"]))
+  print >> outFile, ("\t".join(["Language", "Lambda", "Quantile", "Samples"]))
   for language in languages:
       dataL = [x for x in data if x[header["Language"]] == language]
       print(language)
@@ -32,7 +32,7 @@ with open("optimality-by-lambda.tsv", "w") as outFile:
       for lambd in [x/50.0 for x in range(50)]:
         eff = pars + lambd * surp
         effGround = parsGround + lambd * surpGround
-        print >> outFile, ("\t".join([str(x) for x in [language, lambd, float((eff > effGround).float().mean())]]))
+        print >> outFile, ("\t".join([str(x) for x in [language, lambd, float((eff > effGround).float().mean()), len(eff)]]))
       
 #    print(surp)
  #   print(pars)
