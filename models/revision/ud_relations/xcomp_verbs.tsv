@@ -1,6 +1,8 @@
+$Afrikaans	GERMANIC
 xcomp	xcomp	Afrikaans	staat_xcomp	15	1.0	0.931034482759	# TODO seems volition doesn't appear?
 xcomp	xcomp	Afrikaans	om_xcomp	15	1.0	0.931034482759
 xcomp	xcomp	Afrikaans	poging_xcomp	10	1.0	0.931034482759
+$Ancient Greek 	COMPLICATED
 xcomp	xcomp	Ancient_Greek	γίγνομαι_xcomp	900	0.34	0.665468057054
 xcomp	xcomp	Ancient_Greek	καλέω_xcomp	277	0.429602888087	0.665468057054	# become (not volition)
 xcomp	xcomp	Ancient_Greek	δύναμαι_xcomp	274	0.879562043796	0.665468057054	# to be able (not volition)
@@ -124,6 +126,7 @@ xcomp	xcomp	Ancient_Greek	θεάομαι_xcomp	10	0.8	0.665468057054
 xcomp	xcomp	Ancient_Greek	ἐποτρύνω_xcomp	10	0.8	0.665468057054
 xcomp	xcomp	Ancient_Greek	Ἀχαιός_xcomp	10	0.4	0.665468057054
 xcomp	xcomp	Ancient_Greek	κωλύω_xcomp	10	0.9	0.665468057054
+$Arabic	AGREE
 xcomp	xcomp	Arabic	كَان_xcomp	537	0.992551210428	0.987966841965	# all xcomp deps have same direction
 xcomp	xcomp	Arabic	h_xcomp	390	0.994871794872	0.987966841965
 xcomp	xcomp	Arabic	hA_xcomp	196	0.989795918367	0.987966841965
@@ -141,7 +144,7 @@ xcomp	xcomp	Arabic	nA_xcomp	59	1.0	0.987966841965
 xcomp	xcomp	Arabic	ra}iys_1_xcomp	59	1.0	0.987966841965
 xcomp	xcomp	Arabic	{isotaTAE_1_xcomp	56	0.964285714286	0.987966841965
 xcomp	xcomp	Arabic	>aDAf_1_xcomp	55	1.0	0.987966841965
-xcomp	xcomp	Arabic	ma$oruwE_1_xcomp	52	1.0	0.987966841965
+xcomp	xcomp	Arabic	maSoruwE_1_xcomp	52	1.0	0.987966841965
 xcomp	xcomp	Arabic	Hayovu_1_xcomp	52	1.0	0.987966841965
 xcomp	xcomp	Arabic	>amor_1_xcomp	52	0.980769230769	0.987966841965
 xcomp	xcomp	Arabic	زَال_xcomp	51	1.0	0.987966841965
@@ -167,14 +170,14 @@ xcomp	xcomp	Arabic	s_xcomp	33	1.0	0.987966841965
 xcomp	xcomp	Arabic	mawoqif_1_xcomp	33	1.0	0.987966841965
 xcomp	xcomp	Arabic	baEoD_1_xcomp	32	1.0	0.987966841965
 xcomp	xcomp	Arabic	TA}irap_1_xcomp	30	1.0	0.987966841965
-xcomp	xcomp	Arabic	$arikap_1_xcomp	30	1.0	0.987966841965
+xcomp	xcomp	Arabic	Sarikap_1_xcomp	30	1.0	0.987966841965
 xcomp	xcomp	Arabic	{ijotimAE_1_xcomp	29	1.0	0.987966841965
 xcomp	xcomp	Arabic	jA'_1_xcomp	28	1.0	0.987966841965
 xcomp	xcomp	Arabic	majomuwEap_1_xcomp	27	1.0	0.987966841965
 xcomp	xcomp	Arabic	أَصبَح_xcomp	27	1.0	0.987966841965
 xcomp	xcomp	Arabic	kAd-a_1_xcomp	27	1.0	0.987966841965
 xcomp	xcomp	Arabic	*`lika_1_xcomp	27	0.962962962963	0.987966841965
-xcomp	xcomp	Arabic	wA$inoTuwn_1_xcomp	27	1.0	0.987966841965
+xcomp	xcomp	Arabic	wASinoTuwn_1_xcomp	27	1.0	0.987966841965
 xcomp	xcomp	Arabic	بَدَأ_xcomp	27	1.0	0.987966841965
 xcomp	xcomp	Arabic	waziyr_1_xcomp	26	1.0	0.987966841965
 xcomp	xcomp	Arabic	suloTap_1_xcomp	26	1.0	0.987966841965
@@ -204,13 +207,13 @@ xcomp	xcomp	Arabic	<ijorA'_3_xcomp	21	1.0	0.987966841965
 xcomp	xcomp	Arabic	sa>al-a_1_xcomp	21	0.952380952381	0.987966841965
 xcomp	xcomp	Arabic	nisobap_1_xcomp	20	1.0	0.987966841965
 xcomp	xcomp	Arabic	None_xcomp	20	0.95	0.987966841965
-xcomp	xcomp	Arabic	$aEob_1_xcomp	20	1.0	0.987966841965
+xcomp	xcomp	Arabic	SaEob_1_xcomp	20	1.0	0.987966841965
 xcomp	xcomp	Arabic	maso>alap_1_xcomp	20	1.0	0.987966841965
 xcomp	xcomp	Arabic	majolis_1_xcomp	20	0.95	0.987966841965
 xcomp	xcomp	Arabic	EalAqap_1_xcomp	20	1.0	0.987966841965
 xcomp	xcomp	Arabic	waDoE_2_xcomp	20	1.0	0.987966841965
 xcomp	xcomp	Arabic	gayor_1_xcomp	19	1.0	0.987966841965
-xcomp	xcomp	Arabic	mu$okilap_1_xcomp	19	1.0	0.987966841965
+xcomp	xcomp	Arabic	muSokilap_1_xcomp	19	1.0	0.987966841965
 xcomp	xcomp	Arabic	>amal-a_1_xcomp	19	1.0	0.987966841965
 xcomp	xcomp	Arabic	Hal~_1_xcomp	18	1.0	0.987966841965
 xcomp	xcomp	Arabic	hadaf_1_xcomp	18	0.944444444444	0.987966841965
@@ -241,7 +244,7 @@ xcomp	xcomp	Arabic	jamAEap_1_xcomp	15	1.0	0.987966841965
 xcomp	xcomp	Arabic	rAH-u_1_xcomp	15	1.0	0.987966841965
 xcomp	xcomp	Arabic	أَوضَح_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	جَاء_xcomp	14	1.0	0.987966841965
-xcomp	xcomp	Arabic	$axoS_1_xcomp	14	1.0	0.987966841965
+xcomp	xcomp	Arabic	SaxoS_1_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	>ak~ad_1_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	EirAq_1_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	qar~ar_1_xcomp	14	1.0	0.987966841965
@@ -257,7 +260,7 @@ xcomp	xcomp	Arabic	bayAn_1_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	musAEadap_1_xcomp	14	1.0	0.987966841965
 xcomp	xcomp	Arabic	qAm-u_1_xcomp	13	0.846153846154	0.987966841965
 xcomp	xcomp	Arabic	sabab_1_xcomp	13	1.0	0.987966841965
-xcomp	xcomp	Arabic	$Aruwn_1_xcomp	13	1.0	0.987966841965
+xcomp	xcomp	Arabic	SAruwn_1_xcomp	13	1.0	0.987966841965
 xcomp	xcomp	Arabic	qawol_1_xcomp	13	0.923076923077	0.987966841965
 xcomp	xcomp	Arabic	Hukom_1_xcomp	13	1.0	0.987966841965
 xcomp	xcomp	Arabic	natiyjap_1_xcomp	13	1.0	0.987966841965
@@ -284,18 +287,18 @@ xcomp	xcomp	Arabic	xaT~_2_xcomp	12	1.0	0.987966841965
 xcomp	xcomp	Arabic	taqoriyr_2_xcomp	12	1.0	0.987966841965
 xcomp	xcomp	Arabic	بَدَا_xcomp	12	1.0	0.987966841965
 xcomp	xcomp	Arabic	,_xcomp	12	1.0	0.987966841965
-xcomp	xcomp	Arabic	$ayo'_1_xcomp	12	1.0	0.987966841965
+xcomp	xcomp	Arabic	Sayo'_1_xcomp	12	1.0	0.987966841965
 xcomp	xcomp	Arabic	Hadav_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	mufAwaDap_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	maroHalap_1_xcomp	11	1.0	0.987966841965
-xcomp	xcomp	Arabic	mura$~aH_1_xcomp	11	1.0	0.987966841965
+xcomp	xcomp	Arabic	muraS~aH_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	tajAwaz_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	niZAm_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	fatorap_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	jawolap_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	maHokamap_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	TAlab_1_xcomp	11	1.0	0.987966841965
-xcomp	xcomp	Arabic	$akol_1_xcomp	11	0.909090909091	0.987966841965
+xcomp	xcomp	Arabic	Sakol_1_xcomp	11	0.909090909091	0.987966841965
 xcomp	xcomp	Arabic	mivol_1_xcomp	11	1.0	0.987966841965
 xcomp	xcomp	Arabic	Darobap_1_xcomp	11	0.909090909091	0.987966841965
 xcomp	xcomp	Arabic	naHow_3_xcomp	11	1.0	0.987966841965
@@ -324,6 +327,7 @@ xcomp	xcomp	Arabic	xaTowap_1_xcomp	10	0.9	0.987966841965
 xcomp	xcomp	Arabic	wizArap_1_xcomp	10	1.0	0.987966841965
 xcomp	xcomp	Arabic	غَادَر_xcomp	10	1.0	0.987966841965
 xcomp	xcomp	Arabic	wajab-i_1_xcomp	10	1.0	0.987966841965
+$Basque	AGREE
 xcomp	xcomp	Basque	ukan_xcomp	274	0.120437956204	0.1821428571433	# all xcomp deps have same direction
 xcomp	xcomp	Basque	izan_xcomp	212	0.183962264151	0.182142857143
 xcomp	xcomp	Basque	behar_izan_xcomp	79	0.0126582278481	0.182142857143
@@ -339,7 +343,9 @@ xcomp	xcomp	Basque	leporatu_xcomp	13	0.153846153846	0.182142857143
 xcomp	xcomp	Basque	bilakatu_xcomp	11	0.0	0.182142857143
 xcomp	xcomp	Basque	onartu_xcomp	10	0.4	0.182142857143
 xcomp	xcomp	Basque	egon_xcomp	10	0.5	0.182142857143
+$Belarusia	AGREE
 xcomp	xcomp	Belarusian	магчы_xcomp	20	1.0	0.988888888889	# all xcomp deps have same direction
+$Bulgarian	AGREE
 xcomp	xcomp	Bulgarian	мога_xcomp	337	0.99703264095	0.9900709219866	# all xcomp deps have same direction
 xcomp	xcomp	Bulgarian	ща_xcomp	47	1.0	0.990070921986
 xcomp	xcomp	Bulgarian	успея_xcomp	33	1.0	0.990070921986
@@ -348,6 +354,7 @@ xcomp	xcomp	Bulgarian	опитам-(се)_xcomp	20	1.0	0.990070921986
 xcomp	xcomp	Bulgarian	продължавам_xcomp	19	1.0	0.990070921986
 xcomp	xcomp	Bulgarian	опитвам-(се)_xcomp	17	1.0	0.990070921986
 xcomp	xcomp	Bulgarian	продължа_xcomp	14	1.0	0.990070921986
+$Catalan	AGREE
 xcomp	xcomp	Catalan	voler_xcomp	176	0.988636363636	0.950293718934	# all xcomp deps have same direction
 xcomp	xcomp	Catalan	permetre_xcomp	139	1.0	0.950293718934
 xcomp	xcomp	Catalan	intentar_xcomp	79	1.0	0.950293718934
@@ -402,6 +409,7 @@ xcomp	xcomp	Catalan	declarar_xcomp	10	0.5	0.950293718934
 xcomp	xcomp	Catalan	limitar_xcomp	10	1.0	0.950293718934
 xcomp	xcomp	Catalan	indicar_xcomp	10	0.8	0.950293718934
 xcomp	xcomp	Catalan	a_xcomp	10	0.5	0.950293718934
+$Chinese	AGREE
 xcomp	xcomp	Chinese	是_xcomp	226	0.977876106195	0.786783042394	# all xcomp deps have same direction
 xcomp	xcomp	Chinese	開始_xcomp	102	0.950980392157	0.786783042394
 xcomp	xcomp	Chinese	沒有_xcomp	59	0.932203389831	0.786783042394
@@ -422,7 +430,9 @@ xcomp	xcomp	Chinese	試圖_xcomp	11	1.0	0.786783042394
 xcomp	xcomp	Chinese	不是_xcomp	11	0.909090909091	0.786783042394
 xcomp	xcomp	Chinese	就是_xcomp	11	1.0	0.786783042394
 xcomp	xcomp	Chinese	要求_xcomp	10	0.9	0.786783042394
+$Coptic	AGREE
 xcomp	xcomp	Coptic	ⲧⲣⲉ_xcomp	43	1.0	1.0	# all xcomp deps have same direction
+$Croatian	AGREE
 xcomp	xcomp	Croatian	moći_xcomp	635	0.995275590551	0.960954446855	# all xcomp deps have same direction
 xcomp	xcomp	Croatian	trebati_xcomp	283	0.996466431095	0.960954446855
 xcomp	xcomp	Croatian	morati_xcomp	222	1.0	0.960954446855
@@ -459,6 +469,7 @@ xcomp	xcomp	Croatian	znati_xcomp	12	1.0	0.960954446855
 xcomp	xcomp	Croatian	nazivati_xcomp	10	1.0	0.960954446855
 xcomp	xcomp	Croatian	stanje_xcomp	10	1.0	0.960954446855
 xcomp	xcomp	Croatian	pokazati_xcomp	10	0.8	0.960954446855
+$Czech	AGREE
 xcomp	xcomp	Czech	moci_xcomp	5322	0.975948891394	0.931691981055	# all xcomp deps have same direction
 xcomp	xcomp	Czech	mít_xcomp	3275	0.97679389313	0.931691981055
 xcomp	xcomp	Czech	muset_xcomp	2542	0.979543666404	0.931691981055
@@ -578,11 +589,13 @@ xcomp	xcomp	Czech	čtenář_xcomp	10	0.9	0.931691981055
 xcomp	xcomp	Czech	snažící_xcomp	10	1.0	0.931691981055
 xcomp	xcomp	Czech	váhat_xcomp	10	0.9	0.931691981055
 xcomp	xcomp	Czech	vydržet_xcomp	10	0.6	0.931691981055
+$Danish	GERMANIC
 xcomp	xcomp	Danish	være_xcomp	88	0.920454545455	0.686403508772	# all xcomp deps have same direction
 xcomp	xcomp	Danish	få_xcomp	62	0.838709677419	0.686403508772
 xcomp	xcomp	Danish	lade_xcomp	46	0.978260869565	0.686403508772
 xcomp	xcomp	Danish	se_xcomp	20	0.75	0.686403508772
 xcomp	xcomp	Danish	blive_xcomp	13	0.923076923077	0.686403508772
+$Dutch	GERMANIC
 xcomp	xcomp	Dutch	moeten_xcomp	542	0.953874538745	0.673242909988 # willen is an aux
 xcomp	xcomp	Dutch	noemen_xcomp	253	0.0869565217391	0.673242909988
 xcomp	xcomp	Dutch	blijven_xcomp	68	1.0	0.673242909988
@@ -602,6 +615,7 @@ xcomp	xcomp	Dutch	voelen_xcomp	15	0.6	0.673242909988
 xcomp	xcomp	Dutch	gebruiken_xcomp	13	0.538461538462	0.673242909988
 xcomp	xcomp	Dutch	krijgen_xcomp	12	0.416666666667	0.673242909988
 xcomp	xcomp	Dutch	tonen_xcomp	12	0.833333333333	0.673242909988
+$English	AGREE
 xcomp	xcomp	English	have_xcomp	331	0.996978851964	0.981310330663	# all xcomp deps have same direction
 xcomp	xcomp	English	want_xcomp	312	1.0	0.981310330663
 xcomp	xcomp	English	make_xcomp	262	1.0	0.981310330663
@@ -677,6 +691,7 @@ xcomp	xcomp	English	prepare_xcomp	11	1.0	0.981310330663
 xcomp	xcomp	English	agree_xcomp	11	0.909090909091	0.981310330663
 xcomp	xcomp	English	manage_xcomp	10	1.0	0.981310330663
 xcomp	xcomp	English	learn_xcomp	10	1.0	0.981310330663
+$Estonian	AGREE
 xcomp	xcomp	Estonian	hakkama_xcomp	130	0.815384615385	0.810200668896	# all xcomp deps have same direction
 xcomp	xcomp	Estonian	tahtma_xcomp	99	0.939393939394	0.810200668896 # volition
 xcomp	xcomp	Estonian	saama_xcomp	58	0.568965517241	0.810200668896
@@ -706,6 +721,7 @@ xcomp	xcomp	Estonian	pruukima_xcomp	10	1.0	0.810200668896
 xcomp	xcomp	Estonian	üritama_xcomp	10	0.9	0.810200668896
 xcomp	xcomp	Estonian	proovima_xcomp	10	0.9	0.810200668896
 xcomp	xcomp	Estonian	kavatsema_xcomp	10	0.9	0.810200668896
+$Finnish	AGREE
 xcomp	xcomp	Finnish	haluta_xcomp	316	0.990506329114	0.962661981111	# all xcomp deps have same direction
 xcomp	xcomp	Finnish	saada_xcomp	183	0.989071038251	0.962661981111
 xcomp	xcomp	Finnish	tulla_xcomp	182	0.928571428571	0.962661981111
@@ -792,6 +808,7 @@ xcomp	xcomp	Finnish	huomata_xcomp:ds	10	1.0	0.962661981111
 xcomp	xcomp	Finnish	laittaa_xcomp:ds	10	1.0	0.962661981111
 xcomp	xcomp	Finnish	pitää_xcomp:ds	10	1.0	0.962661981111
 xcomp	xcomp	Finnish	nähdä_xcomp:ds	10	0.8	0.962661981111
+$French	AGREE
 xcomp	xcomp	French	pouvoir_xcomp	1686	1.0	0.995777446597	# all xcomp deps have same direction
 xcomp	xcomp	French	devoir_xcomp	1363	1.0	0.995777446597
 xcomp	xcomp	French	permettre_xcomp	499	1.0	0.995777446597
@@ -931,6 +948,7 @@ xcomp	xcomp	French	manquer_xcomp	10	1.0	0.995777446597
 xcomp	xcomp	French	promouvoir_xcomp	10	1.0	0.995777446597
 xcomp	xcomp	French	entreprendre_xcomp	10	1.0	0.995777446597
 xcomp	xcomp	French	garder_xcomp	10	1.0	0.995777446597
+$Galician	AGREE
 xcomp	xcomp	Galician	considerar_xcomp	47	0.914893617021	0.975270479134	# all xcomp deps have same direction
 xcomp	xcomp	Galician	resultar_xcomp	33	0.969696969697	0.975270479134
 xcomp	xcomp	Galician	ter_xcomp	31	0.967741935484	0.975270479134
@@ -939,6 +957,7 @@ xcomp	xcomp	Galician	quedar_xcomp	24	0.958333333333	0.975270479134
 xcomp	xcomp	Galician	facer_xcomp	23	1.0	0.975270479134
 xcomp	xcomp	Galician	ver_xcomp	22	0.954545454545	0.975270479134
 xcomp	xcomp	Galician	querer_xcomp	17	1.0	0.975270479134
+$German	GERMANIC
 xcomp	xcomp	German	lassen_xcomp	136	0.522058823529	0.759878419453 # wollen is aux
 xcomp	xcomp	German	versuchen_xcomp	61	0.934426229508	0.759878419453
 xcomp	xcomp	German	machen_xcomp	56	0.464285714286	0.759878419453
@@ -954,6 +973,7 @@ xcomp	xcomp	German	scheinen_xcomp	13	0.846153846154	0.759878419453
 xcomp	xcomp	German	bleiben_xcomp	12	0.666666666667	0.759878419453
 xcomp	xcomp	German	geben_xcomp	11	0.727272727273	0.759878419453
 xcomp	xcomp	German	zwingen_xcomp	11	1.0	0.759878419453
+$Gothic	INCOMPATIBLE
 xcomp	xcomp	Gothic	wisan#1_xcomp	1179	0.343511450382	0.48
 xcomp	xcomp	Gothic	wairþan_xcomp	245	0.355102040816	0.48
 xcomp	xcomp	Gothic	magan*_xcomp	92	0.923913043478	0.48
@@ -969,6 +989,7 @@ xcomp	xcomp	Gothic	bi-gitan_xcomp	14	0.785714285714	0.48
 xcomp	xcomp	Gothic	qiþan_xcomp	14	0.857142857143	0.48
 xcomp	xcomp	Gothic	bidjan_xcomp	10	1.0	0.48
 xcomp	xcomp	Gothic	ga-taujan_xcomp	10	0.3	0.48
+$Greek	AGREE
 xcomp	xcomp	Greek	μπορώ_xcomp	128	1.0	0.976516634051	# all xcomp deps have same direction
 xcomp	xcomp	Greek	θεωρώ_xcomp	34	0.970588235294	0.976516634051
 xcomp	xcomp	Greek	γίνομαι_xcomp	22	1.0	0.976516634051
@@ -980,6 +1001,7 @@ xcomp	xcomp	Greek	καθιστώ_xcomp	12	1.0	0.976516634051
 xcomp	xcomp	Greek	αναγκάζω_xcomp	12	1.0	0.976516634051
 xcomp	xcomp	Greek	οφείλω_xcomp	11	1.0	0.976516634051
 xcomp	xcomp	Greek	αρχίζω_xcomp	10	1.0	0.976516634051
+$Hebrew AGREE
 xcomp	xcomp	Hebrew	אפשר_xcomp	87	1.0	0.9957002457	# all xcomp deps have same direction
 xcomp	xcomp	Hebrew	יכול_xcomp	79	0.987341772152	0.9957002457
 xcomp	xcomp	Hebrew	__xcomp	73	1.0	0.9957002457
@@ -1017,23 +1039,28 @@ xcomp	xcomp	Hebrew	בא_xcomp	10	1.0	0.9957002457
 xcomp	xcomp	Hebrew	הרבה_xcomp	10	1.0	0.9957002457
 xcomp	xcomp	Hebrew	נועד_xcomp	10	1.0	0.9957002457
 xcomp	xcomp	Hebrew	יכל_xcomp	10	1.0	0.9957002457
+$Hindi	AGREE
 xcomp	xcomp	Hindi	हो_xcomp	315	0.00952380952381	0.0102040816327	# all xcomp deps have same direction
 xcomp	xcomp	Hindi	रह_xcomp	131	0.00763358778626	0.0102040816327
 xcomp	xcomp	Hindi	बन_xcomp	72	0.0138888888889	0.0102040816327
 xcomp	xcomp	Hindi	कर_xcomp	18	0.0	0.0102040816327
 xcomp	xcomp	Hindi	आ_xcomp	12	0.0833333333333	0.0102040816327
 xcomp	xcomp	Hindi	लग_xcomp	10	0.0	0.0102040816327
+$Hungarian	AGREE
 xcomp	xcomp	Hungarian	kell_xcomp	80	0.875	0.907172995781	# all xcomp deps have same direction
 xcomp	xcomp	Hungarian	tud_xcomp	26	0.961538461538	0.907172995781
 xcomp	xcomp	Hungarian	lesz_xcomp	17	0.941176470588	0.907172995781
+$Indonesian	AGREE
 xcomp	xcomp	Hungarian	kíván_xcomp	12	1.0	0.907172995781
 xcomp	xcomp	Indonesian	__xcomp	1237	0.900565885206	0.900565885206
+$Irish	AGREE
 xcomp	xcomp	Irish	bí_xcomp:pred	275	0.992727272727	0.976119402985	# all xcomp deps have same direction
 xcomp	xcomp	Irish	bí_xcomp	125	0.992	0.976119402985
 xcomp	xcomp	Irish	déan_xcomp	13	0.923076923077	0.976119402985
 xcomp	xcomp	Irish	cur_xcomp	11	0.909090909091	0.976119402985
 xcomp	xcomp	Irish	bheith_xcomp:pred	10	1.0	0.976119402985
 xcomp	xcomp	Irish	féad_xcomp	10	1.0	0.976119402985
+$Italian	AGREE
 xcomp	xcomp	Italian	diventare_xcomp	137	0.978102189781	0.990494919698	# all xcomp deps have same direction
 xcomp	xcomp	Italian	chiamare_xcomp	131	0.992366412214	0.990494919698
 xcomp	xcomp	Italian	rendere_xcomp	120	1.0	0.990494919698
@@ -1108,6 +1135,8 @@ xcomp	xcomp	Italian	desiderare_xcomp	10	1.0	0.990494919698
 xcomp	xcomp	Italian	rifiutare_xcomp	10	1.0	0.990494919698
 xcomp	xcomp	Italian	mettere_xcomp	10	1.0	0.990494919698
 xcomp	xcomp	Italian	indurre_xcomp	10	1.0	0.990494919698
+$Japanese UNKNOWN
+$Korean	AGREE
 xcomp	xcomp	Korean	하+ㄹ_xcomp	32	0.0	0.0
 xcomp	xcomp	Korean	하+ㄴ다_xcomp	23	0.0	0.0
 xcomp	xcomp	Korean	있+다_xcomp	23	0.0	0.0
@@ -1129,6 +1158,7 @@ xcomp	xcomp	Korean	하+고_xcomp	11	0.0	0.0
 xcomp	xcomp	Korean	다르+지_xcomp	11	0.0	0.0
 xcomp	xcomp	Korean	있+는_xcomp	11	0.0	0.0
 xcomp	xcomp	Korean	되+ㄹ_xcomp	10	0.0	0.0
+$Latin	COMPLICATED?
 xcomp	xcomp	Latin	possum_xcomp	2423	0.606685926537	0.643300248139
 xcomp	xcomp	Latin	facio_xcomp	283	0.43109540636	0.643300248139
 xcomp	xcomp	Latin	video_xcomp	260	0.65	0.643300248139
@@ -1199,6 +1229,7 @@ xcomp	xcomp	Latin	dico2_xcomp	10	0.3	0.643300248139
 xcomp	xcomp	Latin	impossibilis_xcomp	10	1.0	0.643300248139
 xcomp	xcomp	Latin	scio_xcomp	10	0.9	0.643300248139
 xcomp	xcomp	Latin	qui1_xcomp	10	1.0	0.643300248139
+$Latvian	AGREE
 xcomp	xcomp	Latvian	varēt_xcomp	281	1.0	0.952232606438
 xcomp	xcomp	Latvian	nevarēt_xcomp	69	1.0	0.952232606438
 xcomp	xcomp	Latvian	sākt_xcomp	60	1.0	0.952232606438
@@ -1220,9 +1251,12 @@ xcomp	xcomp	Latvian	palikt_xcomp	12	0.916666666667	0.952232606438
 xcomp	xcomp	Latvian	nākties_xcomp	11	1.0	0.952232606438
 xcomp	xcomp	Latvian	nedrīkstēt_xcomp	10	1.0	0.952232606438
 xcomp	xcomp	Latvian	-_xcomp	10	0.8	0.952232606438
+$Lithuanian	AGREE
 xcomp	xcomp	Lithuanian	galėti_xcomp	20	1.0	0.974358974359
+$Marathi	AGREE
 xcomp	xcomp	Marathi	होणे_xcomp	3	0.0	0.111111111111	# all xcomp deps have same direction
 xcomp	xcomp	Marathi	देणे_xcomp	2	0.0	0.111111111111
+$Norwegian	AGREE
 xcomp	xcomp	Norwegian	bli_xcomp	1459	0.971213159698	0.983086981239
 xcomp	xcomp	Norwegian	verte_xcomp	357	0.966386554622	0.983086981239
 xcomp	xcomp	Norwegian	ha_xcomp	267	0.992509363296	0.983086981239
@@ -1324,6 +1358,7 @@ xcomp	xcomp	Norwegian	skrive_xcomp	10	1.0	0.983086981239
 xcomp	xcomp	Norwegian	hevde_xcomp	10	1.0	0.983086981239
 xcomp	xcomp	Norwegian	spørre_xcomp	10	1.0	0.983086981239
 xcomp	xcomp	Norwegian	vedta_xcomp	10	1.0	0.983086981239
+$Old Church Slavonic	COMPLICATED
 xcomp	xcomp	Old_Church_Slavonic	бꙑти_xcomp	1246	0.45264847512	0.623007968127
 xcomp	xcomp	Old_Church_Slavonic	мощи_xcomp	99	0.969696969697	0.623007968127
 xcomp	xcomp	Old_Church_Slavonic	хотѣти_xcomp	61	0.950819672131	0.623007968127	# volition
@@ -1345,6 +1380,7 @@ xcomp	xcomp	Old_Church_Slavonic	творити_xcomp	13	0.538461538462	0.6230079
 xcomp	xcomp	Old_Church_Slavonic	прѣбꙑти_xcomp	12	0.75	0.623007968127
 xcomp	xcomp	Old_Church_Slavonic	прѣбꙑвати_xcomp	11	0.727272727273	0.623007968127
 xcomp	xcomp	Old_Church_Slavonic	глаголати_xcomp	10	0.9	0.623007968127
+$Persian	AGREE
 xcomp	xcomp	Persian	کرد#کن_xcomp	108	0.0185185185185	0.0526315789474
 xcomp	xcomp	Persian	__xcomp	59	0.152542372881	0.0526315789474
 xcomp	xcomp	Persian	دانست#دان_xcomp	34	0.0	0.0526315789474
@@ -1352,6 +1388,7 @@ xcomp	xcomp	Persian	داشت#دار_xcomp	18	0.0	0.0526315789474
 xcomp	xcomp	Persian	داد#ده_xcomp	14	0.0	0.0526315789474
 xcomp	xcomp	Persian	آمد#آ_xcomp	10	0.0	0.0526315789474
 xcomp	xcomp	Persian	خواند#خوان_xcomp	10	0.0	0.0526315789474
+$Polish	AGREE
 xcomp	xcomp	Polish	móc_xcomp	198	0.969696969697	0.975961538462
 xcomp	xcomp	Polish	chcieć_xcomp	93	1.0	0.975961538462
 xcomp	xcomp	Polish	musieć_xcomp	87	1.0	0.975961538462
@@ -1376,6 +1413,7 @@ xcomp	xcomp	Polish	przestać_xcomp	10	1.0	0.975961538462
 xcomp	xcomp	Polish	okazać_xcomp	10	1.0	0.975961538462
 xcomp	xcomp	Polish	starać_xcomp	10	1.0	0.975961538462
 xcomp	xcomp	Polish	dać_xcomp	10	1.0	0.975961538462
+$Portuguese AGREE
 xcomp	xcomp	Portuguese	__xcomp:adj	1476	0.986449864499	0.988023952096
 xcomp	xcomp	Portuguese	__xcomp	860	0.995348837209	0.988023952096
 xcomp	xcomp	Portuguese	querer_xcomp	109	0.97247706422	0.988023952096
@@ -1420,6 +1458,7 @@ xcomp	xcomp	Portuguese	apresentar_xcomp	11	1.0	0.988023952096
 xcomp	xcomp	Portuguese	destinar_xcomp	10	1.0	0.988023952096
 xcomp	xcomp	Portuguese	limitar_xcomp	10	1.0	0.988023952096
 xcomp	xcomp	Portuguese	continuar_xcomp	10	0.9	0.988023952096
+$Romanian AGREE
 xcomp	xcomp	Romanian	deveni_xcomp	134	0.985074626866	0.897229669348
 xcomp	xcomp	Romanian	părea_xcomp	66	1.0	0.897229669348
 xcomp	xcomp	Romanian	rămâne_xcomp	66	0.969696969697	0.897229669348
@@ -1440,6 +1479,7 @@ xcomp	xcomp	Romanian	denumit_xcomp	14	1.0	0.897229669348
 xcomp	xcomp	Romanian	arăta_xcomp	10	0.8	0.897229669348
 xcomp	xcomp	Romanian	considerat_xcomp	10	1.0	0.897229669348
 xcomp	xcomp	Romanian	avea_xcomp	10	0.7	0.897229669348
+$Russian	AGREE
 xcomp	xcomp	Russian	мочь_xcomp	2754	0.940087145969	0.954385296638
 xcomp	xcomp	Russian	должен_xcomp	961	0.982310093652	0.954385296638
 xcomp	xcomp	Russian	начинать_xcomp	441	0.988662131519	0.954385296638
@@ -1537,6 +1577,7 @@ xcomp	xcomp	Russian	приказывать_xcomp	10	0.9	0.954385296638
 xcomp	xcomp	Russian	учиться_xcomp	10	0.9	0.954385296638
 xcomp	xcomp	Russian	уставать_xcomp	10	1.0	0.954385296638
 xcomp	xcomp	Russian	побуждать_xcomp	10	1.0	0.954385296638
+$Serbian AGREE
 xcomp	xcomp	Serbian	moći_xcomp	166	1.0	0.939929328622
 xcomp	xcomp	Serbian	trebati_xcomp	123	0.991869918699	0.939929328622
 xcomp	xcomp	Serbian	morati_xcomp	105	1.0	0.939929328622
@@ -1546,6 +1587,7 @@ xcomp	xcomp	Serbian	biti_xcomp	18	1.0	0.939929328622
 xcomp	xcomp	Serbian	pokušavati_xcomp	15	1.0	0.939929328622
 xcomp	xcomp	Serbian	ostajati_xcomp	12	1.0	0.939929328622
 xcomp	xcomp	Serbian	smatrati_xcomp	10	1.0	0.939929328622
+$Slovak	AGREE
 xcomp	xcomp	Slovak	môcť_xcomp	185	0.967567567568	0.933762649494
 xcomp	xcomp	Slovak	musieť_xcomp	112	0.991071428571	0.933762649494
 xcomp	xcomp	Slovak	chcieť_xcomp	109	1.0	0.933762649494
@@ -1562,6 +1604,7 @@ xcomp	xcomp	Slovak	vládať_xcomp	11	1.0	0.933762649494
 xcomp	xcomp	Slovak	smieť_xcomp	10	1.0	0.933762649494
 xcomp	xcomp	Slovak	schopný_xcomp	10	0.8	0.933762649494
 xcomp	xcomp	Slovak	odvážiť_xcomp	10	1.0	0.933762649494
+$Slovenian	AGREE
 xcomp	xcomp	Slovenian	morati_xcomp	291	0.962199312715	0.953431372549
 xcomp	xcomp	Slovenian	moči_xcomp	120	0.991666666667	0.953431372549
 xcomp	xcomp	Slovenian	postati_xcomp	82	0.963414634146	0.953431372549
@@ -1581,6 +1624,7 @@ xcomp	xcomp	Slovenian	ostati_xcomp	19	0.894736842105	0.953431372549
 xcomp	xcomp	Slovenian	iti_xcomp	17	1.0	0.953431372549
 xcomp	xcomp	Slovenian	utegniti_xcomp	12	1.0	0.953431372549
 xcomp	xcomp	Slovenian	nameravati_xcomp	11	0.909090909091	0.953431372549
+$Spanish	AGREE
 xcomp	xcomp	Spanish	querer_xcomp	308	0.983766233766	0.963233306299
 xcomp	xcomp	Spanish	permitir_xcomp	227	1.0	0.963233306299
 xcomp	xcomp	Spanish	decidir_xcomp	194	1.0	0.963233306299
@@ -1658,6 +1702,7 @@ xcomp	xcomp	Spanish	procurar_xcomp	11	1.0	0.963233306299
 xcomp	xcomp	Spanish	encargado_xcomp	11	1.0	0.963233306299
 xcomp	xcomp	Spanish	dar_xcomp	10	1.0	0.963233306299
 xcomp	xcomp	Spanish	acusado_xcomp	10	1.0	0.963233306299
+$Swedish	AGREE
 xcomp	xcomp	Swedish	bli_xcomp	321	0.947040498442	0.968878449794
 xcomp	xcomp	Swedish	försöka_xcomp	83	1.0	0.968878449794
 xcomp	xcomp	Swedish	börja_xcomp	70	1.0	0.968878449794
@@ -1701,6 +1746,10 @@ xcomp	xcomp	Swedish	hinna_xcomp	11	1.0	0.968878449794
 xcomp	xcomp	Swedish	förbli_xcomp	11	1.0	0.968878449794
 xcomp	xcomp	Swedish	visa_xcomp	11	1.0	0.968878449794
 xcomp	xcomp	Swedish	höra_xcomp	10	1.0	0.968878449794
+$Tamil UNKNOWN
+$Telugu	UNKNOWN
+$Turkish UNKNOWN
+$Ukrainian AGREE
 xcomp	xcomp	Ukrainian	могти_xcomp	179	0.972067039106	0.941358024691
 xcomp	xcomp	Ukrainian	мати_xcomp	55	0.981818181818	0.941358024691
 xcomp	xcomp	Ukrainian	стати_xcomp:sp	50	0.82	0.941358024691
@@ -1719,6 +1768,7 @@ xcomp	xcomp	Ukrainian	хотітися_xcomp	11	1.0	0.941358024691
 xcomp	xcomp	Ukrainian	змогти_xcomp	11	0.909090909091	0.941358024691
 xcomp	xcomp	Ukrainian	любити_xcomp	10	0.9	0.941358024691
 xcomp	xcomp	Ukrainian	називатися_xcomp:sp	10	1.0	0.941358024691
+$Urdu AGREE
 xcomp	xcomp	Urdu	ہو_xcomp	183	0.0	0.0121654501217
 xcomp	xcomp	Urdu	رہ_xcomp	64	0.0	0.0121654501217
 xcomp	xcomp	Urdu	بن_xcomp	47	0.0	0.0121654501217
@@ -1726,6 +1776,7 @@ xcomp	xcomp	Urdu	کر_xcomp	28	0.0	0.0121654501217
 xcomp	xcomp	Urdu	بنا_xcomp	13	0.0	0.0121654501217
 xcomp	xcomp	Urdu	دے_xcomp	12	0.0833333333333	0.0121654501217
 xcomp	xcomp	Urdu	آ_xcomp	12	0.0	0.0121654501217
+$Vietnamese AGREE
 xcomp	xcomp	Vietnamese	đi_xcomp	84	1.0	0.976109215017
 xcomp	xcomp	Vietnamese	người_xcomp	77	1.0	0.976109215017
 xcomp	xcomp	Vietnamese	khi_xcomp	39	1.0	0.976109215017

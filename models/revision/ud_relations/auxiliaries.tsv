@@ -57,6 +57,7 @@ aux	aux	Basque	ukan_aux	34	0.735294117647	0.914821944177
 $Belarusian: AGREE
 aux	aux	Belarusian	быць_aux	23	0.130434782609	0.131578947368	# all auxiliairies agree
 aux	aux	Belarusian	быць_aux:pass	14	0.0714285714286	0.131578947368
+$Bulgarian AGREE
 aux	aux	Bulgarian	да_aux	2673	0.00374111485223	0.0212765957447	# all auxiliairies agree
 aux	aux	Bulgarian	ще_aux	1125	0.0142222222222	0.0212765957447
 aux	aux	Bulgarian	съм_aux	952	0.0577731092437	0.0212765957447
@@ -121,7 +122,7 @@ aux	aux	Coptic	ⲛⲧⲉⲣⲉ_aux	33	0.0	0.0
 aux	aux	Coptic	ⲙⲡⲉ_aux	31	0.0	0.0
 aux	aux	Coptic	ϣⲁⲣⲉ_aux	22	0.0	0.0
 aux	aux	Coptic	ϣ_aux	10	0.0	0.0
-$Croatian: COMPATIBLE (except: particle)
+$Croatian: AGREE (except: particle)
 aux	aux	Croatian	biti_aux	5584	0.325573065903	0.291262135922
 aux	aux	Croatian	htjeti_aux	1284	0.166666666667	0.291262135922
 aux	aux	Croatian	biti_aux:pass	939	0.26517571885	0.291262135922
@@ -230,7 +231,7 @@ aux	aux	Galician	estar_aux	44	0.0	0.0205423171734
 aux	aux	Galician	seguir_aux	28	0.0	0.0205423171734
 aux	aux	Galician	ser_aux:pass	17	0.0	0.0205423171734
 aux	aux	Galician	vir_aux	11	0.0	0.0205423171734
-$German COMPATIBLE (except: particle)
+$German AGREE (except: particle)
 aux	aux	German	werden_aux:pass	2949	0.332994235334	0.332531665865	# all auxiliairies agree, except for 'zu' which is not an auxiliary
 aux	aux	German	haben_aux	865	0.324855491329	0.332531665865
 aux	aux	German	können_aux	726	0.308539944904	0.332531665865
@@ -243,6 +244,7 @@ aux	aux	German	wollen_aux	139	0.424460431655	0.332531665865
 aux	aux	German	dürfen_aux	59	0.254237288136	0.332531665865
 aux	aux	German	zu_aux	44	0.795454545455	0.332531665865
 aux	aux	German	mögen_aux	29	0.448275862069	0.332531665865
+$Gothic AGREE
 aux	aux	Gothic	sik_aux	76	0.973684210526	0.974683544304	# all auxiliairies agree
 $Greek AGREE
 aux	aux	Greek	να_aux	1211	0.00247729149463	0.00383141762452	# all auxiliairies agree
@@ -289,6 +291,8 @@ aux	aux	Hindi	उठ_aux	12	1.0	0.99901545732
 aux	aux	Hindi	गिरा_aux	10	1.0	0.99901545732
 $Hungarian AGREE
 aux	aux	Hungarian	fog_aux	11	0.181818181818	0.526315789474 # inflected future auxiliary
+$Indonesian AGREE (there are only three occurrences of aux in the training set, all of which show aux-verb order)
+$Irish UNKNOWN
 $Italian AGREE
 aux	aux	Italian	avere_aux	2787	0.0	0.00215749730313	# all auxiliairies agree
 aux	aux	Italian	essere_aux:pass	2210	0.00135746606335	0.00215749730313
@@ -708,11 +712,12 @@ aux	aux	Tamil	செய்_aux	20	1.0	0.995689655172
 aux	aux	Tamil	இல்_aux	18	1.0	0.995689655172
 aux	aux	Tamil	விடு_aux	15	1.0	0.995689655172
 aux	aux	Tamil	வா_aux	10	1.0	0.995689655172
+$Telugu UNKNOWN
 $Turkish AGREE
 aux	aux	Turkish	mı_aux:q	61	1.0	1.0	# all auxiliairies agree
 aux	aux	Turkish	mi_aux:q	51	1.0	1.0
 aux	aux	Turkish	mu_aux:q	45	1.0	1.0
-$Ukrainian COMPATIBLE (except uninflected particle)
+$Ukrainian AGREE (except uninflected particle)
 aux	aux	Ukrainian	бути_aux	89	0.0786516853933	0.341176470588	# this is a TAM auxiliary
 aux	aux	Ukrainian	б_aux	54	0.62962962963	0.341176470588	# EXCEPTION_COMPATIBLE the same as Russian бы -- uninflected particle
 aux	aux	Ukrainian	би_aux	26	0.615384615385	0.341176470588	# EXCEPTION_COMPATIBLE the same as Russian бы -- uninflected particle
