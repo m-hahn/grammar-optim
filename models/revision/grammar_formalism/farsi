@@ -1,0 +1,18 @@
+FORMS of budan
+aux     aux     Persian است_aux 685     1.0     0.550956831331 #     third-person singular present of بودن‎ (budan). Mace p. 117.
+
+FORMS of xaastan
+aux     aux     Persian خواست#خواه_aux  331     0.00604229607251        0.550956831331 # modal (want, intend). Mace p. 109. but also future infinitive (Mace, p. 122)
+
+
+aux     aux     Persian بایست#باید_aux  289     0.0103806228374 0.550956831331 # باید modal (necessarily), بایست (must, had to)
+aux     aux     Persian بود#باش_aux     264     1.0     0.550956831331	# also derived from budan
+aux     aux     Persian توانست#توان_aux 201     0.00497512437811        0.550956831331 # modal auxiliary توانستن (be able, can). Mace p. 109.
+aux     aux     Persian کرد#کن_aux:pass 176     0.994318181818  0.550956831331
+aux     aux     Persian __aux   81      0.0246913580247 0.550956831331 # TODO (figure out what this is)
+aux     aux     Persian بود_aux 72      1.0     0.550956831331
+aux     aux     Persian توان_aux        69      0.0     0.550956831331 # modal auxiliary توانستن (be able, can)
+aux     aux     Persian داشت#ﺩﺍﺭ_aux    36      0.0     0.550956831331 # tense-aspect auxiliary داشتن (colloquial, to be doing something). Mace p. 102
+aux     aux     Persian کرد#کن_aux      20      0.7     0.550956831331	# کردن, to do
+aux     aux     Persian ﺏﻭﺩ#ﺏﺎﺷ_aux:pass        13      1.0     0.550956831331	# passive auxiliary
+
