@@ -1,3 +1,4 @@
+$Afrikaans: EXCEPTION_INCOMPATIBLE
 aux	aux	Afrikaans	word_aux:pass	498	0.845381526104	0.452952952953	# EXCEPTION_COMPATIBLE (this is the passive)
 aux	aux	Afrikaans	sal_aux	332	0.0271084337349	0.452952952953
 aux	aux	Afrikaans	moet_aux	298	0.104026845638	0.452952952953
@@ -9,9 +10,11 @@ aux	aux	Afrikaans	mag_aux	47	0.0212765957447	0.452952952953
 aux	aux	Afrikaans	behoort_aux	22	0.0454545454545	0.452952952953
 aux	aux	Afrikaans	gaan_aux	12	0.5	0.452952952953
 aux	aux	Afrikaans	laat_aux	12	0.0	0.452952952953
+$Ancient Greek: COMPATIBLE (except modal)
 aux	aux	Ancient_Greek	εἰμί#1_aux:pass	41	0.390243902439	0.394230769231
 aux	aux	Ancient_Greek	εἰμί#1_aux	25	0.28	0.394230769231
 aux	aux	Ancient_Greek	ἔχω_aux	12	0.833333333333	0.394230769231 # EXCEPTION_COMPATIBLE (this is a modal: have to)
+$Arabic: AGREE
 aux	aux	Arabic	s_aux	1500	0.002	0.0126443100605	# all auxiliairies agree
 aux	aux	Arabic	lA_1_aux	1409	0.00425833924769	0.0126443100605
 aux	aux	Arabic	سَ_aux	881	0.00227014755959	0.0126443100605
@@ -43,6 +46,7 @@ aux	aux	Arabic	mA*A_1_aux	14	0.0	0.0126443100605
 aux	aux	Arabic	li}al~A_1_aux	13	0.0	0.0126443100605
 aux	aux	Arabic	EalaY_1_aux	13	0.0	0.0126443100605
 aux	aux	Arabic	بِ_aux	13	1.0	0.0126443100605
+$Basque: AGREE
 aux	aux	Basque	*edun_aux	4677	0.925165704511	0.914821944177	# all auxiliairies agree
 aux	aux	Basque	izan_aux	2895	0.9298791019	0.914821944177
 aux	aux	Basque	egin_aux	231	0.987012987013	0.914821944177
@@ -50,6 +54,7 @@ aux	aux	Basque	*edin_aux	164	0.993902439024	0.914821944177
 aux	aux	Basque	*ezan_aux	158	0.974683544304	0.914821944177
 aux	aux	Basque	ari_aux	129	0.0	0.914821944177
 aux	aux	Basque	ukan_aux	34	0.735294117647	0.914821944177
+$Belarusian: AGREE
 aux	aux	Belarusian	быць_aux	23	0.130434782609	0.131578947368	# all auxiliairies agree
 aux	aux	Belarusian	быць_aux:pass	14	0.0714285714286	0.131578947368
 aux	aux	Bulgarian	да_aux	2673	0.00374111485223	0.0212765957447	# all auxiliairies agree
@@ -58,6 +63,7 @@ aux	aux	Bulgarian	съм_aux	952	0.0577731092437	0.0212765957447
 aux	aux	Bulgarian	съм_aux:pass	656	0.0594512195122	0.0212765957447
 aux	aux	Bulgarian	бъда_aux:pass	208	0.0	0.0212765957447
 aux	aux	Bulgarian	бъда_aux	21	0.0	0.0212765957447
+$Catalan: AGREE
 aux	aux	Catalan	haver_aux	6734	0.004455004455	0.011629301043	# all auxiliairies agree
 aux	aux	Catalan	anar_aux	6151	0.00617785725898	0.011629301043
 aux	aux	Catalan	poder_aux	1139	0.0122914837577	0.011629301043
@@ -88,6 +94,7 @@ aux	aux	Catalan	soler_aux	12	0.0	0.011629301043
 aux	aux	Catalan	posar_aux	11	0.0909090909091	0.011629301043
 aux	aux	Catalan	entendre_aux	10	0.0	0.011629301043
 aux	aux	Catalan	garantir_aux	10	0.1	0.011629301043
+$Chinese: AGREE
 aux	aux	Chinese	被_aux:pass	372	0.0	0.0	# all auxiliairies agree
 aux	aux	Chinese	會_aux	180	0.0	0.0
 aux	aux	Chinese	可以_aux	131	0.0	0.0
@@ -106,6 +113,7 @@ aux	aux	Chinese	需要_aux	14	0.0	0.0
 aux	aux	Chinese	需_aux	12	0.0	0.0
 aux	aux	Chinese	應_aux	11	0.0	0.0
 aux	aux	Chinese	為_aux:pass	10	0.0	0.0
+$Coptic: AGREE
 aux	aux	Coptic	ⲁ_aux	310	0.0	0.0	# all auxiliairies agree
 aux	aux	Coptic	ⲛⲁ_aux	84	0.0	0.0
 aux	aux	Coptic	ⲛⲧⲉ_aux	74	0.0	0.0
@@ -113,16 +121,19 @@ aux	aux	Coptic	ⲛⲧⲉⲣⲉ_aux	33	0.0	0.0
 aux	aux	Coptic	ⲙⲡⲉ_aux	31	0.0	0.0
 aux	aux	Coptic	ϣⲁⲣⲉ_aux	22	0.0	0.0
 aux	aux	Coptic	ϣ_aux	10	0.0	0.0
+$Croatian: COMPATIBLE (except: particle)
 aux	aux	Croatian	biti_aux	5584	0.325573065903	0.291262135922
 aux	aux	Croatian	htjeti_aux	1284	0.166666666667	0.291262135922
 aux	aux	Croatian	biti_aux:pass	939	0.26517571885	0.291262135922
 aux	aux	Croatian	sebe_aux	157	0.299363057325	0.291262135922
 aux	aux	Croatian	sebe_aux:pass	13	0.0769230769231	0.291262135922
 aux	aux	Croatian	li_aux	11	0.545454545455	0.291262135922	# EXCEPTION_COMPATIBLE (not inflected, this is a particle)
+$Czech AGREE
 aux	aux	Czech	být_aux	20246	0.154153906945	0.114793941529	# all auxiliairies agree
 aux	aux	Czech	být_aux:pass	8040	0.0161691542289	0.114793941529
 aux	aux	Czech	bývat_aux:pass	66	0.0151515151515	0.114793941529
 aux	aux	Czech	bývat_aux	14	0.0	0.114793941529
+$Danish AGREE
 aux	aux	Danish	have_aux	772	0.0310880829016	0.0190745319675	# all auxiliairies agree
 aux	aux	Danish	kunne_aux	593	0.0101180438449	0.0190745319675
 aux	aux	Danish	være_aux	422	0.00473933649289	0.0190745319675
@@ -132,6 +143,7 @@ aux	aux	Danish	blive_aux	237	0.0042194092827	0.0190745319675
 aux	aux	Danish	måtte_aux	125	0.032	0.0190745319675
 aux	aux	Danish	burde_aux	25	0.04	0.0190745319675
 aux	aux	Danish	turde_aux	12	0.0	0.0190745319675
+$Dutch AGREE
 aux	aux	Dutch	worden_aux:pass	2263	0.143172779496	0.107382550336	# all auxiliairies agree
 aux	aux	Dutch	hebben_aux	1611	0.0794537554314	0.107382550336
 aux	aux	Dutch	zullen_aux	1005	0.089552238806	0.107382550336
@@ -145,6 +157,7 @@ aux	aux	Dutch	mogen_aux	129	0.062015503876	0.107382550336
 aux	aux	Dutch	blijken_aux	41	0.0487804878049	0.107382550336
 aux	aux	Dutch	hoeven_aux	35	0.0285714285714	0.107382550336
 aux	aux	Dutch	en_aux:pass	14	1.0	0.107382550336
+$English AGREE
 aux	aux	English	have_aux	2305	0.00303687635575	0.00584248656228	# all auxiliairies agree
 aux	aux	English	be_aux	2214	0.00271002710027	0.00584248656228
 aux	aux	English	be_aux:pass	1882	0.0175345377258	0.00584248656228
@@ -162,6 +175,7 @@ aux	aux	English	get_aux:pass	49	0.0	0.00584248656228
 aux	aux	English	that_aux	37	0.0	0.00584248656228
 aux	aux	English	get_aux	30	0.0	0.00584248656228
 aux	aux	English	go_aux	14	0.0	0.00584248656228
+$Estonian AGREE
 aux	aux	Estonian	olema_aux	1076	0.0362453531599	0.0529750479846	# all auxiliairies agree
 aux	aux	Estonian	ei_aux	865	0.0520231213873	0.0529750479846
 aux	aux	Estonian	võima_aux	265	0.0528301886792	0.0529750479846
@@ -171,6 +185,7 @@ aux	aux	Estonian	ole_aux	40	0.05	0.0529750479846
 aux	aux	Estonian	ära_aux	24	0.0	0.0529750479846
 aux	aux	Estonian	näima_aux	22	0.0	0.0529750479846
 aux	aux	Estonian	tohtima_aux	16	0.375	0.0529750479846
+$Finnish AGREE
 aux	aux	Finnish	ei_aux	4366	0.0247366010078	0.0201740828114	# all auxiliairies agree
 aux	aux	Finnish	olla_aux	4111	0.0177572366821	0.0201740828114
 aux	aux	Finnish	voida_aux	1391	0.0179726815241	0.0201740828114
@@ -195,6 +210,7 @@ aux	aux	Finnish	tuntua_aux	17	0.0	0.0201740828114
 aux	aux	Finnish	kuulua_aux	16	0.0	0.0201740828114
 aux	aux	Finnish	jättää_aux	12	0.0	0.0201740828114
 aux	aux	Finnish	ryhtyä_aux	11	0.0	0.0201740828114
+$French AGREE
 aux	aux	French	avoir_aux	9558	0.000627746390458	0.000726178743711	# all auxiliairies agree
 aux	aux	French	être_aux:pass	6558	0.000914913083257	0.000726178743711
 aux	aux	French	être_aux	2403	0.000416146483562	0.000726178743711
@@ -203,6 +219,7 @@ aux	aux	French	pouvoir_aux	100	0.0	0.000726178743711
 aux	aux	French	devoir_aux	82	0.0121951219512	0.000726178743711
 aux	aux	French	vouloir_aux	42	0.0	0.000726178743711
 aux	aux	French	aller_aux	15	0.0	0.000726178743711
+$Galician AGREE
 aux	aux	Galician	poder_aux	435	0.0137931034483	0.0205423171734	# all auxiliairies agree
 aux	aux	Galician	deber_aux	201	0.00497512437811	0.0205423171734
 aux	aux	Galician	ser_aux	166	0.0	0.0205423171734
@@ -213,6 +230,7 @@ aux	aux	Galician	estar_aux	44	0.0	0.0205423171734
 aux	aux	Galician	seguir_aux	28	0.0	0.0205423171734
 aux	aux	Galician	ser_aux:pass	17	0.0	0.0205423171734
 aux	aux	Galician	vir_aux	11	0.0	0.0205423171734
+$German COMPATIBLE (except: particle)
 aux	aux	German	werden_aux:pass	2949	0.332994235334	0.332531665865	# all auxiliairies agree, except for 'zu' which is not an auxiliary
 aux	aux	German	haben_aux	865	0.324855491329	0.332531665865
 aux	aux	German	können_aux	726	0.308539944904	0.332531665865
@@ -226,14 +244,17 @@ aux	aux	German	dürfen_aux	59	0.254237288136	0.332531665865
 aux	aux	German	zu_aux	44	0.795454545455	0.332531665865
 aux	aux	German	mögen_aux	29	0.448275862069	0.332531665865
 aux	aux	Gothic	sik_aux	76	0.973684210526	0.974683544304	# all auxiliairies agree
+$Greek AGREE
 aux	aux	Greek	να_aux	1211	0.00247729149463	0.00383141762452	# all auxiliairies agree
 aux	aux	Greek	θα_aux	415	0.00963855421687	0.00383141762452
 aux	aux	Greek	έχω_aux	193	0.0	0.00383141762452
+$Hebrew AGREE
 aux	aux	Hebrew	היה_aux	588	0.078231292517	0.0739130434783	# all auxiliairies agree
 aux	aux	Hebrew	האם_aux:q	32	0.0	0.0739130434783
 aux	aux	Hebrew	הפך_aux	25	0.0	0.0739130434783
 aux	aux	Hebrew	__aux	18	0.277777777778	0.0739130434783
 aux	aux	Hebrew	היווה_aux	11	0.0	0.0739130434783
+$Hindi AGREE
 aux	aux	Hindi	जा_aux:pass	3951	1.0	0.99901545732	# all auxiliairies agree
 aux	aux	Hindi	है_aux:pass	3849	1.0	0.99901545732
 aux	aux	Hindi	है_aux	2981	1.0	0.99901545732
@@ -266,7 +287,9 @@ aux	aux	Hindi	डाल_aux	20	1.0	0.99901545732
 aux	aux	Hindi	बैठ_aux	15	1.0	0.99901545732
 aux	aux	Hindi	उठ_aux	12	1.0	0.99901545732
 aux	aux	Hindi	गिरा_aux	10	1.0	0.99901545732
-aux	aux	Hungarian	fog_aux	11	0.181818181818	0.526315789474 # TODO (future auxiliary. TODO look for the others)
+$Hungarian AGREE
+aux	aux	Hungarian	fog_aux	11	0.181818181818	0.526315789474 # inflected future auxiliary
+$Italian AGREE
 aux	aux	Italian	avere_aux	2787	0.0	0.00215749730313	# all auxiliairies agree
 aux	aux	Italian	essere_aux:pass	2210	0.00135746606335	0.00215749730313
 aux	aux	Italian	essere_aux	2079	0.00769600769601	0.00215749730313
@@ -279,6 +302,7 @@ aux	aux	Italian	venire_aux	33	0.0	0.00215749730313
 aux	aux	Italian	andare_aux	31	0.0	0.00215749730313
 aux	aux	Italian	andare_aux:pass	15	0.0	0.00215749730313
 aux	aux	Italian	stare_aux:pass	14	0.0	0.00215749730313
+$Japanese AGREE
 aux	aux	Japanese	た_aux	4939	1.0	1.0	# all auxiliairies agree
 aux	aux	Japanese	する_aux	4430	1.0	1.0
 aux	aux	Japanese	いる_aux	1989	1.0	1.0
@@ -329,6 +353,7 @@ aux	aux	Japanese	ある_aux	12	1.0	1.0
 aux	aux	Japanese	なければ_aux	12	1.0	1.0
 aux	aux	Japanese	ちゃう_aux	11	1.0	1.0
 aux	aux	Japanese	おく_aux	11	1.0	1.0
+$Korean AGREE
 aux	aux	Korean	수_aux	2263	1.0	0.999543326864	# all auxiliairies agree
 aux	aux	Korean	것+이+다_aux	1878	1.0	0.999543326864
 aux	aux	Korean	있+다_aux	1168	1.0	0.999543326864
@@ -519,16 +544,21 @@ aux	aux	Korean	주+지_aux	10	1.0	0.999543326864
 aux	aux	Korean	보+고_aux	10	1.0	0.999543326864
 aux	aux	Korean	못하+었+기_aux	10	1.0	0.999543326864
 aux	aux	Korean	하+었+지만_aux	10	1.0	0.999543326864
+$Latin AGREE
 aux	aux	Latin	sum_aux:pass	2825	0.81203539823	0.812214611872	# all auxiliairies agree
 aux	aux	Latin	sum_aux	660	0.816666666667	0.812214611872
+$Latvian AGREE
 aux	aux	Latvian	būt_aux	786	0.0483460559796	0.0393835616438	# all auxiliairies agree
 aux	aux	Latvian	tikt_aux	175	0.0	0.0393835616438
 aux	aux	Latvian	nebūt_aux	165	0.0424242424242	0.0393835616438
 aux	aux	Latvian	netikt_aux	13	0.0	0.0393835616438
+$Lithuanian AGREE
 aux	aux	Lithuanian	būti_aux	27	0.037037037037	0.0322580645161	# all auxiliairies agree
+$Marathi AGREE
 aux	aux	Marathi	असणे_aux	61	1.0	0.945736434109	# all auxiliairies agree
 aux	aux	Marathi	नाही_aux	27	0.925925925926	0.945736434109
 aux	aux	Marathi	लागणे_aux	12	1.0	0.945736434109
+$Norwegian AGREE
 aux	aux	Norwegian	ha_aux	5088	0.00334119496855	0.0031907747425	# all auxiliairies agree
 aux	aux	Norwegian	kunne_aux	2647	0.00604457876842	0.0031907747425
 aux	aux	Norwegian	skulle_aux	2151	0.00418410041841	0.0031907747425
@@ -542,25 +572,29 @@ aux	aux	Norwegian	verte_aux:pass	562	0.0	0.0031907747425
 aux	aux	Norwegian	få_aux	464	0.0	0.0031907747425
 aux	aux	Norwegian	burde_aux	411	0.00486618004866	0.0031907747425
 aux	aux	Norwegian	bli_aux	13	0.0	0.0031907747425
-aux	aux	Old_Church_Slavonic	себе_aux	1013	0.972359328727	0.889170896785	# TODO something is weird, why is this extracted? isn't it a pronoun?
-aux	aux	Old_Church_Slavonic	бꙑти_aux	156	0.416666666667	0.889170896785 # TODO (this is `to be', but what kind of auxiliary is it?)
+$Old Church Slavonic INCOMPATIBLE
+aux	aux	Old_Church_Slavonic	себе_aux	1013	0.972359328727	0.889170896785	# this is actually the reflexive pronoun, but annotated as an auxiliary in the treebank
+aux	aux	Old_Church_Slavonic	бꙑти_aux	156	0.416666666667	0.889170896785 # this is an inflected TAM auxiliary
 aux	aux	Old_Church_Slavonic	не.бꙑти_aux	12	0.0	0.889170896785
-aux	aux	Persian	است_aux	685	1.0	0.550956831331
-aux	aux	Persian	خواست#خواه_aux	331	0.00604229607251	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	بایست#باید_aux	289	0.0103806228374	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	بود#باش_aux	264	1.0	0.550956831331
-aux	aux	Persian	توانست#توان_aux	201	0.00497512437811	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	کرد#کن_aux:pass	176	0.994318181818	0.550956831331
-aux	aux	Persian	__aux	81	0.0246913580247	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	بود_aux	72	1.0	0.550956831331
-aux	aux	Persian	توان_aux	69	0.0	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	داشت#دار_aux	36	0.0	0.550956831331 # TODO (figure out what this is)
-aux	aux	Persian	کرد#کن_aux	20	0.7	0.550956831331
-aux	aux	Persian	بود#باش_aux:pass	13	1.0	0.550956831331
+$Persian INCOMPATIBLE
+aux     aux     Persian است_aux 685     1.0     0.550956831331 #     third-person singular present of بودن‎ (budan)
+aux     aux     Persian خواست#خواه_aux  331     0.00604229607251        0.550956831331 # modal (want, intend)
+aux     aux     Persian بایست#باید_aux  289     0.0103806228374 0.550956831331 # باید modal (necessarily), بایست (must, had to)
+aux     aux     Persian بود#باش_aux     264     1.0     0.550956831331	# also derived from budan
+aux     aux     Persian توانست#توان_aux 201     0.00497512437811        0.550956831331 # modal auxiliary توانستن (be able, can)
+aux     aux     Persian کرد#کن_aux:pass 176     0.994318181818  0.550956831331
+aux     aux     Persian __aux   81      0.0246913580247 0.550956831331 # TODO (figure out what this is)
+aux     aux     Persian بود_aux 72      1.0     0.550956831331
+aux     aux     Persian توان_aux        69      0.0     0.550956831331 # modal auxiliary توانستن (be able, can)
+aux     aux     Persian داشت#ﺩﺍﺭ_aux    36      0.0     0.550956831331 # tense-aspect auxiliary داشتن (colloquial, to be doing something)
+aux     aux     Persian کرد#کن_aux      20      0.7     0.550956831331	# کردن, to do
+aux     aux     Persian ﺏﻭﺩ#ﺏﺎﺷ_aux:pass        13      1.0     0.550956831331	# passive auxiliary
+$Polish COMPATIBLE (except passive, modal)
 aux	aux	Polish	być_aux	925	0.749189189189	0.609816971714
-aux	aux	Polish	być_aux:pass	134	0.179104477612	0.609816971714	# TODO (this is the passive, not a tense/aspect auxiliary)
-aux	aux	Polish	zostać_aux:pass	118	0.135593220339	0.609816971714	# same
+aux	aux	Polish	być_aux:pass	134	0.179104477612	0.609816971714	# EXCEPTION_COMPATIBLE (this is the passive, not a tense/aspect auxiliary)
+aux	aux	Polish	zostać_aux:pass	118	0.135593220339	0.609816971714	# EXCEPTION_COMPATIBLE
 aux	aux	Polish	niech_aux	16	0.0	0.609816971714	# EXCEPTION_COMPATIBLE (modal auxiliary, `let' or `may')
+$Portuguese AGREE
 aux	aux	Portuguese	__aux	2533	0.00236873272799	0.00294406280667	# all auxiliairies agree
 aux	aux	Portuguese	__aux:pass	2206	0.00090661831369	0.00294406280667
 aux	aux	Portuguese	ser_aux:pass	1068	0.0	0.00294406280667
@@ -581,24 +615,30 @@ aux	aux	Portuguese	deixar_aux	30	0.0	0.00294406280667
 aux	aux	Portuguese	parecer_aux	28	0.0	0.00294406280667
 aux	aux	Portuguese	chegar_aux	21	0.0	0.00294406280667
 aux	aux	Portuguese	ficar_aux	11	0.0	0.00294406280667
+$Romanian AGREE
 aux	aux	Romanian	avea_aux	3657	0.00710965272081	0.00840202916931	# all auxiliairies agree
 aux	aux	Romanian	fi_aux:pass	1509	0.00397614314115	0.00840202916931
 aux	aux	Romanian	vrea_aux	678	0.0250737463127	0.00840202916931
 aux	aux	Romanian	fi_aux	426	0.0093896713615	0.00840202916931
 aux	aux	Romanian	putea_aux	11	0.0	0.00840202916931
+$Russian COMPATIBLE (except passive, particle)
 aux	aux	Russian	быть_aux:pass	2318	0.0220017256255	0.170771094065
-aux	aux	Russian	бы_aux	1270	0.553543307087	0.170771094065	# EXCEPTION_COMPATIBLE (modal: conditional or subjunctive)
+aux	aux	Russian	бы_aux	1270	0.553543307087	0.170771094065	# EXCEPTION_COMPATIBLE (uninflected particle)
 aux	aux	Russian	быть_aux	831	0.0553549939832	0.170771094065
 aux	aux	Russian	БЫТЬ_aux:pass	466	0.0343347639485	0.170771094065
 aux	aux	Russian	БЫТЬ_aux	46	0.413043478261	0.170771094065
-aux	aux	Russian	было_aux:pass	15	0.6	0.170771094065
+aux	aux	Russian	было_aux:pass	15	0.6	0.170771094065	# EXCEPTION_COMPATIBLE (passive)
+$Serbian AGREE
 aux	aux	Serbian	biti_aux	3168	0.36553030303	0.323741007194	# all auxiliairies agree
 aux	aux	Serbian	hteti_aux	438	0.0228310502283	0.323741007194
+$Slovak AGREE
 aux	aux	Slovak	byť_aux	1814	0.454244762955	0.417867435159	# all auxiliairies agree
 aux	aux	Slovak	by_aux	168	0.202380952381	0.417867435159
 aux	aux	Slovak	byť_aux:pass	71	0.0140845070423	0.417867435159
 aux	aux	Slovak	sa_aux	11	0.454545454545	0.417867435159
+$Slovenian AGREE
 aux	aux	Slovenian	biti_aux	7217	0.0685880559789	0.0686410185441	# all auxiliairies agree
+$Spanish AGREE
 aux	aux	Spanish	haber_aux	5530	0.00795660036166	0.01326858628	# all auxiliairies agree
 aux	aux	Spanish	poder_aux	2024	0.00839920948617	0.01326858628
 aux	aux	Spanish	ser_aux:pass	1603	0.00249532127261	0.01326858628
@@ -643,6 +683,7 @@ aux	aux	Spanish	impedir_aux	11	0.0	0.01326858628
 aux	aux	Spanish	permitir_aux	10	0.0	0.01326858628
 aux	aux	Spanish	este_aux	10	0.0	0.01326858628
 aux	aux	Spanish	exigir_aux	10	0.0	0.01326858628
+$Swedish AGREE
 aux	aux	Swedish	ha_aux	1021	0.00391772771792	0.00405405405405	# all auxiliairies agree
 aux	aux	Swedish	kunna_aux	944	0.00741525423729	0.00405405405405
 aux	aux	Swedish	skola_aux	623	0.0016051364366	0.00405405405405
@@ -656,6 +697,7 @@ aux	aux	Swedish	vara_aux:pass	46	0.0	0.00405405405405
 aux	aux	Swedish	behöva_aux	41	0.0	0.00405405405405
 aux	aux	Swedish	som_aux	41	0.0	0.00405405405405
 aux	aux	Swedish	att_aux:pass	10	0.0	0.00405405405405
+$Tamil AGREE
 aux	aux	Tamil	படு_aux	124	1.0	0.995689655172	# all auxiliairies agree
 aux	aux	Tamil	உள்_aux	121	0.99173553719	0.995689655172
 aux	aux	Tamil	இரு_aux	41	1.0	0.995689655172
@@ -666,12 +708,15 @@ aux	aux	Tamil	செய்_aux	20	1.0	0.995689655172
 aux	aux	Tamil	இல்_aux	18	1.0	0.995689655172
 aux	aux	Tamil	விடு_aux	15	1.0	0.995689655172
 aux	aux	Tamil	வா_aux	10	1.0	0.995689655172
+$Turkish AGREE
 aux	aux	Turkish	mı_aux:q	61	1.0	1.0	# all auxiliairies agree
 aux	aux	Turkish	mi_aux:q	51	1.0	1.0
 aux	aux	Turkish	mu_aux:q	45	1.0	1.0
-aux	aux	Ukrainian	бути_aux	89	0.0786516853933	0.341176470588	# TODO
-aux	aux	Ukrainian	б_aux	54	0.62962962963	0.341176470588	# TODO is this the same as Russian бы?
-aux	aux	Ukrainian	би_aux	26	0.615384615385	0.341176470588	# TODO is this the same as Russian бы?
+$Ukrainian COMPATIBLE (except uninflected particle)
+aux	aux	Ukrainian	бути_aux	89	0.0786516853933	0.341176470588	# this is a TAM auxiliary
+aux	aux	Ukrainian	б_aux	54	0.62962962963	0.341176470588	# EXCEPTION_COMPATIBLE the same as Russian бы -- uninflected particle
+aux	aux	Ukrainian	би_aux	26	0.615384615385	0.341176470588	# EXCEPTION_COMPATIBLE the same as Russian бы -- uninflected particle
+$Urdu AGREE
 aux	aux	Urdu	ہے_aux	2268	1.0	0.996228786926	# all auxiliairies agree
 aux	aux	Urdu	جا_aux	1787	1.0	0.996228786926
 aux	aux	Urdu	تھا_aux	681	1.0	0.996228786926
@@ -701,6 +746,7 @@ aux	aux	Urdu	پا_aux	14	1.0	0.996228786926
 aux	aux	Urdu	پر_aux	14	1.0	0.996228786926
 aux	aux	Urdu	آ_aux	13	1.0	0.996228786926
 aux	aux	Urdu	رکھ_aux	10	1.0	0.996228786926
+$Vietnamese AGREE
 aux	aux	Vietnamese	được_aux:pass	156	0.121794871795	0.122685185185	# all auxiliairies agree
 aux	aux	Vietnamese	phải_aux	122	0.0245901639344	0.122685185185
 aux	aux	Vietnamese	bị_aux:pass	85	0.0117647058824	0.122685185185
