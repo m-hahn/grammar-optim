@@ -13,12 +13,12 @@ import argparse
 import math
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--correlation_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--dlm_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--correlation_acl', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--probVPBranching', default=0.5, type=float) 
-parser.add_argument('--probObj', default=0.8, type=float) 
-parser.add_argument('--probNPBranching', default=0.1, type=float) 
+parser.add_argument('--correlation_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--dlm_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--correlation_acl', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--probVPBranching', default=0.4, type=float) 
+parser.add_argument('--probObj', default=0.1, type=float) 
+parser.add_argument('--probNPBranching', default=0.0, type=float) 
 
 args=parser.parse_args()
 
@@ -406,9 +406,9 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          if left is None or right is None:
                             continue
 
-                         print(left, right)
-                         print((pos1, pos2, "r"), countsR, start2, length, ipos1)
-                         print((pos2, pos1, "l"), countsL, start2, length, ipos2)
+                         #print(left, right)
+                         #print((pos1, pos2, "r"), countsR, start2, length, ipos1)
+                         #print((pos2, pos1, "l"), countsL, start2, length, ipos2)
 
 
                          assert left <= 0, left
@@ -416,7 +416,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
                          newR = countsR + left + right
                          newL = countsL + left + right
-                         print("Multiplied", newR, newL)
+ #                        print("Multiplied", newR, newL)
                          entryR = chart[start][start+length-1][ipos1]
                          chart[start][start+length-1][ipos1] = logSumExp(newR, entryR)
 #                         print(newR, entryR, logSumExp(newR, entryR))
@@ -424,7 +424,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
                          entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos2] = logSumExp(newL, entryL)
-                         print("New values", chart[start][start+length-1][ipos1], chart[start][start+length-1][ipos2])
+#                         print("New values", chart[start][start+length-1][ipos1], chart[start][start+length-1][ipos2])
                          assert newR <= 0
                          assert entryR <= 0
                          assert newL <= 0
@@ -432,15 +432,15 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          assert chart[start][start+length-1][ipos1] <= 0, chart[start][start+length-1][ipos1]
                          assert chart[start][start+length-1][ipos2] <= 0, chart[start][start+length-1][ipos2]
 
-       print(itos_pos_uni)
-       print(productions)
-       print("INPUT", posString)
-       print(chart)
+       #print(itos_pos_uni)
+       #print(productions)
+       #print("INPUT", posString)
+       #print(chart)
        for ipos, pos in enumerate(itos_pos_uni):
            if chart[0][-1][ipos] is not None:
               chart[0][-1][ipos] += log(roots[pos]) - log(totalRootCount)
               assert chart[0][-1][ipos] <= 0
-       print(chart)
+       #print(chart)
 #
        fullProb = log(sum([exp(x) if x is not None else 0 for x in chart[0][-1]])) # log P(S|root) -- the full mass comprising all possible trees (including spurious ambiguities arising from the PCFG conversion)
   #     print(fullProb)
@@ -479,8 +479,8 @@ def forward(current, computeAccuracy=False, doDropout=True):
 #       print(chart[0][-1])
        goldProb = goldProbability  # log P(GoldTree,S)
        conditional = (fullProb - goldProb) #  log P(S)/P(GoldTree,S) = -log P(GoldTree|S)
-       assert fullProb >= goldProb, (fullProb, goldProb, conditional)
-       assert conditional >= 0, (fullProb, goldProb, conditional)
+       assert fullProb+1e-12 >= goldProb, (fullProb, goldProb, conditional)
+       assert conditional+1e-12 >= 0, (fullProb, goldProb, conditional)
        return conditional, len(batchOrdered[0]), fullProb, goldProb
 
 corpusDev = corpusIterator_Toy.dev()
