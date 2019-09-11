@@ -13,13 +13,18 @@ r=0.5
 s=0.0 # 0.8 English, 0.0 for German. Can use 0.2 instead to match Entropy with English?
 # It seems that log_beta == 2.0 or 3.0 broadly produces the effects.
 
+
+probVPBranching = 0.1
+probObj = 0.8
+probNPBranching = 0.1
+
 def sample(nt, extHead, dep): # samples a constituent, and returns the head
    if nt == "vp":
       p = random.random()
-      if p < 0.5:
+      if p < (1-probVPBranching):
          head = {"posUni" : "v", "headPointer" : extHead, "dep" : dep}
          return [head], head
-      elif p < 0.7:
+      elif p < (1-probVPBranching) + probVPBranching * probObj:
          vp, v = sample("vp", extHead, dep)
          np, _ = sample("np", v, "obj")
          return vp+np, v
@@ -29,7 +34,7 @@ def sample(nt, extHead, dep): # samples a constituent, and returns the head
          return vp + compp, v
    elif nt == "np":
       p = random.random()
-      if p < 0.8:
+      if p < (1-probNPBranching):
          head = {"posUni" : "n", "headPointer" : extHead, "dep" : dep}
          return [head], head
       else:
@@ -56,10 +61,14 @@ def processIndices(x):
    return x
 
 def load(language, partition="train", removeMarkup=True, tokenize=True):
-  for _ in range(30000 if partition == "train" else 10000):
-     v = processIndices(sample("vp", None, "root")[0])
-     if len(v) == 1:
-       continue
+  examples = 0
+  while examples < (30000 if partition == "train" else 10000):
+     v = []
+     while len(v) < 2:
+        v = processIndices(sample("vp", None, "root")[0])
+ #       print(len(v))
+#     print("Accepted", examples)
+     examples += 1
      yield v
 
 def training(language=None, removeMarkup=True, tokenize=True):

@@ -9,6 +9,18 @@ print sys.argv
 language = "lang" #sys.argv[1]
 model = "mod" #sys.argv[21]
 
+
+import argparse
+import math
+
+parser = argparse.ArgumentParser()
+parser.add_argument('--correlation_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--dlm_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--correlation_acl', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+args=parser.parse_args()
+
+
+
 prescribedID = "NONE"
 lr_policy = 0.0001
 assert lr_policy < 1.0
@@ -217,6 +229,7 @@ def orderSentence(sentence, dhLogits, printThings):
       else:
          x["reordered_head"] = 1+moved[x["head"]-1]
    assert len(linearized) == len(sentence), (len(linearized), len(sentence))
+   #assert linearized[0]["word"] == "v", linearized
    return linearized, logits
 
 
@@ -250,16 +263,22 @@ for i, key in enumerate(itos_deps):
    originalDistanceWeights[key] = random()  
    distanceWeights[i] = originalDistanceWeights[key]
 
+
    if key == "xcomp":
-     dhWeights[i] = 10.0
-     distanceWeights[i] = 10.0
+     dhWeights[i] = -10.0 if args.correlation_xcomp else 10.0
+     print(args.correlation_xcomp, dhWeights[i])
+     distanceWeights[i] = 10.0 if args.dlm_xcomp else 0.5
    elif key == "obj":
-     dhWeights[i] = 10.0
+     dhWeights[i] = -10.0 
      distanceWeights[i] = 1.0
    elif key == "acl":
-     dhWeights[i] = 10.0
+     dhWeights[i] = -10.0 if args.correlation_acl else 10.0
      distanceWeights[i] = 10.0
-    
+   else:
+     assert False, key
+print(args, itos_deps)    
+print(dhWeights)
+#quit()
 
 import os
 
@@ -628,7 +647,9 @@ def computeDevLoss():
 
 counter = 0
 epochs = 0
-while True:
+
+failures = 0
+while failures < 2:
   corpus = corpusIterator_Toy.training()
   partitions = getPartitions(corpus)
   epochs += 1
@@ -680,10 +701,19 @@ while True:
             print "Bad accuracy"
             quit()
          if len(devLosses) > 1 and devLosses[-1] > devLosses[-2]:
-            del devLosses[-1]
+            failures += 1
             print "Loss deteriorating, stop"
-            quit()
 
+            print devLosses
+            print devAccuracies
+            print devAccuraciesLabeled
+         else:
+            failures = 0
+
+
+print devLosses
+print devAccuracies
+print devAccuraciesLabeled
 
 
 
