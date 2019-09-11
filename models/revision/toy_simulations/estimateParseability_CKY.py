@@ -289,6 +289,9 @@ for sentence in corpusIterator_Toy.training():
 #       direction = "r" if line["head"] < line["index"] else "l"
        productions[(posHead, posHere, direction)] += 1
        headCount[posHead] += 1
+
+
+
 print(productions)
 #for x in productions:
 #   productions[x] = 0
@@ -303,7 +306,35 @@ print(list(productions))
 
 totalRootCount = sum([roots[x] for x in roots])
 print(totalRootCount)
-quit()
+print(roots)
+
+print("===")
+
+producingTerminalProbability = {}
+
+botCountForNonTerminal = {}
+
+for head in itos_pos_uni:
+    count_top = 0
+    count_bot = 0
+#    count_bot += roots[head]
+    for prod, prod_count in productions.iteritems():
+        # Is a parent
+        if prod[0] == head:
+           count_top += prod_count
+
+        # Is a child
+        if prod[0] == head:
+           count_bot += prod_count
+        if prod[1] == head:
+           count_bot += prod_count
+    count_bot += roots[head]
+    producingTerminalProbability[head] = 1 - count_top / count_bot
+    botCountForNonTerminal[head] = count_bot
+    print((head, count_top, count_bot, count_bot - count_top, roots[head], count_top / count_bot))
+print(botCountForNonTerminal)
+#quit()
+print(producingTerminalProbability)
 
 from torch import optim
 
@@ -357,18 +388,25 @@ def forward(current, computeAccuracy=False, doDropout=True):
                 continue
              if length == 1:
                   assert start == start+length-1
-                  chart[start][start][stoi_pos_uni[posString[start]]] = 0.0
+                  chart[start][start][stoi_pos_uni[posString[start]]] = log(producingTerminalProbability[posString[start]])
+                  assert chart[start][start][stoi_pos_uni[posString[start]]] <= 0
              else:
                  for start2 in range(start+1, len(posString)):
                    for ipos1, pos1 in enumerate(itos_pos_uni): # for the left
                       for ipos2, pos2 in enumerate(itos_pos_uni): # for the right
-                         countsR = log(productions[(pos1, pos2, "r")]) - log(headCount[pos1])
-                         countsL = log(productions[(pos2, pos1, "l")]) - log(headCount[pos2])
+                         countsR = log(productions[(pos1, pos2, "r")]) - log(botCountForNonTerminal[pos1])
+                         countsL = log(productions[(pos2, pos1, "l")]) - log(botCountForNonTerminal[pos2])
+                         assert countsR <= 0, (log(productions[(pos1, pos2, "r")]), log(botCountForNonTerminal[pos1]))
+                         assert countsL <= 0
 
                          left = chart[start][start2-1][ipos1]
                          right = chart[start2][start+length-1][ipos2]
+                  #       print("CHART", left, right)
                          if left is None or right is None:
                             continue
+
+                         assert left <= 0, left
+                         assert right <= 0, right
 
                          newR = countsR + left + right
                          newL = countsL + left + right
@@ -376,12 +414,22 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos1] = logSumExp(newR, entryR)
                          chart[start][start+length-1][ipos2] = logSumExp(newL, entryL)
+                         assert newR <= 0
+                         assert entryR <= 0
+                         assert newL <= 0
+                         assert entryL <= 0
+                         assert chart[start][start+length-1][ipos1] <= 0, chart[start][start+length-1][ipos1]
+                         assert chart[start][start+length-1][ipos2] <= 0, chart[start][start+length-1][ipos2]
 
+#       print(chart)
        for ipos, pos in enumerate(itos_pos_uni):
            if chart[0][-1][ipos] is not None:
               chart[0][-1][ipos] += log(roots[pos]) - log(totalRootCount)
-
-
+              assert chart[0][-1][ipos] <= 0
+ #      print(chart)
+#
+       fullProb = log(sum([exp(x) if x is not None else 0 for x in chart[0][-1]])) # log P(S|root) -- the full mass comprising all possible trees (including spurious ambiguities arising from the PCFG conversion)
+  #     print(fullProb)
 
        goldProbability = 0
 
@@ -391,6 +439,9 @@ def forward(current, computeAccuracy=False, doDropout=True):
        for i, word in enumerate(batchOrdered[0]):
           dep = word["coarse_dep"]
           pos = posString[i]
+
+          goldProbability += log(producingTerminalProbability[pos])
+
           assert pos == word["posUni"]
           if dep == "root":
             goldProbability  +=  log(roots[pos]) - log(totalRootCount)
@@ -398,7 +449,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
             head = word["reordered_head"]
             direction = ("l" if i+1 < head else "r")
             head_pos = batchOrdered[0][head-1]["posUni"]
-            (childrenProbsLeft if direction == "l" else childrenProbsRight)[head-1].append(log(productions[(head_pos, pos, direction)]) - log(headCount[head_pos]))
+            (childrenProbsLeft if direction == "l" else childrenProbsRight)[head-1].append(log(productions[(head_pos, pos, direction)]) - log(botCountForNonTerminal[head_pos]))
        
        for i in range(len(batchOrdered[0])):
           a = len(childrenProbsLeft[i])
@@ -412,7 +463,6 @@ def forward(current, computeAccuracy=False, doDropout=True):
 
 
 #       print(chart[0][-1])
-       fullProb = log(sum([exp(x) if x is not None else 0 for x in chart[0][-1]])) # log P(S)
        goldProb = goldProbability  # log P(GoldTree,S)
        conditional = (fullProb - goldProb) #  log P(S)/P(GoldTree,S) = -log P(GoldTree|S)
        assert conditional >= 0, conditional

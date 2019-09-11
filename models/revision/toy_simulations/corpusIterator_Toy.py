@@ -63,9 +63,9 @@ def processIndices(x):
 def load(language, partition="train", removeMarkup=True, tokenize=True):
   examples = 0
   while examples < (100000 if partition == "train" else 10000):
-     v = []
-     while len(v) < 2:
-        v = processIndices(sample("vp", None, "root")[0])
+ #    v = []
+#     while len(v) < 2:
+     v = processIndices(sample("vp", None, "root")[0])
  #       print(len(v))
 #     print("Accepted", examples)
      examples += 1
