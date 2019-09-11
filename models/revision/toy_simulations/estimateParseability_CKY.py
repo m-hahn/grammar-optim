@@ -396,6 +396,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
                       for ipos2, pos2 in enumerate(itos_pos_uni): # for the right
                          countsR = log(productions[(pos1, pos2, "r")]) - log(botCountForNonTerminal[pos1])
                          countsL = log(productions[(pos2, pos1, "l")]) - log(botCountForNonTerminal[pos2])
+
                          assert countsR <= 0, (log(productions[(pos1, pos2, "r")]), log(botCountForNonTerminal[pos1]))
                          assert countsL <= 0
 
@@ -405,15 +406,25 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          if left is None or right is None:
                             continue
 
+                         print(left, right)
+                         print((pos1, pos2, "r"), countsR, start2, length, ipos1)
+                         print((pos2, pos1, "l"), countsL, start2, length, ipos2)
+
+
                          assert left <= 0, left
                          assert right <= 0, right
 
                          newR = countsR + left + right
                          newL = countsL + left + right
+                         print("Multiplied", newR, newL)
                          entryR = chart[start][start+length-1][ipos1]
-                         entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos1] = logSumExp(newR, entryR)
+#                         print(newR, entryR, logSumExp(newR, entryR))
+ #                        print(newL, entryL, logSumExp(newL, entryL))
+
+                         entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos2] = logSumExp(newL, entryL)
+                         print("New values", chart[start][start+length-1][ipos1], chart[start][start+length-1][ipos2])
                          assert newR <= 0
                          assert entryR <= 0
                          assert newL <= 0
@@ -421,12 +432,15 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          assert chart[start][start+length-1][ipos1] <= 0, chart[start][start+length-1][ipos1]
                          assert chart[start][start+length-1][ipos2] <= 0, chart[start][start+length-1][ipos2]
 
-#       print(chart)
+       print(itos_pos_uni)
+       print(productions)
+       print("INPUT", posString)
+       print(chart)
        for ipos, pos in enumerate(itos_pos_uni):
            if chart[0][-1][ipos] is not None:
               chart[0][-1][ipos] += log(roots[pos]) - log(totalRootCount)
               assert chart[0][-1][ipos] <= 0
- #      print(chart)
+       print(chart)
 #
        fullProb = log(sum([exp(x) if x is not None else 0 for x in chart[0][-1]])) # log P(S|root) -- the full mass comprising all possible trees (including spurious ambiguities arising from the PCFG conversion)
   #     print(fullProb)
@@ -465,7 +479,8 @@ def forward(current, computeAccuracy=False, doDropout=True):
 #       print(chart[0][-1])
        goldProb = goldProbability  # log P(GoldTree,S)
        conditional = (fullProb - goldProb) #  log P(S)/P(GoldTree,S) = -log P(GoldTree|S)
-       assert conditional >= 0, conditional
+       assert fullProb >= goldProb, (fullProb, goldProb, conditional)
+       assert conditional >= 0, (fullProb, goldProb, conditional)
        return conditional, len(batchOrdered[0]), fullProb, goldProb
 
 corpusDev = corpusIterator_Toy.dev()
