@@ -16,8 +16,8 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--correlation_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--dlm_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--correlation_acl', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--probVPBranching', default=0.4, type=float) 
-parser.add_argument('--probObj', default=0.1, type=float) 
+parser.add_argument('--probVPBranching', default=0.5, type=float) 
+parser.add_argument('--probObj', default=0.5, type=float) 
 parser.add_argument('--probNPBranching', default=0.0, type=float) 
 
 args=parser.parse_args()
@@ -472,7 +472,7 @@ def forward(current, computeAccuracy=False, doDropout=True):
           l2 = sum([log(x) for x in range(1, a+1)])
           l3 = sum([log(x) for x in range(1, b+1)])
 
-          goldProbability += sum(childrenProbsLeft[i]) + sum(childrenProbsRight[i]) + l1 - l2 - l3
+          goldProbability += sum(childrenProbsLeft[i]) + sum(childrenProbsRight[i]) #+ l1 - l2 - l3
 
 
 
