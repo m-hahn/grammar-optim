@@ -6,7 +6,7 @@ objectiveName = "graphParser"
 
 print sys.argv
 
-language = "lang" #sys.argv[1]
+language = "obj_xcomp_acl" #sys.argv[1]
 model = "mod" #sys.argv[21]
 
 
@@ -17,9 +17,13 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--correlation_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--dlm_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--correlation_acl', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--probVPBranching', default=0.5, type=float) 
+parser.add_argument('--probObj', default=0.8, type=float) 
+parser.add_argument('--probNPBranching', default=0.1, type=float) 
+
 args=parser.parse_args()
 
-
+#quit()
 
 prescribedID = "NONE"
 lr_policy = 0.0001
@@ -61,7 +65,7 @@ assert labelMLPDimension in [100, 200, 300], labelMLPDimension
 maxNumberOfUpdates = 200000000
 
 
-FILE_NAME = "sososo_coarse_parser_plane"
+FILE_NAME = __file__
 
 
 
@@ -86,6 +90,12 @@ import os
 
 
 import corpusIterator_Toy
+
+
+corpusIterator_Toy.probVPBranching = args.probVPBranching
+corpusIterator_Toy.probObj         = args.probObj        
+corpusIterator_Toy.probNPBranching = args.probNPBranching
+
 
 originalDistanceWeights = {}
 
@@ -123,7 +133,6 @@ def initializeOrderTable():
           keys.add(key)
           distanceCounts[key] = distanceCounts.get(key,0.0) + 1.0
           distanceSum[key] = distanceSum.get(key,0.0) + abs(line["index"] - line["head"])
-   #print orderTable
    dhLogits = {}
    for key in keys:
       hd = orderTable.get((key, "HD"), 0) + 1.0
@@ -224,6 +233,7 @@ def orderSentence(sentence, dhLogits, printThings):
    for i, x in enumerate(linearized):
       moved[x["index"]-1] = i
    for i,x in enumerate(linearized):
+      x["reordered_index"] = 1+i
       if x["head"] == 0: # root
          x["reordered_head"] = 0
       else:
@@ -688,13 +698,15 @@ while failures < 2:
 
          computeDevLoss()
 
-#         with open("../../../raw-results/parsing-upos/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
- #             print >> outFile, " ".join(names)
-  #            print >> outFile, " ".join(map(str,params))
-   #           print >> outFile, " ".join(map(str,devLosses))
-    #          print >> outFile, " ".join(map(str,devAccuracies))
-     #         print >> outFile, " ".join(map(str,devAccuraciesLabeled))
-      #        print >> outFile, " ".join(sys.argv)
+         with open("../../../raw-results/recoverability-toy-simulation/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+".txt", "w") as outFile:
+              print >> outFile, " ".join(names)
+              print >> outFile, " ".join(map(str,params))
+              print >> outFile, " ".join(map(str,devLosses))
+              print >> outFile, " ".join(map(str,devAccuracies))
+              print >> outFile, " ".join(map(str,devAccuraciesLabeled))
+              print >> outFile, " ".join(sys.argv)
+              print >> outFile, (str(args).replace("Namespace(", "")[:-1].replace(", ", " "))
+  
 
 
          if devAccuracies[-1] == 0:

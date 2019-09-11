@@ -14,9 +14,9 @@ s=0.0 # 0.8 English, 0.0 for German. Can use 0.2 instead to match Entropy with E
 # It seems that log_beta == 2.0 or 3.0 broadly produces the effects.
 
 
-probVPBranching = 0.1
-probObj = 0.8
-probNPBranching = 0.1
+probVPBranching = None
+probObj = None
+probNPBranching = None
 
 def sample(nt, extHead, dep): # samples a constituent, and returns the head
    if nt == "vp":
@@ -62,7 +62,7 @@ def processIndices(x):
 
 def load(language, partition="train", removeMarkup=True, tokenize=True):
   examples = 0
-  while examples < (30000 if partition == "train" else 10000):
+  while examples < (100000 if partition == "train" else 10000):
      v = []
      while len(v) < 2:
         v = processIndices(sample("vp", None, "root")[0])
