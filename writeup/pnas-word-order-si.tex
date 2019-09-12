@@ -1665,6 +1665,19 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 %DLM turns out to be predicted by our model
 
 
+\section{Simulation for Parseability and Correlating Orders}
+
+We consider the following head-outward generative model.
+Verbs generate VP dependents (\emph{xcomp}) and object dependents (\emph{obj}), independently.
+
+
+VP -> V
+VP -> VP[head] VP[xcomp]
+VP -> VP[head] NP[obj]
+
+NP -> N
+NP -> NP[head] VP[acl]
+
 
 
 \nocite{diessel2001ordering, dryer1980positional, wals} 

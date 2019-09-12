@@ -24,36 +24,36 @@ for name in files:
          order += "_Cacl"
       else:
          order += "_Nacl"
-      byParam[probabilities][order] = parseability
+      byParam[probabilities][order] = []
+      byParam[probabilities][order].append(parseability)
 #assert False
 
 results = []
 for param in byParam:
    data = byParam[param]
    param = dict(param)
-   if "Cxcomp_Axcomp_Cacl" not in data:
-      print(list(data))
-     
-      continue
-   Cxcomp_Axcomp_Cacl = data["Cxcomp_Axcomp_Cacl"]
    
    if "Nxcomp_Nacl" in data:
-      Nxcomp_Nacl = data.get("Nxcomp_Nacl", None)
-   elif float(param["probNPBranching"]) == 0.0:
-      Nxcomp_Nacl = data.get("Nxcomp_Cacl", None)
+      Nxcomp_Nacl = data["Nxcomp_Nacl"]
+   elif float(param["probNPBranching"]) == 0.0 and "Nxcomp_Cacl" in data:
+      Nxcomp_Nacl = data["Nxcomp_Cacl"]
    else:
       continue
 
 
    if "Cxcomp_Dxcomp_Cacl" in data:
      Cxcomp_Dxcomp_Cacl = data["Cxcomp_Dxcomp_Cacl"]
-   elif float(param["probNPBranching"]) == 0.0:
+   elif float(param["probNPBranching"]) == 0.0 and "Cxcomp_Dxcomp_Nacl" in data:
      Cxcomp_Dxcomp_Cacl = data["Cxcomp_Dxcomp_Nacl"]
      assert False
    else:
      print("Missing", param["probNPBranching"])
      #assert False
      continue
+   assert Cxcomp_Dxcomp_Cacl is not None
+   assert Nxcomp_Nacl is not None
+   Cxcomp_Dxcomp_Cacl = sum(Cxcomp_Dxcomp_Cacl) / len(Cxcomp_Dxcomp_Cacl)
+   Nxcomp_Nacl = sum(Nxcomp_Nacl) / len(Nxcomp_Nacl)
    improvement = Cxcomp_Dxcomp_Cacl - Nxcomp_Nacl # negative = reduction due to correlation+DLM
    results.append((improvement, param))
 
@@ -61,7 +61,7 @@ results = sorted(results, key=lambda x:(x[0]))
 with open("results.tsv", "w") as outFile:
    print >> outFile, ("\t".join([str(x) for x in ["Diff", "probVPBranching", "probNPBranching", "probObj"]]))
    for x in results:
-      print x
+   #   print x
       diff = x[0]
       probVPBranching = x[1]["probVPBranching"]
       probNPBranching = x[1]["probNPBranching"]
