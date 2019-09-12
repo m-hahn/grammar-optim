@@ -514,13 +514,6 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 \end{figure}
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
-	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}
-\end{figure}
-
-
 
 
 
@@ -1490,6 +1483,23 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 
 
+\section{Other Methods of Estimating Efficiency and Efficiency Optimization}
+
+\subsection{Lexicalized Models}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
+	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}
+\end{figure}
+
+\subsection{Original UD Format}
+
+\subsection{Nondeterministic Baseline Grammars}
+
+
+
+
 
 %\subsection{Discussion}
 %
@@ -1667,16 +1677,37 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 
 \section{Simulation for Parseability and Correlating Orders}
 
+%VP -> V
+%VP -> VP[head] VP[xcomp]
+%VP -> VP[head] NP[obj]
+%
+%NP -> N
+%NP -> NP[head] VP[acl]
+
 We consider the following head-outward generative model.
-Verbs generate VP dependents (\emph{xcomp}) and object dependents (\emph{obj}), independently.
+Verbs generate verb dependents (\emph{xcomp}) and noun dependents (\emph{obj}), independently.
+The overall number $N$ of dependents is $NB(1, p_{branching})$, the number of \emph{obj} dependents is $Binom(p_{obj}, N)$.
+Nouns can generate verb dependents (\emph{acl}), of number $NB(1, p_{acl})$.
+
+Trees are linearized using one of two grammars: One (`Correlating') places \emph{obj}, \emph{xcomp}, and \emph{acl} dependents on the same side of the head, and (in accordance with crosslinguistic tendencies, which are predicted by DLM) places the \emph{obj} dependents closer to the head than \emph{xcomp} dependents.
+The other grammar (`Anti-Correlating') places \emph{xcomp} and \emph{acl} dependents opposite to \emph{obj} dependents.
+
+We formulated this model as a binary-branching PCFG, and used a CKY parser to estimate $I[\mathcal{T}, \mathcal{U}]$ from 10,000 random sample sentences.
 
 
-VP -> V
-VP -> VP[head] VP[xcomp]
-VP -> VP[head] NP[obj]
+We computed this for different settings of $p_{branching} \in [0, 0.5]$ and $p_{obj} \in [0,1]$, at $p_{acl} \in \{0, 0.3\}$.\footnote{For $p_{acl} = 0.3$, we only computed values for $p_{branching} \leq 0.4$, due to high computational cost on long sentences resulting from $p_{branching} = 0.5$ and $p_{acl} = 0.3$.}
+For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ between the two grammars.
+Results are shown in Figure~\ref{fig:toy-parseability}.
 
-NP -> N
-NP -> NP[head] VP[acl]
+\begin{figure}
+	\begin{center}	
+\includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_0.pdf}
+\includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_3.pdf}
+\end{center}
+
+	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_{acl} = 0.0$ (left) and $p_{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars.}\label{fig:toy-parseability}
+\end{figure}
+
 
 
 
