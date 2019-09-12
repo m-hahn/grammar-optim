@@ -24,7 +24,8 @@ for name in files:
          order += "_Cacl"
       else:
          order += "_Nacl"
-      byParam[probabilities][order] = []
+      if order not in byParam[probabilities]:
+         byParam[probabilities][order] = []
       byParam[probabilities][order].append(parseability)
 #assert False
 
