@@ -299,12 +299,18 @@ It is also equal to the negative average of surprisal, which is a strong and lin
 Our model of language efficiency is closely related to models of semantic typology that quantify the efficiency of mappings between concepts and individual words, applied with great success across different domains such color words, container names, and kinship terms~\cite{kemp2012kinship,xu2014numeral,regier2015word,xu2016historical,zaslavsky2018efficient,zaslavsky2019semantic}.
 We discuss how our metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) relates to metrics assumed in this literature, and describe why~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is most appropriate to our setting.
 
-This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is equivalent to a deterministic version \cite{strouse2017deterministic} of the Information Bottleneck approach, which has been applied to modeling word meaning across different domains by \citet{zaslavsky2018efficient} and \citet{zaslavsky2019semantic}.
-The Information Bottleneck models complexity using a mutual information term instead of the entropy appearing in~(\ref{eq:eff-general}).
-This mutual information formalization is appropriate to codes that are nondeterministic \cite{zaslavsky2018efficient}.
-We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
+This efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}) is part of the Information Bottleneck family of models.
+The Information Bottleneck was introduced by \citet{tishby1999information} and has recently been applied to modeling word meaning across different domains by \citet{zaslavsky2018efficient} and \citet{zaslavsky2019semantic}.
+In the standard Information Bottleneck, complexity is modeled using a mutual information term, instead of the entropy term appearing in~(\ref{eq:eff-general}).
+The setting for the standard Information Bottleneck is a case where there is a random variable $X$ which contains information about some underlying variable of interest $Y$; the goal of the Information Bottleneck is to find a representation $\hat{X}$ of $X$ which maximizes $\operatorname{I}[\hat{X},Y]$ while minimizing $\operatorname{I}[\hat{X},X]$.
+One key property of the standard Information Bottleneck is that it results in codes $\hat{X}$ that are nondeterministic.
 
-A few other approaches share the mutual information term for informativity in (\ref{eq:eff-general}), while using complexity measures that are not explicitly information-theoretic.
+The variant of the Information Bottleneck that we use has been explored in the machine learning literature by \citet{strouse2017deterministic} and dubbed the ``Deterministic Information Bottleneck'' because, in the setting studied by \citet{strouse2017efficient}, it results in codes that are a deterministic function of the information to be expressed.
+We use this version of the Information Bottleneck because (1) it has been proposed in previous literature as a generic formalization of efficiency \citep{ferreri2003least}, and (2) it is not clear what would count as the three variables $Y$, $X$, and $\hat{X}$ in our setting. In our setting we have unordered tree structures $T$ to be conveyed, and utterances $U$ representing them. It is not currently clear what would count as a third variable for the application of the standard Information Bottleneck, although we believe such formulations may be fruitful in the future.
+
+%We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
+
+A few other approaches to formalizing efficiency share the mutual information term for informativity in (\ref{eq:eff-general}), while using complexity measures that are not explicitly information-theoretic.
 In studies of semantic typology by \citet{regier2007color, xu2014numeral, xu2016historical}, the complexity function is the number of different forms.
 As the entropy of a finite and uniform distribution is the logarithm of the number of objects, this complexity function arises from the entropy measure $\operatorname{H}[S]$~(\ref{eq:eff-general}) in the special case where all forms are used at equal frequency.
 %In \citet{kemp2012kinship} it is the complexity of defining the concepts that are encoded.
@@ -344,8 +350,13 @@ In line with the other models discussed here, it assumes that rational speakers 
 
 \paragraph{Relation to Models in Other Disciplines}
 Beyond the study of natural language, the efficiency metric (\ref{eq:eff-general}) is also closely related to information-theoretic models in other disciplines.
-The tradeoff between informativity and complexity of communication systems is studied by Rate-distortion theory \cite{shannon1948mathematical, berger1971rate}.
-The \emph{Infomax Principle} derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) and to a version of the Free-Energy principle (see Section S3 in \citet{friston2010free}). 
+The tradeoff between informativity and complexity of communication systems is studied extensively in rate--distortion theory \cite{berger1971rate}.
+Our efficiency metric is closely related to the the \emph{Infomax principle} from theoretical neuroscience, which is a theory of how information is encoded in neuronal signals.
+The Infomax principle derives parsimonious data representations by maximizing the mutual information between data and representations, subject to constraints on the representations~\cite{linsker1988self}; a constraint on the representation entropy leads to a metric equivalent to (\ref{eq:eff-general}) and to a version of the Free-Energy principle (see Section S3 in \citet{friston2010free}).
+A family of Infomax models called ``Coherent Infomax'' has been proposed by \citet{kay2011coherent}; our efficiency metric is a special case within this framework.
+
+
+% J. W. Kay, W. A. Phillips, Coherent Infomax as a computational goal for neural systems., Bull Math Biol 73 (2) (2011) 344–372. doi:10.1007/s11538-010-9564-x. URL http://dx.doi.org/10.1007/s11538-010-9564-x
 
 %\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
 
