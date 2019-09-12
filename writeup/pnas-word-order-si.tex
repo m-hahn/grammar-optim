@@ -306,7 +306,7 @@ The setting for the standard Information Bottleneck is a case where there is a r
 One key property of the standard Information Bottleneck is that it results in codes $\hat{X}$ that are nondeterministic.
 
 The variant of the Information Bottleneck that we use has been explored in the machine learning literature by \citet{strouse2017deterministic} and dubbed the ``Deterministic Information Bottleneck'' because, in the setting studied by \citet{strouse2017efficient}, it results in codes that are a deterministic function of the information to be expressed.
-We use this version of the Information Bottleneck because (1) it has been proposed in previous literature as a generic formalization of efficiency \citep{ferreri2003least}, and (2) it is not clear what would count as the three variables $Y$, $X$, and $\hat{X}$ in our setting. In our setting we have unordered tree structures $T$ to be conveyed, and utterances $U$ representing them. It is not currently clear what would count as a third variable for the application of the standard Information Bottleneck, although we believe such formulations may be fruitful in the future.
+We use this version of the Information Bottleneck because (1) it has been proposed in previous literature as a generic formalization of efficiency \citep{ferreri2003least}, and (2) it is not clear what would count as the three variables $Y$, $X$, and $\hat{X}$ in our setting. In our setting we have unordered tree structures $\mathcal{T}$ to be conveyed, and utterances $\mathcal{U}$ representing them. It is not currently clear what would count as a third variable for the application of the standard Information Bottleneck, although we believe such formulations may be fruitful in the future.
 
 %We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
 
@@ -1415,6 +1415,7 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 
 
 \subsection{Distorted graph-based parsers}
+\label{sec:distorted}
 
 In this section, we address the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings, and the question whether this might be responsible for our findings.
 In particular, we address the idea that the graph-based parser might have a bias toward parses involving short dependencies, which we call a \key{locality bias}. 
@@ -1695,20 +1696,22 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 %NP -> N
 %NP -> NP[head] VP[acl]
 
-We consider the following head-outward generative model.
+When we optimize grammars for efficiency, we find that the optimized grammars exhibit dependency length minimization and the Greenbergian word order correlations. To some extent, this result is surprising, because previous functional explanations for DLM (and the Greenbergian correlations, which are predicted by DLM) have been based on the idea of limitations in working memory, and yet our models do not instantiate any explicit working memory pressures. Nor is it the case that our parsers have implicit locality biases, as demonstrated by the experiments in Section~\ref{sec:distorted} above. Our results therefore suggest that DLM and word order correlations might arise purely because they enable tree structures to be better recovered from trees, and/or they make sequences more predictable. 
+
+Here we perform some simulation studies to bolster the argument that DLM and word order correlations can enhance the recoverability of tree structures in a generic sense, without any appeal to memory limitations. To do so, we experiment with toy grammars that can be defined to either (1) exhibit word order correlations or (2) not, and we test whether the grammars of type (1) are more or less parseable than the grammars of type (2). We measure parseability using a CYK PCFG parser, thus removing any potential confounds arising from the neural network parsing model.
+
+Our toy grammar consists of the following head-outward generative model.
 Verbs generate verb dependents (\emph{xcomp}) and noun dependents (\emph{obj}), independently.
-The overall number $N$ of dependents is $NB(1, p_{branching})$, the number of \emph{obj} dependents is $Binom(p_{obj}, N)$.
-Nouns can generate verb dependents (\emph{acl}), of number $NB(1, p_{acl})$.
+The overall number $N$ of dependents is $NB(1, p_\text{branching})$, the number of \emph{obj} dependents is $Binom(p_{obj}, N)$.
+Nouns can generate verb dependents (\emph{acl}), of number $NB(1, p_\text{acl})$.
 
 Trees are linearized using one of two grammars: One (`Correlating') places \emph{obj}, \emph{xcomp}, and \emph{acl} dependents on the same side of the head, and (in accordance with crosslinguistic tendencies, which are predicted by DLM) places the \emph{obj} dependents closer to the head than \emph{xcomp} dependents.
 The other grammar (`Anti-Correlating') places \emph{xcomp} and \emph{acl} dependents opposite to \emph{obj} dependents.
 
 We formulated this model as a binary-branching PCFG, and used a CKY parser to estimate $I[\mathcal{T}, \mathcal{U}]$ from 10,000 random sample sentences.
 
-
-We computed this for different settings of $p_{branching} \in [0, 0.5]$ and $p_{obj} \in [0,1]$, at $p_{acl} \in \{0, 0.3\}$.\footnote{For $p_{acl} = 0.3$, we only computed values for $p_{branching} \leq 0.4$, due to high computational cost on long sentences resulting from $p_{branching} = 0.5$ and $p_{acl} = 0.3$.}
+We computed this for different settings of $p_\text{branching} \in [0, 0.5]$ and $p_{obj} \in [0,1]$, at $p_\text{acl} \in \{0, 0.3\}$.\footnote{For $p_\text{acl} = 0.3$, we only computed values for $p_\text{branching} \leq 0.4$, due to high computational cost on long sentences resulting from $p_\text{branching} = 0.5$ and $p_\text{acl} = 0.3$.}
 For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ between the two grammars.
-Results are shown in Figure~\ref{fig:toy-parseability}.
 
 \begin{figure}
 	\begin{center}	
@@ -1716,10 +1719,11 @@ Results are shown in Figure~\ref{fig:toy-parseability}.
 \includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_3.pdf}
 \end{center}
 
-	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_{acl} = 0.0$ (left) and $p_{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars.}\label{fig:toy-parseability}
+	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_\text{acl} = 0.0$ (left) and $p_\text{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars.}\label{fig:toy-parseability}
 \end{figure}
 
 
+Results are shown in Figure~\ref{fig:toy-parseability}. For all parameter regimes, the correlating grammars have better parseability than the anti-correlating grammars. This is especially the case for grammars with high $p_\text{branching}$. 
 
 
 \nocite{diessel2001ordering, dryer1980positional, wals} 
