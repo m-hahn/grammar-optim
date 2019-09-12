@@ -466,11 +466,11 @@ def forward(current, computeAccuracy=False, doDropout=True):
             (childrenProbsLeft if direction == "l" else childrenProbsRight)[head-1].append(log(productions[(head_pos, pos, direction)]) - log(botCountForNonTerminal[head_pos]))
        
        for i in range(len(batchOrdered[0])):
-          a = len(childrenProbsLeft[i])
-          b = len(childrenProbsRight[i])
-          l1 = sum([log(x) for x in range(1, a+b+1)])
-          l2 = sum([log(x) for x in range(1, a+1)])
-          l3 = sum([log(x) for x in range(1, b+1)])
+      #    a = len(childrenProbsLeft[i])
+      #    b = len(childrenProbsRight[i])
+      #    l1 = sum([log(x) for x in range(1, a+b+1)])
+      #    l2 = sum([log(x) for x in range(1, a+1)])
+      #    l3 = sum([log(x) for x in range(1, b+1)])
 
           goldProbability += sum(childrenProbsLeft[i]) + sum(childrenProbsRight[i]) #+ l1 - l2 - l3
 
