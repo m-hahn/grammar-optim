@@ -19,6 +19,9 @@ plot = plot + xlab("p(branching)") + ylab("p(obj)")
 plot = plot + theme(legend.title=element_blank())
 plot = plot + labs(title="p(acl) = 0.0")
 plot = plot + theme(plot.title = element_text(hjust = 0.5, size=25))
+
+plot = plot +  scale_fill_gradient2()
+
 ggsave(plot, file="result_NPBranching0_0.pdf")
 
 
@@ -33,6 +36,9 @@ plot = plot + xlab("p(branching)") + ylab("p(obj)")
 plot = plot + theme(legend.title=element_blank())
 plot = plot + labs(title="p(acl) = 0.3")
 plot = plot + theme(plot.title = element_text(hjust = 0.5, size=25))
+
+plot = plot +  scale_fill_gradient2()
+
 ggsave(plot, file="result_NPBranching0_3.pdf")
 
 

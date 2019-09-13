@@ -374,8 +374,9 @@ def forward(current, computeAccuracy=False, doDropout=True):
                          newR = countsR + left + right
                          newL = countsL + left + right
                          entryR = chart[start][start+length-1][ipos1]
-                         entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos1] = logSumExp(newR, entryR)
+
+                         entryL = chart[start][start+length-1][ipos2]
                          chart[start][start+length-1][ipos2] = logSumExp(newL, entryL)
 
        for ipos, pos in enumerate(itos_pos_uni):
