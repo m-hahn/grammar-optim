@@ -526,6 +526,13 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 
 
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-arrows-smoothed.pdf}
+\caption[Predictability and Parseability]{Smoothed version with arrows. Is this useful?}\label{fig:pareto-per-lang-arrows}
+\end{figure}
+
+
 
 
 \footnotetext{Note that, in a few languages, the real grammar is at a position slightly \emph{beyond} the estimated Pareto frontier. This can be attributed to two reasons: First, stochastic gradient descent introduces noise due to its stochasticity and will only approximately find an optimal solution; second, for some corpora, there may be some degree of distributional mismatch between the training partitions (on which grammars are optimized) and held-out partitions (on which efficiency is estimated). This in particular applies to very small corpora such as Irish (121 training sentences).}
@@ -685,11 +692,35 @@ The frequentist analysis confirms the results of the Bayesian analysis.
 
 \paragraph{Comparison to other Formalizations}
 
-Greenberg's original correlations/implications % ?? TODO
+We followed \citet{dryer1992greenbergian} in treating Greenberg's correlations as pairwise correlations with verb-object order.
+While Greenberg's original study \cite{greenberg1963universals} also formalized most of these as correlations with verb-object order, a few were formalized as correlations between other relations that are only indirectly related to verb-object order (e.g., Universal 22 linking the position of the standard of comparison to the order of adpositions).
 
-\cite{justeson1990explanation} conducted a log-linear analysis on typological judgments of 147 languages, constructing an undirected graphical model.
-For the relations examined here, beyond correlations with verb-object order, they found additional correlations between G-N, N-Adp and between Rel-N, N-Adp.
-With their model, they found no evidence for a direct correlation V-O, G-N.
+\citet{justeson1990explanation} conducted a log-linear analysis on typological judgments of 147 languages, constructing an undirected graphical model.
+%While they found evidence for correlations similar to those found by \citet{dryer1992greenbergian}, they found that some correlations are me
+For the relations examined here, beyond correlations with verb-object order, they found additional correlations between (1) the noun-genitive and adposition-noun dependencies, and (2) between the noun-relative clause and adposition-noun dependencies, \emph{beyond} the correlation mediated through the individual correlations with the verb-object dependency.
+%With their model, they found no evidence for a direct correlation V-O, G-N beyond that mediated through other correlations.
+We ran the same Bayesian logistic mixed-effects analysis for these two correlations.
+Results are shown in Figure~\ref{tab:corr-regression-implication}.
+Both correlations are very strongly supported by grammars optimized for efficiency.
+Future research might apply the graphical model approach of \citet{justeson1990explanation} to optimized grammars, and test whether grammar optimization predicts not just the presence of correlations, the structure their method found on typological data.
+
+\begin{table}
+\small{
+\begin{center}
+\begin{tabular}{|ll||l|lll|llll|ll|llllll}
+\hline
+	& &Prevalence & Mean & SD & $p(\beta \leq 0)$  \\
+\hline\hline
+	G-N (nmod) & N-Adp (lifted\_case)  & 0.919 & 4.482 & 1.058 & $<$ \num{1e-4} \\
+	Rel-N (acl) & N-Adp (lifted\_case) & 0.898 & 4.653 & 1.286 & $<$ \num{1e-4} \\
+\hline
+\end{tabular}
+\end{center}
+}
+	\caption{Detailed results for the two correlations found by \citet{justeson1990explanation} that do not involve the verb-object dependency, for grammars optimized for efficiency. Both correlations are strongly supported by optimized grammars, holding in about 90\% of optimized grammars. Compare Table~\ref{tab:corr-regression}.
+}\label{tab:corr-regression-implication}
+\end{table}
+
 
 
 \subsection{Comparing Efficiency to its Components}\label{sec:posterior-number}
@@ -1723,7 +1754,7 @@ For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ 
 \end{figure}
 
 
-Results are shown in Figure~\ref{fig:toy-parseability}. For all parameter regimes, the correlating grammars have better parseability than the anti-correlating grammars. This is especially the case for grammars with high $p_\text{branching}$. 
+Results are shown in Figure~\ref{fig:toy-parseability}. For almost all parameter regimes, the correlating grammars have better parseability than the anti-correlating grammars. This is especially the case for grammars with high $p_\text{branching}$. 
 
 
 \nocite{diessel2001ordering, dryer1980positional, wals} 
