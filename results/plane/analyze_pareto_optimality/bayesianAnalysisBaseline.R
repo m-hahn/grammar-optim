@@ -30,15 +30,32 @@ dp = DirichletProcessMvnormal(X)
 dp = Fit(dp, 2000)
 
 i = 1000
-#for(i in (1000:2000)) {
- weight = dp$weightsChain[i]
+for(i in (1000:2000)) {
+ weight = dp$weightsChain[[i]]
  mu = dp$clusterParametersChain[[i]]$mu
  sig = dp$clusterParametersChain[[i]]$sig
 
  # calculate the density assigned to better efficiency values, for each lambda
 
+ # shape of mu: [1, 2, numComponents]
+ # shape of sig: [2, 2, numComponents]
 
-#}	
+ lambda = 0.9
+ 
+ phi = c(1, 0.9)
+
+ numberOfClusters = length(weight)
+
+ muEff = colSums(array(phi, dim=c(1, 2, numberOfClusters))  * mu, dims=2)
+ sigEff = colSums(sig * aperm(array(phi, dim=c(2, 2, numberOfClusters)), perm=c(2,1,3)) * array(phi, dim=c(2, 2, numberOfClusters)), dim=2)
+ 
+ effGround = sum(phi * c(parsGround, surpGround))
+ 
+ quantiles = pnorm(effGround, mean=muEff, sd=sigEff)
+ 
+ totalQuantile = sum(quantiles * weight[[1]])
+ cat(totalQuantile, "\n")
+}	
 
 
 
