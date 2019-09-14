@@ -3,7 +3,7 @@ data = read.csv("pareto-data.tsv")
 library(dplyr)
 library(tidyr)
 
-language = "Korean"
+language = "Telugu"
 
 data2 = data %>% filter(Language == language)
 
@@ -41,9 +41,13 @@ for(i in (1000:2000)) {
    # shape of mu: [1, 2, numComponents]
    # shape of sig: [2, 2, numComponents]
 
+
+#directly find the best lambda
+
    bestQuantile = 2.0  
    bestLambda = NA
-   for(lambda in c(0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9)) {
+   for(lambda_ in (0:19)) {
+     lambda = lambda_/20
      phi = c(1, lambda)
     
      numberOfClusters = length(weight)
@@ -83,6 +87,7 @@ ecdf(1-bestQuantiles)(0.5)
 
 hist(bestLambdas)
 
+#analysis/efficiency-control-brms.R:cat(paste("dependency", "satisfiedFraction", "posteriorMean", "posteriorSD", "posteriorOpposite", sep="\t"), file="../output/results-prevalence-two-09-large.tsv", append=TRUE, sep="\n")
 
 
 
