@@ -4,11 +4,11 @@ data = read.csv("pareto-data.tsv")
 library(dplyr)
 library(tidyr)
 
-language = "Estonian"
+language = "Basque"
 
 #for(language in unique(data$Language)) {
     
-    data2 = data %>% filter(Language == language)
+    data2 = data %>% filter(Language == language, !is.na(Surp), !is.na(Pars))
     
     surp = data2$Surp
     pars = data2$Pars
@@ -38,7 +38,7 @@ curves = list()
 
        maxPars = max(parsGround+0.3, max(pars))
        minPars = min(parsGround-0.3, min(pars))
-       minSurp = min(surpGround-0.3, min(surp))
+       minSurp = min(surpGround-0.3, min(surp)-1.0)
        maxSurp = surpGround+0.4
 
        # 0 -> minPars
@@ -56,72 +56,33 @@ curves = list()
        GRID_SIZEs = length(surpGrid_)
 
 
-    i = 1000
-#    for(i in (1000:1020)) {
+    for(i in (1:20)) {
        cat(i, "\n")
-       weight = dp$weightsChain[[i]]
-       mu = dp$clusterParametersChain[[i]]$mu
-       sig = dp$clusterParametersChain[[i]]$sig
-    
+       j = 1000 + 50 * i
+       weight = dp$weightsChain[[j]]
+       mu = dp$clusterParametersChain[[j]]$mu
+       sig = dp$clusterParametersChain[[j]]$sig
        numberOfClusters = length(weight)
-       # calculate the density assigned to better efficiency values, for each lambda
-       # create a grid of values at which to evaluate
-
-
        parsGrid = array(array(parsGrid_, dim=c(GRID_SIZEp, GRID_SIZEs)), dim=c(GRID_SIZEp*GRID_SIZEs))
        surpGrid = array(aperm(array(surpGrid_, dim=c(GRID_SIZEs, GRID_SIZEp)), c(2,1)), dim=c(GRID_SIZEp*GRID_SIZEs))
-       
        grid = cbind(parsGrid, surpGrid) # GRID_SIZE x 2
-#       gridZ = array(grid, dim=c(GRID_SIZE*GRID_SIZE, 1, 2, numberOfClusters)) - array(mu, dim=c(1, 1, 2, numberOfClusters))
        transform = array(apply(sig, 3, function(x) { return(chol(solve(x))) }), dim=c(2, 2, numberOfClusters))
-
-#       mu2 = array(mu, c(2, numberOfClusters))
-
-
-
        gridZ = array(apply(array(grid, dim=c(GRID_SIZEp*GRID_SIZEs, 1, 2, numberOfClusters)), 1, function(x) { return((x)) }), dim=c(2, numberOfClusters, GRID_SIZEp*GRID_SIZEs, 1))
        gridZ = aperm(gridZ, c(2,3,4,1))
-       #expected end: cluster x GRID x 1 x 2
-
        ground_Z = c(parsGround, surpGround)
-
        total_gridZ_p = 0
        total_groundZ_p = 0
        for(q in (1:numberOfClusters)) {
-#          groundZ_ = transform[,,q] %*% (ground_Z-mu[,,q])
           groundZ_p = pmvnorm(mu[,,q], sig[,,q], ub=ground_Z)
-#          groundZ_p = groundZ_p[1] * groundZ_p[2]
           total_groundZ_p = total_groundZ_p + weight[q] * groundZ_p
-
-#          gridZ_ = apply(gridZ[q,,,], 1, function(x) { return(transform[,,q] %*% x) })
-
           gridZ_p = apply(gridZ[q,,,], 1, function(x) { return(pmvnorm(mu[,,q], sig[,,q], ub=x)) })
-#          gridZ_p = pnorm(gridZ_)
-#          gridZ_p = gridZ_p[1,] * gridZ_p[2,]
           total_gridZ_p = total_gridZ_p + weight[q] *     gridZ_p
        }
-       # TODO it is still very weird that the resulting total_gridZ_p is not monotonic. Problem with the cumulative density!!!!!!!!!!!!!
-
        total_gridZ_p = array(total_gridZ_p, dim=c(GRID_SIZEp, GRID_SIZEs))
-       
-       # for each parseability value, find the *largest* grid_p that is below the ground_p
-       
        boundarySurprisalPerPars = apply(total_gridZ_p, 1, function(x) { sum(x < total_groundZ_p) })
-       
        boundary = data.frame(x=parsGrid_, y=(surpScale*boundarySurprisalPerPars+surpOffset))
-#       boundary = boundary[boundary$y != 0,]
-
-#       if(sum(boundary$y == 0) > 0) {
-#          boundary[boundary$y == 0,]$y = NA
-#       }
-
-       curves[[i-999]] = boundary
-
-#       library(ggplot2)
-#       plot = ggplot(boundary, aes(x=x, y=y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=pars, y=surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=pars, y=surp), color="red")
-#       ggsave(plot, file="tmp.pdf")
-#       
-#}
+       curves[[i]] = boundary
+    }
 
 
     
@@ -129,12 +90,16 @@ totalSurpGrid = 0*(1:GRID_SIZEp)
 for(i in (1:length(curves))) {
   totalSurpGrid = totalSurpGrid + curves[[i]]$y
 }
-
+library(dplyr)
+library(tidyr)
        library(ggplot2)
-       plot = ggplot(data.frame(x=parsGrid_, y=totalSurpGrid/length(curves)), aes(x=x, y=y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=pars, y=surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=pars, y=surp), color="red")
+isoCurve = data.frame(x=parsGrid_, y=totalSurpGrid/length(curves))
+boundary = nrow(isoCurve %>% filter(y > surpOffset)) + 1
+isoCurve = isoCurve[(1:boundary),]
+       plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
        ggsave(plot, file="tmp.pdf")
 #       
-
+#  %>% filter(y > surpOffset)
 
 
 
