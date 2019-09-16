@@ -220,14 +220,13 @@ Taken together, this shows that the dominant order of the \emph{aux} relation st
 
 
 \item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}} is formalized using \emph{nmod} which covers not only genitives, but also all other noun-modifying NPs and PPs.
-	The evaluation of extracted grammars against WALS (Table~\ref{tab:grammars-wals}) shows that, among the 37 languages where WALS has an entry, the dominant direction of \emph{nmod} agrees with that of genitives, with two exceptions (Danish and Swedish).
-
-TODO figure out why
+	The evaluation of extracted grammars against WALS (Table~\ref{tab:grammars-wals}) shows that, among the 37 languages where WALS has an entry, the dominant direction of \emph{nmod} agrees with that of genitives, with two exceptions (Danish and Swedish\footnote{Danish and Swedish have genitives preceding the head marked with -\emph{s} similar to English (reflected in the WALS entry), while noun-modifying PPs, including phrases similar to English \emph{of} phrases, follow the head. In these two languages, the order of adnominal PPs, agreeing with the more frequent order of \emph{nmod} relations, agrees with the verb-object relation, whereas prenominal -s genitives show the opposite ordering.}.
 
 \item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}} is formalized using \emph{acl}, which covers not just relative clauses, but also other adnominal clauses.
 	In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{acl} agrees with the WALS entry for relative clauses in all but three languages (Estonian, Finnish, Tamil) out of the 36 languages for which WALS has an entry.
 		Also, UD provides a specific \emph{acl:relcl} sub-label for relative clauses in 21 of the languages.
 		In all but three languages, the dominant order is the same for the general \emph{acl} label as for the specific \emph{acl:relcl} one (exceptions: Estonian, Finnish, Hindi).
+
 
 TODO figure out why
 
@@ -495,7 +494,7 @@ This is confirmed by converging evidence from our preregistered preliminary expe
 
 \section{Supplementary Analyses for Study 1}
 
-
+\subsection{Per-Language Results}
 In Figure~\ref{fig:pareto-per-lang}, we show the predictability-parseability planes for every one the 51 languages, together with Pareto frontiers estimated from optimized grammars.
 We also provide the raw numerical values, before $z$-scoring, in Figure~\ref{fig:pareto-per-lang-raw}.
 
@@ -572,6 +571,90 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 }
 	\caption{Per-language results in Study 1, with \emph{lexicalized} parsers and word-level-only language models. Compare Table~\ref{fig:pareto-per-lang-stats}}
 \end{table}
+
+
+\subsection{Analysis controlling for Families}
+
+The UD treebanks overrepresent certain language families.
+Does this impact the results of Study 1?
+We estimate the overall degree of optimization of languages for efficiency, controlling for differences between families, we constructed a Bayesian logistic mixed-effects model estimating, for each language $L$ among the 51 UD languages, the rate $q_L \in [0,1]$ of random baseline grammars that have lower efficiency (parseability, predictability) than the real grammar.
+We entered languages and language families as random effects:
+\begin{equation}\label{eq:mixed-effects-study1}
+logit(q_{L}) = \beta + u_{L} + v_{f_L}
+\end{equation}
+where $f_L$ is the language family of $L$.
+
+Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1}.
+Across language families, real grammars tend to be more efficient than almost all baseline grammars.
+
+\begin{table}
+\small{
+\begin{center}
+\begin{tabular}{|l||l|lll|llll|ll|llllll}
+\hline
+	& Mean $\beta$ & SD & Lower 95\% CrI & Upper 95\% CrI \\
+\hline\hline
+	Efficiency ($\lambda=0.9$) &	-5.88   &   1.08  &  -8.28  &  -3.97  \\
+	Surp & -3.48   &   0.88  &  -5.42  &  -1.85   \\
+	Pars & -5.55   &   1.08  &  -7.80  &  -3.67    \\
+\hline
+\end{tabular}
+\end{center}
+}
+	\caption{TODO}\label{tab:study1}
+\end{table}
+% paretoByFamily.R
+
+
+\subsection{Quantifying Pareto-Optimality}
+
+\paragraph{Inferring $\lambda$}
+We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
+\begin{equation}
+	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
+\end{equation}
+where $r$ is the real language, and $B$ is the set of baselines.
+Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
+
+TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
+
+We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
+The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
+We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
+We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
+The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
+Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
+Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
+We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
+We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+We used the MCMC implementation provided by the \texttt{R} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
+
+For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
+\begin{equation}
+	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
+\end{equation}
+where we considered $\lambda \in (0,1)$ in steps of $0.5$.
+
+By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
+
+\paragraph{Analysis across Values of $\lambda$}
+
+We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that are better than $r$ on \emph{both} parseability and predictability:
+\begin{equation}
+	PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
+\end{equation}
+This quantifies how many hypothetical grammars are more efficient than $r$ \emph{irrespective} of $\lambda$.
+
+Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
+We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
+Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
+
+
+- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
+
+- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
+
+
 
 
 
