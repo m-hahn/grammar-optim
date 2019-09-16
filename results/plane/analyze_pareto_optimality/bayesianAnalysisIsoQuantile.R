@@ -3,10 +3,11 @@ data = read.csv("pareto-data.tsv")
 
 library(dplyr)
 library(tidyr)
+library(TruncatedNormal)
 
 language = "Basque"
 
-#for(language in unique(data$Language)) {
+for(language in unique(data$Language)) {
     
     data2 = data %>% filter(Language == language, !is.na(Surp), !is.na(Pars))
     
@@ -33,7 +34,7 @@ language = "Basque"
     bestLambdas = c()
     bestQuantiles = c()
     
-curves = list()
+    curves = list()
 
 
        maxPars = max(parsGround+0.3, max(pars))
@@ -57,7 +58,7 @@ curves = list()
 
 
     for(i in (1:20)) {
-       cat(i, "\n")
+       cat(language, i, "\n")
        j = 1000 + 50 * i
        weight = dp$weightsChain[[j]]
        mu = dp$clusterParametersChain[[j]]$mu
@@ -86,27 +87,26 @@ curves = list()
 
 
     
-totalSurpGrid = 0*(1:GRID_SIZEp)
-for(i in (1:length(curves))) {
-  totalSurpGrid = totalSurpGrid + curves[[i]]$y
+    totalSurpGrid = 0*(1:GRID_SIZEp)
+    for(i in (1:length(curves))) {
+      totalSurpGrid = totalSurpGrid + curves[[i]]$y
+    }
+    library(dplyr)
+    library(tidyr)
+    library(ggplot2)
+    isoCurve = data.frame(x=parsGrid_, y=totalSurpGrid/length(curves))
+    boundary = nrow(isoCurve %>% filter(y > surpOffset)) + 1
+    isoCurve = isoCurve[(1:boundary),]
+    plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
+    ggsave(plot, file=paste("figures/isoCurve_",language,".pdf", sep=""))
+
+    write.csv(isoCurve, file=paste("~/CS_SCR/posteriors/pareto-smooth/iso-pareto-", language, sep=""))
+
 }
-library(dplyr)
-library(tidyr)
-       library(ggplot2)
-isoCurve = data.frame(x=parsGrid_, y=totalSurpGrid/length(curves))
-boundary = nrow(isoCurve %>% filter(y > surpOffset)) + 1
-isoCurve = isoCurve[(1:boundary),]
-       plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
-       ggsave(plot, file="tmp.pdf")
-#       
-#  %>% filter(y > surpOffset)
-
-
 
 
 
     
-#    write.csv(data.frame(bestLambdas=bestLambdas, bestQuantiles=bestQuantiles), file=paste("~/CS_SCR/posteriors/pareto-smooth/pareto-", language, sep=""))
 
 
 #}
