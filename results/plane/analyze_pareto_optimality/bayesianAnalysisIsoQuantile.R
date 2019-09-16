@@ -5,6 +5,7 @@ library(dplyr)
 library(tidyr)
 
 language = "Estonian"
+
 #for(language in unique(data$Language)) {
     
     data2 = data %>% filter(Language == language)
@@ -32,79 +33,86 @@ language = "Estonian"
     bestLambdas = c()
     bestQuantiles = c()
     
+curves = list()
+
     i = 1000
-    #for(i in (1000:2000)) {
+    for(i in (1000:1020)) {
+       cat(i, "\n")
        weight = dp$weightsChain[[i]]
        mu = dp$clusterParametersChain[[i]]$mu
        sig = dp$clusterParametersChain[[i]]$sig
     
        numberOfClusters = length(weight)
-      
-
        # calculate the density assigned to better efficiency values, for each lambda
-     
        # create a grid of values at which to evaluate
+       GRID_SIZE = 101
 
-       parsGrid = ((0:50)-30)/10
-       surpGrid = ((0:50)-30)/10
+       parsGrid_ = ((0:(GRID_SIZE-1))-90)/20
+       surpGrid_ = ((0:(GRID_SIZE-1))-90)/20
 
-       parsGrid = array(array(parsGrid, dim=c(51, 51)), dim=c(51*51))
-       surpGrid = array(aperm(array(surpGrid, dim=c(51, 51)), c(2,1)), dim=c(51*51))
+       parsGrid = array(array(parsGrid_, dim=c(GRID_SIZE, GRID_SIZE)), dim=c(GRID_SIZE*GRID_SIZE))
+       surpGrid = array(aperm(array(surpGrid_, dim=c(GRID_SIZE, GRID_SIZE)), c(2,1)), dim=c(GRID_SIZE*GRID_SIZE))
        
-       
-       grid = cbind(parsGrid, surpGrid) # 51 x 2
-       # for each cluster, z-tansform the grids
- 
-#       gridZ = array(grid, dim=c(51*51, 1, 2, numberOfClusters)) - array(mu, dim=c(1, 1, 2, numberOfClusters))
-       transform = array(apply(sig, 3, function(x) { return(solve(chol(x))) }), dim=c(2, 2, numberOfClusters))
+       grid = cbind(parsGrid, surpGrid) # GRID_SIZE x 2
+#       gridZ = array(grid, dim=c(GRID_SIZE*GRID_SIZE, 1, 2, numberOfClusters)) - array(mu, dim=c(1, 1, 2, numberOfClusters))
+       transform = array(apply(sig, 3, function(x) { return(chol(solve(x))) }), dim=c(2, 2, numberOfClusters))
 
-       gridZ = array(apply(array(grid, dim=c(51*51, 1, 2, numberOfClusters)), 1, function(x) { return((x-mu)) }), dim=c(numberOfClusters, 51*51, 1, 2))
+       gridZ = array(apply(array(grid, dim=c(GRID_SIZE*GRID_SIZE, 1, 2, numberOfClusters)), 1, function(x) { return((x-mu)) }), dim=c(numberOfClusters, GRID_SIZE*GRID_SIZE, 1, 2))
+
+       ground_Z = c(parsGround, surpGround)
 
        total_gridZ_p = 0
+       total_groundZ_p = 0
        for(q in (1:numberOfClusters)) {
+          groundZ_ = transform[,,q] %*% (ground_Z-mu[,,q])
+          groundZ_p = pnorm(groundZ_)
+          groundZ_p = groundZ_p[1] * groundZ_p[2]
+          total_groundZ_p = total_groundZ_p + weight[q] * groundZ_p
+
           gridZ_ = apply(gridZ[q,,,], 1, function(x) { return(transform[,,q] %*% x) })
           gridZ_p = pnorm(gridZ_)
           gridZ_p = gridZ_p[1,] * gridZ_p[2,]
           total_gridZ_p = total_gridZ_p + weight[q] *     gridZ_p
        }
-#       total_gridZ_p now has shape (51*51), containing the quantiles for all the grid elements
-# now can go back to the coordinates
- 
-       # shape of mu: [1, 2, numComponents]
-       # shape of sig: [2, 2, numComponents]
+
+       total_gridZ_p = array(total_gridZ_p, dim=c(GRID_SIZE, GRID_SIZE))
+       
+       # for each parseability value, find the *largest* grid_p that is below the ground_p
+       
+       boundarySurprisalPerPars = apply(total_gridZ_p, 1, function(x) { sum(x < total_groundZ_p) })
+       
+       boundary = data.frame(x=parsGrid_, y=(boundarySurprisalPerPars-90)/30)
+#       boundary = boundary[boundary$y != 0,]
+
+#       if(sum(boundary$y == 0) > 0) {
+#          boundary[boundary$y == 0,]$y = NA
+#       }
+
+       curves[[i-999]] = boundary
+
+#       library(ggplot2)
+#       plot = ggplot(boundary, aes(x=x, y=y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=pars, y=surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=pars, y=surp), color="red")
+#       ggsave(plot, file="tmp.pdf")
+#       
+}
+
+
     
-    
-    #directly find the best lambda
-    
-       bestQuantile = 2.0  
-       bestLambda = NA
-       for(lambda_ in (0:19)) {
-         lambda = lambda_/20
-         phi = c(1, lambda)
-        
-        
-         muEff = colSums(array(phi, dim=c(1, 2, numberOfClusters))  * mu, dims=2)
-         sigEff = colSums(sig * aperm(array(phi, dim=c(2, 2, numberOfClusters)), perm=c(2,1,3)) * array(phi, dim=c(2, 2, numberOfClusters)), dim=2)
-         
-         effGround = sum(phi * c(parsGround, surpGround))
-         
-         quantiles = pnorm(effGround, mean=muEff, sd=sigEff)
-         
-         totalQuantile = sum(quantiles * weight)
-    #     cat(lambda, totalQuantile, "\n")
-         if(totalQuantile <= bestQuantile) {
-    	     bestQuantile = totalQuantile
-                 bestLambda = lambda
-         }
-         if(totalQuantile > 1) {
-    	     break
-       }
-       }
-       cat(bestLambda, bestQuantile, "\n")
-       bestLambdas = c(bestLambdas, bestLambda)
-       bestQuantiles = c(bestQuantiles, bestQuantile)
-#    }	
-    
+totalSurpGrid = 0*(1:101)
+for(i in (1:length(curves))) {
+  totalSurpGrid = totalSurpGrid + curves[[i]]$y
+}
+
+       library(ggplot2)
+       plot = ggplot(data.frame(x=parsGrid_, y=totalSurpGrid/length(curves)), aes(x=x, y=y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=pars, y=surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=pars, y=surp), color="red")
+       ggsave(plot, file="tmp.pdf")
+#       
+
+
+
+
+
+
     
 #    write.csv(data.frame(bestLambdas=bestLambdas, bestQuantiles=bestQuantiles), file=paste("~/CS_SCR/posteriors/pareto-smooth/pareto-", language, sep=""))
 
