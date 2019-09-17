@@ -653,6 +653,20 @@ By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained a
 
 \paragraph{Analysis across Values of $\lambda$}
 
+
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve.pdf}
+\caption{Per-language results. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}
+\end{figure}
+
+
+
+
+
 We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that are better than $r$ on \emph{both} parseability and predictability:
 \begin{equation}
 	PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
