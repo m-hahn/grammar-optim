@@ -56,18 +56,28 @@ for param in byParam:
    Cxcomp_Dxcomp_Cacl = sum(Cxcomp_Dxcomp_Cacl) / len(Cxcomp_Dxcomp_Cacl)
    Nxcomp_Nacl = sum(Nxcomp_Nacl) / len(Nxcomp_Nacl)
    improvement = Cxcomp_Dxcomp_Cacl - Nxcomp_Nacl # negative = reduction due to correlation+DLM
-   results.append((improvement, param))
+   
+
+   if "Cxcomp_Axcomp_Cacl" in data:
+      Cxcomp_Axcomp_Cacl = data["Cxcomp_Axcomp_Cacl"]
+      Cxcomp_Axcomp_Cacl = sum(Cxcomp_Axcomp_Cacl) / len(Cxcomp_Axcomp_Cacl)
+      improvementDLM = Cxcomp_Dxcomp_Cacl - Cxcomp_Axcomp_Cacl
+   else: 
+      improvementDLM = "NA"
+   results.append((improvement, param, improvementDLM))
 
 results = sorted(results, key=lambda x:(x[0]))
 with open("results.tsv", "w") as outFile:
-   print >> outFile, ("\t".join([str(x) for x in ["Diff", "probVPBranching", "probNPBranching", "probObj"]]))
+   print >> outFile, ("\t".join([str(x) for x in ["diff_corr_nocorr", "diff_DLM_NoDLM", "probVPBranching", "probNPBranching", "probObj"]]))
    for x in results:
    #   print x
-      diff = x[0]
+      diff_Corr_NoCorr = x[0]
+      diff_DLM_NoDLM = x[2]
+
       probVPBranching = x[1]["probVPBranching"]
       probNPBranching = x[1]["probNPBranching"]
       probObj = x[1]["probObj"]
-      print >> outFile, ("\t".join([str(x) for x in [diff, probVPBranching, probNPBranching, probObj]]))
+      print >> outFile, ("\t".join([str(x) for x in [diff_Corr_NoCorr, diff_DLM_NoDLM, probVPBranching, probNPBranching, probObj]]))
    
 
      
