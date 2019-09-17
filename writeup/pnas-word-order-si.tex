@@ -199,6 +199,8 @@ Future work should examine whether these universals can also be linked to effici
 An anonymous reviewer notes that the mapping between Dryer's relations and UD is not perfect, since some of the UD relations subsume other relations.
 Here we show that this is not a problem, since the ordering of the various relations subsumed under the UD label strongly agree typologically.
 
+TODO - say that, beyond just what Dryer reported, we see this distribution in the UD languages, and reproduce this
+
 \begin{enumerate}
 	\item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}} captures correlations with inflected tense, aspect, and negation auxiliaries as stated by \citet{dryer1992greenbergian}; however, \emph{aux} aso encompasses other types of auxiliaires, such as modals.
 We note that other authors, including \citet{greenberg1963universals}, have stated the correlation for all inflected auxiliaries; for further references, we refer to \citet[Number 501]{plank2000universals}.
@@ -230,7 +232,7 @@ Taken together, this shows that the dominant order of the \emph{aux} relation st
 
 TODO figure out why
 
-	\item Correlation \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{nmod}, which covers not only PPs and standards of comparison, but also adjunct NPs.
+	\item Correlation \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
 		In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{nmod} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
 	
 	\item Correlation \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}} is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
@@ -507,7 +509,8 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 
 
 
-
+% say this somewhere
+Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work.
 
 
 \begin{figure}
@@ -520,7 +523,7 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-raw.pdf}
-	\caption[Predictability and Parseability]{Raw numerical values estimated for Predictability (negative surprisal), and negative syntactic ambiguity $-H[T|U]$, before $z$-scoring. For more meaningful comparison, both quantities are normalized by the number of words in the corpus, i.e., we plot per-word negative surprisal and per-word difficulty in recovering syntactic structures.  Note that the negative syntactic ambiguity $-H[T|U]$ equals parseability $I[T,U] = H[T] - H[T|U]$ up to a per-language constant $H[T]$, which we do not attempt to estimate.}\label{fig:pareto-per-lang-raw}
+	\caption[Predictability and Parseability]{Raw numerical values estimated for Predictability (negative surprisal), and negative syntactic ambiguity $-H[T|U]$, before $z$-scoring. For more meaningful comparison, both quantities are normalized by the number of words in the corpus, i.e., we plot per-word negative surprisal and per-word difficulty in recovering syntactic structures.  Note that the negative syntactic ambiguity $-H[T|U]$ equals parseability $I[T,U] = H[T] - H[T|U]$ up to a per-language constant $H[T]$, which we do not attempt to estimate. Further note that we use different scales in the different panels. }\label{fig:pareto-per-lang-raw}
 \end{figure}
 
 
@@ -608,6 +611,17 @@ Across language families, real grammars tend to be more efficient than almost al
 
 \subsection{Quantifying Pareto-Optimality}
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
+	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
+\end{figure}
+
+\paragraph{Optimality as a Function of $\lambda$}
+
+
+Figure~\ref{fig:lambda-quantile}
+
 \paragraph{Inferring $\lambda$}
 We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
 \begin{equation}
@@ -627,7 +641,7 @@ Under this prior, each possible distribution is parameterized by a number $n$ of
 Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
 We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
 We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-We used the MCMC implementation provided by the \texttt{R} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
+We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
 
 For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
 \begin{equation}
@@ -643,7 +657,7 @@ We quantify the Pareto-optimality of the language $r$ as the fraction of baselin
 \begin{equation}
 	PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
 \end{equation}
-This quantifies how many hypothetical grammars are more efficient than $r$ \emph{irrespective} of $\lambda$.
+This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$.
 
 Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
 We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
