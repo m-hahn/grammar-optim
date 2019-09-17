@@ -222,32 +222,36 @@ Taken together, this shows that the dominant order of the \emph{aux} relation st
 
 
 \item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}} is formalized using \emph{nmod} which covers not only genitives, but also all other noun-modifying NPs and PPs.
-	The evaluation of extracted grammars against WALS (Table~\ref{tab:grammars-wals}) shows that, among the 37 languages where WALS has an entry, the dominant direction of \emph{nmod} agrees with that of genitives, with two exceptions (Danish and Swedish\footnote{Danish and Swedish have genitives preceding the head marked with -\emph{s} similar to English (reflected in the WALS entry), while noun-modifying PPs, including phrases similar to English \emph{of} phrases, follow the head. In these two languages, the order of adnominal PPs, agreeing with the more frequent order of \emph{nmod} relations, agrees with the verb-object relation, whereas prenominal -s genitives show the opposite ordering.}.
+The evaluation of extracted grammars against WALS (Table~\ref{tab:grammars-wals}) shows that, among the 37 languages where WALS has an entry, the dominant direction of \emph{nmod} agrees with that of genitives, with two exceptions (Danish and Swedish\footnote{Danish and Swedish have genitives preceding the head marked with -\emph{s} similar to English (reflected in the WALS entry), while noun-modifying PPs, including phrases similar to English \emph{of} phrases, follow the head. In these two languages, the order of adnominal PPs, agreeing with the more frequent order of \emph{nmod} relations, agrees with the verb-object relation, whereas prenominal -s genitives show the opposite ordering.}.
 
 \item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}} is formalized using \emph{acl}, which covers not just relative clauses, but also other adnominal clauses.
-	In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{acl} agrees with the WALS entry for relative clauses in all but three languages (Estonian, Finnish, Tamil) out of the 36 languages for which WALS has an entry.
-		Also, UD provides a specific \emph{acl:relcl} sub-label for relative clauses in 21 of the languages.
-		In all but three languages, the dominant order is the same for the general \emph{acl} label as for the specific \emph{acl:relcl} one (exceptions: Estonian, Finnish, Hindi).
+In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{acl} agrees with the WALS entry for relative clauses in all but three languages (Estonian, Finnish, Tamil) out of the 36 languages for which WALS has an entry.
+Also, UD provides a specific \emph{acl:relcl} sub-label for relative clauses in 21 of the languages.
+In all but three languages, the dominant order is the same for the general \emph{acl} label as for the specific \emph{acl:relcl} one (exceptions: Estonian, Finnish, Hindi).
 
+The exceptions mainly arise because some languages have multiple common word orders for relativization:
+Hindi uses correlatives that can precede or follow the coreferent noun \citep[3.1.3]{montaut2004grammar} and relatives following the noun \citep[4.3]{montaut2004grammar}.
+Estonian and Finnish have finite relative clauses following nouns (\citep[p. 176]{karlsson2013finnish}, \citep[p. 256]{tauli1983standard}) and nonfinite participial modifiers preceding it \citep[Chapter 18]{karlsson2013finnish}.
 
-TODO figure out why
-
-	\item Correlation \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
-		In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{nmod} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
+		Finally, in Tamil, the divergence is caused by the treebank annotation convention for Tamil, where the label \emph{acl} is used to mark certain elements of compounds whose positioning differs from the participial phrases that correspond most closely to relative clauses of other languages.\footnote{In the original HamleDT \citep{zeman2012hamledt, Ramasamy:2011:TDP:1964799.1964808} version of the Tamil treebank, these relations were labeled as CC, marking compounds (\url{http://ufal.mff.cuni.cz/~ramasamy/tamiltb/0.1/dependency_annotation.html}). We did not attempt to modify this labeling convention.}
 	
-	\item Correlation \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}} is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
 
-		We used the UD treebanks to investigate whether there are differences in the ordering of `want' and other verbs using the \emph{xcomp} dependency.
+\item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
+In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{nmod} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
+	
+\item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}} is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
 
-		The dependency is annotated in all but two languages (Japanese and Turkish).
+We used the UD treebanks to investigate whether there are differences in the ordering of `want' and other verbs using the \emph{xcomp} dependency.
 
-		For each language, we extracted all lemmas of words heading an \emph{xcomp} dependency, occurring at least 2 times.
+The dependency is annotated in all but two languages (Japanese and Turkish).
+
+For each language, we extracted all lemmas of words heading an \emph{xcomp} dependency, occurring at least 2 times.
 In 39 languages, all extracted words had the same dominant order.
 Additionally, in four Germanic languages (Afrikaans, Danish, Dutch, and German), the verb of volition (Afrikaans \emph{wil}, Danish \emph{ville}, Dutch \emph{willen}, German \emph{wollen}) is mostly annotated with the \emph{aux} relation due to UD annotation guidelines, but in all languages, its dominant order (verb of volition before its complement) agrees with the dominant order of the \emph{xcomp} dependency (head-initial).
-		In three historical languages (Ancient Greek, Latin, and Old Church Slavonic), verbs of volition agree with the dominant order of \emph{xcomp}, while several other verbs that do not indicate volition show opposite dominant order.
-Finally, in Gothic, the verb of volition (\emph{wiljan}) has opposite order, resulting in an apparent violation of Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}.
+In three historical languages (Ancient Greek, Latin, and Old Church Slavonic), verbs of volition agree with the dominant order of \emph{xcomp}, while several other verbs that do not indicate volition show opposite dominant order.
+Finally, in Gothic, the verb of volition (\emph{wiljan}) has opposite dominant order, resulting in an apparent violation of Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}.
 
-		Taken together, the order of the xcomp dependency tends to agree with that of most other \emph{xcomp} dependencies, with the sole exception of Gothic.
+Taken together, the order of the xcomp dependency tends to agree with that of most other \emph{xcomp} dependencies, with the sole exception of Gothic.
 \end{enumerate}
 
 \section{Formalizing Communicative Efficiency}
@@ -516,7 +520,7 @@ Note that the predictability scores are considerably worse than the state-of-the
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored.}\label{fig:pareto-per-lang}
+\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. TODO adapt for colorblindness.}\label{fig:pareto-per-lang}
 \end{figure}
 
 
