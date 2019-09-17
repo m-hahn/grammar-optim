@@ -151,7 +151,6 @@ def orderSentence(sentence, dhLogits, printThings):
       dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + exp(-dhLogit))
       dhSampled = (0.5 < probability)
-      line["ordering_decision_log_probability"] = 0 
 
       
      
@@ -222,7 +221,7 @@ for i, key in enumerate(itos_deps):
 
 import os
 
-if model != "REAL_REAL" and model != "RLR":
+if model != "REAL_REAL":
    temperature = 1.0
    inpModels_path = "../../../../raw-results/"+"/"+BASE_DIR+"/"
    print(inpModels_path)
