@@ -576,7 +576,8 @@ def forward(current, computeAccuracy=False, doDropout=True):
            labelTargetTensorVariable = Variable(torch.LongTensor(labelTargetTensor)).cuda()
    
            lossesLabels = lossModuleTestLabels(labelSoftmax.view((batchSize)*(maxLength+2), (1+len(itos_pure_deps))), labelTargetTensorVariable.view((batchSize)*(maxLength+2))).view(batchSize, maxLength+2)
-           loss += lossesLabels.sum()
+           lossU = loss
+           lossL = lossU + lossesLabels.sum()
 
            lossesHeadsAndLabels = (lossesHead + lossesLabels).data.cpu().numpy()
 
@@ -616,14 +617,15 @@ def forward(current, computeAccuracy=False, doDropout=True):
        if printHere and wordNum > 0:
          if computeAccuracy:
             print "ACCURACY "+str(float(accuracy)/wordNum)+" "+str(float(POSaccuracy)/wordNum)
-         print loss/wordNum
+         print lossU/wordNum
+         print lossL/wordNum
          print lossWords/wordNum
          print ["CROSS ENTROPY", crossEntropy, exp(crossEntropy) if crossEntropy < 50 else "INFINITY"]
          print sys.argv
        if wordNum > 0:  
           crossEntropy = 0.99 * crossEntropy + 0.01 * (lossWords/wordNum).data.cpu().numpy()
        policy_related_loss = 0
-       return loss, policy_related_loss, accuracy if computeAccuracy else None, accuracyLabeled if computeAccuracy else None, wordNum
+       return lossU, lossL, policy_related_loss, accuracy if computeAccuracy else None, accuracyLabeled if computeAccuracy else None, wordNum
 
 def backward(loss, policy_related_loss):
        if loss is 0:
@@ -654,7 +656,8 @@ def getPartitions(corpus):
 
 
 
-devLosses = []
+devLossesU = []
+devLossesL = []
 devAccuracies = []
 devAccuraciesLabeled = []
 
@@ -666,26 +669,33 @@ def computeDevLoss():
          counterDev = 0
          corpusDev = CorpusIteratorFuncHead(language, "dev").iterator(rejectShortSentences = True)
          partitionsDev = getPartitions(corpusDev)
-         devLoss = 0
+         devLossU = 0
+         devLossL = 0
          devAccuracy = 0
          devAccuracyLabeled = 0
          devWords = 0
          for partitionDev in partitionsDev:
               counterDev += 1
               printHere = (counterDev % 500 == 0)
-              loss, _, accuracy, accuracyLabeled, wordNum = forward(partitionDev, computeAccuracy=True, doDropout=False)
-              devLoss += loss.data.cpu().numpy()    
+              lossU, lossL, _, accuracy, accuracyLabeled, wordNum = forward(partitionDev, computeAccuracy=True, doDropout=False)
+              devLossU += lossU.data.cpu().numpy()    
+              devLossL += lossL.data.cpu().numpy()    
+
               devAccuracy += accuracy
               devAccuracyLabeled += accuracyLabeled
               devWords += wordNum
               if counterDev % 50 == 0:
                 print "Run on dev "+str(counterDev)
-                print (devLoss/devWords, float(devAccuracy)/devWords, float(devAccuracyLabeled)/devWords, devWords)
+                print (devLossU/devWords, devLossL/devWords, float(devAccuracy)/devWords, float(devAccuracyLabeled)/devWords, devWords)
 
-         newDevLoss = devLoss/devWords        
+         newDevLossL = devLossL/devWords        
+         newDevLossU = devLossU/devWords        
+
          newDevAccuracy = float(devAccuracy)/devWords
          newDevAccuracyLabeled = float(devAccuracyLabeled)/devWords
-         devLosses.append(newDevLoss)
+         devLossesL.append(newDevLossL)
+         devLossesU.append(newDevLossU)
+
          devAccuracies.append(newDevAccuracy)
          devAccuraciesLabeled.append(newDevAccuracyLabeled)
 
@@ -702,7 +712,7 @@ while True:
 
        counter += 1
        printHere = (counter % 100 == 0)
-       loss, policyLoss, _, _, wordNum = forward(partition)
+       _, loss, policyLoss, _, _, wordNum = forward(partition)
        if wordNum == 0:
           assert loss is 0
        else:
@@ -710,11 +720,12 @@ while True:
        if printHere:
            print " ".join(map(str,[FILE_NAME, language, myID, counter, epochs, len(partitions), "MODEL", model ]))
            print zip(names, params)
-           print devLosses
+           print devLossesU
+           print devLossesL
            print devAccuracies
            print devAccuraciesLabeled
        if counter % 500 == 0:
-          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter, "perEpoch", len(partitions), devLosses, devAccuracies, devAccuraciesLabeled)
+          print >> sys.stderr, (myID, "EPOCHS", epochs, "UPDATES", counter, "perEpoch", len(partitions), devLossesU, devAccuracies, devAccuraciesLabeled)
           difference  = 0
           maxDifference = 0
           for i, key in enumerate(itos_deps):
@@ -733,17 +744,18 @@ while True:
          with open("../../../../raw-results/parsing-lexicalized-nondeterministic/performance-"+language+"_"+FILE_NAME+"_model_"+str(myID)+"_"+model+".txt", "w") as outFile:
               print >> outFile, " ".join(names)
               print >> outFile, " ".join(map(str,params))
-              print >> outFile, " ".join(map(str,devLosses))
+              print >> outFile, " ".join(map(str,devLossesL))
               print >> outFile, " ".join(map(str,devAccuracies))
               print >> outFile, " ".join(map(str,devAccuraciesLabeled))
               print >> outFile, " ".join(sys.argv)
+              print >> outFile, " ".join(map(str,devLossesU))
 
 
          if devAccuracies[-1] == 0:
             print "Bad accuracy"
             quit()
-         if len(devLosses) > 1 and devLosses[-1] > devLosses[-2]:
-            del devLosses[-1]
+         if len(devLossesL) > 1 and devLossesL[-1] > devLossesL[-2]:
+            del devLossesL[-1]
             print "Loss deteriorating, stop"
             quit()
 
