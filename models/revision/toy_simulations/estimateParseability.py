@@ -14,12 +14,12 @@ import argparse
 import math
 
 parser = argparse.ArgumentParser()
-parser.add_argument('--correlation_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--dlm_xcomp', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--correlation_acl', default=False, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--correlation_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--dlm_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
+parser.add_argument('--correlation_acl', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--probVPBranching', default=0.5, type=float) 
-parser.add_argument('--probObj', default=0.8, type=float) 
-parser.add_argument('--probNPBranching', default=0.1, type=float) 
+parser.add_argument('--probObj', default=0.5, type=float) 
+parser.add_argument('--probNPBranching', default=0.0, type=float) 
 
 args=parser.parse_args()
 
