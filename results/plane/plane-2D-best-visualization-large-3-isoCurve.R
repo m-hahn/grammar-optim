@@ -240,7 +240,7 @@ for(language in unique(data$Language)) {
     surp = data2$Surp
     pars = data2$Pars
     cat(language,"\n")
-    dataIso = read.csv(file=paste("~/CS_SCR/posteriors/pareto-smooth/iso-pareto-", language, sep="")) %>% mutate(Language = language)
+    dataIso = read.csv(file=paste("../../grammars/pareto-curves/pareto-smooth/iso-pareto-", language, sep="")) %>% mutate(Language = language)
     dataIso = dataIso %>% mutate(x=x * sd(pars, na.rm=TRUE) + mean(pars, na.rm=TRUE))
     dataIso = dataIso %>% mutate(y=y * sd(surp, na.rm=TRUE) + mean(surp, na.rm=TRUE))
 
@@ -256,11 +256,11 @@ for(language in unique(data$Language)) {
 }
 
 
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surp_z < 3), aes(x=-Pars_z, y=-Surp_z, color=Type, group=Type))
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surp_z < 3), aes(x=-Pars_z, y=-Surp_z, color=Type, group=Type))
 plot = plot + geom_point()
 plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surp_z, group=1), size=1.5)
 plot = plot + geom_line(data=dataIso_ %>% mutate(Type = "Pareto"), aes(x=-x, y=-y), size=1.5, linetype="dashed", color="orange")
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
+plot = plot + geom_point(data=data %>% filter(Type %in% c("manual_output_funchead_ground_coarse_final")) %>% filter(Surp_z < 3), shape=4, size=1.5, stroke=2)
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")

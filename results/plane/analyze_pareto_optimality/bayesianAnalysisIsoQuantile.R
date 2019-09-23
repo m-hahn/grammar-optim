@@ -100,7 +100,7 @@ for(language in unique(data$Language)) {
     plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
     ggsave(plot, file=paste("figures/isoCurve_",language,".pdf", sep=""))
 
-    write.csv(isoCurve, file=paste("~/CS_SCR/posteriors/pareto-smooth/iso-pareto-", language, sep=""))
+    write.csv(isoCurve, file=paste("../../../grammars/pareto-curves/pareto-smooth/iso-pareto-", language, sep=""))
 
 }
 

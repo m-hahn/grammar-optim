@@ -214,10 +214,10 @@ for(language in unique(subData$Language)) {
 subData = data.frame(Language=Language, Surp_z=Surp_z, Pars_z=Pars_z)
 subData$Type = "Pareto"
 
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surp_z < 3), aes(x=-Pars_z, y=-Surp_z, color=Type, group=Type))
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surp_z < 3), aes(x=-Pars_z, y=-Surp_z, color=Type, group=Type))
 plot = plot + geom_point()
 plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surp_z, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
+plot = plot + geom_point(data=data %>% filter(Type %in% c("manual_output_funchead_ground_coarse_final")) %>% filter(Surp_z < 3), shape=4, size=1.5, stroke=2)
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")

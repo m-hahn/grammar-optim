@@ -76,7 +76,7 @@ for(language in unique(data$Language)) {
     }	
     
     
-    write.csv(data.frame(bestLambdas=bestLambdas, bestQuantiles=bestQuantiles), file=paste("~/CS_SCR/posteriors/pareto-smooth/pareto-", language, sep=""))
+    write.csv(data.frame(bestLambdas=bestLambdas, bestQuantiles=bestQuantiles), file=paste("../../../grammars/pareto-curves/pareto-smooth/pareto-", language, sep=""))
 
 
 }
