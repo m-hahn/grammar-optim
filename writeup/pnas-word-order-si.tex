@@ -621,39 +621,40 @@ Across language families, real grammars tend to be more efficient than almost al
 	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
 \end{figure}
 
-\paragraph{Optimality as a Function of $\lambda$}
+Two ways of quatifying optimality
 
+\paragraph{Optimality as a Function of $\lambda$}
 
 Figure~\ref{fig:lambda-quantile}
 
-\paragraph{Inferring $\lambda$}
-We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
-\begin{equation}
-	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
-\end{equation}
-where $r$ is the real language, and $B$ is the set of baselines.
-Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
-
-TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
-
-We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
-The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
-We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
-We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
-The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
-Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
-Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
-We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
-We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
-
-For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
-\begin{equation}
-	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
-\end{equation}
-where we considered $\lambda \in (0,1)$ in steps of $0.5$.
-
-By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
+%\paragraph{Inferring $\lambda$}
+%We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
+%\begin{equation}
+%	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
+%\end{equation}
+%where $r$ is the real language, and $B$ is the set of baselines.
+%Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
+%
+%TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
+%
+%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
+%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
+%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
+%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
+%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
+%Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
+%We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
+%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
+%
+%For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
+%\begin{equation}
+%	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
+%\end{equation}
+%where we considered $\lambda \in (0,1)$ in steps of $0.5$.
+%
+%By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
 
 \paragraph{Analysis across Values of $\lambda$}
 
