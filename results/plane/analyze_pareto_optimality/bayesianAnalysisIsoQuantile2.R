@@ -29,7 +29,7 @@ for(language in unique(data$Language)) {
     
     library(dirichletprocess)
     dp = DirichletProcessMvnormal(X)
-    dp = Fit(dp, 2000)
+    dp = Fit(dp, 1105)
     
     bestLambdas = c()
     bestQuantiles = c()
@@ -57,7 +57,7 @@ for(language in unique(data$Language)) {
        GRID_SIZEs = length(surpGrid_)
 
 
-    for(i in (1:3)) {
+    for(i in (1:100)) {
        cat(language, i, "\n")
        j = 1000 + 50 * i
        weight = dp$weightsChain[[j]]
@@ -95,11 +95,11 @@ for(language in unique(data$Language)) {
       totalSurpGridBySample = rbind(totalSurpGridBySample, curves[[i]] %>% mutate(sample=i))
     }
     library(ggplot2)
-#    isoCurve = data.frame(x=parsGrid_, y=totalSurpGrid/length(curves))
- #   boundary = nrow(isoCurve %>% filter(y > surpOffset)) + 1
-  #  isoCurve = isoCurve[(1:boundary),]
-   # plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
-    #ggsave(plot, file=paste("figures/isoCurve_",language,".pdf", sep=""))
+    isoCurve = data.frame(x=parsGrid_, y=totalSurpGrid/length(curves))
+    boundary = nrow(isoCurve %>% filter(y > surpOffset)) + 1
+    isoCurve = isoCurve[(1:boundary),]
+    plot = ggplot(isoCurve, aes(x=-x, y=-y)) + geom_line() + geom_point(data=data.frame(pars=pars, surp=surp), aes(x=-pars, y=-surp)) + geom_point(data=data.frame(pars=c(parsGround), surp=c(surpGround)), aes(x=-pars, y=-surp), color="red")
+    ggsave(plot, file=paste("figures/isoCurve_",language,".pdf", sep=""))
 
     write.csv(totalSurpGridBySample, file=paste("../../../grammars/pareto-curves/pareto-smooth/iso-pareto-full-", language, sep=""))
 

@@ -621,11 +621,18 @@ Across language families, real grammars tend to be more efficient than almost al
 	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
 \end{figure}
 
-Two ways of quatifying optimality
+We consider two methods of quantifying the \key{degee of Pareto optimality}.
+First, we quantify, for each value of $\lambda$ trading off parseability and predictability, how many baseline grammars are less efficient than the real language.
+Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
 
-\paragraph{Optimality as a Function of $\lambda$}
+Reecall the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
+For each $\lambda$, we can quantify the fraction of baselines that have better efficiency than the real language
+\begin{equation}
+	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
+\end{equation}
+where $B$ is the set of baseline languages (make figure).
 
-Figure~\ref{fig:lambda-quantile}
+The results are plotted in Figure~\ref{fig:lambda-quantile}.
 
 %\paragraph{Inferring $\lambda$}
 %We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
@@ -660,32 +667,75 @@ Figure~\ref{fig:lambda-quantile}
 
 
 
-
-
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve.pdf}
-\caption{Per-language results. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth.pdf}
+	\caption{Per-language results. Baseline distributions are estimated using Kernel Density estimation. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}\label{fig:isoline}
 \end{figure}
 
 
 
 
+We also considered a second method of quantifying the degree of Pareto optimality.
 
 We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that are better than $r$ on \emph{both} parseability and predictability:
 \begin{equation}
-	PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
+PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
 \end{equation}
-This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$.
+This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$ (make a figure).
 
-Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
-We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
-Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
+This quantity is also known as the joint (or bivariate) exceedance probability.
+
+If we have access to the full distribution over baseline grammars, then the Pareto frontier is formed by exactly those grammars where $PO=0$ (make a figure).
+In practice, we only have a limited sample of $50$ baseline grammar samples; so only an approximation of $PO$ is actually observable, and this approximation will be $0$ in a larger region of the plane (make a figure).
+
+We aim to estimate $PO$, provide uncertainty intervals, and compare with the values of $PO$ attained by baseline languages, and estimate the isoline (cotour line)  of grammars having the same $PO$ value as the real language.
+
+In order to estimate $PO$ from the 50 observed baseline samples, we did the following.
+
+The baseline languages form a distribution in the parseability-predictability plane, from which 50 independent samples are known.
+We model the underlying distribution using the Dirichlet Process Gaussian Mixture Model (DPGMM), a flexible nonparametric model that can accomodate multimodal and other non-normal distributions \citep{rasmussen2000infinite, escobar1995bayesian, muller1996bayesian}.
+This model is a Gaussian mixture model where the number of components itself is a latent parameter inferred from the data.
+DPGMMs can be seen as a Bayesian version of Kernel Density Smoothing.
+In our context here, the reason for using DPGMMs instead of Kernel Density Smoothing is that Bayesian inference using the DPGMM provides a straightforward method of deriving estimates and credible intervals for $PO$ and the isoline.
+
+% http://mlg.eng.cam.ac.uk/pub/pdf/GoeRas10.pdf
+% TODO report prior
+
+The DPGMM defines a prior over possible baseline distributions in the parseability-predictability plane.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, $n$ bivariate Gaussians $\mu_i, \Sigma_i$, and $n$ weights $w_i$ for these components ($\sum_{i=1}^n w_i=1$).
+Each possible distribution is parameterized as $\sum_{i=1}^n w_i p_{\mu_i, \Sigma_i}(x)$ where $p_{\mu_i, \Sigma_i}$ is the bivariate Gaussian density.
+The number $n$ of components is inferred from the data together with the weights $w_i$, the means $\mu_i$, and the covariance matrices $\Sigma_i$.
+A Dirichlet process prior (TODO) is placed on $n$, favoring models with smaller numbers of components unless the data provides evidence for more components.
+We use the $50$ observed baseline samples to infer a posterior distribution over such mixture distributions.
+We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
+
+For each of these samples, we then computed $PO$ of the real language, and the isoline.
+The collection of these results provides a set of samples from the posterior distribution over the true value of $PO$ and the true isoline.
+We plot the posterior means of $PO$ and the isoline in Figure~\ref{fig:isoline}.
 
 
-- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
+%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
+%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
+%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
+%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
+%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
 
-- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
+
+
+
+%We assumed that the distribution
+
+%Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
+%We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
+%Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
+
+
+%- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
+
+%- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
 
 
 
@@ -1049,7 +1099,7 @@ $\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
 \end{tabular}
 	\end{center}
-	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (left) and the final experiment (right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
+	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (center left) and the final experiment (center right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
 Giving similar weight to parseability and predictability -- that is, $\lambda$ close to $1$ -- results in more accurate word order predictions than choosing a small value of $\lambda$ such as $\lambda=0.0$. Note that $\lambda$ cannot take values smaller than zero, or greater than one, see Section \ref{sec:lambda}.
 }\label{table:corr-resu-previous}
 \end{table}
