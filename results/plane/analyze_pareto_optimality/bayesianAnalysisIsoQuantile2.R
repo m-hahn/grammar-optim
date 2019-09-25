@@ -8,7 +8,8 @@ library(TruncatedNormal)
 language = "Basque"
 
 for(language in unique(data$Language)) {
-    
+    if(FALSE) { #language <= "Ancient_Greek") {
+    } else{
     data2 = data %>% filter(Language == language, !is.na(Surp), !is.na(Pars))
     
     surp = data2$Surp
@@ -29,7 +30,7 @@ for(language in unique(data$Language)) {
     
     library(dirichletprocess)
     dp = DirichletProcessMvnormal(X)
-    dp = Fit(dp, 1105)
+    dp = Fit(dp, 2000)
     
     bestLambdas = c()
     bestQuantiles = c()
@@ -56,10 +57,10 @@ for(language in unique(data$Language)) {
        GRID_SIZEp = length(parsGrid_)
        GRID_SIZEs = length(surpGrid_)
 
-
+    alphas = c()
     for(i in (1:100)) {
        cat(language, i, "\n")
-       j = 1000 + 50 * i
+       j = 1000 + 10 * i
        weight = dp$weightsChain[[j]]
        mu = dp$clusterParametersChain[[j]]$mu
        sig = dp$clusterParametersChain[[j]]$sig
@@ -79,10 +80,13 @@ for(language in unique(data$Language)) {
           gridZ_p = apply(gridZ[q,,,], 1, function(x) { return(pmvnorm(mu[,,q], sig[,,q], ub=x)) })
           total_gridZ_p = total_gridZ_p + weight[q] *     gridZ_p
        }
+       alphas = c(alphas, total_groundZ_p)
        total_gridZ_p = array(total_gridZ_p, dim=c(GRID_SIZEp, GRID_SIZEs))
        boundarySurprisalPerPars = apply(total_gridZ_p, 1, function(x) { sum(x < total_groundZ_p) })
        boundary = data.frame(x=parsGrid_, y=(surpScale*boundarySurprisalPerPars+surpOffset))
        curves[[i]] = boundary
+       cat(boundary$y, sep=" ")
+       cat("\n")
     }
 
     library(dplyr)
@@ -102,9 +106,10 @@ for(language in unique(data$Language)) {
     ggsave(plot, file=paste("figures/isoCurve_",language,".pdf", sep=""))
 
     write.csv(totalSurpGridBySample, file=paste("../../../grammars/pareto-curves/pareto-smooth/iso-pareto-full-", language, sep=""))
+    write.csv(alphas, file=paste("../../../grammars/pareto-curves/pareto-smooth/iso-pareto-alphas-", language, sep=""))
 
 }
-
+}
 
 
     
