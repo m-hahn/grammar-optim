@@ -150,7 +150,7 @@ def orderSentence(sentence, dhLogits, printThings, dhWeights, distanceWeights):
       if line["coarse_dep"] == "root":
           root = line["index"]
           continue
-      if line["coarse_dep"].startswith("punct"): # assumes that punctuation does not have non-punctuation dependents!
+      if line["coarse_dep"].startswith("punct"):
          continue
       key = line["coarse_dep"]
       line["dependency_key"] = key
