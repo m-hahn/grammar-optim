@@ -3,7 +3,7 @@
 
 # TODO add lower confidence bound
 
-with open("pareto-data.tsv", "r") as inFile:
+with open("pareto-data-lexicalized.tsv", "r") as inFile:
     data = [x.split(",") for x in inFile.read().strip().replace('"', "").split("\n")]
 header = data[0]
 header = dict(zip(header, range(len(header))))

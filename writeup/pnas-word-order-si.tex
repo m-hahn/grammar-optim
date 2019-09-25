@@ -613,20 +613,6 @@ Across language families, real grammars tend to be more efficient than almost al
 % paretoByFamily.R
 
 
-\subsection{Quantifying Pareto-Optimality}
-
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
-	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
-\end{figure}
-
-Two ways of quatifying optimality
-
-\paragraph{Optimality as a Function of $\lambda$}
-
-Figure~\ref{fig:lambda-quantile}
-
 %\paragraph{Inferring $\lambda$}
 %We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
 %\begin{equation}
@@ -656,36 +642,132 @@ Figure~\ref{fig:lambda-quantile}
 %
 %By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
 
-\paragraph{Analysis across Values of $\lambda$}
 
+\subsection{Quantifying Degree of Optimality}
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
+	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
+\end{figure}
+
+Efficiency combines predictability and parseability.
+In the main paper (Study 1), we showed that languages tend to be optimized for these two quantities.
+In this section, we show that languages are also optimized for the \emph{combination} of the two objectives.
+
+We quantify the degree of optimality in two ways.
+In Analysis 1, we consider the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
+For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify how many baseline grammars are less efficient than the real language.
+In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that at most a very small fraction of grammars are more efficient than the real language.
+
+\paragraph{Analysis 1: Optimality by $\lambda$}
+%Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
+
+Recall the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
+For each $\lambda$, we can quantify the fraction of baselines that have better efficiency than the real language
+\begin{equation}
+	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
+\end{equation}
+where $B$ is the set of baseline languages (make figure).
+
+The results are plotted in Figure~\ref{fig:lambda-quantile}.
+
+TODO also visualize and explain
+
+\paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
 
 
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve.pdf}
-\caption{Per-language results. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}
+	\begin{tabular}{llll}
+		(a) & (b) & (c) & (d) \\
+		\includegraphics[width=0.22\textwidth]{figures/isocline1.png}&
+		\includegraphics[width=0.22\textwidth]{figures/isocline2.png}&
+		\includegraphics[width=0.22\textwidth]{figures/isocline3.png}&
+\includegraphics[width=0.22\textwidth]{figures/isocline4.png}
+	\end{tabular}
+
+	\caption{Isolines: (a) The set of all possible baseline grammars forms a distribution in the parseability-predictability space.
+	The Pareto frontier consists of those points that are not dominated by any baseline grammar -- that is, those for which $P=0$: For points on this curve, no baseline grammar is both to their top and their right.
+	(b) Other grammars are dominated by some fractions $P > 0$ of baseline grammars. The two green crosses mark grammars that both are dominated by $P=0.05$ of baseline grammars. A blue curve connects all grammars dominated by exactly $P=0.05$ of baseline grammars.
+	(c) We observe a sample of $N=50$ baseline grammars, sampled uniformly from the set of baseline grammars. Samples will tend to concentrate in the high-density regions of the baseline distribution.
+	We also observe the efficiency of the real language (red cross) and an estimate of the Pareto frontier (blue line).
+	(d) We use the $50$ samples from the baseline grammar distribution to construct an estimate of the full abseline distibution, using the Dirichlet Process Gaussian Mixture Model. Using this inferred distribution, we estimate what fraction $P$ of baseline grammars dominate the real language, and the curve connecting all grammars dominated by the same fraction $P$ of baselines.
+	}\label{fig:isoline-explanation}
 \end{figure}
 
 
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth.pdf}
+	\caption{Per-language results. Baseline distributions are estimated using Kernel Density estimation. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}\label{fig:isoline}
+\end{figure}
 
 
+%The Pareto curve is formed by those grammars such that no grammar simultaneously achieves higher parseability and higher predictability.
+%This motivates 
 
-We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that are better than $r$ on \emph{both} parseability and predictability:
+We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that Pareto-dominate $r$ -- that is, baselines that are at least as good as $r$ on \emph{both} parseability and predictability:
 \begin{equation}
-	PO := \frac{\# \{b \in B: R_{Pars}(b) > R_{eff}(r) \text{ and }  R_{Pred}(b) > R_{Pred}(r) \}}{\#B}
+P := \frac{\# \{b \in B: R_{Pars}(b) \geq R_{eff}(r) \text{ and }  R_{Pred}(b) \geq R_{Pred}(r) \}}{\#B}
 \end{equation}
-This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$.
+%This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$ (make a figure).
+%This quantity is also known as the joint (or bivariate) exceedance probability.
+If we have access to the full distribution over baseline grammars, then the Pareto frontier is formed by exactly those grammars where $P=0$ (make a figure).
+(TODO slight subtlety: $r$ itself is part of $B$, so $P > 0$ TODO change definition)
+Small values of $P$ indicate that only few baseline grammars are better than $r$.
+%In practice, we only have a limited sample of $50$ baseline grammar samples; so only an approximation of $P$ is actually observable, and this approximation will be $0$ in a larger region of the plane (make a figure).
 
-Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
-We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
-Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
+In this section, we aim to estimate $P$, provide uncertainty intervals.
+In order to also compare with the values of $P$ attained by baseline languages, we also estimated the isoline (cotour line) of grammars having the same $P$ value as the real language.
+
+%$P$ is also known as the \emph{joint} or \emph{bivariate} \emph{exceedance probability}, and there are a range of methods for estimating it.
+
+We used a simple nonparametric Bayesian approach to estimate $P$ from the 50 observed baseline samples.
+The baseline languages form a distribution in the parseability-predictability plane, from which 50 independent samples are known.
+We model the underlying distribution using the Dirichlet Process Gaussian Mixture Model (DPGMM), a flexible nonparametric model that can accomodate multimodal and other non-normal distributions \citep{rasmussen2000infinite, escobar1995bayesian, muller1996bayesian}.
+This model is a Gaussian mixture model where the number of components itself is a latent parameter inferred from the data.
+DPGMMs can be seen as a Bayesian version of Kernel Density Smoothing.\footnote{A potential objection to using such Kernel Density Estimation is that it models a continuous distribution with support everywhere, while the distribution of grammars is discrete and finite, in particular bounded by a Pareto frontier. We believe that this does not cause problems for this analysis. First, the number of possible grammars is extremey large, exceeding $37!$, which is more than $10^{43}$, suggesting that the distribution in the parseability-predictability plane is closely approximated by a continuous distribution. Second, the approximate Pareto frontier tends to be clearly separated from the high-density regions of the baseline distribution, in which most sampled baselines fall, showing that the baseline distribution has very small density around and beyond the Pareto frontier.}
+In our context here, the reason for using DPGMMs instead of Kernel Density Smoothing is that Bayesian inference using the DPGMM provides a straightforward method of deriving estimates and credible intervals for $PO$ and the isoline.
+
+% http://mlg.eng.cam.ac.uk/pub/pdf/GoeRas10.pdf
+% TODO report prior
+
+The DPGMM defines a prior over possible baseline distributions in the parseability-predictability plane.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, $n$ bivariate Gaussians $\mu_i, \Sigma_i$, and $n$ weights $w_i$ for these components ($\sum_{i=1}^n w_i=1$).
+Each possible distribution is parameterized as $\sum_{i=1}^n w_i p_{\mu_i, \Sigma_i}(x)$ where $p_{\mu_i, \Sigma_i}$ is the bivariate Gaussian density.
+The number $n$ of components is inferred from the data together with the weights $w_i$, the means $\mu_i$, and the covariance matrices $\Sigma_i$.
+A Dirichlet process prior (TODO) is placed on $n$, favoring models with smaller numbers of components unless the data provides evidence for more components.
+We use the $50$ observed baseline samples to infer a posterior distribution over such mixture distributions.
+We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples, from which we selected an evenly spaced subset of 100 samples.
+
+For each of these samples, we then computed $P$ of the real language, and the isoline.
+The collection of these results provides a set of samples from the posterior distribution over the true value of $P$ and the true isoline.
+We plot the posterior means of $P$ and the isoline in Figure~\ref{fig:isoline}.
 
 
-- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
+%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
+%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
+%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
+%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
+%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
 
-- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
+
+
+
+%We assumed that the distribution
+
+%Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
+%We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
+%Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
+
+
+%- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
+
+%- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
 
 
 
@@ -1049,7 +1131,7 @@ $\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
 \end{tabular}
 	\end{center}
-	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (left) and the final experiment (right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
+	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (center left) and the final experiment (center right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
 Giving similar weight to parseability and predictability -- that is, $\lambda$ close to $1$ -- results in more accurate word order predictions than choosing a small value of $\lambda$ such as $\lambda=0.0$. Note that $\lambda$ cannot take values smaller than zero, or greater than one, see Section \ref{sec:lambda}.
 }\label{table:corr-resu-previous}
 \end{table}
@@ -1706,6 +1788,10 @@ This shows that the observed efficiency differences between grammars cannot be a
 \section{Languages and Corpus Sizes}
 In Table~\ref{tab:langs-iso-sizes}, we list the 51 languages with ISO codes and families, with the size of the available data per language.
 We included all UD 2.1 languages for which a training partition was available.
+
+%Among UD 2.1 corpora, three treebanks require a special license (Arabic-NYUAD, French-FTB).
+%For a few UD corpora, only the syntactic annotation is freely available, while the individual words require a license.
+%For the lexicalized experiment, we had access to the individual words for 
 
 \begin{table}[ht]
 \small{
