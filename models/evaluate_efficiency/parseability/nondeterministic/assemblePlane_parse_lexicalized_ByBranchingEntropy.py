@@ -4,9 +4,9 @@ import sys
 
 
 dirs = []
-dirs.append("manual_output_funchead_two_coarse_lambda09_best_large")
-dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
-dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
+dirs.append("manual_output_funchead_two_coarse_final")
+dirs.append("manual_output_funchead_two_coarse_parser_final")
+dirs.append("manual_output_funchead_langmod_coarse_final")
 dirs.append("manual_output_funchead_RANDOM")
 dirs.append("manual_output_funchead_RANDOM2")
 dirs.append("manual_output_funchead_RANDOM3")
@@ -18,7 +18,7 @@ dirs.append("manual_output_funchead_ground_coarse_final")
 outPath = "../../../../grammars/plane/controls/plane-parse-lexicalized-nondeterministic.tsv"
 print(outPath)
 with open(outPath, "w") as outFile:
-  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS\tParsU"
+  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS"
   for BASE_DIR in dirs:
     
   
@@ -100,12 +100,8 @@ with open(outPath, "w") as outFile:
                  if len(data[0]) == 1:
                     continue
                  if float(data[0][-1]) < float(data[0][-2]):
-                    print("Incomplete", language, model, BASE_DIR)
                     continue
-                 if len(data) < 5:
-                    continue
-
                  found+=1
-                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2], data[4][-2]]))
+                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2]]))
    print([BASE_DIR, found])
    #print("Done", done, "out of", 51*8)

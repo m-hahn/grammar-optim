@@ -8,12 +8,18 @@ dirs.append("manual_output_funchead_two_coarse_final")
 dirs.append("manual_output_funchead_two_coarse_parser_final")
 dirs.append("manual_output_funchead_langmod_coarse_final")
 dirs.append("manual_output_funchead_RANDOM")
+dirs.append("manual_output_funchead_RANDOM2")
+dirs.append("manual_output_funchead_RANDOM3")
+dirs.append("manual_output_funchead_RANDOM4")
+dirs.append("manual_output_funchead_RANDOM5")
 dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
+dirs.append("REAL_REAL")
 
 outPath = "../../../../grammars/plane/controls/plane-parse-lexicalized.tsv"
+print(outPath)
 with open(outPath, "w") as outFile:
-  print >> outFile, "Language\tModel\tType\tUAS\tPars"
+  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS"
   for BASE_DIR in dirs:
     
   
@@ -27,9 +33,9 @@ with open(outPath, "w") as outFile:
    
    from math import exp, sqrt
    import sys
-   
+   found = 0 
    modelNumbers = None
-   if BASE_DIR in ["RANDOM"]:
+   if BASE_DIR in ["REAL_REAL", "RANDOM"]:
       modelsProcessed = []
       for language in languages:
          modelsProcessed.append((language, BASE_DIR))
@@ -50,7 +56,7 @@ with open(outPath, "w") as outFile:
          elif "RANDOM" in BASE_DIR:
              parts = models[i].split("_")
          #    print(parts)
-             if len(parts) < 4 or parts[-3] != "RANDOM" or parts[-2] != "model":
+             if len(parts) < 4 or parts[-3] not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] or parts[-2] != "model":
                 continue
              if parts[-1].endswith(".tsv"):
                 number = parts[-1][:-4]
@@ -69,7 +75,8 @@ with open(outPath, "w") as outFile:
          models[i] = (language, number)
          modelsProcessed.append(models[i])
       models = modelsProcessed
-   assert len(models) > 0
+   if len(models) == 0:
+       print("No model?", BASE_DIR)
    models = [model for model in models if len(model) == 2]
    
    import os
@@ -95,5 +102,7 @@ with open(outPath, "w") as outFile:
                     continue
                  if float(data[0][-1]) < float(data[0][-2]):
                     continue
-                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2]]))
-print(outPath)
+                 found+=1
+                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2]]))
+   print([BASE_DIR, found])
+   #print("Done", done, "out of", 51*8)

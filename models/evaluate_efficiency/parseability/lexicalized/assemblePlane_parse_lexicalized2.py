@@ -14,8 +14,9 @@ dirs.append("manual_output_funchead_RANDOM4")
 dirs.append("manual_output_funchead_RANDOM5")
 dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
+dirs.append("REAL_REAL")
 
-outPath = "../../../../grammars/plane/controls/plane-parse-lexicalized-nondeterministic.tsv"
+outPath = "../../../../grammars/plane/controls/plane-parse-lexicalized2.tsv"
 print(outPath)
 with open(outPath, "w") as outFile:
   print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS\tParsU"
@@ -81,13 +82,13 @@ with open(outPath, "w") as outFile:
    import os
    
    
-   planePath = "../../../../raw-results/parsing-lexicalized-nondeterministic/"
+   planePath = "../../../../raw-results/parsing-lexicalized2/"
    
    if True:
      existingFiles = os.listdir(planePath)
      done = 0
      for language, model in models:
-       existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
+       existing = [x for x in existingFiles if x.startswith("performance-"+language+"_soso") and "_"+model+".txt" in x]
        if len(existing) > 0:
           done += 1
    #       print(language,model)
@@ -102,9 +103,6 @@ with open(outPath, "w") as outFile:
                  if float(data[0][-1]) < float(data[0][-2]):
                     print("Incomplete", language, model, BASE_DIR)
                     continue
-                 if len(data) < 5:
-                    continue
-
                  found+=1
                  print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2], data[4][-2]]))
    print([BASE_DIR, found])
