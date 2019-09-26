@@ -1,24 +1,13 @@
-# Study 1: Correlation between efficiency and the number of satisfied correlations, for real grammars.
+# Second Paragraph of Study 2: Correlation between efficiency and the number of satisfied correlations, for real grammars.
 
 
 
 library(tidyr)
 library(dplyr)
 library(lme4)
-library(lme4)
-library(tidyr)
-library(dplyr)
-library(ggplot2)
-library(dplyr)
-library(tidyr)
 library(ggplot2)
 library(forcats)
 
-data = data %>% mutate(Language = fct_recode(Language, "Old_Church_Slavonic" = "Old", "Ancient_Greek" = "Ancient"))
-
-
-
-dependencies = c("acl", "advcl", "advmod", "amod", "appos", "aux", "ccomp", "compound", "conj", "csubj", "dep", "det", "discourse", "dislocated", "expl", "fixed", "flat", "goeswith", "iobj", "lifted_case", "lifted_cc", "lifted_cop", "lifted_mark", "list", "nmod", "nsubj", "nummod", "obl", "orphan", "parataxis", "reparandum", "vocative", "xcomp")
 
 
 ofInterest =  c("acl", "aux", "lifted_case", "lifted_cop", "lifted_mark", "nmod", "obl", "xcomp")
@@ -80,17 +69,11 @@ dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mut
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS4 = read.csv("../../grammars/plane/plane-fixed-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3, dataS4)
-dataP = read.csv("../../grammars/plane/plane-parse.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP2 = read.csv("../../grammars/plane/plane-parse-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP3 = read.csv("../../grammars/plane/plane-parse-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP4 = read.csv("../../grammars/plane/plane-parse-random2.tsv", sep="\t") %>% mutate(Model = as.character(Model))
-dataP = rbind(dataP, dataP2, dataP3, dataP4)
+dataP = read.csv("../../grammars/plane/controls/plane-parse2.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surp = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(UAS = mean(UAS, na.rm=TRUE), Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
 dataP = as.data.frame(dataP)
-summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(grepl("langm", Type))))
-summary(lmer(Surp ~ Type + (1|Language), data=dataS %>% filter(grepl("RL", Type) | grepl("ground", Type))))
 dataS = dataS %>% mutate(Type = as.character(Type))
 dataP = dataP %>% mutate(Type = as.character(Type))
 dataS = dataS %>% mutate(Model = as.character(Model))
@@ -100,9 +83,7 @@ dataP = dataP %>% mutate(Language = as.character(Language))
 data = merge(dataS, dataP, by=c("Language", "Model", "Type"), all.x=TRUE, all.y=TRUE)
 
 
-data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM2", "manual_output_funchead_RANDOM", as.character(Type)))
-
-
+data = data %>% mutate(Type = ifelse(grepl("RANDOM", Type), "manual_output_funchead_RANDOM", as.character(Type)))
 
 trafo_surp = read.csv("../plane/surp-z.csv")
 trafo_pars = read.csv("../plane/pars-z.csv")
@@ -115,15 +96,6 @@ data = data %>% mutate(Surp_z = (Surp-MeanSurp)/SDSurp, Pars_z = (Pars-MeanPars)
 
 F = E %>% group_by(Language, Model) %>% summarise(Agree = sum(Agree, na.rm=TRUE))
 F = merge(F, data, by=c("Language", "Model"))
-
-G = E %>% select(Language, Model, CoarseDependency, Agree)
-G = merge(G, data, by=c("Language", "Model"))
-
-
-#D$AgreeB = as.factor(as.character(round(pmax(0, pmin(1, D$Agree)))))
-
-
-
 
 u = F %>% filter(grepl("ground", Type))
 cor.test(u$Agree, 0.9*u$Surp_z+u$Pars_z)
@@ -164,9 +136,5 @@ plot = plot + theme(axis.title=element_text(size=20))
 plot = plot + stat_cor(method = "pearson") #, label.x = 2, label.y = 0.8)
 ggsave(plot, file="correlations-by-grammar/ground-corrs-parseability.pdf")
 
-
-
-
-plot = ggplot(u, aes(x=-Surp_z, y=-Pars_z, color=Agree)) + geom_point()
 
 
