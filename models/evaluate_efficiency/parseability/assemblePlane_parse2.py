@@ -19,7 +19,7 @@ dirs.append("REAL_REAL")
 outPath = "../../../grammars/plane/controls/plane-parse2.tsv"
 print(outPath)
 with open(outPath, "w") as outFile:
-  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS"
+  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS\tParsU"
   for BASE_DIR in dirs:
     
   
@@ -101,8 +101,9 @@ with open(outPath, "w") as outFile:
                  if len(data[0]) == 1:
                     continue
                  if float(data[0][-1]) < float(data[0][-2]):
+                    print("Incomplete", language, model, BASE_DIR)
                     continue
                  found+=1
-                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2]]))
+                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2], data[4][-2]]))
    print([BASE_DIR, found])
    #print("Done", done, "out of", 51*8)

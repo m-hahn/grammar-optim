@@ -1952,6 +1952,7 @@ Hebrew	5639373	manual_output_funchead_RANDOM5	6.882365809419674
 Chinese	2252744	manual_output_funchead_RANDOM5	8.043578303243393
 Indonesian	6845258	manual_output_funchead_RANDOM5	8.059804643682334
 Coptic	3201828	manual_output_funchead_RANDOM5	5.593102662557688
+Afrikaans	8004203	manual_output_funchead_RANDOM5	6.90462914048409
 Vietnamese	4769587	manual_output_funchead_RANDOM5	7.793650987507738
 Greek	3854539	manual_output_funchead_RANDOM5	7.533465664496569
 Danish	8679257	manual_output_funchead_RANDOM5	7.49087548948623
@@ -1968,6 +1969,7 @@ Afrikaans	1095608	manual_output_funchead_RANDOM5	6.921611793537389
 Slovenian	4232063	manual_output_funchead_RANDOM5	7.856948831850983
 Serbian	504099	manual_output_funchead_RANDOM5	7.944165161787817
 Indonesian	1558223	manual_output_funchead_RANDOM5	8.032368907895881
+Latvian	1626836	manual_output_funchead_RANDOM5	8.983285743590944
 Coptic	558773	manual_output_funchead_RANDOM5	5.474606885524154
 Lithuanian	6215383	manual_output_funchead_RANDOM5	9.29248770058303
 Serbian	1751477	manual_output_funchead_RANDOM5	8.00584397419758
@@ -1985,6 +1987,7 @@ Persian	8473601	manual_output_funchead_RANDOM5	7.295563700194602
 Portuguese	5561962	manual_output_funchead_RANDOM5	6.448968311869842
 Romanian	5863046	manual_output_funchead_RANDOM5	7.630359771050164
 English	1185683	manual_output_funchead_RANDOM5	6.815081126699678
+Marathi	3425688	manual_output_funchead_RANDOM5	7.468047148472554
 Galician	6052491	manual_output_funchead_RANDOM5	6.461773575571491
 Russian	293415	manual_output_funchead_RANDOM5	7.448560497856149
 Serbian	2365375	manual_output_funchead_RANDOM5	7.959031611199807
@@ -2027,6 +2030,7 @@ Portuguese	4944251	manual_output_funchead_RANDOM5	6.393230482308199
 Swedish	2524459	manual_output_funchead_RANDOM5	7.3643776908358864
 Latin	2902519	manual_output_funchead_RANDOM5	7.836695412869542
 Dutch	9852242	manual_output_funchead_RANDOM5	7.200822416620779
+Czech	7866039	manual_output_funchead_RANDOM5	7.201819569149398
 Slovak	9142248	manual_output_funchead_RANDOM5	9.462235653663589
 Slovak	9660550	manual_output_funchead_RANDOM5	9.480996830511563
 Portuguese	170522	manual_output_funchead_RANDOM5	6.45260213314092
@@ -2106,6 +2110,7 @@ Latvian	2500423	manual_output_funchead_RANDOM5	8.974934825304508
 Croatian	4926352	manual_output_funchead_RANDOM5	8.129654307971013
 Serbian	2560379	manual_output_funchead_RANDOM5	7.946688310287091
 Tamil	4082312	manual_output_funchead_RANDOM5	9.172634075280806
+Swedish	6038102	manual_output_funchead_RANDOM5	7.353032162036852
 Spanish	6465735	manual_output_funchead_RANDOM5	6.4341723972956135
 Old_Church_Slavonic	2736979	manual_output_funchead_RANDOM5	7.138172105587176
 Polish	4066764	manual_output_funchead_RANDOM5	8.822496620177777
@@ -2114,6 +2119,7 @@ Hebrew	2673927	manual_output_funchead_RANDOM5	6.896117082414209
 Vietnamese	8493637	manual_output_funchead_RANDOM5	7.770309698287993
 Estonian	7971479	manual_output_funchead_RANDOM5	8.676480799088619
 Turkish	1206857	manual_output_funchead_RANDOM5	9.217614174707665
+Marathi	9181215	manual_output_funchead_RANDOM5	7.3434376533214865
 Japanese	1225283	manual_output_funchead_RANDOM5	6.681268828832186
 Urdu	1378277	manual_output_funchead_RANDOM5	6.315520670497908
 Persian	3129978	manual_output_funchead_RANDOM5	7.187501374193176
@@ -2129,12 +2135,15 @@ Vietnamese	6606299	manual_output_funchead_RANDOM5	7.747147452501307
 Old_Church_Slavonic	2443724	manual_output_funchead_RANDOM5	7.090954974878879
 Hindi	8929157	manual_output_funchead_RANDOM5	6.299032210017805
 English	8031440	manual_output_funchead_RANDOM5	6.809884610248674
+French	5263743	manual_output_funchead_RANDOM5	6.064730166223894
 Afrikaans	9311446	manual_output_funchead_RANDOM5	6.850616088405391
 Bulgarian	9059878	manual_output_funchead_RANDOM5	7.867770071668862
 Swedish	468484	manual_output_funchead_RANDOM5	7.325882285813058
 Romanian	3640890	manual_output_funchead_RANDOM5	7.677399783964582
 Bulgarian	5646728	manual_output_funchead_RANDOM5	7.8918662586699515
 Telugu	6354841	manual_output_funchead_RANDOM5	8.095973001818443
+Ukrainian	3782200	manual_output_funchead_RANDOM5	9.280422989267764
+Basque	1577881	manual_output_funchead_RANDOM5	8.628751492866181
 Catalan	1814244	manual_output_funchead_RANDOM5	6.316575303716037
 Urdu	2892100	manual_output_funchead_RANDOM5	6.431485203149319
 Afrikaans	9505671	manual_output_funchead_RANDOM5	6.904559544965523
@@ -2143,6 +2152,7 @@ Polish	2389034	manual_output_funchead_RANDOM5	8.798132604486776
 Dutch	202317	manual_output_funchead_RANDOM5	7.233396940184768
 Gothic	5754790	manual_output_funchead_RANDOM5	7.069686209237036
 Danish	854673	manual_output_funchead_RANDOM5	7.528016513582702
+Tamil	4597818	manual_output_funchead_RANDOM5	9.459952134352465
 Russian	1668797	manual_output_funchead_RANDOM5	7.504665486811755
 Arabic	1865607	manual_output_funchead_RANDOM5	6.975295947190317
 Latvian	8072044	manual_output_funchead_RANDOM5	8.955255410372017
@@ -2202,12 +2212,14 @@ Catalan	9560958	manual_output_funchead_RANDOM5	6.111619499738074
 Hungarian	8761488	manual_output_funchead_RANDOM5	8.670928417181674
 Estonian	9178527	manual_output_funchead_RANDOM5	8.713415040471965
 Turkish	7136503	manual_output_funchead_RANDOM5	9.188660627381743
+Portuguese	3379446	manual_output_funchead_RANDOM5	6.434961118103557
 Old_Church_Slavonic	2732904	manual_output_funchead_RANDOM5	7.127608246094631
 Coptic	9883886	manual_output_funchead_RANDOM5	5.8962592606830935
 Serbian	2029442	manual_output_funchead_RANDOM5	7.897232327082697
 Urdu	6628357	manual_output_funchead_RANDOM5	6.331230025594049
 Irish	3734393	manual_output_funchead_RANDOM5	8.602684532558335
 Latvian	1205852	manual_output_funchead_RANDOM5	8.925939597746812
+Slovenian	5225639	manual_output_funchead_RANDOM5	7.889682078640504
 Marathi	4772030	manual_output_funchead_RANDOM5	7.241439274379185
 Romanian	7882215	manual_output_funchead_RANDOM5	7.640903122431683
 Latvian	4421132	manual_output_funchead_RANDOM5	8.948974245736112
@@ -2310,6 +2322,7 @@ Vietnamese	8367833	manual_output_funchead_RANDOM5	7.778582686356861
 Hungarian	7987413	manual_output_funchead_RANDOM5	8.72874030909532
 Irish	9210687	manual_output_funchead_RANDOM5	8.103818027614018
 Hindi	1125295	manual_output_funchead_RANDOM5	6.209816217269358
+Norwegian	3388014	manual_output_funchead_RANDOM5	7.103567553735486
 Danish	8008145	manual_output_funchead_RANDOM5	7.505486827477966
 Latin	9614859	manual_output_funchead_RANDOM5	7.838508926625934
 Persian	6036842	manual_output_funchead_RANDOM5	8.580272088575155
@@ -2317,6 +2330,7 @@ Russian	8351881	manual_output_funchead_RANDOM5	7.53393195141243
 Irish	5356301	manual_output_funchead_RANDOM5	8.010207928679316
 Japanese	2827936	manual_output_funchead_RANDOM5	6.670267989980599
 Basque	8772382	manual_output_funchead_RANDOM5	8.610804104895006
+Dutch	1158980	manual_output_funchead_RANDOM5	7.189972610000463
 Korean	4823612	manual_output_funchead_RANDOM5	8.065074706749034
 Arabic	2087923	manual_output_funchead_RANDOM5	7.0518053642456495
 Latvian	3372280	manual_output_funchead_RANDOM5	8.956511893827422
@@ -2324,6 +2338,8 @@ Belarusian	6691007	manual_output_funchead_RANDOM5	9.136441673579885
 Slovenian	8041551	manual_output_funchead_RANDOM5	7.954845068989015
 Greek	2793072	manual_output_funchead_RANDOM5	23.057165763804548
 Slovenian	6591550	manual_output_funchead_RANDOM5	7.918224920769585
+Danish	4152103	manual_output_funchead_RANDOM5	7.5372694912630624
+Basque	3139519	manual_output_funchead_RANDOM5	8.568847530309315
 Chinese	3824300	manual_output_funchead_RANDOM5	7.9917140095468175
 Galician	9507537	manual_output_funchead_RANDOM5	6.56862964686686
 Spanish	9727219	manual_output_funchead_RANDOM5	6.50806488636257
@@ -2342,6 +2358,7 @@ Japanese	9751433	manual_output_funchead_RANDOM5	6.617693773446718
 Slovenian	4526420	manual_output_funchead_RANDOM5	7.891291884918128
 French	7984131	manual_output_funchead_RANDOM5	6.156837051711354
 Czech	3308411	manual_output_funchead_RANDOM5	7.214144377720855
+Belarusian	3334085	manual_output_funchead_RANDOM5	9.28923418938044
 Russian	4005629	manual_output_funchead_RANDOM5	7.550424040280925
 Korean	5066157	manual_output_funchead_RANDOM5	8.053426595953336
 Polish	6434448	manual_output_funchead_RANDOM5	8.787970560340712
@@ -2362,6 +2379,7 @@ Lithuanian	6961959	manual_output_funchead_RANDOM5	9.307108690242956
 Norwegian	2997436	manual_output_funchead_RANDOM5	7.065884898689721
 Hindi	1975341	manual_output_funchead_RANDOM5	6.172265023423736
 Telugu	8200475	manual_output_funchead_RANDOM5	8.077396485412006
+Slovak	1682993	manual_output_funchead_RANDOM5	9.44942020292627
 English	4936690	manual_output_funchead_RANDOM5	6.800730867944863
 Swedish	7613068	manual_output_funchead_RANDOM5	7.347691109648963
 Persian	9012903	manual_output_funchead_RANDOM5	7.205494443078067
@@ -2407,16 +2425,19 @@ Latin	6606949	manual_output_funchead_RANDOM5	7.843223083950423
 Finnish	4012024	manual_output_funchead_RANDOM5	8.305975616219522
 Hindi	4366178	manual_output_funchead_RANDOM5	6.119251706234918
 Czech	9422143	manual_output_funchead_RANDOM5	7.288821726205802
+Vietnamese	6830646	manual_output_funchead_RANDOM5	7.800543293802586
 Ukrainian	3830264	manual_output_funchead_RANDOM5	9.2662286856006
 Italian	3999689	manual_output_funchead_RANDOM5	6.676269278164973
 Arabic	7459069	manual_output_funchead_RANDOM5	7.091311135567065
 Spanish	1058342	manual_output_funchead_RANDOM5	6.4153958044881145
 Indonesian	1202608	manual_output_funchead_RANDOM5	8.051328217624851
 Norwegian	5949739	manual_output_funchead_RANDOM5	7.131790244108992
+Serbian	5802499	manual_output_funchead_RANDOM5	7.936758918691987
 Korean	531481	manual_output_funchead_RANDOM5	8.083964437638757
 Latin	3537433	manual_output_funchead_RANDOM5	7.847146000614408
 Ancient_Greek	8657852	manual_output_funchead_RANDOM5	7.53338029156553
 Hungarian	5350366	manual_output_funchead_RANDOM5	8.798201757757983
+Tamil	8869885	manual_output_funchead_RANDOM5	9.244080497455085
 Turkish	6369002	manual_output_funchead_RANDOM5	9.222560846736666
 Urdu	5325281	manual_output_funchead_ground_coarse_final	6.346459978249467
 Finnish	1742267	manual_output_funchead_ground_coarse_final	8.241929274569435

@@ -6,19 +6,18 @@ import sys
 
 
 dirs = []
-dirs.append("manual_output_funchead_two_coarse_final")
-dirs.append("manual_output_funchead_two_coarse_parser_final")
-dirs.append("manual_output_funchead_langmod_coarse_final")
-dirs.append("REAL_REAL")
-dirs.append("manual_output_funchead_langmod_coarse_tuning")
+dirs.append("manual_output_funchead_two_coarse_lambda09_best_large")
+dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
+dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
 dirs.append("manual_output_funchead_RANDOM")
 dirs.append("manual_output_funchead_RANDOM2")
 dirs.append("manual_output_funchead_RANDOM3")
 dirs.append("manual_output_funchead_RANDOM4")
 dirs.append("manual_output_funchead_RANDOM5")
-dirs.append("manual_output_funchead_coarse_depl")
+#dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
-dirs.append("manual_output_funchead_RLR")
+#dirs.append("manual_output_funchead_RLR")
+dirs.append("REAL_REAL")
 
 outPath = "../../../../grammars/plane/controls/plane-fixed-withoutPOS-nondeterministic.tsv"
 with open(outPath, "w") as outFile:
