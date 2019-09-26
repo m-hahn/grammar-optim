@@ -6,13 +6,14 @@ import sys
 
 
 BASE_DIR = sys.argv[1]
-
 # This is for cases where only the per-language optimal models require calculation of predictability.
 
-if len(sys.argv) > 2:
+if len(sys.argv) > 2 and sys.argv[2] != "None":
    listPath = sys.argv[2] # e.g. writeup/best-parse-best-balanced.csv
 else:
    listPath = None
+if len(sys.argv) > 3:
+   testForCompleteness = True if sys.argv[2].lower() == "true" else False
 
 
 import os
@@ -102,14 +103,16 @@ failures = 0
 
 if listPath is None:
    relevantModels = models
-
+planeBasePath = "../../../../raw-results/parsing-lexicalized2/"
 while failures < 300:
-  existingFiles = os.listdir("../../../../raw-results/parsing-lexicalized2/")
+  existingFiles = os.listdir(planeBasePath)
   language, model = random.choice(relevantModels)
   if languages is not None and language not in languages:
       assert False
       continue
   existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
+  if testForCompleteness:
+     existing = [x for x in existing if (lambda x:len(x) > 1 and float(x[-1]) < float(x[-2]))(open(planeBasePath+"/"+x, "r").read().strip().split("\n")[2].split(" "))]
   if len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))): # language == "Czech" or 
      print("Avoiding Czech for now (redo later with more memory allocated), or Language model for this model exists "+str(((1.0/(1+len(existing))))))
      failures += 1
