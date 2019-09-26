@@ -12,7 +12,7 @@ dirs.append("manual_output_funchead_RANDOM2")
 dirs.append("manual_output_funchead_RANDOM3")
 dirs.append("manual_output_funchead_RANDOM4")
 dirs.append("manual_output_funchead_RANDOM5")
-dirs.append("manual_output_funchead_coarse_depl")
+#dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
 dirs.append("REAL_REAL")
 
