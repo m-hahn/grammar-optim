@@ -12,6 +12,8 @@ if len(sys.argv) > 2 and sys.argv[2] != "None":
    listPath = sys.argv[2] # e.g. writeup/best-parse-best-balanced.csv
 else:
    listPath = None
+
+# only do this to patch holes that remain at the end
 if len(sys.argv) > 3:
    testForCompleteness = True if sys.argv[2].lower() == "true" else False
 
