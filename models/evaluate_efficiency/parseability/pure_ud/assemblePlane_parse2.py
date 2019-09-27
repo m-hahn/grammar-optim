@@ -7,11 +7,11 @@ dirs = []
 #dirs.append("manual_output_funchead_two_coarse_lambda09_best_large")
 #dirs.append("manual_output_funchead_two_coarse_parser_best_balanced")
 #dirs.append("manual_output_funchead_langmod_coarse_best_balanced")
-dirs.append("manual_output_funchead_RANDOM")
-dirs.append("manual_output_funchead_RANDOM2")
-dirs.append("manual_output_funchead_RANDOM3")
-dirs.append("manual_output_funchead_RANDOM4")
-dirs.append("manual_output_funchead_RANDOM5")
+dirs.append("manual_output_funchead_RANDOM_pureUD")
+dirs.append("manual_output_funchead_RANDOM_pureUD2")
+dirs.append("manual_output_funchead_RANDOM_pureUD3")
+dirs.append("manual_output_funchead_RANDOM_pureUD4")
+dirs.append("manual_output_funchead_RANDOM_pureUD5")
 dirs.append("manual_output_funchead_coarse_depl")
 dirs.append("manual_output_funchead_ground_coarse_final")
 dirs.append("REAL_REAL")
@@ -19,7 +19,7 @@ dirs.append("REAL_REAL")
 outPath = "../../../../grammars/plane/controls/plane-parse-pureUD.tsv"
 print(outPath)
 with open(outPath, "w") as outFile:
-  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS"
+  print >> outFile, "Language\tModel\tType\tUAS\tPars\tLAS\tParsU"
   for BASE_DIR in dirs:
     
   
@@ -56,11 +56,11 @@ with open(outPath, "w") as outFile:
          elif "RANDOM" in BASE_DIR:
              parts = models[i].split("_")
          #    print(parts)
-             if len(parts) < 4 or parts[-3] not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] or parts[-2] != "model":
+             if len(parts) < 5 or parts[-4]+"_"+parts[-3] not in ["RANDOM_pureUD", "RANDOM_pureUD2", "RANDOM_pureUD3", "RANDOM_pureUD4", "RANDOM_pureUD5"] or parts[-2] != "model":
                 continue
              if parts[-1].endswith(".tsv"):
                 number = parts[-1][:-4]
-                language = "_".join(parts[:-3])
+                language = "_".join(parts[:-4])
              else:
                 continue
          else:
@@ -101,8 +101,9 @@ with open(outPath, "w") as outFile:
                  if len(data[0]) == 1:
                     continue
                  if float(data[0][-1]) < float(data[0][-2]):
+                    print("Incomplete", language, model, BASE_DIR)
                     continue
                  found+=1
-                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2]]))
+                 print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2], data[4][-2]]))
    print([BASE_DIR, found])
    #print("Done", done, "out of", 51*8)

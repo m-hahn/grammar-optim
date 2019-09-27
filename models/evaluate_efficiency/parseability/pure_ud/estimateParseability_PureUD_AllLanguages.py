@@ -1,21 +1,14 @@
 import os
 import sys
 
-
-
-
-
 BASE_DIR = sys.argv[1]
+
 # This is for cases where only the per-language optimal models require calculation of predictability.
 
-if len(sys.argv) > 2 and sys.argv[2] != "None":
+if len(sys.argv) > 2:
    listPath = sys.argv[2] # e.g. writeup/best-parse-best-balanced.csv
 else:
    listPath = None
-
-# only do this to patch holes that remain at the end
-if len(sys.argv) > 3:
-   testForCompleteness = True if sys.argv[2].lower() == "true" else False
 
 
 import os
@@ -59,14 +52,14 @@ else:
          ind = models[i].index("_inferWe")
          language = models[i][:ind]
          number = models[i][:-4].split("_")[-1]
-      elif "RANDOM" in BASE_DIR:
+      elif "RANDOM_pureUD" in BASE_DIR:
           parts = models[i].split("_")
     #      print parts 
-          if len(parts) < 4 or parts[-3] not in ["RANDOM", "RANDOM2", "RANDOM3", "RANDOM4", "RANDOM5"] or parts[-2] != "model":
+          if len(parts) < 5 or parts[-4]+"_"+parts[-3] not in ["RANDOM_pureUD", "RANDOM_pureUD2", "RANDOM_pureUD3", "RANDOM_pureUD4", "RANDOM_pureUD5"] or parts[-2] != "model":
              continue
           if parts[-1].endswith(".tsv"):
              number = parts[-1][:-4]
-             language = "_".join(parts[:-3])
+             language = "_".join(parts[:-4])
 #             if "Ancient" in models[i]:
 #                print(models[i])
 #                print(language)
@@ -93,10 +86,10 @@ print(modelNumbers)
 models = [model for model in models if len(model) == 2]
 
 import os
-#parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../../../raw-results/parsing_coarse_lexicalized2_plane/") if "estimateParseability" in x]
-#print(parsingDone)
+#parsingDone = [x.split("_")[-1][:-4] for x in os.listdir("../../../raw-results/parsing_coarse_plane/") if "ZeroTemp" in x]
 
-script = "estimateParseability_Lexicalized2.py"
+
+script = "estimateParseability_PureUD.py"
 
 
 #print(parsingDone)
@@ -105,18 +98,16 @@ failures = 0
 
 if listPath is None:
    relevantModels = models
-planeBasePath = "../../../../raw-results/parsing-lexicalized2/"
+
 while failures < 300:
-  existingFiles = os.listdir(planeBasePath)
+  existingFiles = os.listdir("../../../../raw-results/parsing-upos-pureUD/")
   language, model = random.choice(relevantModels)
   if languages is not None and language not in languages:
-      assert False
       continue
-  existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
-  if testForCompleteness:
-     existing = [x for x in existing if (lambda x:len(x) > 1 and float(x[-1]) < float(x[-2]))(open(planeBasePath+"/"+x, "r").read().strip().split("\n")[2].split(" "))]
-  if len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))): # language == "Czech" or 
-     print("Avoiding Czech for now (redo later with more memory allocated), or Language model for this model exists "+str(((1.0/(1+len(existing))))))
+  existing = [x for x in existingFiles if x.startswith(language) and "_"+model+"_" in x]
+  if len(existing) > 0:
+     print(existing)
+     print("Language model for this model exists "+str(((1.0/(1+len(existing))))))
      failures += 1
      continue
   failures = 0
