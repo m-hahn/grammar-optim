@@ -67,7 +67,7 @@
 \usepackage{mathtools}
 \DeclarePairedDelimiter{\ceiling}{\lceil}{\rceil}
 
-\title{Supplemental Materials for ``Universals of word order result from optimization of grammars for efficient communication''}
+\title{Supplemental Materials for ``Universals of word order reflect optimization of grammars for efficient communication''}
 \author{
         Michael Hahn \\
                 Department of Linguistics\\
@@ -390,9 +390,7 @@ To show this, note that the following inequality always holds:
 \operatorname{I}[\utterance; \tree] \leq \operatorname{H}[\utterance].
 \end{equation}
 Therefore, if $\lambda \geq 1$, the efficiency objective satisfies 
-%\begin{equation}
 $R_{\textit{Eff}} = \operatorname{I}[\utterance; \tree] - \lambda \operatorname{H}[\utterance] \leq 0$,
-%\end{equation}
 and it takes the maximal possible value of zero if there is only a single utterance $\utterance$, in which case both $\operatorname{I}[\utterance; \tree]$ and $\operatorname{H}[\utterance]$ are zero.
 This is a degenerate language with only a single utterance, which is simultaneously used to convey all meanings.
 While the design of our word order grammars (see \emph{Materials and Methods}) precludes a collapse of all syntactic structures to a single utterance, this shows that an objective with $\lambda \geq 1$ cannot be a generally applicable description of the efficiency of communication systems.
@@ -405,94 +403,6 @@ That is, at $\lambda$ close to its maximal value, the predictions of optimizing 
 Small values of $\lambda$ correspond to the case where predictability plays no role, and only parseability is optimized (Table~\ref{tab:all-predictions-1}), in which case not all correlations are predicted (Figure~\ref{fig:posterior}).
 This is confirmed by converging evidence from our preregistered preliminary experiments in Figure~\ref{table:corr-resu-previous}.
 
-
-
-%Finally, the robustness of our results to small variations of $\lambda$ is confime by reporting results with $\lambda=1$ in Table~\ref{table:corr-resu-previous}.
-
-
-%In terms of information theory \cite{shannon1948mathematical}, this corresponds to the notion of the rate-distortion tradeoff.
-%In classical rate-distortion theory, the cost of a code is its rate, the mutual information between codes and underlying messages (as in the Information Bottleneck model).
-% classical models of distortion are the Hamming distortion and 
-%TODO also mention rate-distortion theory 
-
-
-
-%- our function
-
-
-
-%similar: RSA, there it's utterance-level
-
-
-%- number of different forms 
-%
-%- complexity of the mapping 
-%
-%- MI between
-%
-%
-%
-%We model the first term as the 
-% degree to which listeners can reconstruct dependency parse structures from an utterance, i.e., the \key{parseability} if the language. This is formalized as the amount of information that utterances $u$ provide about their underlying syntactic structures $t$:
-%\begin{equation}
-%	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)}
-%\end{equation}
-%where the sum runs over all possible pairs of sentences $l$ and syntactic structures $t$ in the language.
-%%This quantity describes the degree to which syntactic structures can be unambiguously recovered from sentences, and quantifies how successful communication is (cf. Figure~\ref{fig:comm}).
-%
-%
-%
-%We formalize the complexity of a language as its entropy~\cite{ferreri2003least,ferrericancho2007global,futrell2017memory}.
-%In our setting, this corresponds to the average word-by-word surprisal, the degree to which sentences are unpredictable from the general statistics of the language.
-%Surprisal has been found to be a highly accurate and general predictor of human online processing difficulty \cite{hale2001probabilistic,levy2008expectation,smith2013effect}.
-%%and can be justified  in terms of predictive coding theories of information processing in the brain \cite{friston2009predictive} as well as the general algorithmic complexity of language generation and comprehension \cite{li2008introduction}.
-%
-%In expectation over all utterances $u$ in a language, the negative surprisal describes the \key{predictability}, or negative entropy, of the utterances:
-%\begin{equation}
-%	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p(u)
-%\end{equation}
-%where the sum runs over all possible sentences $u$ that belong to the language.
-%%In keeping with Zipf's Force of Unification, this quantity describes how homogeneous the language is, i.e., it is larger if the distribution over sentences is concentrated on a smaller number of frequent sentences. 
-%
-%
-%
-%The efficiency of a language is the weighted combination of these two scoring functions~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}:
-%\begin{equation}\label{eq:efficiency}
-%	R_{\textit{Eff}} := R_{\textit{Parseability}} + \lambda R_\textit{Pred}
-%\end{equation}
-%with an interpolation weight $\lambda \in [0,1)$.
-%In all results from Study 2 reported here, we set $\lambda := 0.9$ in Equation~\ref{eq:efficiency}.
-%See SI appendix section 5 for mathematical discussion of $\lambda$, and robustness to other choices.
-%
-%
-
-%\section{Relation to the Information Bottleneck}
-%
-%Our efficiency objective (Equation~\ref{eq:efficiency}), to be maximized for word order grammars $L$, is restated below.
-%\begin{equation}
-%    \label{eq:efficiency-again}
-%    J_T(L) = \operatorname{I}[L(T); T] - \lambda \operatorname{H}[L(T)].
-%\end{equation}
-%This equation can be seen as a special case of the objective function proposed in \citet{tishby1999information} for general lossy compression, based on rate-distortion theory \citep{cover2006elements,harremoes2007information}. In that theory, the goal is to derive an encoding $\hat{X}=L(X)$ of some variable $X$ which preserves the information in $X$ relevant to some third variable $Y$, while minimizing irrelevant information. The three variables $Y$,$X$, and $\hat{X}$ are assumed to form a Markov chain $Y \rightarrow X \underrightarrow{L} \hat{X}$. Given those variables, the information bottleneck objective to be maximized is given in Eq.~\ref{eq:ib}.
-%\begin{equation}
-%    \label{eq:ib}
-%    J_{X,Y}(L) = \operatorname{I}[\hat{X}; Y] - \lambda \operatorname{I}[\hat{X}; X].
-%\end{equation}
-%In this equation, the joint distribution of $X$ and $Y$ is seen as fixed, and the conditional distribution $L=\hat{X}|X$ is optimized.
-%
-%In our setting we consider a language $L$ expressing trees $T$ as utterances $U$: $T \underrightarrow{L} U$. To make our formulation more parallel to the information bottleneck, we assume the utterances $U$ are passed through a channel from producer to comprehender, and received as $\hat{U}=U$. We have the Markov chain $T \underrightarrow{L} U \rightarrow \hat{U}$, where we are assuming the conditional channel distribution $\hat{U}|U$ is fixed and the conditional distribution $L=U|T$ is to be optimized. Then our objective is parallel to Eq.~\ref{eq:ib}:
-%\begin{equation}
-%    \label{eq:efficiency-kinda-ib}
-%    J_T(L) = \operatorname{I}[U;T] - \lambda \operatorname{I}[U;\hat{U}]. % TODO should this be \operatorname{I}[\hat{U};T]?
-%\end{equation}
-%Assuming the channel $U \rightarrow \hat{U}$ is noiseless, we have $U=\hat{U}$, and thus $\operatorname{I}[U;\hat{U}]=\operatorname{I}[U;U] = \operatorname{H}[U]$. Then Eq.~\ref{eq:efficiency-kinda-ib} reduces to a form of Eq.~\ref{eq:efficiency-again}:
-%\begin{equation*}
-%    J_T(L) = \operatorname{I}[U;T] - \lambda \operatorname{H}[U].
-%\end{equation*}
-%
-%Our efficiency objective is thus closely related to the information bottleneck; the difference is that we are optimizing the mapping from underlying meanings to representations (strings) assuming that these strings will be transmitted in a fixed noiseless channel.
-%
-%
 
 
 
@@ -567,18 +477,6 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 
 
 
-\begin{table}
-\centering
-\small{
-\begin{tabular}{l||ll|lll|lll}
-Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
-&  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
-\input{../results/plane/unlexicalized/per-language-statistics-unlexicalized.tex}
-\end{tabular}
-}
-	\caption{Per-language results in Study 1, with \emph{lexicalized} parsers and word-level-only language models. Compare Table~\ref{fig:pareto-per-lang-stats}}
-\end{table}
-
 
 \subsection{Analysis controlling for Families}
 
@@ -645,37 +543,55 @@ Across language families, real grammars tend to be more efficient than almost al
 
 \subsection{Quantifying Degree of Optimality}
 
+
+\begin{figure}
+\centering
+		\includegraphics[width=0.5\textwidth]{lambda-explanation.png}
+
+	\caption{TODO For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
+\end{figure}
+
+
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
 	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
 \end{figure}
 
-Efficiency combines predictability and parseability.
-In the main paper (Study 1), we showed that languages tend to be optimized for these two quantities.
-In this section, we show that languages are also optimized for the \emph{combination} of the two objectives.
+In the main paper (Study 1), we showed that languages tend to be optimized for parseability and/or predictability.
+Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency, i.e., the multi-objective optimization problem of optimizing for parseability and predictability.
+%Note that the numerical value of efficiency depends on the parameter $\lambda \in [0,1)$.
 
-We quantify the degree of optimality in two ways.
+We quantify degree of optimality in two ways.
 In Analysis 1, we consider the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
 For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify how many baseline grammars are less efficient than the real language.
-In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that at most a very small fraction of grammars are more efficient than the real language.
+In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that -- while not all real languages may be strongly optimized for both objectives individually -- at most a very small fraction of baseline grammars improve on the real language on both components.
 
 \paragraph{Analysis 1: Optimality by $\lambda$}
 %Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
 
-Recall the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
-For each $\lambda$, we can quantify the fraction of baselines that have better efficiency than the real language
+Recall the efficiency metric
+\begin{equation}
+	R_\lambda := R_{Pars} + \lambda R_{Pred}
+\end{equation}
+ with the tradeoff parameter $\lambda \in [0,1)$.
+For each $\lambda$, we quantify the fraction of baselines that have better efficiency than the real language:
 \begin{equation}
 	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
 \end{equation}
-where $B$ is the set of baseline languages (make figure).
+where $B$ is the set of baseline languages.
+We illustrate this in Figure~\ref{fig:opt-lambda-explanation}.
 
 The results are plotted in Figure~\ref{fig:lambda-quantile}.
 
-TODO also visualize and explain
+For all languages, there are some values of $\lambda$ where the real language improves at least on more than the median of the baseline grammars, i.e., $O_\lambda >0$.
+In about 40 of the languages, $O_\lambda$ is even close to one across all values of $\lambda$.
+
+This shows that, while many languages do not improve over \emph{all} baselines on \emph{both} individual components, they mostly improve over the large majority of baselines on the combined objective of efficiency, even across different values of $\lambda$.
 
 \paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
 
+TODO maybe we can scrap this part as it is harder to explain well, if Analysis 1 sufficient.
 
 
 \begin{figure}
@@ -700,8 +616,8 @@ TODO also visualize and explain
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth.pdf}
-	\caption{Per-language results. Baseline distributions are estimated using Kernel Density estimation. Orange curves connect points estimated to be dominated by the same number of baselines as the real language, obtained by Bayesian inference using a Dirichlet Gaussian Process model.}\label{fig:isoline}
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth-interval.pdf}
+	\caption{Real languages, even those that are not at the estimated Pareto frontier, are Pareto-dominated by very few other hypothetical grammars. Green curves: Baseline distribution, estimated using Kernel Density estimation. Black numbers indicate the fraction of baselines dominating the real language, with a 95\% credible interval, estimated using a nonparametric Bayesian method (see text). Orange curves connect points estimated to be dominated by the same fraction of baselines as the real language, estimated using the same Bayesian method (see text). }\label{fig:isoline}
 \end{figure}
 
 
@@ -748,27 +664,6 @@ The collection of these results provides a set of samples from the posterior dis
 We plot the posterior means of $P$ and the isoline in Figure~\ref{fig:isoline}.
 
 
-%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
-%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
-%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
-%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
-%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
-%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
-
-
-
-
-%We assumed that the distribution
-
-%Again, we use the Dirichlet Gaussian Process to obtain an estimate of the posterior of $PO$.
-%We used the same procedure to also estimate the curve connecting points $x$ in the predictability-parseability that have the same value $PO(x) = PO(r)$ -- this curve represents which baselines 
-%Again, due to the smoothing implied by the Dirichlet Gaussian Process model, this curve connects not observed baseline samples, but hypothetical other baselines in the predictability-parseability plane.
-
-
-%- identify lambda and quantify what fraction of the baselines are less efficient at this lambda (this is essentially the same as what Zaslavsky et al 2018 do)
-
-%- also to make sure this isn't just because lambda can be chosen, quantify what fraction of baselines Pareto-dominate the same fraction
-
 
 
 
@@ -807,10 +702,9 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 
 \begin{figure} 
 	\begin{center}
-	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} % figures/pred-eff-families-2.pdf
+	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} 
 	\end{center}
 	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
-%	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by efficiency optimization (right). Dark blue: Verb patterner \emph{precedes} object patterner(English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...) .}\label{fig:per-lang}
 \end{figure}
 
 \subsection{Regression for Predicted Correlations}
@@ -858,10 +752,6 @@ The frequentist analysis agrees with the Bayesian model; all eight correlations 
 
 Note that the Bayesian analysis  also estimates a posterior distribution of the number of satisfied correlations (see Figure~\ref{fig:posterior}), providing an elegant solution to the multiple-comparisons problem arising from analysing the eight correlation.
 
-% and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
-
-
-%We obtained qualitatively equivalent results for analyses on the levels of individual relations when estimating frequentist models individually for each correlation using \texttt{lme4} \cite{bates2015fitting} and obtaining $p$-values from the resulting fit: For all eight correlations, the sign of $\alpha$ was positive ($p < 0.05$).
 
 
 \begin{table}
@@ -938,20 +828,6 @@ Efficiency predicts all eight correlations with high posterior probability; pred
 \end{figure}
 
 
-%\begin{figure}
-%    \centering
-%    
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-langmod-best.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-parse-best.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-two-lambda09-best.pdf}
-%    
-%    
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-ground.pdf}
-%    \includegraphics[scale=.25]{../results/correlations/figures/coverage-depl.pdf}
-%	\caption{Correlations satisfied by the best word order grammars for predictability, parseability, efficiency, by the UD languages, and by the best grammars for dependency length.}
-%    \label{fig:posterior-prevalence}
-%\end{figure}
-
 
 
 \subsection{Results on all UD Relations}
@@ -965,16 +841,9 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 
 
 
-%We also report results for grammars optimized for Dependency Length Minimization (DLM), which has been argued to be a property of efficient word order, and which we find to be predicted by efficiency optimization (see Section~\ref{sec:DLM}).
-%In line with this idea, our results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization.
-%These results suggest that it is in part through favoring short dependencies that efficiency predicts word order universals, an idea that has been proposed in prior theoretical studies \citep{hawkins1994performance, hawkins2004efficiency}.
-%%Previous theoretical studies arguing for efficiency explanations of word order universals have already suggested that principles akin to DLM explain the Greenberg correlations ; our results provide the first large-scale empirical confirmation of this idea, and show that this can be reduced to efficiency optimization.
-%See Section~\ref{sec:DLM} for further discussion.
-%
 
 
-
-\begin{table*} % TODO figure out away to make this table more aesthetic
+\begin{table*} 
 	\begin{center}	
 \includegraphics[width=0.8\textwidth]{si-table-perrel-1a-1.png}
 \end{center}
@@ -983,67 +852,15 @@ The first section contains the eight correlations discussed in the main paper (S
 The `Real' column provides the prevalence among the 51 languages in the Universal Dependencies data.
 We provide posterior prevalences for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone, obtained from the Bayesian mixed-effects analysis controlling for languages and language families (as in Table 2 of the main paper).
 In the last column, we indicate what prevalence is expected according to the typological literature. 
-%We additionally report results obtained when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion of DLM and its relation to efficiency. 
 }
 \label{tab:all-predictions-1}
 \end{table*}
 
 
 
-%
-%%posterior_perRelation_Real_conj.pdf         posterior_perRelation_Real_goeswith.pdf     posterior_perRelation_Real_nummod.pdf       
-%%user@user-G751JY:~/grammar-optim/results/correlations$ evince figures/posteriors/posterior_perRelation_Real_csubj.pdf 
-%%user@user-G751JY:~/grammar-optim/results/correlations$ 
-%
-%\begin{table*} % TODO figure out away to make this table more aesthetic
-%	\begin{center}	
-%\small{
-%\begin{tabular}{l|l|l|l|ll|l|l|llllllllllllllllllllllllllll}
-%	\hline
-%&	Relation & Real & DLM & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
-%% From Dryer	
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&	lifted\_case  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_case.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_case.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&	lifted\_cop  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cop.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_cop.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}&	aux\footnotemark  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_aux.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_aux.pdf}  & $<50\%$ \citep{dryer1992greenbergian} \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}&	nmod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nmod.pdf}  & $>50\%$ \citep{dryer1992greenbergian} \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}&	acl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_acl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_acl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_acl.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_acl.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_acl.pdf}   & $>50\%$  \citep{dryer1992greenbergian} \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}&	lifted\_mark  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_mark.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_mark.pdf} & $> 50 \%$ \citep{dryer1992greenbergian}  \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}&	obl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_obl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_obl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_obl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_obl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_obl.pdf}  & $>50\%$ \citep{dryer1992greenbergian} \\
-%\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}&	xcomp  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_xcomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_xcomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_xcomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_xcomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_xcomp.pdf}  & $>50\%$ \citep{dryer1992greenbergian} \\
-%%\hdashline
-%
-%\hline
-%% Other universals, not in Dryer
-%&advcl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_advcl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_advcl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_advcl.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_advcl.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_advcl.pdf}   & $>50\%$ \citep{greenberg1963universals,diessel2001ordering} \\
-%&ccomp  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_ccomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_ccomp.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_ccomp.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_ccomp.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_ccomp.pdf}   & $>50\%$ (cf. \cite{dryer1980positional}) \\ % TODO According to Dryer 1980, there is a correlation
-%&csubj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_csubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_csubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_csubj.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_csubj.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_csubj.pdf}   & $>50\%$ (cf. \cite{dryer1980positional}) \\% TODO According to Dryer 1980, there is a correlation
-%&nsubj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nsubj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nsubj.pdf}  & See Section~\ref{sec:correlations} \\
-%&amod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_amod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_amod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_amod.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_amod.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_amod.pdf}   &  $\approx 50\%$ \citep{dryer1992greenbergian} \\
-%&nummod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_nummod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_nummod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_nummod.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_nummod.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_nummod.pdf}   &$\approx 50\%$ \citep[][89A, 83A]{wals} \\ 
-% \hline
-%%comp. &
-%%\multirow{3}{*}{NP}&
-%%	AP &
-%\end{tabular}
-%}
-%
-%\end{center}
-%\caption{Predictions on UD relations with predictions from the typological literature. The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available. In the last column, we indicate what direction would be expected typologically.}
-%\label{tab:all-predictions-1}
-%\end{table*}
-%
 
 
-
-
-
-%\footnotetext{Note that we report an \emph{anti-correlation}. The \emph{aux} syntactic relation in UD has the auxiliary (verb-patterner) as its dependent, and has direction \emph{opposite} to the auxiliary-verb relation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}. Therefore, this relation is \emph{anti-correlated} with the verb-object relation, while \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}} is \emph{correlated}.  }
-
-
-
-
-
-\begin{table*} % TODO figure out away to make this table more aesthetic
+\begin{table*} 
 	\begin{center}	
 \includegraphics[width=0.7\textwidth]{si-table-perrel-2a-1.png}  
 \end{center}
@@ -1054,56 +871,6 @@ We provide results for grammars optimized for Efficiency, and for grammars optim
 \end{table*}
 
 
-
-
-
-%
-%\begin{table*} % TODO figure out away to make this table more aesthetic
-%	\begin{center}	
-%\small{
-%\begin{tabular}{|l|l|l|ll|l|l|llllllllllllllllllllllllllll}
-%	\hline
-%	Relation & Real & DLM & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
-%\hline
-%appos  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_appos.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_appos.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_appos.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_appos.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_appos.pdf}   &                                               Unknown \\           
-%lifted\_cc  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_lifted_cc.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_lifted_cc.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_lifted_cc.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_lifted_cc.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_lifted_cc.pdf}   &                  Unknown \\          
-%expl  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_expl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_expl.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_expl.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_expl.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_expl.pdf}   &                                                        Unknown \\         
-%iobj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_iobj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_iobj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_iobj.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_iobj.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_iobj.pdf}   &                                                        Unknown \\     
-%vocative  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_vocative.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_vocative.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_vocative.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_vocative.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_vocative.pdf}   &                            Unknown \\ 
-%
-%\hline
-%% Uninterpretable
-%compound  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_compound.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_compound.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_compound.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_compound.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_compound.pdf}   &                       Uninterpretable \\        
-%det  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_det.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_det.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_det.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_det.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_det.pdf}   &                                                    Uninterpretable \\        
-%dislocated  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_dislocated.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_dislocated.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_dislocated.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_dislocated.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_dislocated.pdf}   &             Uninterpretable \\               
-%dep  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_dep.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_dep.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_dep.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_dep.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_dep.pdf}   &                                                 Uninterpretable \\
-%advmod  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_advmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_advmod.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_advmod.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_advmod.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_advmod.pdf}   &                                         Uninterpretable \\ 
-%
-%\hline
-%% UD artifacts
-%conj  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_conj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_conj.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_conj.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_conj.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_conj.pdf}   &                                                      UD Artifact \\
-%discourse  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_discourse.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_discourse.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_discourse.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_discourse.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_discourse.pdf}   &                 UD Artifact \\ 
-%fixed  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_fixed.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_fixed.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_fixed.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_fixed.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_fixed.pdf}   &                                             UD Artifact \\ 
-%flat  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_flat.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_flat.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_flat.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_flat.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_flat.pdf}   &                                                      UD Artifact \\
-%goeswith  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_goeswith.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_goeswith.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_goeswith.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_goeswith.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_goeswith.pdf}   &                          UD Artifact \\
-%list  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_list.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_list.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_list.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_list.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_list.pdf}   &                                                      UD Artifact \\
-%orphan  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_orphan.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_orphan.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_orphan.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_orphan.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_orphan.pdf}   & UD Artifact \\                                        
-%parataxis  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_parataxis.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_parataxis.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_parataxis.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_parataxis.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_parataxis.pdf}   &                 UD Artifact \\   
-%reparandum  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Real_reparandum.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_DependencyLength_reparandum.pdf}   &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Predictability_reparandum.pdf}  &   \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Parseability_reparandum.pdf}  &  \includegraphics[width=0.06\textwidth]{../results/correlations/figures/posteriors/posterior_perRelation_Efficiency_reparandum.pdf}   &                UD Artifact \\          
-%
-% \hline
-%%comp. &
-%%\multirow{3}{*}{NP}&
-%%	AP &
-%\end{tabular}
-%}
-%
-%\end{center}
-%\caption{Predictions on UD relations for which no predictions are available in the typological literature.  ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).}
-%\label{tab:all-predictions-2}
-%\end{table*}
-%
-%
 
 
 
@@ -1138,7 +905,6 @@ Giving similar weight to parseability and predictability -- that is, $\lambda$ c
 
 
 
-%\section{Joint optimization of grammar, parser, and language model parameters}
 \section{Creating Optimized Grammars}
 
 In this section, we describe the method we employ for creating grammars that are optimized for efficiency, and how we extract grammars describing the actual ordering rules of languages.
@@ -1167,10 +933,7 @@ In this case, the grammar can be converted into an equivalent grammar of the for
 We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar parameters for the relations in Figure 3 of the main paper.
 Note that the grammatical formalism simplifies some aspects of the word order regularities of natural languages.
 For instance, it does not represent cases where ordering varies between main and embedded clauses, as it does not condition ordering decisions on the larger context.
-%Our method extracts the most frequent ordering and applies it throughout all 
 More complex and powerful ordering grammar models have been proposed \cite{futrell2015experiments, wang2016galactic}; however, they have similar limitations, and for our purposes, the model adopted here has the advantage of being simple and interpretable.
-%There currently is no grammatical formalism that is at the same time capable of representing the full range of word order regularities that are found, 
-%\cite{futrell2015experiments}
 
 
 
@@ -1210,7 +973,6 @@ The grammars we extracted from the corpora agree with WALS in 96~\%  of these ca
 \small{
 \begin{center}
 \begin{tabular}{l||ll|ll|ll|ll|ll|ll|llllll}
-%	   for(dep in c("obj", "lifted_mark", "acl", "nmod", "obl")) {
 		   Language 
 		   &	\multicolumn{2}{c|}{Objects} 
 		   &	\multicolumn{2}{c|}{Adpositions} 
@@ -1257,11 +1019,6 @@ The degree to which a parser with parameters $\phi$ succeeds in parsing a senten
 \begin{equation}
 	R_{Pars}^{\phi}(u,t) =  \log p_\phi(t|u).
 \end{equation}
-%and we can write
-%\begin{equation}
-%	R_{Pars}^\phi := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) R_{Pars}^{\phi}(u,t)
-%\end{equation}
-%
 A \key{language model}, with some parameters $\psi$, calculates the word-by-word surprisal of an utterance:
 \begin{equation}
 	R_{Pred}^{\psi}(u) = \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1}).
@@ -1274,36 +1031,6 @@ where we have written
 \begin{equation}
 R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_{t \sim \mathcal{T}} \E_{u \sim p_{\mathcal{L}_\theta}(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right].
 \end{equation}
-%
-%The parsers and language models appropriate to a tree distribution $\tree$ and a differentiable ordering grammar $\mathcal{L}_\theta$ are the ones minimizing parsing loss and surprisal:
-%\begin{equation}
-%\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
-%\end{equation}
-%\begin{equation}
-%\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
-%\end{equation}
-%
-%Using these models, we can rewrite 
-%\begin{equation}
-%R_{Pars}^{\psi(\theta)}= \E_t \E_{u \sim p_\theta(u|t)} R_{Pars}^{\psi(\theta)}(u,t) 
-%\end{equation}
-%where $R_{Pars}(u,t) = \log \frac{p_\phi(t|u)}{p(t)}$, and $p_\theta(u|t)$ is the probability assigned to sentence $u$ by the distribution $\mathcal{L}_\theta(t)$ defined by the differentiable word order grammar $\mathcal{L}_\theta$,
-%and
-%\begin{equation}
-%R_{Pred} = \E_t \E_{u \sim p_\theta(u|t)} R_{Pred}(u)
-%\end{equation}
-%where $R_{Pred}(u) = \log p_\psi(u)$.
-%Therefore, we can rewrite efficiency as
-%\begin{equation}\label{eq:efficiency}
-%R_{\textit{Eff}}^\theta := \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi(\theta)}(u,t) + \lambda R_{Pred}^{\psi(\theta)}(u)\right]
-%\end{equation}
-%Directly applying gradient descent to this expression is hard due to the complicated dependence of $\phi(\theta), \psi(\theta)$ on $\theta$.
-%
-%However, we can rewrite
-%\begin{equation}\label{eq:efficiency}
-%\argmax_\theta\	R_{\textit{Eff}}^\theta 
-%\end{equation}
-%equivalently into
 In order to find an optimal grammar $\theta$, we thus need to compute 
 \begin{equation}\label{eq:efficiency}
 \argmax_\theta\	R_{\textit{Eff}}^{\theta} = \argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} 
@@ -1335,130 +1062,12 @@ See Section~\ref{sec:neural-architectures}, paragraph `Optimization Details' for
 
 
 
-%
-%%(analogous for $R_{Pars}$ instead of $R_{Pred}$)
-%\begin{equation}\label{eq:estimator}
-%{ \partial_\theta \left(\log P_{L_\theta}({\bf w}|t)\right) \cdot R^\phi_{Pred} (t; {\bf w}) \choose  \partial_\phi R_{Pred}^\phi(t; {\bf w})}
-%%{- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot R_{Pred}(\bf{w}, \thetal) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}
-%\end{equation}
-%%$${- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i}) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}$$
-%for the gradient
-%$${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
-%This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
-%
-
-
-%
-%
-%Let $T$ be a distribution over unordered dependency trees and let $L_\theta$ be a differentiable word order grammar. Our goal is to find parameters $\theta$ which maximize an objective function $J$ in expectation over utterances:
-%\begin{equation}
-%\label{eq:exp-over-utts}
-%J_T(\theta) = \E_{t \sim T} \E_{\mathbf{w} \sim \mathcal{L}_\theta(t)} [R(t; \mathbf{w})], % TODO make the expectations look better!!
-%\end{equation}
-%where the function $R$ specifies a score for an individual utterance $\mathbf{w}$ expressing a tree $t$. In practice, $T$ will be the empirical distribution over unordered trees observed in a dependency treebank.
-%Below we discuss possible values of $R$, which may implement predictability, parseability, or a weighted combination of the two, representing overall efficiency.
-%
-%
-%
-%We formalize predictability as follows. Given a language model $P_\phi$ with parameters $\phi$, the log probability of a sentence ${\bf w}$ is:
-%\begin{equation*}
-%R_{Pred}^\phi(t; {\bf w}) = \sum_{i=1}^{\#{\bf w}} \log P_\phi(w_{i+1}|w_{1\dots i}),
-%\end{equation*}
-%where the language model parameters $\phi$ are chosen predict the language induced by tree distribution $T$ and word order grammar $\mathcal{L}_\theta$ as accurately as possible (maximizing predictability):
-%\begin{equation*}
-%	\phi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R^\phi_{Pred}({\bf w}, \phi) ].
-%\end{equation*}
-%
-%
-%We specify parseability as the mutual information between strings and trees, or equivalently the quantity of information provided by strings about trees. Formally, we say the parseability score of an utterance $\mathbf{w}$ is the pointwise mutual information of the $\mathbf{w}$ and the tree $t$ it was generated from, calculated using a parser with parameters $\psi$:\footnote{Note that $P(t)$ is a constant term which will be ignored in the optimization process.}
-%\begin{align}
-%\nonumber
-%R_{Pars}^\psi(t; {\bf w}) &= \log \frac{P_\psi (t|\mathbf{w})}{P(t)} \\
-%\nonumber
-%&= \displaystyle \sum_{i=1}^{\#\mathbf{w}} \log P_\psi\left(\begin{array}{@{}l@{}}head(w_{i}) \\ label(w_i)\end{array}{\big |}\textbf{w}\right) - \log P(t),
-%\end{align}
-%where the parser parameters $\psi$ are chosen to maximize parsing accuracy:
-%\begin{equation*}
-%\psi(\theta) = \argmax_\phi \displaystyle \E_{t \sim T} \E_{{\bf w} \sim L_\theta(t)} [ R_{Pars}({\bf w}, \psi) ].
-%\end{equation*}
-%
-%For efficiency, we linearly combine the two terms:
-%\begin{equation}
-%\label{eq:combined-score}
-%R_{Efficiency}^{\phi,\psi}(t; {\bf w}) = R_{Pars}^\psi(t; {\bf w}) + \lambda R_{Pred}^\phi(t; {\bf w}),
-%\end{equation}
-%
-%
-%%\begin{equation}
-%%    \label{eq:depl}
-%%	R_{DepL}(t; {\bf w}) = -\sum_{i=1}^{\# {\bf w}} |i - head(t; w_i)|,
-%%\end{equation}
-%%where $head(t; i) \in \{1, ..., n\}$ is the index of the head of $w_i$, and the sum is negative because dependency length is seen as a cost. 
-%
-%For each of our objective functions, we seek parameters $\theta$ of a word order grammar $\mathcal{L}_\theta$ that maximize the average utility of sentences in the language obtained by linearizing unordered trees $t \sim T$ according to $\mathcal{L}_\theta$. The calculation of the predictability and parseability objectives also requires fitting language models parameterized by $\phi$ and parsers parameterized by $\psi$, respectively; and the calculation of the efficiency objective requires joint optimization of the word order grammar, language models, and parsers. The optimization problems come out to:
-%\begin{align}
-%%\max_\theta &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{DepL}(t; {\bf w}) \label{eq:maximize-depl}\\
-%\max_{\theta,\phi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pred}^{\phi(\theta)}(t; {\bf w}) \label{eq:maximize-pred}\\
-%\max_{\theta,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Pars}^{\psi(\theta)}(t; {\bf w}) \label{Eq:maximize-pars} \\
-%\max_{\theta,\phi,\psi} &\E_{t \sim T}\E_{{\bf w} \sim L_\theta(t)} R_{Efficiency}^{\psi(\theta), \phi(\theta)}(t; {\bf w}). \label{eq:maximize-efficiency} 
-%\end{align}
-%Note that the original word orders from the treebank never enter this objective---in particular, they do not influence the language model and the parser, which are entirely determined by $\theta$.
-%
-%
-%%The case of predictability, parseability, and efficiency are more challenging, as 
-%%e need to simultaneously look for an ordering model optimized for the loss of a language model and/or a parser, and for a language model and/or parser that are optimized for that given ordering model.
-%We solve Eqs.~\ref{eq:maximize-pred}--\ref{eq:maximize-efficiency} by performing stochastic gradient descent over all sets of parameters $\theta, \phi$, and/or $\psi$ simultaneously.
-%Below we discuss the process only for the predictability objective (Eq.~\ref{eq:maximize-pred}); the other objectives are optimized analogously.
-%
-%We initialize all values $a_\tau := 0.5$, $b_\tau := 0$ (except for the \emph{obj} dependency, for which we fix $a_\tau$ to 0 or 1, see Section).
-%
-%In each optimization step, we sample a dependency tree $t$ from the treebank, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim P_{L_\theta}(\cdot|t)$.
-%Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
-%do a gradient descent step using the estimator %(analogous for $R_{Pars}$ instead of $R_{Pred}$)
-%\begin{equation}\label{eq:estimator}
-%{ \partial_\theta \left(\log P_{L_\theta}({\bf w}|t)\right) \cdot R^\phi_{Pred} (t; {\bf w}) \choose  \partial_\phi R_{Pred}^\phi(t; {\bf w})}
-%%{- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot R_{Pred}(\bf{w}, \thetal) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}
-%\end{equation}
-%%$${- \partial_\thetad \left(\log P_\thetad({\bf w})\right) \cdot \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i}) \choose  - \partial_\thetal \sum_{i=1}^{\#{\bf w}} \log P_\thetal(w_{i+1}|w_{1\dots i})}$$
-%for the gradient
-%$${ \partial_\theta \choose \partial_\phi} \E_{{\bf w'} \sim L_\theta(t)} R_{Pred}^\phi(t; {\bf w'}).$$
-%This unbiased estimator is the ordinary gradient estimator for $\phi$, and the REINFORCE estimator for $\theta$ \citep{williams1992simple}.
-%
-%See Section~\ref{sec:neural-architectures} for the stopping criterion and learning rates.
-%
-
-
-%The case of dependency length in Eq.~\ref{maximize-depl} is the simplest, requiring only coordinate descent on the parameters $a_\tau, b_\tau \in \theta$. A similar optimization problem was solved by hill-climbing in \citet{gildea2007optimizing} and \citet{gildea2015human}.
-%We optimize this objective by stochastic gradient descent with a batch size of one unordered dependency tree.
-
-
-
-%In addition, we estimated maximum-likelihood ordering grammars on the original ordered dependency trees with SGD. For nonprojective trees, we ignore discontinuities.
-%and $\ell_2$ regularization.
-
-%A different commonly considered information-theoretic objective function for word order is Uniform Information Density~\citep{jaeger2010redundancy}, formalized as minimizing a superlinear function of per-word surprisal~\citep{levy:2018cogsci}.
-%Note that optimizing grammars for this objective faces additional challenges, as the optimization problem cannot be rewritten as joint optimization in the form (\ref{eq:maximize-pred}).
-%We thus do not evaluate this objective function here.
-
-
-
-
-%We extract grammars for the actual languages using a Bayesian data analysis method.
-%We specify a simple Bayesian prior over differentiable ordering grammars:
-%$$logit(a_\tau) \sim \mathcal{N}(0,1),\ \ \ \ b_\tau \sim \mathcal{N}(0,1)$$
-%for each $\tau$.
-%Recall that, given a syntactic structure, a differentiable ordering grammar assigns a probability distribution over possible orderings.
-%We extract 
-
-
 \section{Neural Network Architectures}\label{sec:neural-architectures}
 
 In this section, we describe the details of the neural network architectures.
 Choices follow standard practice in machine learning.
 All choices, except where explicitly noted otherwise, were made before evaluating word order properties, and the efficiency of real grammars.
 
-%\paragraph{Locality}
-%In Equation~\ref{eq:depl}, we assume that $head(w_i) = i$ iff $w_i$ is the root of the sentence, so that the root does not contribute to dependency length.
 
 \paragraph{Estimating Predictability}
 We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}, as such recurrent neural models are the strongest known predictors of the surprisal effect on human processing effort~\cite{frank2011insensitivity,goodkind2018predictive}.
@@ -1481,13 +1090,6 @@ Given the moderate size of the corpora, this limit is only attained only for few
 In each time step, the input is a concatenation of embeddings for the word, for language-specific POS tags, and for universal POS tags.
 The model predicts both the next word and its POS tags in each step.
 Using POS tags is intended to prevent overfitting on small corpora.
-
-%\begin{equation}\label{eq:rpars}
-%	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
-%\end{equation}
-%\begin{equation}
-%	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p(u)
-%\end{equation}
 
 
 
@@ -1547,8 +1149,6 @@ We do not use pretrained embeddings \citep{peters2018deep}; while these could im
 
 \paragraph{Improved Unbiased Gradient Estimator}
 We employ two common variance reduction methods to improve the estimator~(\ref{eq:dtheta}), while keeping it unbiased.
-%For dependency length and 
-% (and its head, in the case of dependency length)
 For predictability, note that the surprisal of a specific word only depends on the preceding words (not on the following words), and thus only depends on ordering decisions made up to that word.
 We represent the process of linearizing a tree as a dynamic stochastic computation graph, and use these independence properties to apply the method described in \citet{schulman2015gradient} to obtain a version of~(\ref{eq:dtheta}) with lower variance.
 Second, we use a word-dependent moving average of recent per-word losses (the word's surprisal in the case of predictability, and the negative log-probability of the correct head and relation label in the case of parseability) as control variate \cite{williams1992simple}.
@@ -1575,8 +1175,6 @@ For \key{optimizing grammars}, we jointly apply gradient descent to the grammar 
 For Early Stopping, we evaluate on the held-out set in intervals of 50,000 sentences, using a Monte-Carlo estimate of $R_{\textit{Eff}}^{\theta, \phi, \psi}$ (\ref{eq:efficiency-rewrite}), sampling a single linearized sentence for each syntactic structure in the held-out set.
 When reporting the parseability/predictability of an optimized grammar, we evaluate these values for its fully deterministic version (Section~\ref{sec:diff-gramm}) to allow fair comparison with baseline grammars.
 
-%We compute a Monte-Carlo estimate of the objective on the UD development set in intervals of 50,000 training steps, and stop optimization once the value of the objective deteriorates compared to the last previous estimate.
-%This is a standard technique for optimizing neural models, and helps prevent overfitting to the specific corpora used.
 
 The choice of optimization methods and the stopping criterion were fixed before we investigated language efficiency or word order correlations.
 
@@ -1590,7 +1188,6 @@ We did this in order to control for possible variation across random seeds for t
 As described in our preregistration \url{http://aspredicted.org/blind.php?x=ya4qf8}, this choice was made after conducting a preliminary version of Study 2 reported in Section~\ref{sec:previous-exps}; results reported there show qualitatively identical results regarding the prediction of the eight word order correlations by efficiency optimization.
 
 
- % TODO we could use some language at the top of this section on the general guiding principles for all these decisions. Were these implementation decisions made before or after looking at the word order universals results? If they were made before, we should highlight that.
 
 
 \section{Robustness to different language models and parsers}
@@ -1630,8 +1227,6 @@ Second, while the graph-based neural parser uses machine learning to induce synt
 
 We used the CKY algorithm to compute the syntactic ambiguity $\operatorname{H}[\tree|\utterance]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
 Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable than baseline grammars, for exact parsing of a simple PCFG.
-% TODO get UAS for compatibility with other parts of SI
-%We then compared parsability of random and optimized word order grammars on English data.
 
 
 \begin{figure}
@@ -1650,10 +1245,7 @@ In this section, we address the idea that the graph-based parser might have a bu
 In particular, we address the idea that the graph-based parser might have a bias toward parses involving short dependencies, which we call a \key{locality bias}. 
 We address this by changing the order in which the parser sees words, in such a way that the distance between words in the input is not indicative of syntactic relations.
 
-%In particular, this allows us to show tha
 
-%Many of the word order biases explained by parseability in Table~\ref{tab:result-dryer} are also explained by dependency length minimization. Therefore, we address here the idea that the graph-based parser might have a built-in bias toward parses involving short dependencies, which we call a \key{locality bias}.
-%A simple way to eliminate or alter a locality bias for any parser would be to change the order in which the parser sees words. Suppose that a parser $P$ has a bias toward positing a dependency between a word and the immediate previous word. 
 
 
 \paragraph{Even--odd order.} A sequence of $n$ words originally ordered as $w_1 w_2 w_3 w_4 \cdots w_n$ is reordered by separating the even and odd indices: $w_2 w_4 w_6 \cdots w_{n-1} w_1 w_3 w_5 \cdots w_n$ (assuming $n$ odd). Therefore all words that are adjacent in the original order will be separated by a distance of $\approx n/2$ in the distorted order, while all words of distance 2 in the original order will become adjacent.
@@ -1684,7 +1276,6 @@ The result is that distance between words in the input is not indicative at all 
 Using English and Japanese data, we trained parsers for ten random word order grammars and for the best grammar optimized for efficiency, with the input presented in each of the distorted orderings.
 Resulting parsing scores are shown in Figure~\ref{fig:distorted-parser}.
 In all settings, the language optimized for efficiency achieved lower parsing loss (i.e., higher parseability) than random ordering grammars, showing that the parser's preference for optimized languages cannot be attributed to a locality bias.
-%Note that absolute values of parsing accuracy vary between the orderings, being higher for the actual orderings than for distorted orderings, in which trees become nonprojective.
 
 \begin{figure}
     \centering
@@ -1728,23 +1319,49 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 \subsection{Lexicalized Models}
 
+
+TODO explain.
+Here we replicate Study 1.
+We 
+
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
-	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}
+\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized-mle.pdf}
+	\caption[Predictability and Parseability]{Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}
 \end{figure}
 
+
+\begin{table}
+\centering
+\small{
+\begin{tabular}{l||ll|lll|lll}
+Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
+&  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
+\input{../results/plane/unlexicalized/per-language-statistics-unlexicalized.tex}
+\end{tabular}
+}
+	\caption{Study 1, replication with lexicalized models: Per-language results in Study 1, with \emph{lexicalized} parsers and word-level-only language models. Compare Table~\ref{fig:pareto-per-lang-stats}}
+\end{table}
+
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda-mle.pdf}
+	\caption{Study 1, replication with lexicalized models: Optimality by $\lambda$ (lexicalized models).}
+\end{figure}
+
+
 \subsection{Original UD Format}
+
+We replicate the comparison between real and random grammars in Study 1.
+
+
 
 \subsection{Nondeterministic Baseline Grammars}
 
 
 
 
-
-%\subsection{Discussion}
-%
-%It is always a logical possibility in studies such as this one that the results are dependent on the particular probabilistic models used. 
 
 \section{Effects of data sparsity}
 
@@ -1776,12 +1393,6 @@ This shows that the observed efficiency differences between grammars cannot be a
 
 
 
-
-
-
-%\section{Comparing Extracted Grammars to Linguistic Judgments}
-
-% user@user-X510UAR:~/grammar-optim/results/grammars$ git add comparison-table.tex 
 
 
 
@@ -1833,14 +1444,14 @@ Optiziming grammars for efficiency produces dependency lengths similar to those 
 
 \begin{figure}[ht]
     \centering
-     \includegraphics[width=0.5\textwidth]{depl-violin-all-1.png} % ../results/dependency-length/figures/depl-violin-all.pdf 
+     \includegraphics[width=0.5\textwidth]{depl-violin-all-1.png} 
         \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the mean points for each of the 51 languages in our sample.}
     \label{fig:dlm-avg}
 \end{figure}
 
 \begin{figure}[ht]
     \centering
-	\includegraphics[width=0.9\textwidth]{depLength-facet-1.png} %../results/dependency-length/figures/depLength-facet.pdf} 
+	\includegraphics[width=0.9\textwidth]{depLength-facet-1.png} 
         \caption{Total dependency length as a function of sentence length, for four diverse languages. We show results for optimized grammars (parseability, predictability, efficiency), for grammars specifically optimized to minimize dependency length, of the actual real orderings, and of the baseline grammars.}
     \label{fig:dlm-4langs}
 \end{figure}
@@ -1855,7 +1466,7 @@ However, it predicts strong correlations with \textit{amod} (adjectival modifier
 In these cases, efficiency optimization predicts prevalences closer to 50\%, in line with typological data.
 
 
-\begin{table}[ht] % TODO figure out away to make this table more aesthetic
+\begin{table}[ht] 
 	\begin{center}	
 \includegraphics[width=0.7\textwidth]{si-table-perrel-1b-1.png}
 \end{center}
@@ -1873,51 +1484,6 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 
 
 
-
-%
-%We also report results for grammars optimized for Dependency Length Minimization (DLM), which has been argued to be a property of efficient word order, and which we find to be predicted by efficiency optimization (see Section~\ref{sec:DLM}).
-%In line with this idea, our results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization.
-%These results suggest that it is in part through favoring short dependencies that efficiency predicts word order universals, an idea that has been proposed in prior theoretical studies \citep{hawkins1994performance, hawkins2004efficiency}.
-%%Previous theoretical studies arguing for efficiency explanations of word order universals have already suggested that principles akin to DLM explain the Greenberg correlations ; our results provide the first large-scale empirical confirmation of this idea, and show that this can be reduced to efficiency optimization.
-%See Section~\ref{sec:DLM} for further discussion.
-%
-%
-%
-%
-%\begin{table*} % TODO figure out away to make this table more aesthetic
-%        \begin{center}
-%\includegraphics[width=0.8\textwidth]{si-table-perrel-1a-1.png}
-%\end{center}
-%\caption{Predictions on UD relations with predictions from the typological literature.
-%The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
-%In the last column, we indicate what direction would be expected typologically.
-%We additionally report results obtained when optimizing for Dependency Length Minimization (DLM), a heuristic approximation to efficiency that has been suggested in previous work. See Section~\ref{sec:DLM} for further discussion of DLM and its relation to efficiency. }
-%\label{tab:all-predictions-1}
-%\end{table*}
-%
-%
-%
-%
-
-
-
-%Further, we report results for grammars optimized for dependency length minimization (DLM, see Section~\ref{sec:DLM}).
-%Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
-%Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
-%Indeed, we found that DLM is predicted by efficiency optimization, as reported in Discussion (Main Paper).
-%In line with these ideas, we show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
-
-
-%Following \cite{futrell2015largescale}, we formalize the dependency length of a sentence as the sum of the distances of all pairs of syntactically related words, where distance is measured by the number of intervening words.
-%We optimize grammars using the same stochastic gradient descent method as we use for efficiency optimization (Section ).
-%Indeed, we found that DLM is predicted by efficiency optimization, as discussed in Section .
-%Results in Table~\ref{tab:all-predictions-1} show that optimizing for DLM makes predictions similar to efficiency optimization, itself a novel result.
-
-
-
-
-
-%DLM turns out to be predicted by our model
 
 
 \section{Simulation for Parseability and Correlating Orders}
@@ -1969,75 +1535,5 @@ Results are shown in Figure~\ref{fig:toy-parseability}. For almost all parameter
 \end{document}
 
 
-
-
-
-\begin{table*} % TODO figure out away to make this table more aesthetic
-	\begin{center}	
-\small{
-\begin{tabular}{|l|l|l|ll|l|l|}
-	\hline
-	Relation & Real & DepL & Pred & Pars & Efficiency & Expected Prevalence  \\ \hline
-% From Dryer	
-acl  &  80   &   \textbf{85}$^{***}$   &   43   &   \textbf{82}$^{***}$   &   \textbf{71}$^{***}$  & $>50\%$  \citep{dryer1992greenbergian} \\
-aux  &  12   &   \textbf{26}$^{***}$   &   \textbf{19}$^{***}$   &   49   &   \textbf{35}$^{**}$  & $<50\%$ \citep{dryer1992greenbergian} \\
-lifted\_case  &  86   &   \textbf{81}$^{***}$   &   \textbf{40}$^{**}$   &   \textbf{77}$^{***}$   &   \textbf{67}$^{***}$ & $> 50 \%$ \citep{dryer1992greenbergian}  \\
-lifted\_cop  &  94   &   \textbf{80}$^{***}$   &   59   &   \textbf{72}$^{***}$   &   \textbf{63}$^{**}$  & $> 50 \%$ \citep{dryer1992greenbergian} \\
-lifted\_mark  &  76   &   \textbf{85}$^{***}$   &   \textbf{57}$^{*}$   &   \textbf{76}$^{***}$   &   \textbf{72}$^{***}$  & $> 50 \%$ \citep{dryer1992greenbergian} \\
-nmod  &  80   &   \textbf{82}$^{***}$   &   49   &   \textbf{71}$^{***}$   &   \textbf{68}$^{***}$  & $> 50 \%$ \citep{dryer1992greenbergian} \\ 
-obl  &  88   &   \textbf{78}$^{***}$   &   \textbf{71}$^{***}$   &   46   &   \textbf{68}$^{***}$  &  $> 50 \%$ \citep{dryer1992greenbergian} \\
-xcomp  &  88   &   \textbf{90}$^{***}$   &   \textbf{76}$^{***}$   &   \textbf{89}$^{***}$   &   \textbf{85}$^{***}$  &  $> 50 \%$ \citep{dryer1992greenbergian} \\
-\hdashline
-nsubj  &  33   &   \textbf{29}$^{***}$   &   53   &   \textbf{7}$^{***}$   &   \textbf{23}$^{***}$  & $> 50 \%$ \citep{dryer1992greenbergian} \\
-
-\hline
-% Other universals, not in Dryer
-advcl  &  86   &   \textbf{84}$^{***}$   &   51   &   \textbf{67}$^{***}$   &   \textbf{67}$^{*}$  & $>50\%$ \citep{greenberg1963universals,diessel2001ordering} \\
-ccomp  &  86   &   \textbf{88}$^{***}$   &   \textbf{70}$^{**}$   &   \textbf{77}$^{***}$   &   \textbf{77}$^{**}$ & $>50\%$ (cf. \cite{dryer1980positional}) \\ % TODO According to Dryer 1980, there is a correlation
-csubj  &  79   &   \textbf{78}$^{***}$   &   60   &   \textbf{66}$^{***}$   &   \textbf{68}$^{**}$  & $>50\%$ (cf. \cite{dryer1980positional}) \\% TODO According to Dryer 1980, there is a correlation
-amod  &  51   &   \textbf{84}$^{***}$   &   42   &   \textbf{53}$^{*}$   &   51   & $\approx 50\%$ \citep{dryer1992greenbergian} \\
-nummod  &  37   &   \textbf{74}$^{**}$   &   49   &   52   &   52 & $\approx 50\%$ \citep[][89A, 83A]{wals} \\ % 
-
-\hline
-% Typological data not available
-appos  &  77   &   \textbf{77}$^{***}$   &   49   &   \textbf{67}$^{***}$   &   \textbf{62}$^{**}$ &  Unknown \\%($>50\%$? correlates with \textit{nmod} according to Greenberg U 23)  \\ % \cite{cinque2009greenberg} claims it correlates with OV/VO. However, it's not clear to me how closely appos matches the subject of the typological claim
-lifted\_cc  &  71   &   \textbf{83}$^{***}$   &   51   &   \textbf{81}$^{***}$   &   \textbf{71}$^{***}$  & Unknown \\
-expl  &  12   &   36   &   62   &   40   &   53  & Unknown \\
-iobj  &  74   &   49   &   \textbf{78}$^{***}$   &   \textbf{38}$^{*}$   &   62  & Unknown \\
-vocative  &  46   &   \textbf{42}$^{*}$   &   59   &   45   &   \textbf{45}$^{*}$  & Unknown \\
-
-\hline
-% Uninterpretable
-compound  &  66   &   \textbf{61}$^{*}$   &   48   &   \textbf{58}$^{*}$   &   52  & Uninterpretable \\
-det  &  31   &   \textbf{71}$^{***}$   &   \textbf{56}$^{*}$   &   48   &   54  & Uninterpretable \\%$.50\%$ for articles, $\approx 50\%$ for others, \citep{dryer1992greenbergian} \\
-dislocated  &  47   &   61   &   \textbf{68}$^{**}$   &   55   &   58  & Uninterpretable \\
-dep  &  56   &   \textbf{64}$^{*}$   &   52   &   58   &   \textbf{58}$^{*}$   & Uninterpretable \\
-advmod  &  35   &   51   &   \textbf{18}$^{***}$   &   47   &   \textbf{39}$^{**}$  & Uninterpretable \\
-
-\hline
-% UD artifacts
-conj  &  72   &   \textbf{82}$^{***}$   &   \textbf{42}$^{**}$   &   \textbf{62}$^{***}$   &   \textbf{59}$^{*}$  & UD artifact  \\
-discourse  &  24   &   \textbf{36}$^{**}$   &   \textbf{41}$^{*}$   &   49   &   46  & UD artifact   \\
-fixed  &  78   &   \textbf{32}$^{***}$   &   45   &   47   &   44  & UD artifact   \\
-flat  &  73   &   \textbf{66}$^{**}$   &   45   &   \textbf{59}$^{**}$   &   54  & UD artifact   \\
-goeswith  &  61   &   57   &   44   &   57   &   52  & UD artifact   \\
-list  &  94   &   59   &   50   &   54   &   52  & UD artifact  \\
-orphan  &  82   &   \textbf{70}$^{**}$   &   50   &   \textbf{55}$^{*}$   &   59  & UD artifact   \\
-parataxis  &  66   &   56   &   43   &   57   &   59  & UD artifact  \\
-reparandum  &  18   &   53   &   57   &   43   &   48  & UD artifact  \\
-
-
- \hline
-%comp. &
-%\multirow{3}{*}{NP}&
-%	AP &
-    \multicolumn{7}{l}{\footnotesize{Significance levels: $^*$: $p < 0.05$, $^{**}$: $p < 0.01$, $^{***}$: $p < 0.001$}}
-\end{tabular}
-}
-
-\end{center}
-\caption{Predictions on all UD relations occurring in more than one language. Numbers are the fraction of languages where the direction of the given relation agrees in direction with the \emph{obj} relation. In the last column, we indicate what direction would be expected typologically. The first section correspond to universals from Dryer. ``Uninterpretable'' UD relations are those which collapse so many different linguistic relationships that they are not linguistically meaningful. ``UD artifact'' relations are those whose order is determined strictly by UD parsing standards, such that their order is not linguistically meaningful: these include dependencies such as the connection between two parts of a word that have been separated by whitespace inserted as a typo (\emph{goeswith}).}
-\label{tab:all-predictions}
-\end{table*}
 
 
