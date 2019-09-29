@@ -424,7 +424,12 @@ Figure 4 in the main paper shows the average of these per-language plots, with a
 
 
 % say this somewhere
-Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work.
+Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work (CITE a few things on large corpora; also cite language modeling work on many small corpora).
+
+
+%TODO
+%$\sum_{t \in C} \log p(t|u) \approx |C| H[P|T]  $
+%$\sum_{t \in C} \sum_{i} \log p(t|u) \approx |C| H[P|T]  $
 
 
 \begin{figure}
@@ -432,6 +437,13 @@ Note that the predictability scores are considerably worse than the state-of-the
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
 \caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. TODO adapt for colorblindness.}\label{fig:pareto-per-lang}
 \end{figure}
+
+
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
+%\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. TODO adapt for colorblindness.}\label{fig:pareto-per-lang}
+%\end{figure}
 
 
 \begin{figure}
@@ -442,12 +454,12 @@ Note that the predictability scores are considerably worse than the state-of-the
 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-arrows-smoothed.pdf}
-\caption[Predictability and Parseability]{Smoothed version with arrows. Is this useful?}\label{fig:pareto-per-lang-arrows}
-\end{figure}
-
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-arrows-smoothed.pdf}
+%\caption[Predictability and Parseability]{Smoothed version with arrows. Is this useful?}\label{fig:pareto-per-lang-arrows}
+%\end{figure}
+%
 
 
 
@@ -459,8 +471,6 @@ We also conducted the analysis using a Binomial test (one-sided), testing whethe
 As before, we used Hochberg's step-up procedure (Note that the tests for different languages are independent, as different random grammars are evaluated for each language), with $\alpha=0.05$.
 In this analysis, real grammars improved in parseability for 80\% of languages, in predictability for 69\% of languages, and in either of both in 92\% of languages ($p<0.05$, with Bonferroni correction).
 In Table~\ref{fig:pareto-per-lang-stats}, we provide per-language results for the $t$-tests and binomial tests.
-
-
 
 
 \begin{table}
@@ -475,7 +485,21 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 \caption{Per-language results in Study 1. For each language, we show the following: (1) $p$-values obtained from a one-sided $t$-test, for the null that the mean predictability/parseability of random grammars is at least as high as that of the real grammar. (2) Results from one-sided binomial tests, for the null that the the real grammar is better than at most $50 \%$ of random grammars. In addition to the $p$-value, we report point estimate and 95\% confidence interval for the fraction of random grammars that have values below real grammars.}\label{fig:pareto-per-lang-stats}
 \end{table}
 
-
+%
+%
+%\begin{table}
+%\centering
+%\small{
+%\begin{tabular}{l||ll|lll|lll}
+%Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
+%&  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
+%\input{../results/plane/per-language-statistics.tex}
+%\end{tabular}
+%}
+%\caption{Per-language results in Study 1. For each language, we show the following: (1) $p$-values obtained from a one-sided $t$-test, for the null that the mean predictability/parseability of random grammars is at least as high as that of the real grammar. (2) Results from one-sided binomial tests, for the null that the the real grammar is better than at most $50 \%$ of random grammars. In addition to the $p$-value, we report point estimate and 95\% confidence interval for the fraction of random grammars that have values below real grammars.}\label{fig:pareto-per-lang-stats}
+%\end{table}
+%
+%
 
 
 \subsection{Analysis controlling for Families}
@@ -589,84 +613,95 @@ In about 40 of the languages, $O_\lambda$ is even close to one across all values
 
 This shows that, while many languages do not improve over \emph{all} baselines on \emph{both} individual components, they mostly improve over the large majority of baselines on the combined objective of efficiency, even across different values of $\lambda$.
 
-\paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
-
-TODO maybe we can scrap this part as it is harder to explain well, if Analysis 1 sufficient.
-
+TODO also make a plot with the 0.0 ad 0.9 lines
 
 \begin{figure}
 \centering
-	\begin{tabular}{llll}
-		(a) & (b) & (c) & (d) \\
-		\includegraphics[width=0.22\textwidth]{figures/isocline1.png}&
-		\includegraphics[width=0.22\textwidth]{figures/isocline2.png}&
-		\includegraphics[width=0.22\textwidth]{figures/isocline3.png}&
-\includegraphics[width=0.22\textwidth]{figures/isocline4.png}
-	\end{tabular}
-
-	\caption{Isolines: (a) The set of all possible baseline grammars forms a distribution in the parseability-predictability space.
-	The Pareto frontier consists of those points that are not dominated by any baseline grammar -- that is, those for which $P=0$: For points on this curve, no baseline grammar is both to their top and their right.
-	(b) Other grammars are dominated by some fractions $P > 0$ of baseline grammars. The two green crosses mark grammars that both are dominated by $P=0.05$ of baseline grammars. A blue curve connects all grammars dominated by exactly $P=0.05$ of baseline grammars.
-	(c) We observe a sample of $N=50$ baseline grammars, sampled uniformly from the set of baseline grammars. Samples will tend to concentrate in the high-density regions of the baseline distribution.
-	We also observe the efficiency of the real language (red cross) and an estimate of the Pareto frontier (blue line).
-	(d) We use the $50$ samples from the baseline grammar distribution to construct an estimate of the full abseline distibution, using the Dirichlet Process Gaussian Mixture Model. Using this inferred distribution, we estimate what fraction $P$ of baseline grammars dominate the real language, and the curve connecting all grammars dominated by the same fraction $P$ of baselines.
-	}\label{fig:isoline-explanation}
+\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf}
+	\caption[]{TODO}\label{fig:lambda-halfplane-09}
 \end{figure}
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth-interval.pdf}
-	\caption{Real languages, even those that are not at the estimated Pareto frontier, are Pareto-dominated by very few other hypothetical grammars. Green curves: Baseline distribution, estimated using Kernel Density estimation. Black numbers indicate the fraction of baselines dominating the real language, with a 95\% credible interval, estimated using a nonparametric Bayesian method (see text). Orange curves connect points estimated to be dominated by the same fraction of baselines as the real language, estimated using the same Bayesian method (see text). }\label{fig:isoline}
-\end{figure}
 
 
-%The Pareto curve is formed by those grammars such that no grammar simultaneously achieves higher parseability and higher predictability.
-%This motivates 
-
-We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that Pareto-dominate $r$ -- that is, baselines that are at least as good as $r$ on \emph{both} parseability and predictability:
-\begin{equation}
-P := \frac{\# \{b \in B: R_{Pars}(b) \geq R_{eff}(r) \text{ and }  R_{Pred}(b) \geq R_{Pred}(r) \}}{\#B}
-\end{equation}
-%This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$ (make a figure).
-%This quantity is also known as the joint (or bivariate) exceedance probability.
-If we have access to the full distribution over baseline grammars, then the Pareto frontier is formed by exactly those grammars where $P=0$ (make a figure).
-(TODO slight subtlety: $r$ itself is part of $B$, so $P > 0$ TODO change definition)
-Small values of $P$ indicate that only few baseline grammars are better than $r$.
-%In practice, we only have a limited sample of $50$ baseline grammar samples; so only an approximation of $P$ is actually observable, and this approximation will be $0$ in a larger region of the plane (make a figure).
-
-In this section, we aim to estimate $P$, provide uncertainty intervals.
-In order to also compare with the values of $P$ attained by baseline languages, we also estimated the isoline (cotour line) of grammars having the same $P$ value as the real language.
-
-%$P$ is also known as the \emph{joint} or \emph{bivariate} \emph{exceedance probability}, and there are a range of methods for estimating it.
-
-We used a simple nonparametric Bayesian approach to estimate $P$ from the 50 observed baseline samples.
-The baseline languages form a distribution in the parseability-predictability plane, from which 50 independent samples are known.
-We model the underlying distribution using the Dirichlet Process Gaussian Mixture Model (DPGMM), a flexible nonparametric model that can accomodate multimodal and other non-normal distributions \citep{rasmussen2000infinite, escobar1995bayesian, muller1996bayesian}.
-This model is a Gaussian mixture model where the number of components itself is a latent parameter inferred from the data.
-DPGMMs can be seen as a Bayesian version of Kernel Density Smoothing.\footnote{A potential objection to using such Kernel Density Estimation is that it models a continuous distribution with support everywhere, while the distribution of grammars is discrete and finite, in particular bounded by a Pareto frontier. We believe that this does not cause problems for this analysis. First, the number of possible grammars is extremey large, exceeding $37!$, which is more than $10^{43}$, suggesting that the distribution in the parseability-predictability plane is closely approximated by a continuous distribution. Second, the approximate Pareto frontier tends to be clearly separated from the high-density regions of the baseline distribution, in which most sampled baselines fall, showing that the baseline distribution has very small density around and beyond the Pareto frontier.}
-In our context here, the reason for using DPGMMs instead of Kernel Density Smoothing is that Bayesian inference using the DPGMM provides a straightforward method of deriving estimates and credible intervals for $PO$ and the isoline.
-
-% http://mlg.eng.cam.ac.uk/pub/pdf/GoeRas10.pdf
-% TODO report prior
-
-The DPGMM defines a prior over possible baseline distributions in the parseability-predictability plane.
-%Under this prior, each possible distribution is parameterized by a number $n$ of components, $n$ bivariate Gaussians $\mu_i, \Sigma_i$, and $n$ weights $w_i$ for these components ($\sum_{i=1}^n w_i=1$).
-Each possible distribution is parameterized as $\sum_{i=1}^n w_i p_{\mu_i, \Sigma_i}(x)$ where $p_{\mu_i, \Sigma_i}$ is the bivariate Gaussian density.
-The number $n$ of components is inferred from the data together with the weights $w_i$, the means $\mu_i$, and the covariance matrices $\Sigma_i$.
-A Dirichlet process prior (TODO) is placed on $n$, favoring models with smaller numbers of components unless the data provides evidence for more components.
-We use the $50$ observed baseline samples to infer a posterior distribution over such mixture distributions.
-We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples, from which we selected an evenly spaced subset of 100 samples.
-
-For each of these samples, we then computed $P$ of the real language, and the isoline.
-The collection of these results provides a set of samples from the posterior distribution over the true value of $P$ and the true isoline.
-We plot the posterior means of $P$ and the isoline in Figure~\ref{fig:isoline}.
-
-
-
-
-
+%\paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
+%
+%TODO maybe we can scrap this part as it is harder to explain well, if Analysis 1 sufficient.
+%
+%
+%\begin{figure}
+%\centering
+%	\begin{tabular}{llll}
+%		(a) & (b) & (c) & (d) \\
+%		\includegraphics[width=0.22\textwidth]{figures/isocline1.png}&
+%		\includegraphics[width=0.22\textwidth]{figures/isocline2.png}&
+%		\includegraphics[width=0.22\textwidth]{figures/isocline3.png}&
+%\includegraphics[width=0.22\textwidth]{figures/isocline4.png}
+%	\end{tabular}
+%
+%	\caption{Isolines: (a) The set of all possible baseline grammars forms a distribution in the parseability-predictability space.
+%	The Pareto frontier consists of those points that are not dominated by any baseline grammar -- that is, those for which $P=0$: For points on this curve, no baseline grammar is both to their top and their right.
+%	(b) Other grammars are dominated by some fractions $P > 0$ of baseline grammars. The two green crosses mark grammars that both are dominated by $P=0.05$ of baseline grammars. A blue curve connects all grammars dominated by exactly $P=0.05$ of baseline grammars.
+%	(c) We observe a sample of $N=50$ baseline grammars, sampled uniformly from the set of baseline grammars. Samples will tend to concentrate in the high-density regions of the baseline distribution.
+%	We also observe the efficiency of the real language (red cross) and an estimate of the Pareto frontier (blue line).
+%	(d) We use the $50$ samples from the baseline grammar distribution to construct an estimate of the full abseline distibution, using the Dirichlet Process Gaussian Mixture Model. Using this inferred distribution, we estimate what fraction $P$ of baseline grammars dominate the real language, and the curve connecting all grammars dominated by the same fraction $P$ of baselines.
+%	}\label{fig:isoline-explanation}
+%\end{figure}
+%
+%
+%\begin{figure}
+%\centering
+%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth-interval.pdf}
+%	\caption{Real languages, even those that are not at the estimated Pareto frontier, are Pareto-dominated by very few other hypothetical grammars. Green curves: Baseline distribution, estimated using Kernel Density estimation. Black numbers indicate the fraction of baselines dominating the real language, with a 95\% credible interval, estimated using a nonparametric Bayesian method (see text). Orange curves connect points estimated to be dominated by the same fraction of baselines as the real language, estimated using the same Bayesian method (see text). }\label{fig:isoline}
+%\end{figure}
+%
+%
+%%The Pareto curve is formed by those grammars such that no grammar simultaneously achieves higher parseability and higher predictability.
+%%This motivates 
+%
+%We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that Pareto-dominate $r$ -- that is, baselines that are at least as good as $r$ on \emph{both} parseability and predictability:
+%\begin{equation}
+%P := \frac{\# \{b \in B: R_{Pars}(b) \geq R_{eff}(r) \text{ and }  R_{Pred}(b) \geq R_{Pred}(r) \}}{\#B}
+%\end{equation}
+%%This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$ (make a figure).
+%%This quantity is also known as the joint (or bivariate) exceedance probability.
+%If we have access to the full distribution over baseline grammars, then the Pareto frontier is formed by exactly those grammars where $P=0$ (make a figure).
+%(TODO slight subtlety: $r$ itself is part of $B$, so $P > 0$ TODO change definition)
+%Small values of $P$ indicate that only few baseline grammars are better than $r$.
+%%In practice, we only have a limited sample of $50$ baseline grammar samples; so only an approximation of $P$ is actually observable, and this approximation will be $0$ in a larger region of the plane (make a figure).
+%
+%In this section, we aim to estimate $P$, provide uncertainty intervals.
+%In order to also compare with the values of $P$ attained by baseline languages, we also estimated the isoline (cotour line) of grammars having the same $P$ value as the real language.
+%
+%%$P$ is also known as the \emph{joint} or \emph{bivariate} \emph{exceedance probability}, and there are a range of methods for estimating it.
+%
+%We used a simple nonparametric Bayesian approach to estimate $P$ from the 50 observed baseline samples.
+%The baseline languages form a distribution in the parseability-predictability plane, from which 50 independent samples are known.
+%We model the underlying distribution using the Dirichlet Process Gaussian Mixture Model (DPGMM), a flexible nonparametric model that can accomodate multimodal and other non-normal distributions \citep{rasmussen2000infinite, escobar1995bayesian, muller1996bayesian}.
+%This model is a Gaussian mixture model where the number of components itself is a latent parameter inferred from the data.
+%DPGMMs can be seen as a Bayesian version of Kernel Density Smoothing.\footnote{A potential objection to using such Kernel Density Estimation is that it models a continuous distribution with support everywhere, while the distribution of grammars is discrete and finite, in particular bounded by a Pareto frontier. We believe that this does not cause problems for this analysis. First, the number of possible grammars is extremey large, exceeding $37!$, which is more than $10^{43}$, suggesting that the distribution in the parseability-predictability plane is closely approximated by a continuous distribution. Second, the approximate Pareto frontier tends to be clearly separated from the high-density regions of the baseline distribution, in which most sampled baselines fall, showing that the baseline distribution has very small density around and beyond the Pareto frontier.}
+%In our context here, the reason for using DPGMMs instead of Kernel Density Smoothing is that Bayesian inference using the DPGMM provides a straightforward method of deriving estimates and credible intervals for $PO$ and the isoline.
+%
+%% http://mlg.eng.cam.ac.uk/pub/pdf/GoeRas10.pdf
+%% TODO report prior
+%
+%The DPGMM defines a prior over possible baseline distributions in the parseability-predictability plane.
+%%Under this prior, each possible distribution is parameterized by a number $n$ of components, $n$ bivariate Gaussians $\mu_i, \Sigma_i$, and $n$ weights $w_i$ for these components ($\sum_{i=1}^n w_i=1$).
+%Each possible distribution is parameterized as $\sum_{i=1}^n w_i p_{\mu_i, \Sigma_i}(x)$ where $p_{\mu_i, \Sigma_i}$ is the bivariate Gaussian density.
+%The number $n$ of components is inferred from the data together with the weights $w_i$, the means $\mu_i$, and the covariance matrices $\Sigma_i$.
+%A Dirichlet process prior (TODO) is placed on $n$, favoring models with smaller numbers of components unless the data provides evidence for more components.
+%We use the $50$ observed baseline samples to infer a posterior distribution over such mixture distributions.
+%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples, from which we selected an evenly spaced subset of 100 samples.
+%
+%For each of these samples, we then computed $P$ of the real language, and the isoline.
+%The collection of these results provides a set of samples from the posterior distribution over the true value of $P$ and the true isoline.
+%We plot the posterior means of $P$ and the isoline in Figure~\ref{fig:isoline}.
+%
+%
+%
+%
+%
 
 
 
@@ -681,9 +716,9 @@ We found very similar results using Spearman's rank correlation (Efficiency: $\r
 \begin{figure}[ht]
     \centering
     
-    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
-    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
-    \includegraphics[scale=.55]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
+    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
+    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
+    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
 
 	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
     \label{fig:corr-eff-corr}
@@ -931,8 +966,10 @@ If $a_\tau \in \{0, 1\}$, and the distances between values of $b_\tau$ (for diff
 In this case, the grammar can be converted into an equivalent grammar of the form described in Materials and Methods, by extracting a single parameter in $[-1, 1]$ for each relation $\tau$.
 
 We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar parameters for the relations in Figure 3 of the main paper.
+
 Note that the grammatical formalism simplifies some aspects of the word order regularities of natural languages.
 For instance, it does not represent cases where ordering varies between main and embedded clauses, as it does not condition ordering decisions on the larger context.
+It also does not nonprojective orderings, which -- while generally rare -- do occur in many languages (CITE).
 More complex and powerful ordering grammar models have been proposed \cite{futrell2015experiments, wang2016galactic}; however, they have similar limitations, and for our purposes, the model adopted here has the advantage of being simple and interpretable.
 
 
@@ -1199,6 +1236,8 @@ In this connection, we note that the parser and language model architectures we 
 
 Here we address this question by demonstrating that our languages optimized for efficiency are also optimal under a range of different language models and parsers. These results show that our optimization process creates languages in which strings are generally predictable and informative about trees, without dependence on particular prediction and parsing algorithms.
 
+TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values.
+A similar approach has been applied to quantifying morphological complexity by \citet{cotterell2019complexity}.
 
 \subsection{CKY Parsers}
 
@@ -1426,6 +1465,7 @@ It is known that human languages reduce dependency length compared to random bas
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
+[TODO also cite rijkhof, ferrer i cancho]
 
 Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
@@ -1438,7 +1478,7 @@ This suggests that the reduction of dependency length observed in natural langua
 Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section~\ref{sec:optim-eff}).
 We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
 In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
-We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length.
+We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length. [TODO acknowledge  Ferrer i Cancho R, Liu H (2014) The risks of mixing dependency lengths from se-quences of different length.Glottotheory5(2):143–155.]
 We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4langs}, plotting dependency length as a function of sentence length as reported in prior work \cite{futrell2015largescale}.
 Optiziming grammars for efficiency produces dependency lengths similar to those found in the actual orderings.
 
