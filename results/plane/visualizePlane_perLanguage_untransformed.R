@@ -94,10 +94,8 @@ data = rbind(data, dataGround)
 
 
 dataMean = data %>% group_by(Language, Type) %>% summarise(Surprisal=mean(Surprisal, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanSurprisal = mean(Surprisal, na.rm=TRUE), SDSurprisal = sd(Surprisal, na.rm=TRUE)+0.0001)
-write.csv(dataMean, file="surp-z.csv")
 data = merge(data, dataMean, by=c("Language"))
 dataMean = data %>% group_by(Language, Type) %>% summarise(Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE)+0.0001)
-write.csv(dataMean, file="pars-z.csv")
 data = merge(data, dataMean, by=c("Language"))
 
 dataMean = data %>% filter(grepl("RANDOM", Type)) %>% group_by(Language) %>% summarise(MeanSurprisalRand = mean(Surprisal, na.rm=TRUE), SDSurprisalRand = sd(Surprisal, na.rm=TRUE)+0.0001)
@@ -125,50 +123,50 @@ subData = data %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_
 subData = subData[order(subData$Type),]
 
 Step = c()
-Surprisal_z = c()
-Pars_z = c()
+Surprisal = c()
+Pars = c()
 Language = c()
 for(language in unique(subData$Language)) {
    u = subData %>% filter(Language == language)
 
    # Pareto hull
 
-   pred = min(u$Surprisal_z)
-   pars = (u %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced"))$Pars_z[1]
+   pred = min(u$Surprisal)
+   pars = (u %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced"))$Pars[1]
 
-   Surprisal_z = c(Surprisal_z, pred)
-   Pars_z = c(Pars_z, pars)
+   Surprisal = c(Surprisal, pred)
+   Pars = c(Pars, pars)
    Language = c(Language, language)
    Step = c(Step, 1)
 
-   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Surprisal_z[1]
-   pars = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Pars_z[1]
+   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Surprisal[1]
+   pars = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Pars[1]
 
-   Surprisal_z = c(Surprisal_z, pred)
-   Pars_z = c(Pars_z, pars)
+   Surprisal = c(Surprisal, pred)
+   Pars = c(Pars, pars)
    Language = c(Language, language)
    Step = c(Step, 2)
 
-   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced"))$Surprisal_z[1]
-   pars = min(u$Pars_z)
+   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced"))$Surprisal[1]
+   pars = min(u$Pars)
 
-   Surprisal_z = c(Surprisal_z, pred)
-   Pars_z = c(Pars_z, pars)
+   Surprisal = c(Surprisal, pred)
+   Pars = c(Pars, pars)
    Language = c(Language, language)
    Step = c(Step, 3)
 
 }
 
-subData = data.frame(Language=Language, Surprisal_z=Surprisal_z, Pars_z=Pars_z, Step=Step)
+subData = data.frame(Language=Language, Surprisal=Surprisal, Pars=Pars)
 subData$Type = "Pareto"
 
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surprisal_z < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Type, group=Type))
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surprisal_z < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
 plot = plot + geom_point()
-plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surprisal_z, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type %in% c("manual_output_funchead_ground_coarse_final")) %>% filter(Surprisal_z < 3), shape=4, size=1.5, stroke=2)
+plot = plot + geom_path(data=subData, aes(x=-Pars, y=-Surprisal, group=1), size=1.5)
+plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
-plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
+plot = plot + scale_x_continuous(name="Negative Ambiguity (per word)") + scale_y_continuous(name="Predictability")
 plot = plot + theme(legend.title = element_blank())  
 plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
 plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
@@ -177,7 +175,7 @@ plot = plot + theme(axis.title.y = element_text(size=17))
 plot = plot + theme(legend.text = element_text(size=12))
 plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
 plot = plot + theme(legend.position = "none")
-ggsave(plot, file="pareto-plane-perLanguage.pdf", width=12, height=12)
+ggsave(plot, file="pareto-plane-perLanguage-raw.pdf", width=12, height=12)
 
 
 
