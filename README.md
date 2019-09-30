@@ -1,4 +1,4 @@
-# Universals of word order result from optimization of grammars for efficient communication
+# Universals of word order reflect optimization of grammars for efficient communication
 
 This repository contains all code and results from the paper.
 

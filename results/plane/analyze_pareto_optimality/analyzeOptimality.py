@@ -21,9 +21,9 @@ with open("optimality-by-lambda.tsv", "w") as outFile:
       dataL = [x for x in data if x[header["Language"]] == language]
       print(language)
       parsGround = float(dataL[0][header["ParsGround"]])
-      surpGround = float(dataL[0][header["SurpGround"]])
+      surpGround = float(dataL[0][header["SurprisalGround"]])
       models = [x[header["Model"]] for x in dataL]
-      surp = [x[header["Surp"]] for x in dataL]
+      surp = [x[header["Surprisal"]] for x in dataL]
       pars = [x[header["Pars"]] for x in dataL]
       hasNoNA = [x for x in range(len(models)) if surp[x] != "NA" and pars[x] != "NA"]
       models = [models[x] for x in hasNoNA]
