@@ -973,7 +973,7 @@ We extended the parameter space of grammars by continuously interpolating betwee
 The parameters of such a \key{differentiable word order grammar} are as follows. 
 For each dependency label type $\tau$, we have (1) a \key{Direction Parameter} $a_\tau \in [0,1]$, and (2) a \key{Distance Parameter} $b_\tau \in \mathbb{R}$. 
 Each dependent is ordered on the left of its head with probability $a_\tau$ and to the right with probability $1-a_\tau$. 
-Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order outward from the head is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (\cite{goodfellow2016deep}, p. 184) without replacement. 
+Then for each set of co-dependents $\{s_1, \dots , s_n\}$ placed on one side of a head, their order from left to right is determined by iteratively sampling from the distribution $\operatorname{softmax}(b_{\tau_1}, \dots, b_{\tau_n})$ (for dependents preceding the head) or $\operatorname{softmax}(-b_{\tau_1}, \dots, -b_{\tau_n})$ (for dependents following the head) (for the definition of $\operatorname{Softmax}$, see \cite[p. 184]{goodfellow2016deep}) without replacement.
 
 If $a_\tau \in \{0, 1\}$, and the distances between values of $b_\tau$ (for different $\tau$) become very large, such a differentiable grammar becomes deterministic, assigning almost full probability to exactly one ordering for each syntactic structure.
 In this case, the grammar can be converted into an equivalent grammar of the form described in Materials and Methods, by extracting a single parameter in $[-1, 1]$ for each relation $\tau$.
