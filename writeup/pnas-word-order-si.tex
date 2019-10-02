@@ -95,6 +95,12 @@
 \tableofcontents
 
 
+
+TODO CITE \cite{mielke-et-al-2019} % However,  a lan-guage’s vocabulary size and the length in charactersof its sentences were well-correlated with difficultyon our large set of languages.
+\cite{gerz2018language}
+% TODO maybe also some recent stuff in data-driven induction of typology https://www.mitpressjournals.org/doi/abs/10.1162/COLI_a_00357
+
+
 \section{Formalization of Greenberg Correlation Universals}\label{sec:correlations}
 
 
@@ -418,6 +424,9 @@ We also provide the raw numerical values, before $z$-scoring, in Figure~\ref{fig
 We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
 
 Within each language, we estimate the Pareto curve based on the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
+% The Pareto frontier is the set of all Pareto efficient allocations, conventionally shown graphically.
+This frontier is approximate:
+The actual curve may not be piecewise linear, and it may also extend beyond the estimated curve, as the grammar optimization method is approximate.
 
 Figure 4 in the main paper shows the average of these per-language plots, with a kernel density estimate of the distribution of baseline grammars. 
 
@@ -515,6 +524,9 @@ where $f_L$ is the language family of $L$.
 
 Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1}.
 Across language families, real grammars tend to be more efficient than almost all baseline grammars.
+According to this analysis, exceptions among the UD corpora can be attributed to language-specific effects.
+
+TODO also report glmer, posterior plots, transformed probabilities
 
 \begin{table}
 \small{
@@ -621,7 +633,8 @@ TODO also make a plot with the 0.0 ad 0.9 lines
 	\caption[]{TODO}\label{fig:lambda-halfplane-09}
 \end{figure}
 
-
+TODO discuss difference from semantic typology:
+TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
 
 
 %\paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
@@ -1236,8 +1249,8 @@ In this connection, we note that the parser and language model architectures we 
 
 Here we address this question by demonstrating that our languages optimized for efficiency are also optimal under a range of different language models and parsers. These results show that our optimization process creates languages in which strings are generally predictable and informative about trees, without dependence on particular prediction and parsing algorithms.
 
-TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values.
-A similar approach has been applied to quantifying morphological complexity by \citet{cotterell2019complexity}.
+TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values, similar to previous work quantifying other aspects of linguistic complexity \citep{cotterell2019complexity}.
+TODO
 
 \subsection{CKY Parsers}
 
@@ -1261,8 +1274,8 @@ For such a PCFG, exact parsing is possible using Dynamic Programming, and specif
 This parsing strategy is very different from the neural graph-based parser:
 While the graph-based parser solves a minimum spanning tree problem, the CKY algorithm uses dynamic programming to compute the exact probabilities of trees given a sentence, as specified by the generative model encoded in the PCFG.
 Second, while the graph-based neural parser uses machine learning to induce syntactic knowledge from data, the CKY parser performs exact probabilistic inference.
-%In this sense, the CKY algorithm does not have any architectural biases in itself.
-%On the other hand, the PCFG makes severely simplifying independence assumptions, compared to the universal approximation capabilities of neural network-based systems.
+In this sense, the CKY algorithm does not have any architectural biases in itself.
+On the other hand, the PCFG makes severely simplifying independence assumptions, compared to the universal approximation capabilities of neural network-based systems.
 
 We used the CKY algorithm to compute the syntactic ambiguity $\operatorname{H}[\tree|\utterance]$ on the validation partition of the English and Japanese UD corpora, for random and optimized ordering grammars.
 Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable than baseline grammars, for exact parsing of a simple PCFG.
