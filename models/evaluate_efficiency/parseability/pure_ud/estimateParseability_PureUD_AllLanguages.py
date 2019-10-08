@@ -35,7 +35,8 @@ if listPath is not None:
 
 
 
-
+if "RANDOM" in BASE_DIR:
+   assert "RANDOM_pureUD" in BASE_DIR
 if BASE_DIR == "REAL_REAL":
    languages = ["Hindi", "Swedish", "German", "Urdu", "English", "Spanish", "Chinese", "Slovenian", "Estonian", "Norwegian", "Serbian", "Croatian", "Finnish", "Portuguese", "Catalan", "Russian", "Arabic", "Czech", "Japanese", "French", "Latvian", "Basque", "Danish", "Dutch", "Ukrainian", "Gothic", "Hebrew", "Hungarian", "Latin", "Persian", "Bulgarian", "Romanian", "Indonesian", "Greek", "Turkish", "Slovak", "Belarusian", "Galician", "Italian", "Lithuanian", "Polish", "Vietnamese", "Korean", "Tamil", "Irish", "Marathi", "Afrikaans", "Telugu", "Coptic", "Ancient_Greek", "Old_Church_Slavonic"]
    assert len(languages) == 51, len(languages)
@@ -49,7 +50,8 @@ else:
       if models[i] == "auto-summary-lstm.tsv":
            continue
       if "ground" in BASE_DIR:
-         ind = models[i].index("_inferWe")
+         print(models[i])
+         ind = models[i].index("_infer")
          language = models[i][:ind]
          number = models[i][:-4].split("_")[-1]
       elif "RANDOM_pureUD" in BASE_DIR:
@@ -104,12 +106,14 @@ while failures < 300:
   language, model = random.choice(relevantModels)
   if languages is not None and language not in languages:
       continue
-  existing = [x for x in existingFiles if x.startswith(language) and "_"+model+"_" in x]
+  existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
   if len(existing) > 0:
      print(existing)
      print("Language model for this model exists "+str(((1.0/(1+len(existing))))))
      failures += 1
      continue
+  else:
+      print("No model exists", "../../../../raw-results/parsing-upos-pureUD/", language, "_"+model+"_")
   failures = 0
   lr_policy = random.choice([0.002, 0.001, 0.001, 0.0005, 0.0005, 0.0005]) #random.choice([0.01, 0.001])
   entropy_weight = random.choice([1.0, 0.1, 0.01, 0.001, 0.001, 0.001, 0.0001])

@@ -14,21 +14,24 @@ lr_policy = float(sys.argv[4]) if len(sys.argv) > 4 else 0.001
 momentum = float(sys.argv[5]) if len(sys.argv) > 5 else 0.9
 lr_baseline = float(sys.argv[6]) if len(sys.argv) > 6 else 1.0 # this will be multiplied with lr_lm
 dropout_prob = float(sys.argv[7]) if len(sys.argv) > 7 else 0.5
+assert dropout_prob == 0.3
 lr_lm = float(sys.argv[8]) if len(sys.argv) > 8 else 0.1
+assert lr_lm == 0.1
 batchSize = int(sys.argv[9]) if len(sys.argv) > 9 else 1
+assert batchSize == 1
 model = sys.argv[10]
 BASE_DIR = sys.argv[11]
 
 
 myID = random.randint(0,10000000)
 
-FILENAME = "dotdotdot_COARSE_PLANE_noise.py"
+FILENAME = __file__
 
 #with open("../../../raw-results/LOG"+language+"_"+FILENAME+"_model_"+str(myID)+".txt", "w") as outFile:
  #   print >> outFile, " ".join(sys.argv)
 
 
-with open("../memory-surprisal/code/branching_entropy/branching_entropy_coarse_byRelation.tsv", "r") as inFile:
+with open("../../../../models/revision/branching_entropy/branching_entropy_coarse_byRelation.tsv", "r") as inFile:
    branchingEntropies = [x.split("\t") for x in inFile.read().split("\n")]
    header = branchingEntropies[0]
    header = dict(zip(header, range(len(header))))
@@ -165,31 +168,23 @@ def orderSentence(sentence, dhLogits, printThings):
    root = None
    logits = [None]*len(sentence)
    logProbabilityGradient = 0
-   if model == "REAL_REAL":
-      eliminated = []
    for line in sentence:
       line["coarse_dep"] = makeCoarse(line["dep"])
       if line["coarse_dep"] == "root":
           root = line["index"]
           continue
       if line["coarse_dep"].startswith("punct"):
-         if model == "REAL_REAL":
-            eliminated.append(line)
          continue
       key = line["coarse_dep"]
       line["dependency_key"] = key
       dhLogit = dhWeights[stoi_deps[key]]
       probability = 1/(1 + exp(-dhLogit))
-#      dhSampled = (0.5 < probability)
-
-      if model != "REAL_REAL":
-         assert branchingDeterministicProbabilities[line["coarse_dep"]] >= 0.5
-         if random() < branchingDeterministicProbabilities[line["coarse_dep"]]:
-            dhSampled = (dhLogit > 0)
-         else:
-            dhSampled = (dhLogit < 0)
+      assert model != "REAL_REAL"
+      assert branchingDeterministicProbabilities[line["coarse_dep"]] >= 0.5
+      if random() < branchingDeterministicProbabilities[line["coarse_dep"]]:
+         dhSampled = (dhLogit > 0)
       else:
-          assert False
+         dhSampled = (dhLogit < 0)
 
 
 
@@ -212,25 +207,12 @@ def orderSentence(sentence, dhLogits, printThings):
          if "children_HD" in line:
             childrenLinearized = orderChildrenRelative(sentence, line["children_HD"][:], True)
             line["children_HD"] = childrenLinearized
-   if model == "REAL_REAL":
-       while len(eliminated) > 0:
-          line = eliminated[0]
-          del eliminated[0]
-          if "removed" in line:
-             continue
-          line["removed"] = True
-          if "children_DH" in line:
-            assert 0 not in line["children_DH"]
-            eliminated = eliminated + [sentence[x-1] for x in line["children_DH"]]
-          if "children_HD" in line:
-            assert 0 not in line["children_HD"]
-            eliminated = eliminated + [sentence[x-1] for x in line["children_HD"]]
+   else:
+       assert False
 
    
    linearized = []
    recursivelyLinearize(sentence, root, linearized, Variable(torch.FloatTensor([0.0])))
-   if model == "REAL_REAL":
-      linearized = filter(lambda x:"removed" not in x, sentence)
    if printThings or len(linearized) == 0:
      print " ".join(map(lambda x:x["word"], sentence))
      print " ".join(map(lambda x:x["word"], linearized))
@@ -269,9 +251,10 @@ for i, key in enumerate(itos_deps):
 
 import os
 
-if model != "REAL_REAL" and model != "RLR":
+if model != "REAL_REAL":
    temperature = 1.0
-   inpModels_path = "../../../raw-results/"+"/"+BASE_DIR+"/"
+   inpModels_path = "../../../../raw-results/"+"/"+BASE_DIR+"/"
+   print(inpModels_path)
    models = os.listdir(inpModels_path)
    models = filter(lambda x:"_"+model+".tsv" in x, models)
    if len(models) == 0:
@@ -294,6 +277,8 @@ if model != "REAL_REAL" and model != "RLR":
    for line in data:
       dependency = line[header.index("Dependency")]
       key = dependency
+      if key not in stoi_deps:
+          continue
       dhWeights[stoi_deps[key]] = temperature*float(line[header.index("DH_Weight")])
       distanceWeights[stoi_deps[key]] = temperature*float(line[header.index("DistanceWeight")])
 
@@ -579,7 +564,7 @@ while True:
           print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
           print "Saving"
           save_path = "../../../raw-results/"
-          with open(save_path+"/language_modeling_coarse_plane_fixed/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv", "w") as outFile:
+          with open(save_path+"/language_modeling_coarse_plane_fixed_nondeterministic/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, language
              print >> outFile, "\t".join(map(str, devLosses))
              print >> outFile, "\t".join(map(str, devLossesWords))

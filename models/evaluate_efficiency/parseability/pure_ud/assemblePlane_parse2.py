@@ -13,7 +13,7 @@ dirs.append("manual_output_funchead_RANDOM_pureUD3")
 dirs.append("manual_output_funchead_RANDOM_pureUD4")
 dirs.append("manual_output_funchead_RANDOM_pureUD5")
 #dirs.append("manual_output_funchead_coarse_depl")
-dirs.append("manual_output_funchead_ground_coarse_final")
+dirs.append("manual_output_funchead_ground_coarse_pureUD_final")
 dirs.append("REAL_REAL")
 
 outPath = "../../../../grammars/plane/controls/plane-parse-pureUD.tsv"
@@ -87,6 +87,7 @@ with open(outPath, "w") as outFile:
    if True:
      existingFiles = os.listdir(planePath)
      done = 0
+     uniqueSet = set()
      for language, model in models:
        existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
        if len(existing) > 0:
@@ -104,6 +105,7 @@ with open(outPath, "w") as outFile:
                     print("Incomplete", language, model, BASE_DIR)
                     continue
                  found+=1
+                 uniqueSet.add((model, language))
                  print >> outFile, ("\t".join([language, model, BASE_DIR, data[1][-2], data[0][-2], data[2][-2], data[4][-2]]))
-   print([BASE_DIR, found])
+   print([BASE_DIR, found, len(uniqueSet)])
    #print("Done", done, "out of", 51*8)

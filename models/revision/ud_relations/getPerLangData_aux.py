@@ -48,7 +48,7 @@ for language in languages: #[:2]:
               counts_total["aux"][language] += 1
               directions_total["aux"][language] += (1 if line["index"] > line["head"] else -1) # 1 == DH order
 
-with open("auxiliaries.tsv", "w") as outFile:
+with open("auxiliaries_new.tsv", "w") as outFile:
   for dep in sorted(list(counts)):
      coarse = dep[:dep.index(":")] if ":" in dep else dep
      for lang in sorted(list(counts[dep])):

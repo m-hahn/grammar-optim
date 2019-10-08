@@ -98,9 +98,7 @@ with open(outPath, "w") as outFile:
                  data = [x.split(" ") for x in inFile.read().strip().split("\n")]
    #              print(data)
                  data = data[2:]
-                 if len(data[0]) == 1:
-                    continue
-                 if float(data[0][-1]) < float(data[0][-2]):
+                 if len(data[0]) == 1 or float(data[0][-1]) < float(data[0][-2]):
                     print("Incomplete", language, model, BASE_DIR)
                     continue
                  found+=1

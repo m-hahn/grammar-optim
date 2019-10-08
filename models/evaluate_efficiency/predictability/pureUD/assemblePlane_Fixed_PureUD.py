@@ -16,9 +16,9 @@ dirs.append("manual_output_funchead_RANDOM_pureUD2")
 dirs.append("manual_output_funchead_RANDOM_pureUD3")
 dirs.append("manual_output_funchead_RANDOM_pureUD4")
 dirs.append("manual_output_funchead_RANDOM_pureUD5")
-dirs.append("manual_output_funchead_coarse_depl")
-#dirs.append("manual_output_funchead_ground_coarse_final")
-#dirs.append("manual_output_funchead_RLR")
+#dirs.append("manual_output_funchead_coarse_depl")
+dirs.append("manual_output_funchead_ground_coarse_pureUD_final")
+#dirs.append("REAL_REAL")
 
 outPath = "../../../../grammars/plane/controls/plane-fixed-pureUD.tsv"
 with open(outPath, "w") as outFile:

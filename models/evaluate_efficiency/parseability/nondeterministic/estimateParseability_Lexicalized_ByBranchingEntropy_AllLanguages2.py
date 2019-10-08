@@ -111,7 +111,7 @@ while failures < 300:
   existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]
   existing = [x for x in existing if len(open(resbasepath+x, "r").read().strip().split("\n")) >= 7]
   print(resbasepath, existing)
-  if language == "Czech" or len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))):
+  if len(existing) > 0: #random.random() > ((1.0/(1+len(existing)))):
      print("Language model for this model exists "+str(((1.0/(1+len(existing))))))
      failures += 1
      continue
