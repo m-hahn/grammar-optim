@@ -34,7 +34,7 @@ models =[x for x in  os.listdir("../../../../raw-results/"+BASE_DIR+"/") if x.en
 modelsProcessed = []
 for i in range(len(models)):
    if "ground" in BASE_DIR:
-      ind = models[i].index("_inferWe")
+      ind = models[i].index("_infer")
       language = models[i][:ind]
       number = models[i][:-4].split("_")[-1]
    else:

@@ -51,7 +51,7 @@ with open(outPath, "w") as outFile:
        modelsProcessed = []
        for i in range(len(models)):
          if "ground" in BASE_DIR:
-              if "_inferWeights" not in models[i]:
+              if "_infer" not in models[i]:
                  continue
               ind = models[i].index("_infer")
               language = models[i][:ind]
@@ -77,7 +77,7 @@ with open(outPath, "w") as outFile:
          models[i] = (language, number)
          modelsProcessed.append(models[i])
        models = modelsProcessed
-    assert len(models) > 0, BASE_DIR
+    assert len(models) > 0, (BASE_DIR, "../../../../raw-results/"+BASE_DIR+"/")
     models = [model for model in models if len(model) == 2]
     #print("      Number of models ", len(models))
     import os

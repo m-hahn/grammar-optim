@@ -563,7 +563,7 @@ while True:
           devLossesPOS.append(newDevLossPOS)
           print "New dev loss "+str(newDevLoss)+". previous was: "+str(lastDevLoss)
           print "Saving"
-          save_path = "../../../raw-results/"
+          save_path = "../../../../raw-results/"
           with open(save_path+"/language_modeling_coarse_plane_fixed_nondeterministic/"+language+"_"+FILENAME+"_languageModel_performance_"+model+"_"+str(myID)+".tsv", "w") as outFile:
              print >> outFile, language
              print >> outFile, "\t".join(map(str, devLosses))

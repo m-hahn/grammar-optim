@@ -47,7 +47,7 @@ with open(outPath, "w") as outFile:
       modelsProcessed = []
       for i in range(len(models)):
          if "ground" in BASE_DIR:
-              if "_inferWeights" not in models[i]:
+              if "_infer" not in models[i]:
                  continue
               ind = models[i].index("_infer")
               language = models[i][:ind]
