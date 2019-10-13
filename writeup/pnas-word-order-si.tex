@@ -81,10 +81,6 @@
        Department of Language Science\\
        University of California, Irvine
 }
-%\author{
-%Michael Hahn, Daniel Jurafsky, Richard Futrell}
-
-%\correspondingauthor{Michael Hahn.\\E-mail: mhahn2@stanford.edu}
 
 \begin{document}
 \maketitle
@@ -163,7 +159,6 @@ First, we excluded three correlations that are not annotated reliably in UD, and
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
 Among these three types of elements, the one most prominent in our sample of 51 languages is articles, which occur in many European languages.
 However, UD subsumes them under the \emph{det} relation, which is also used for other highly frequent elements, such as demonstratives and quantifiers.
-%Testing this correlation would require augmenting these corpora with detailed annotation of articles, which is beyond the scope of this study.
 The other elements (question particles and plural words) are found at most in a handful of UD languages, and are not specifically annotated in these either.
 
 We also excluded the verb-manner adverb correlation.
@@ -179,7 +174,6 @@ It is satisfied only in 33\% of our sample of 51 UD languages, as quantified usi
 Dryer \cite{dryer1992greenbergian} counts this as a correlation since he describes the distribution of subject order as an interaction between a weak correlation with object order, and a very strong dominance principle favoring SV orderings.
 We focus on the modeling of correlations, and leave dominance principles to future research.
 We therefore excluded this correlation here.
-%We note that efficiency makes predictions compatible with the pattern observed in our sample of 51 languages, potentially in line with the noisy-channel explanation of SVO described by~\cite{gibson2013noisy} (see Table~\ref{tab:all-predictions}).
 
 
 
@@ -190,11 +184,7 @@ We therefore excluded this correlation here.
 \paragraph{Other Greenberg Universals}
 Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
 Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
-The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order; these form the basis of our formalization in Table~\ref{table:greenberg-dryer}. %, finding 16 correlations to likely be universal.
-%Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:greenberg-dryer}.
-%Testing efficiency on the excluded correlations would be feasible with additional annotation of data.
-%For instance, one of these could be tested by labeling the existing databases for the distinction between manner adverbs from other kinds of adverbs.
-%For another one, it would be necessary to annotate databases for additional languages that have independent plural markers (e.g., Hawaiian).
+The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order; these form the basis of our formalization in Table~\ref{table:greenberg-dryer}. 
 There are a few other well-supported word order universals that are not correlations with verb-object order.
 This includes dominance principles~\cite{croft2003typology} such as the strong preference for subjects to precede objects.
 Furthermore, there has been interest in Greenberg's universals 18 and 20, which describe correlations not with verb-object order, but of different elements of noun phrases~\cite{cinque2005deriving, culbertson2014language, dryer2018order}.
@@ -443,7 +433,7 @@ Note that the predictability scores are considerably worse than the state-of-the
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored.}\label{fig:pareto-per-lang}
+	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. Languages are ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish).}\label{fig:pareto-per-lang}
 \end{figure}
 
 
@@ -515,7 +505,7 @@ logit(q_{L}) = \beta + u_{L} + v_{f_L}
 \end{equation}
 where $f_L$ is the language family of $L$.
 
-Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1}.
+Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1-glmer}.
 Across language families, real grammars tend to be more efficient than almost all baseline grammars.
 According to this analysis, exceptions among the UD corpora can be attributed to language-specific effects.
 
@@ -1478,6 +1468,38 @@ We formulated this model as a binary-branching PCFG, and used a CKY parser to es
 
 We computed this for different settings of $p_\text{branching} \in [0, 0.5]$ and $p_{obj} \in [0,1]$, at $p_\text{acl} \in \{0, 0.3\}$.\footnote{For $p_\text{acl} = 0.3$, we only computed values for $p_\text{branching} \leq 0.4$, due to high computational cost on long sentences resulting from $p_\text{branching} = 0.5$ and $p_\text{acl} = 0.3$.}
 For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ between the two grammars.
+
+
+
+\begin{figure}[ht]
+    \centering
+{
+\centering{
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+	   V \& N \& V \& N  \\
+   \end{deptext}
+   \depedge{1}{2}{obj}
+   \depedge{1}{3}{xcomp}
+   \depedge{3}{4}{obj}
+\end{dependency}
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+	   N \& V \& N \& V  \\
+   \end{deptext}
+   \depedge{2}{1}{obj}
+   \depedge{2}{4}{xcomp}
+   \depedge{4}{3}{obj}
+\end{dependency}
+
+}
+}
+	\caption{An English sentence with annotated syntactic relations.}
+	\label{fig:sent-dep}
+\end{figure}
+
+
 
 \begin{figure}
 	\begin{center}	
