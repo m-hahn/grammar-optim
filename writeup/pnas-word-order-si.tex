@@ -81,10 +81,6 @@
        Department of Language Science\\
        University of California, Irvine
 }
-%\author{
-%Michael Hahn, Daniel Jurafsky, Richard Futrell}
-
-%\correspondingauthor{Michael Hahn.\\E-mail: mhahn2@stanford.edu}
 
 \begin{document}
 \maketitle
@@ -96,8 +92,8 @@
 
 
 
-TODO CITE \cite{mielke-et-al-2019} % However,  a lan-guage’s vocabulary size and the length in charactersof its sentences were well-correlated with difficultyon our large set of languages.
-\cite{gerz2018language}
+%TODO CITE \cite{mielke-et-al-2019} % However,  a lan-guage’s vocabulary size and the length in charactersof its sentences were well-correlated with difficultyon our large set of languages.
+%\cite{gerz2018language}
 % TODO maybe also some recent stuff in data-driven induction of typology https://www.mitpressjournals.org/doi/abs/10.1162/COLI_a_00357
 
 
@@ -163,7 +159,6 @@ First, we excluded three correlations that are not annotated reliably in UD, and
 All three types of elements occur at most in parts of the 51 UD languages, and none of them is annotated reliably in those languages where they occur.
 Among these three types of elements, the one most prominent in our sample of 51 languages is articles, which occur in many European languages.
 However, UD subsumes them under the \emph{det} relation, which is also used for other highly frequent elements, such as demonstratives and quantifiers.
-%Testing this correlation would require augmenting these corpora with detailed annotation of articles, which is beyond the scope of this study.
 The other elements (question particles and plural words) are found at most in a handful of UD languages, and are not specifically annotated in these either.
 
 We also excluded the verb-manner adverb correlation.
@@ -179,7 +174,6 @@ It is satisfied only in 33\% of our sample of 51 UD languages, as quantified usi
 Dryer \cite{dryer1992greenbergian} counts this as a correlation since he describes the distribution of subject order as an interaction between a weak correlation with object order, and a very strong dominance principle favoring SV orderings.
 We focus on the modeling of correlations, and leave dominance principles to future research.
 We therefore excluded this correlation here.
-%We note that efficiency makes predictions compatible with the pattern observed in our sample of 51 languages, potentially in line with the noisy-channel explanation of SVO described by~\cite{gibson2013noisy} (see Table~\ref{tab:all-predictions}).
 
 
 
@@ -190,11 +184,7 @@ We therefore excluded this correlation here.
 \paragraph{Other Greenberg Universals}
 Greenberg~\cite{greenberg1963universals} stated a total of 45 universals.
 Twenty of these concern the structure of individual words (as opposed to word order, which we focus on here), and many of those have been argued to be explained by the ``dual pressures'' idea \cite{haspelmath2006against}.
-The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order; these form the basis of our formalization in Table~\ref{table:greenberg-dryer}. %, finding 16 correlations to likely be universal.
-%Excluding universals not annotated in available databases, and merging some that can only be tested together we arrived at the eight correlations shown in Table~\ref{table:greenberg-dryer}.
-%Testing efficiency on the excluded correlations would be feasible with additional annotation of data.
-%For instance, one of these could be tested by labeling the existing databases for the distinction between manner adverbs from other kinds of adverbs.
-%For another one, it would be necessary to annotate databases for additional languages that have independent plural markers (e.g., Hawaiian).
+The other 25 universals concern word order; Dryer \cite{dryer1992greenbergian} reformulated most of these as correlations with verb-object order; these form the basis of our formalization in Table~\ref{table:greenberg-dryer}. 
 There are a few other well-supported word order universals that are not correlations with verb-object order.
 This includes dominance principles~\cite{croft2003typology} such as the strong preference for subjects to precede objects.
 Furthermore, there has been interest in Greenberg's universals 18 and 20, which describe correlations not with verb-object order, but of different elements of noun phrases~\cite{cinque2005deriving, culbertson2014language, dryer2018order}.
@@ -443,15 +433,9 @@ Note that the predictability scores are considerably worse than the state-of-the
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. TODO adapt for colorblindness.}\label{fig:pareto-per-lang}
+	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. Languages are ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish).}\label{fig:pareto-per-lang}
 \end{figure}
 
-
-%\begin{figure}
-%\centering
-%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-%\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. TODO adapt for colorblindness.}\label{fig:pareto-per-lang}
-%\end{figure}
 
 
 \begin{figure}
@@ -521,7 +505,7 @@ logit(q_{L}) = \beta + u_{L} + v_{f_L}
 \end{equation}
 where $f_L$ is the language family of $L$.
 
-Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1}.
+Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1-glmer}.
 Across language families, real grammars tend to be more efficient than almost all baseline grammars.
 According to this analysis, exceptions among the UD corpora can be attributed to language-specific effects.
 
@@ -541,40 +525,8 @@ TODO also report glmer, posterior plots, transformed probabilities
 \end{tabular}
 \end{center}
 }
-	\caption{TODO}\label{tab:study1}
+	\caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines. TODO}\label{tab:study1-glmer}
 \end{table}
-% paretoByFamily.R
-
-
-%\paragraph{Inferring $\lambda$}
-%We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
-%\begin{equation}
-%	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
-%\end{equation}
-%where $r$ is the real language, and $B$ is the set of baselines.
-%Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
-%
-%TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
-%
-%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
-%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
-%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
-%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
-%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
-%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
-%Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
-%We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
-%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
-%
-%For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
-%\begin{equation}
-%	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
-%\end{equation}
-%where we considered $\lambda \in (0,1)$ in steps of $0.5$.
-%
-%By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
-
 
 \subsection{Quantifying Degree of Optimality}
 
@@ -583,7 +535,7 @@ TODO also report glmer, posterior plots, transformed probabilities
 \centering
 		\includegraphics[width=0.5\textwidth]{lambda-explanation.png}
 
-	\caption{TODO For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
+	\caption{For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
 \end{figure}
 
 
@@ -631,6 +583,8 @@ This shows that, while many languages do not improve over \emph{all} baselines o
 	\caption[]{Per-Language results as in Figure~\ref{fig:pareto-per-lang-raw}, with lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
 \end{figure}
 
+TODO
+We note that not all real grammars are on the estimated Pareto frontier.
 TODO discuss difference from semantic typology:
 TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
 
@@ -687,11 +641,7 @@ logit(p_{L,j}) = \alpha_j + u_{L,j} + v_{f_L,j}
 \end{equation}
 where $f_L$ is the language family of $L$.
 The intercepts $\alpha_j$ ($j=1,...8$) encode the population-level prevalence of the correlations when controlling for differences between datasets from different languages and language families; $u_{L,j}$, $v_{f_L,j}$ encode per-language and per-family deviations from the population-level intercept $\alpha_j$.
-%, and
-%$u_{L,1,...8} \sim \mathcal{N}(0, \Sigma_{lang})$,
-%$v_{f_L,1,...8} \sim \mathcal{N}(0, \Sigma_{fam})$.
 
-%As we constructed 4 verb-object and 4 object-verb grammars for each of the 51 languages, TODO...
 
 
 Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
@@ -1168,8 +1118,8 @@ In this connection, we note that the parser and language model architectures we 
 
 Here we address this question by demonstrating that our languages optimized for efficiency are also optimal under a range of different language models and parsers. These results show that our optimization process creates languages in which strings are generally predictable and informative about trees, without dependence on particular prediction and parsing algorithms.
 
-TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values, similar to previous work quantifying other aspects of linguistic complexity \citep{cotterell2019complexity}.
-TODO
+%TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values, similar to previous work quantifying other aspects of linguistic complexity \citep{cotterell2019complexity}.
+%TODO
 
 \subsection{CKY Parsers}
 
@@ -1426,13 +1376,13 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 
 
 
-Prior work has suggested \emph{Dependency Length Minimization} (DLM) as a characteristic of efficient word order~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+Prior work has suggested \emph{Dependency Length Minimization} (DLM) as a characteristic of efficient word order~\cite{futrell2015largescale,ferrericancho2004euclidean,liu2017dependency,temperley2018minimizing}.
 This is the idea that word order minimizes the average distance between syntactically related words.
-It is known that human languages reduce dependency length compared to random baselines~\cite{futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+It is known that human languages reduce dependency length compared to random baselines~\cite{liu2010dependency,futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
-[TODO also cite rijkhof, ferrer i cancho]
+%[TODO also cite rijkhof, ferrer i cancho]
 
 Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
@@ -1441,11 +1391,11 @@ The actual empirically-measured processing complexity induced by long dependenci
 We asked whether efficiency optimization predicts dependency length minimization effects.
 We first computed dependency length for grammars optimized for efficiency.
 We found that 100\% of grammars optimized for efficiency reduce average dependency length compared to baseline grammars ($p < 0.05$, by one-sided $t$-test). 
-This suggests that the reduction of dependency length observed in natural language is indeed predicted by efficiency maximization, confirming theoretical arguments made in prior work~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
+This suggests that the reduction of dependency length observed in natural language is indeed predicted by efficiency maximization, confirming theoretical arguments made in prior work~\cite{rijkhoff1986word,rijkhoff1990explaining,hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section~\ref{sec:optim-eff}).
 We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
 In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
-We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length. [TODO acknowledge  Ferrer i Cancho R, Liu H (2014) The risks of mixing dependency lengths from se-quences of different length.Glottotheory5(2):143–155.]
+We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length. %[TODO acknowledge  Ferrer i Cancho R, Liu H (2014) The risks of mixing dependency lengths from se-quences of different length.Glottotheory5(2):143–155.]
 We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4langs}, plotting dependency length as a function of sentence length as reported in prior work \cite{futrell2015largescale}.
 Optiziming grammars for efficiency produces dependency lengths similar to those found in the actual orderings.
 
@@ -1518,6 +1468,38 @@ We formulated this model as a binary-branching PCFG, and used a CKY parser to es
 
 We computed this for different settings of $p_\text{branching} \in [0, 0.5]$ and $p_{obj} \in [0,1]$, at $p_\text{acl} \in \{0, 0.3\}$.\footnote{For $p_\text{acl} = 0.3$, we only computed values for $p_\text{branching} \leq 0.4$, due to high computational cost on long sentences resulting from $p_\text{branching} = 0.5$ and $p_\text{acl} = 0.3$.}
 For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ between the two grammars.
+
+
+
+\begin{figure}[ht]
+    \centering
+{
+\centering{
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+	   V \& N \& V \& N  \\
+   \end{deptext}
+   \depedge{1}{2}{obj}
+   \depedge{1}{3}{xcomp}
+   \depedge{3}{4}{obj}
+\end{dependency}
+
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+	   N \& V \& N \& V  \\
+   \end{deptext}
+   \depedge{2}{1}{obj}
+   \depedge{2}{4}{xcomp}
+   \depedge{4}{3}{obj}
+\end{dependency}
+
+}
+}
+	\caption{An English sentence with annotated syntactic relations.}
+	\label{fig:sent-dep}
+\end{figure}
+
+
 
 \begin{figure}
 	\begin{center}	
@@ -1645,5 +1627,40 @@ Results are shown in Figure~\ref{fig:toy-parseability}. For almost all parameter
 %
 %
 %
+
+
+
+
+% paretoByFamily.R
+
+
+%\paragraph{Inferring $\lambda$}
+%We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
+%\begin{equation}
+%	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
+%\end{equation}
+%where $r$ is the real language, and $B$ is the set of baselines.
+%Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
+%
+%TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
+%
+%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
+%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
+%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
+%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
+%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
+%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
+%Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
+%We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
+%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
+%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
+%
+%For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
+%\begin{equation}
+%	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
+%\end{equation}
+%where we considered $\lambda \in (0,1)$ in steps of $0.5$.
+%
+%By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
 
 
