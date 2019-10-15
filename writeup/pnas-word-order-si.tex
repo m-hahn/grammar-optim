@@ -432,7 +432,7 @@ Note that the predictability scores are considerably worse than the state-of-the
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage_withReal.pdf}
+\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
 	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. Languages are ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish).}\label{fig:pareto-per-lang}
 \end{figure}
 
@@ -587,6 +587,31 @@ TODO
 We note that not all real grammars are on the estimated Pareto frontier.
 TODO discuss difference from semantic typology:
 TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
+
+
+
+
+\subsection{Parseability and Surprisal Metrics for Observed Orders and Extracted Grammars}
+
+We note that the numbers are below the state of the art in NLP.
+
+
+\begin{table}
+\centering
+\small{
+\begin{tabular}{l||ll|ll|l||ll|ll|l|lllll}
+	Language & \multicolumn{5}{c||}{Observed Orders} & \multicolumn{5}{c|}{Extracted Grammars} \\ 
+	& UAS & LAS & U.Pars. & L.Pars. & Surp. & UAS & LAS & U.Pars. & L.Pars. & Surp.\\ \hline \hline
+\input{../results/plane/results-observed-and-mle.tex }
+\end{tabular}
+}
+	\caption{Parsing and Surprisal metrics for observed orders (left), and for corpora ordered according to extracted real grammars (right). UAS and LAS refer to \emph{Unlabeled} and \emph{Labeled Attachment Scores}, respectively, indicating what fraction of words is assigned the correct head (UAS) or the correct head and relation label (LAS) when choosing heads and labels assigned the highest probability $p_\phi(\text{head}_i, \text{label}_i | u, i)$ (Equation~\ref{eq:pars-obj}) by the parser.
+	U.Pars refers to the average value of $- \log p_\phi(\text{head}_i| u, i)$, which is a measure of the difficulty of recovering the raw tree structure, without relation labels. 
+	L.Pars refers to the average value of $- \log p_\phi(\text{head}_i, \text{label}_i| u, i)$, measuring the difficulty of recoovering tree structures including relation labels.
+	Note that L.Pars corresponds to $\operatorname{H}[\tree|\utterance]$ normalized by the number of words.
+	Finally, Surp. refers to the average word-by-word surprisal, which corresponds to the predictability measure $\operatorname{H}[\utterance]$ normalized by the number of words.
+	}\label{tab:observed-and-extracted}
+\end{table}
 
 
 
@@ -1017,7 +1042,7 @@ We use a biaffine attention parser architecture \citep{kiperwasser2016simple,zha
 The parseability of a sentence $u = u_1\dots u_n$ with syntactic structure $t$ is computed as
 \begin{equation}
 	\log p_\phi(t|u) = \sum_{i=1}^n \log p_\phi(\text{head}_i, \text{label}_i | u, i)
-\end{equation}
+\end{equation}\label{eq:pars-obj}
 where $\text{head}_i \in \{\textsc{root}, 1,\dots,n\}$ is the index of the head of $u_i$ in the syntactic structure, and $\text{label}_i$ is its syntactic relation as formalized in UD; $\phi$ denotes the parameters estimated on the training data (see paragraph `Optimization Details').
 The overall parseability is estimated as a Monte Carlo estimate on held-out data:
 \begin{equation}\label{eq:rpars}
@@ -1241,13 +1266,17 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 \subsection{Lexicalized Models}
 
 
+
+
+
+
 Here we replicate Study 1 with both parsers and language models operating entirely on word forms, without POS tags.
 Results are shown in Figures~\ref{fig:pareto-plane-noPOS}.
 As shown in Figure~\ref{fig:byLambda-noPOS}, most real grammars have higher efficiency than most baselines across permissible values of $\lambda$.
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized-real.pdf}
+\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
 	\caption[Predictability and Parseability]{Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-noPOS}
 \end{figure}
 
