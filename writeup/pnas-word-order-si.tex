@@ -96,6 +96,8 @@
 %\cite{gerz2018language}
 % TODO maybe also some recent stuff in data-driven induction of typology https://www.mitpressjournals.org/doi/abs/10.1162/COLI_a_00357
 
+TODO specifically have a discussion about differences to the semantic typology studies?
+
 
 \section{Formalization of Greenberg Correlation Universals}\label{sec:correlations}
 
@@ -593,7 +595,9 @@ TODO mention that, in semantic typology, random baselines might tend to be close
 
 \subsection{Parseability and Surprisal Metrics for Observed Orders and Extracted Grammars}
 
-We note that the numbers are below the state of the art in NLP.
+In Table~\ref{tab:observed-and-extracted}, we report parsing and surprisal metrics that are commonly used in the NLP literature, both for the originally observed orders in the corpora, and the corpora ordered according to the real grammars as extracted and expressed in our grammar formalism.
+We observe similar performance on observed orders and the extracted grammars, across all metrics.
+We note that, while our parsing model is based on the strongest available dependency parsing method from the NLP literature \cite{dozat2017stanford,zeman2018proceedings,che2018towards}, the parsing metrics here are mostly below the best numbers reported with this architecture \cite{zeman2018proceedings} due to the use of an unlexicalized parsing model.
 
 
 \begin{table}
