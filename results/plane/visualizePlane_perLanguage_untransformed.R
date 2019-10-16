@@ -160,10 +160,20 @@ for(language in unique(subData$Language)) {
 subData = data.frame(Language=Language, Surprisal=Surprisal, Pars=Pars)
 subData$Type = "Pareto"
 
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surprisal_z < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
+
+
+corpusSize = read.csv("../corpus-size/corpus-sizes.tsv", sep="\t")
+languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
+
+data$Language = factor(data$Language, levels=languagesOrdered)
+subData$Language = factor(subData$Language, levels=languagesOrdered)
+
+
+
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surprisal_z < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
 plot = plot + geom_point()
 plot = plot + geom_path(data=subData, aes(x=-Pars, y=-Surprisal, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
+plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Negative Ambiguity (per word)") + scale_y_continuous(name="Predictability")
