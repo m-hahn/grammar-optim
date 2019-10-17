@@ -99,6 +99,15 @@
 TODO specifically have a discussion about differences to the semantic typology studies?
 
 
+TODO
+We note that not all real grammars are on the estimated Pareto frontier.
+TODO discuss difference from semantic typology:
+TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
+
+
+
+
+
 \section{Formalization of Greenberg Correlation Universals}\label{sec:correlations}
 
 
@@ -499,19 +508,26 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 \subsection{Analysis controlling for Families}
 
 The UD treebanks overrepresent certain language families.
-Does this impact the results of Study 1?
-We estimate the overall degree of optimization of languages for efficiency, controlling for differences between families, we constructed a Bayesian logistic mixed-effects model estimating, for each language $L$ among the 51 UD languages, the rate $q_L \in [0,1]$ of random baseline grammars that have lower efficiency (parseability, predictability) than the real grammar.
+This raises the question of whether the relative optimality of real grammars observed in Study 1 could be due to family-specific effects.
+We address this question in this section, by estimating the overall degree of optimization of languages for efficiency, controlling for differences between families.
+To this end, we constructed a Bayesian logistic mixed-effects model estimating, for each language $L$ among the 51 UD languages, the rate $q_L \in [0,1]$ of random baseline grammars that have \emph{higher} efficiency (parseability, predictability) than the real grammar.
 We entered languages and language families as random effects:
 \begin{equation}\label{eq:mixed-effects-study1}
 logit(q_{L}) = \beta + u_{L} + v_{f_L}
 \end{equation}
 where $f_L$ is the language family of $L$.
+Here, $\beta$ models the overall probability $logit(q_{L})$ of a baseline grammar having higher efficiency than the real grammar, controlling for differences in the tree structures and real grammars of different languages and language families.
+If optimality of real grammars holds generally across families, and exceptions are due to to language- or family-specific effects, we expect $\beta$ to be $<0$ significantly.
+On the other hand, if optimality of real grammars does not generally hold across families, and the observed optimality is due to family-specific effects, then we expect $\beta \geq 0$.
+
+We estimated the mixed-effects model (\ref{eq:mixed-effects-study1}) from the 50 baseline grammars for each language, using the same priors and sampling method as in the analysis in Study 2 (reported in Section~\ref{sec:study2-regression}).
 
 Results for the posterior of $\beta$ are shown in Table~\ref{tab:study1-glmer}.
-Across language families, real grammars tend to be more efficient than almost all baseline grammars.
-According to this analysis, exceptions among the UD corpora can be attributed to language-specific effects.
+For all three models, $\beta$ is estimated to be $< 0$, showing that the observed optimality of real grammars holds across families, and exceptions are due to language- or family-specific effects.
+For instance, for efficiency, the posterior mean estimate $\beta=-5.88$ corresponds to  less than $1\%$ of baseline grammars showing higher efficiency than the real grammar, when controlling for language- and family-specific effects.
+Similar results hold for predictability and parseability individually.
 
-TODO also report glmer, posterior plots, transformed probabilities
+%TODO also report glmer, posterior plots, transformed probabilities
 
 \begin{table}
 \small{
@@ -521,75 +537,79 @@ TODO also report glmer, posterior plots, transformed probabilities
 	& Mean $\beta$ & SD & Lower 95\% CrI & Upper 95\% CrI \\
 \hline\hline
 	Efficiency ($\lambda=0.9$) &	-5.88   &   1.08  &  -8.28  &  -3.97  \\
-	Surp & -3.48   &   0.88  &  -5.42  &  -1.85   \\
-	Pars & -5.55   &   1.08  &  -7.80  &  -3.67    \\
+	Predictability & -3.48   &   0.88  &  -5.42  &  -1.85   \\
+	Parseability & -5.55   &   1.08  &  -7.80  &  -3.67    \\
 \hline
 \end{tabular}
 \end{center}
 }
-	\caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines. TODO}\label{tab:study1-glmer}
+	\caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines.}\label{tab:study1-glmer}
 \end{table}
 
 \subsection{Quantifying Degree of Optimality}
 
-
-\begin{figure}
-\centering
-		\includegraphics[width=0.5\textwidth]{lambda-explanation.png}
-
-	\caption{For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
-\end{figure}
+%\begin{figure}
+%\centering
+%		\includegraphics[width=0.5\textwidth]{lambda-explanation.png}
+%
+%	\caption{For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
+%\end{figure}
 
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
-	\caption[]{The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency at this value of $\lambda$, with 95\% confidence bands obtained from a binomial test.}\label{fig:lambda-quantile}
+	\caption[]{Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test.}\label{fig:lambda-quantile}
 \end{figure}
+
+
+
+%In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that -- while not all real languages may be strongly optimized for both objectives individually -- at most a very small fraction of baseline grammars improve on the real language on both components.
+%\paragraph{Analysis 1: Optimality by $\lambda$}
+%Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
+%Recall the efficiency metric
+%\begin{equation}
+%	R_\lambda := R_{Pars} + \lambda R_{Pred}
+%\end{equation}
+% with the tradeoff parameter $\lambda \in [0,1)$.
+%For each $\lambda$, we quantify the fraction of baselines that have better efficiency than the real language:
+%\begin{equation}
+%	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
+%\end{equation}
+%where $B$ is the set of baseline languages.
+%We illustrate this in Figure~\ref{fig:opt-lambda-explanation}.
+
+%E.g., the real grammar of Czech does not improve over all baselines in predictability, but it is higher than the vast majority of baselines in efficiency, for all values $\lambda \in [0,1]$.
+%This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
 In the main paper (Study 1), we showed that languages tend to be optimized for parseability and/or predictability.
 Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency, i.e., the multi-objective optimization problem of optimizing for parseability and predictability.
-%Note that the numerical value of efficiency depends on the parameter $\lambda \in [0,1)$.
-
-We quantify degree of optimality in two ways.
-In Analysis 1, we consider the efficiency metric $R_\lambda := R_{Pars} + \lambda R_{Pred}$ with the tradeoff parameter $\lambda \in [0,1)$.
-For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify how many baseline grammars are less efficient than the real language.
-In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that -- while not all real languages may be strongly optimized for both objectives individually -- at most a very small fraction of baseline grammars improve on the real language on both components.
-
-\paragraph{Analysis 1: Optimality by $\lambda$}
-%Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
-
 Recall the efficiency metric
 \begin{equation}
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
 \end{equation}
- with the tradeoff parameter $\lambda \in [0,1)$.
-For each $\lambda$, we quantify the fraction of baselines that have better efficiency than the real language:
-\begin{equation}
-	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
-\end{equation}
-where $B$ is the set of baseline languages.
-We illustrate this in Figure~\ref{fig:opt-lambda-explanation}.
+with the tradeoff parameter $\lambda \in [0,1)$.
+For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify how many baseline grammars are less efficient than the real language.
 
 The results are plotted in Figure~\ref{fig:lambda-quantile}.
-
-For all languages, there are some values of $\lambda$ where the real language improves at least on more than the median of the baseline grammars, i.e., $O_\lambda >0$.
-In about 40 of the languages, $O_\lambda$ is even close to one across all values of $\lambda$.
-
+For all languages, there are some values of $\lambda$ where the real grammar improves at least half of the baseline grammars.
+In about 40 of the languages, the real grammar improves over almost all baseline grammars and for all values of $\lambda$.
 This shows that, while many languages do not improve over \emph{all} baselines on \emph{both} individual components, they mostly improve over the large majority of baselines on the combined objective of efficiency, even across different values of $\lambda$.
+For instance, the real grammar of Czech does not improve over all baselines in predictability (see Figure~\ref{fig:pareto-per-lang}), but it has higher overall efficiency than the vast majority of baselines in efficiency, for all values $\lambda \in [0,1)$.
 
+
+We further confirm this in Figure~\ref{fig:lambda-halfplane-09}:
+We plot the rean and optimized grammars together with a Kernel density estimate of the distribution of baseline grammars.
+We add lines connecting those points that have the same efficiency $R_\lambda$ as the real grammar, at very low ($\lambda = 0.0$, dotted line) and very high ($\lambda = 0.9$, dashed line) values of $\lambda$.
+Grammars to the bottom/left of this lines have lower efficiency than the real grammar, at these two given values of $\lambda$.
+The distribution of baseline grammars is largely to the bottom/left of at least one of the two lines, and often to the bottom/left of both lines.
+This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf}
-	\caption[]{Per-Language results as in Figure~\ref{fig:pareto-per-lang-raw}, with lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
+	\caption[]{Per-Language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a Kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
 \end{figure}
-
-TODO
-We note that not all real grammars are on the estimated Pareto frontier.
-TODO discuss difference from semantic typology:
-TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
-
 
 
 
@@ -657,7 +677,7 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
 \end{figure}
 
-\subsection{Regression for Predicted Correlations}
+\subsection{Regression for Predicted Correlations}\label{sec:study2-regression}
 
 
 %https://github.com/stan-dev/stan/wiki/Prior-Choice-Recommendations
@@ -1453,7 +1473,6 @@ It is known that human languages reduce dependency length compared to random bas
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
-%[TODO also cite rijkhof, ferrer i cancho]
 
 Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
@@ -1465,10 +1484,11 @@ We found that 100\% of grammars optimized for efficiency reduce average dependen
 This suggests that the reduction of dependency length observed in natural language is indeed predicted by efficiency maximization, confirming theoretical arguments made in prior work~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 Next, we constructed grammars that minimize average dependency length, using the same gradient descent method as we used for efficiency optimization (Section~\ref{sec:optim-eff}).
 We expect that such grammars should have shorter dependency length than the real grammars, or grammars optimized for efficiency.
-In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.
-We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length. %[TODO acknowledge  Ferrer i Cancho R, Liu H (2014) The risks of mixing dependency lengths from se-quences of different length.Glottotheory5(2):143–155.]
-We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4langs}, plotting dependency length as a function of sentence length as reported in prior work \cite{futrell2015largescale}.
+In Figure~\ref{fig:dlm-avg}, we plot the mean dependency length for optimized, real, and baseline orderings.\footnote{We show results for the actually observed orderings, not for corpora ordered according to extracted grammars as in Study 1; results are similar for those extracted grammars.} 
+We find that optimizing grammars for efficiency reduces dependency length to a similar degree as found in the actual orderings in the corpora, almost up to the limit given by directly optimizing for dependency length. 
+We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4langs}, plotting dependency length as a function of sentence length as reported in prior work \cite{ferrericancho2014risks,futrell2015largescale}.
 Optiziming grammars for efficiency produces dependency lengths similar to those found in the actual orderings.
+
 
 \begin{figure}[ht]
     \centering
