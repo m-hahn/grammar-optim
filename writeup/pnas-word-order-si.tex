@@ -96,13 +96,13 @@
 %\cite{gerz2018language}
 % TODO maybe also some recent stuff in data-driven induction of typology https://www.mitpressjournals.org/doi/abs/10.1162/COLI_a_00357
 
-TODO specifically have a discussion about differences to the semantic typology studies?
+%TODO specifically have a discussion about differences to the semantic typology studies?
 
 
-TODO
-We note that not all real grammars are on the estimated Pareto frontier.
-TODO discuss difference from semantic typology:
-TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
+%TODO
+%We note that not all real grammars are on the estimated Pareto frontier.
+%TODO discuss difference from semantic typology:
+%TODO mention that, in semantic typology, random baselines might tend to be closer to the frontier, whereas, in our study, there tends to be a low-density region between the baseline grammars and the optimum (as also observed in previous DLM and surprisal studies, cite Futrell and Gildea/Jaeger). 
 
 
 
@@ -642,9 +642,37 @@ We note that, while our parsing model is based on the strongest available depend
 \end{table}
 
 
-\subsection{Impact of Tree Structures on Estimated Frontier}
+\subsection{Impact of Tree Structures on Optimality and Estimated Frontier}
 
-An anonymous reviewer notes that the shape of the estimated Pareto frontier (Figure~\ref{fig:pareto-per-lang}) seems to vary between languages, and asks how the tree structure distributions impact the shape of the estimated frontier, and whether deriving a language-independent bound on efficiency is possible.
+\begin{figure}
+\centering
+	\includegraphics[width=0.7\textwidth]{../results/plane/pareto-plane-other-language.pdf}
+	\caption[]{Languages $L$ have grammars optimized specifically for the tree structure distributions of $L$: We show the real (cross) and baseline (dots) grammars for English and Japanese, together with the estimated Pareto frontier. Additionally, we plot the efficiency values obtained when applying the Japanese grammar to English tree structures (purple square, left), and when applying the English grammar to Japanese tree structures (purple square, right). In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares). This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.}\label{fig:english-japanese-crossed}
+\end{figure}
+
+
+
+\paragraph{Language-Dependence of Tree Structure Distribution}
+Unlike similar efficiency studies in the domain of lexical semantics~\cite{kemp2012kinship,regier2015word,zaslavsky2018efficient}, we did not derive a single universal bound for the efficiency across all 51 languages in Study 1; instead, we constructed optimized grammars individually for each language.
+In this section, we show why this is necessary:
+The efficiency of a grammar crucially depends on the tree structure distribution, and this tree structure distribution is language-specific.
+%Each language $L$ has its own distribution of tree structures; our results show that the grammar of each language $L$ is optimized to reflect the tree structures used in $L$ (see SI Section TODO).
+%Nonetheless, exploring ways of deriving universal bounds is an interesting problem for future work.
+%Figure~\ref{fig:english-japanese-crossed}
+%Here we show that different languages have different tree distributions, and provide evidence that languages are specifically optimized for their individual tree structure distributions.
+To show this, we compared the efficiency of the real grammar of English and Japanese with that obtained when applying the real grammar of \emph{the other} language.
+The results are shown in Figure~\ref{fig:english-japanese-crossed}.
+In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares).
+This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.
+Furthermore, it demonstrates that the tree structure distribution, and therefore the optimality of a given grammar, is language-specific.
+
+%This result suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
+
+
+
+
+\paragraph{Estimated Frontier and Corpus Properties}
+An anonymous reviewer notes that the shape of the estimated Pareto frontier (Figure~\ref{fig:pareto-per-lang}) seems to vary between languages, and asks how the tree structure distributions impact the shape of the estimated frontier.
 
 We conducted a series of linear regressions predicting (1) the predictability and parseability of the best grammar optimzied for efficiency, (2) the parseability and predictability difference between this end and the end optimized for predictability, (3) the difference between this end and the end optimized for parseability.
 For more meaningful comparison, we analyzed values normalized for sentence length as reported in Figure~\ref{fig:pareto-per-lang-raw}.
@@ -663,7 +691,7 @@ More training data also increases the difference between the efficiency-optimal 
 
 These results show that general quantitative properties of the available syntactic structures partially account for variation in the achievable parseability and predictability values.
 Note that at least some of these quantitative properties are impacted by factors external to the syntax of a language, e.g., the unigram entropy may be impacted by the genre of available texts.
-This result suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
+This result again suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
 
 \begin{table}
 \centering
