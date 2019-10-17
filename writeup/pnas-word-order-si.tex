@@ -240,7 +240,7 @@ The exceptions mainly arise because some languages have multiple common word ord
 Hindi uses correlatives that can precede or follow the coreferent noun \citep[3.1.3]{montaut2004grammar} and relatives following the noun \citep[4.3]{montaut2004grammar}.
 Estonian and Finnish have finite relative clauses following nouns (\citep[p. 176]{karlsson2013finnish}, \citep[p. 256]{tauli1983standard}) and nonfinite participial modifiers preceding it \citep[Chapter 18]{karlsson2013finnish}.
 
-		Finally, in Tamil, the divergence is caused by the treebank annotation convention for Tamil, where the label \emph{acl} is used to mark certain elements of compounds whose positioning differs from the participial phrases that correspond most closely to relative clauses of other languages.\footnote{In the original HamleDT \citep{zeman2012hamledt, Ramasamy:2011:TDP:1964799.1964808} version of the Tamil treebank, these relations were labeled as CC, marking compounds (\url{http://ufal.mff.cuni.cz/~ramasamy/tamiltb/0.1/dependency_annotation.html}). We did not attempt to modify this labeling convention.}
+		Finally, in Tamil, the divergence is caused by the treebank annotation convention for Tamil, where the label \emph{acl} is used to mark certain elements of compounds, not for the participial phrases that correspond most closely to relative clauses of other languages.\footnote{In the original HamleDT \citep{zeman2012hamledt, Ramasamy:2011:TDP:1964799.1964808} version of the Tamil treebank, these relations were labeled as CC, marking compounds (\url{http://ufal.mff.cuni.cz/~ramasamy/tamiltb/0.1/dependency_annotation.html}). We did not attempt to modify this labeling convention.}
 	
 
 \item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
@@ -417,24 +417,28 @@ This is confirmed by converging evidence from our preregistered preliminary expe
 
 \section{Supplementary Analyses for Study 1}
 
-\subsection{Per-Language Results}
+\subsection{Details and Additional Analyses}
+
 In Figure~\ref{fig:pareto-per-lang}, we show the predictability-parseability planes for every one the 51 languages, together with Pareto frontiers estimated from optimized grammars.
-We also provide the raw numerical values, before $z$-scoring, in Figure~\ref{fig:pareto-per-lang-raw}.
-
-
-We z-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
-
-Within each language, we estimate the Pareto curve based on the points obtained by optimizing for (1) efficiency (at $\lambda = 0.9$, see Section~\ref{sec:lambda}), (2) parseability, and (3) predictability.
-% The Pareto frontier is the set of all Pareto efficient allocations, conventionally shown graphically.
-This frontier is approximate:
-The actual curve may not be piecewise linear, and it may also extend beyond the estimated curve, as the grammar optimization method is approximate.
-
 Figure 4 in the main paper shows the average of these per-language plots, with a kernel density estimate of the distribution of baseline grammars. 
+In addition to the $z$-scored values in Figure~\ref{fig:pareto-per-lang} and the main paper, we also provide the raw numerical values, before $z$-scoring, in Figure~\ref{fig:pareto-per-lang-raw}.
+
+Note that, in a few languages, the real grammar is at a position slightly \emph{beyond} the estimated Pareto frontier. This can be attributed to two reasons: First, stochastic gradient descent introduces noise due to its stochasticity and will only approximately find an optimal solution; second, for some corpora, there may be some degree of distributional mismatch between the training partitions (on which grammars are optimized) and held-out partitions (on which efficiency is estimated). This in particular applies to very small corpora such as Irish (121 training sentences).
+
+\paragraph{Method applied for $z$-transforming and for estimating Pareto frontier}
+We $z$-transformed on the level of individual languages, normalizing the mean and SD parseability and predictability of the (1) real grammar, (2) the mean of predictability and parseability of all random grammars, (3) the grammar optimized for efficiency (at $\lambda =0.9$, see Section~\ref{sec:lambda}), (4) grammar optimized for parseability only, and (5) grammar optimized for predictability only.
+For (3-5), we choose the grammar, among all eight optimized grammars, that has the highest estimated efficiency (paresability, predictability) value.
+
+We define the \emph{Pareto frontier} as the boundary of the \emph{set of Pareto-efficient points}, that is, of those points such that no grammar (expressible in our formalism) has both higher predictability and higher parseability.
+We approximately estimate this frontier based on optimized grammars, by constructing a \emph{lower bound} on this curve from the optimized grammars:
+Among the eight grammars optimized for efficiency (at $\lambda=0.9$), we select the one with the highest estimated efficiency value; similarly for grammars optimized for parseability and predictability.
+Connecting these three grammars results in a piecewise linear curve that is guaranteed to be a lower bound on the true Pareto frontier (meaning that the true Pareto frontier can only lie above to the right of this curve).
+In cases where the grammar optimized for predictability (similarly parseability) has lower predictability (and parseability) than the grammar optimized for efficiency, we can replace its predictability value by that of the grammar optimized for efficiency: This is guaranteed to result in a point that is still Pareto-dominated by the grammar optimized for efficiency, and provides a tighter bound on the true curve.
+Th resulting frontier is guaranteed to provide a lower bound on the true Pareto frontier, but is nonetheless approximate: The actual curve may not be piecewise linear, and it may also extend beyond the estimated curve, as the grammar optimization method is approximate.
 
 
 
-% say this somewhere
-Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work (CITE a few things on large corpora; also cite language modeling work on many small corpora).
+%Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work (CITE a few things on large corpora; also cite language modeling work on many small corpora).
 
 
 %$\sum_{t \in C} \log p(t|u) \approx |C| H[P|T]  $
@@ -444,7 +448,7 @@ Note that the predictability scores are considerably worse than the state-of-the
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage.pdf}
-	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages. Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars.\footnotemark All data are $z$-scored. Languages are ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish).}\label{fig:pareto-per-lang}
+	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish). Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars. All data are $z$-scored.}\label{fig:pareto-per-lang}
 \end{figure}
 
 
@@ -466,12 +470,12 @@ Note that the predictability scores are considerably worse than the state-of-the
 
 
 
-\footnotetext{Note that, in a few languages, the real grammar is at a position slightly \emph{beyond} the estimated Pareto frontier. This can be attributed to two reasons: First, stochastic gradient descent introduces noise due to its stochasticity and will only approximately find an optimal solution; second, for some corpora, there may be some degree of distributional mismatch between the training partitions (on which grammars are optimized) and held-out partitions (on which efficiency is estimated). This in particular applies to very small corpora such as Irish (121 training sentences).}
+%\footnotetext{}
 
-
-In the main paper, we tested whether real grammars are more efficient than the mean of random grammars, using a $t$-test.
-We also conducted the analysis using a Binomial test (one-sided), testing whether the real gramar is more efficient than the \emph{median} of random grammars, avoiding any distributional assumption on the random grammars.
-As before, we used Hochberg's step-up procedure (Note that the tests for different languages are independent, as different random grammars are evaluated for each language), with $\alpha=0.05$.
+\paragraph{Further Analysis of Optimality}
+In the main paper, we tested whether real grammars are more efficient than the mean of baseline grammars, using a $t$-test.
+We also conducted the analysis using a Binomial test (one-sided), testing whether the real gramar is more efficient than the \emph{median} of baseline grammars, avoiding any distributional assumption on the baseline grammars.
+As before, we used Hochberg's step-up procedure (Note that the tests for different languages are independent, as different baseline grammars are evaluated for each language), with $\alpha=0.05$.
 In this analysis, real grammars improved in parseability for 80\% of languages, in predictability for 69\% of languages, and in either of both in 92\% of languages ($p<0.05$, with Bonferroni correction).
 In Table~\ref{fig:pareto-per-lang-stats}, we provide per-language results for the $t$-tests and binomial tests.
 
@@ -638,6 +642,45 @@ We note that, while our parsing model is based on the strongest available depend
 \end{table}
 
 
+\subsection{Impact of Tree Structures on Estimated Frontier}
+
+An anonymous reviewer notes that the shape of the estimated Pareto frontier (Figure~\ref{fig:pareto-per-lang}) seems to vary between languages, and asks how the tree structure distributions impact the shape of the estimated frontier, and whether deriving a language-independent bound on efficiency is possible.
+
+We conducted a series of linear regressions predicting (1) the predictability and parseability of the best grammar optimzied for efficiency, (2) the parseability and predictability difference between this end and the end optimized for predictability, (3) the difference between this end and the end optimized for parseability.
+For more meaningful comparison, we analyzed values normalized for sentence length as reported in Figure~\ref{fig:pareto-per-lang-raw}.
+
+We considered as independent variables the following quantities, computed on the training set: (1) median sentence length, (2) median tree depth, (3) mean arity, i.e., the mean number of dependents of each word\footnote{The \emph{median} is always 0 or 1 in the available corpora, we thus chose the mean as a more granular measure.}, (4) the unigram entropy, and (5) the logarithm of the overall number of sentences.
+
+These independent variables measure the complexity of syntactic strutures (1-3), the diversity of the vocabulary (4), and the amount of data available for constructing the neural network models (5).
+The resulting regressions are shown in Table~\ref{tab:corpus-frontier-regressions}.
+
+Among factors measuring the complexity of syntactic structures (predictors (1)-(3)), the strongest effect is a positive effect of arity on predictability ($\beta=7.76$, $SE=1.51$, $p < 0.001$), suggesting that structures with more dependents per head lead to higher achievable predictability.
+In contrast, we observe little evidence for an impact of sentence length or tree depth.
+We also observe an effect of unigram entropy (4), showing that datasets with more diverse vocabulary reduce both predictability and parseability.\footnote{For predictability, a similar result about vocabulary size and estimated surprisal across many languages is reported by \cite{mielke-et-al-2019}.}
+Finally, larger amounts of training data (5) lead to higher estimated predictability and parseability -- this is expected, as more training data enables better statistical estimation of the distribution of sentences and syntactic structures.
+More training data also increases the difference between the efficiency-optimal and the predictability-optimal ends of the estimated curve, suggesting that more training data enables more precise estimation of the different extremes of the curve.
+
+
+These results show that general quantitative properties of the available syntactic structures partially account for variation in the achievable parseability and predictability values.
+Note that at least some of these quantitative properties are impacted by factors external to the syntax of a language, e.g., the unigram entropy may be impacted by the genre of available texts.
+This result suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
+
+\begin{table}
+\centering
+\small{
+\begin{tabular}{l||lll|lll|lll|lll}
+	& \multicolumn{3}{c|}{Optimized for Efficiency} & \multicolumn{3}{c|}{Distance to Pred. End}   & \multicolumn{3}{c|}{Distance to Pars. End}\\
+	Predictor & $\beta$ & SE & $t$ & $\beta$ & SE & $t$  & $\beta$ & SE & $t$ \\ \hline \hline
+\input{../results/plane/corpus-frontier-regressions.tex}
+	\multicolumn{10}{l}{Significance levels: $^{*}$ : $p < 0.05$, $^{**}$ : $p < 0.01$, $^{***}$ : $p<0.001$}
+\end{tabular}
+}
+	\caption{Linear regression models predicting the position of the estimated Pareto frontier, from quantitative properties of the available syntactic tree structures. The top half provides models predicting predictability values, the bottom half provides models predicting parseability values. Columns correspond to the three pairs of independent variables defined in the text: predictability/parseability for the best grammar optimized for efficiency, the predictability/parseability distance to the end optimized for predictability, and the predictability/parseability distance to the end optimized for parseability.}\label{tab:corpus-frontier-regressions}
+\end{table}
+
+
+
+%summary(lm(A2Minus1 ~ MedianSentenceLength + UnigramEntropy + MedianTreeDepth + log(SentenceCount) +MeanArity , data=pars__))
 
 
 \section{Supplementary Analyses for Study 2}
@@ -903,7 +946,7 @@ Future work should replicate the analysis of \cite{justeson1990explanation} on a
 	\begin{center}
 	\includegraphics[width=0.8\textwidth]{../results/correlations/analysis/controls/loglinear-pairwise-correlations.pdf}
 	\end{center}
-	\caption{Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized, identified using a log-linear model following \citet{justeson1990explanation}. The verb-object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.}\label{fig:loglinear}
+	\caption{Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized for efficiency, identified using a log-linear model following \citet{justeson1990explanation}. The verb-object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.}\label{fig:loglinear}
 \end{figure}
 
 
@@ -1323,7 +1366,7 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 
 
 
-\section{Other Methods of Estimating Efficiency and Efficiency Optimization}
+\section{Other Methods of Estimating Efficiency and Constructing Baselines in Study 1}
 
 \subsection{Lexicalized Models}
 
@@ -1332,7 +1375,9 @@ In Study 1, we calculate parseability on the part-of-speech level, and also add 
 These choices are intended to prevent early overfitting during the grammar optimization process (Section~\ref{sec:neural-architectures}).
 However, such unlexicalized parsers are less accurate than parsers taking acual word-forms into account, and adding part-of-speech tags might provide additional disambiguation that is absent in the original word-level input.
 Here, we show that these limitations do not affect conclusions from Study 1, by replicating Study 1 with both parsers and language models operating entirely on word forms, without POS tags.
-Results are shown in Figure~\ref{fig:pareto-plane-noPOS} and Table~\ref{tab:pareto-plane-noPOS}. In agreement with the previous results (Figure~\ref{fig:pareto-per-lang}), real grammars are mostly to the top right of their corresponding baselines.
+Results are shown in Figure~\ref{fig:pareto-plane-noPOS} and Table~\ref{tab:pareto-plane-noPOS}.
+We compare real and baseline grammars; here, we do not have an estimate of the Pareto frontier, as the grammar optimization process uses part-of-speech tags (Section~\ref{sec:neural-architectures}).
+In agreement with the previous results (Figure~\ref{fig:pareto-per-lang}), real grammars are mostly to the top right of their corresponding baselines.
 We further confirm this in Figure~\ref{fig:lambda-quantile-noPOS}, which shows that most real grammars have higher efficiency than most baselines across permissible values of $\lambda$.
 In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lambda-quantile} suggests that optimality of real grammars is \emph{more} pronounced when modeling predictability and parseability fully on the level of word forms.
 
@@ -1365,12 +1410,24 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 
 \subsection{Original UD Format}
 
-We replicate the comparison between real and random grammars in Study 1.
+As described in \emph{Materials and Methods}, we follow \cite{futrell2015largescale} in applying automated conversion of tree structures to a more standard formalism, modifying each treebank by inverting dependencies of types \textit{cc}, \textit{case}, \textit{cop}, and \textit{mark}.
+This converted version is intended to more closely reflect assumptions about syntactic structure shared across a wide range of linguistic theories, addressing criticism of the Universal Dependencies representation \cite{osborne2019status}.
+
+
+In this section, we provide evidence that this conversion does not affect our results by replicating the comparison between real and baseline grammars in Study 1 using the original Universal Dependencies (UD) representation.
+As in Study 1, we represented the real grammars by extracting grammars from the observed orderings; for each language, we constructed a new set of 50 baseline grammars.
+Results are shown in Figures~\ref{fig:pareto-per-lang-pureUD} and~\ref{fig:lambda-quantile-pureUD}.
+The results agree with those found on the converted versions; across languages, real grammars are at the top-right of the baseline distributions, and (with the exception of Telugu, a language with a small corpus) 
+
+
+%we also computed held-out likelihood for the extracted ordering grammars for the original UD structures and the converted version. Likelihood is higher for the converted version in 47 out of 51 languages (exceptions: Japanese, Korean, Hindi, Urdu).
+
+
 
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/pureUD/pareto-plane-perLanguage-pureUD-mle.pdf}
-	\caption[Predictability and Parseability]{Study 1, replication with the original UD format models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang-pureUD}.}
+	\caption[Predictability and Parseability]{Study 1, replication with the original UD format: Predictability and parseability of real and baseline grammars in 51 languages, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-per-lang-pureUD}
 \end{figure}
 
 
@@ -1379,7 +1436,7 @@ We replicate the comparison between real and random grammars in Study 1.
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{../results/plane/pureUD/analyze_pareto_optimality/figures/quantileByLambda-mle.pdf}
-	\caption{Study 1, replication with original UD format: Optimality by $\lambda$ (lexicalized models).}
+	\caption{Study 1, replication with the original UD format: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-pureUD}
 \end{figure}
 
 
