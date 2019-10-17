@@ -1328,17 +1328,17 @@ Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency 
 \subsection{Lexicalized Models}
 
 
-
-
-
-
-Here we replicate Study 1 with both parsers and language models operating entirely on word forms, without POS tags.
-Results are shown in Figures~\ref{fig:pareto-plane-noPOS}.
-As shown in Figure~\ref{fig:byLambda-noPOS}, most real grammars have higher efficiency than most baselines across permissible values of $\lambda$.
+In Study 1, we calculate parseability on the part-of-speech level, and also add part-of-speech tags when calculating predictability.
+These choices are intended to prevent early overfitting during the grammar optimization process (Section~\ref{sec:neural-architectures}).
+However, such unlexicalized parsers are less accurate than parsers taking acual word-forms into account, and adding part-of-speech tags might provide additional disambiguation that is absent in the original word-level input.
+Here, we show that these limitations do not affect conclusions from Study 1, by replicating Study 1 with both parsers and language models operating entirely on word forms, without POS tags.
+Results are shown in Figure~\ref{fig:pareto-plane-noPOS} and Table~\ref{tab:pareto-plane-noPOS}. In agreement with the previous results (Figure~\ref{fig:pareto-per-lang}), real grammars are mostly to the top right of their corresponding baselines.
+We further confirm this in Figure~\ref{fig:lambda-quantile-noPOS}, which shows that most real grammars have higher efficiency than most baselines across permissible values of $\lambda$.
+In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lambda-quantile} suggests that optimality of real grammars is \emph{more} pronounced when modeling predictability and parseability fully on the level of word forms.
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
+\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized-mle.pdf}
 	\caption[Predictability and Parseability]{Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-noPOS}
 \end{figure}
 
@@ -1349,7 +1349,7 @@ As shown in Figure~\ref{fig:byLambda-noPOS}, most real grammars have higher effi
 \begin{tabular}{l||ll|lll|lll}
 Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
 &  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
-\input{../results/plane/unlexicalized/per-language-statistics-unlexicalized.tex}
+\input{../results/plane/unlexicalized/per-language-statistics-unlexicalized-ground.tex}
 \end{tabular}
 }
 	\caption{Study 1, replication with lexicalized models: Per-language results in Study 1, with \emph{lexicalized} parsers and word-level-only language models. Compare Table~\ref{fig:pareto-per-lang-stats}}\label{tab:pareto-plane-noPOS}
@@ -1359,7 +1359,7 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 \begin{figure}
 	\centering
 	\includegraphics[width=\textwidth]{../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda-mle.pdf}
-	\caption{Study 1, replication with lexicalized models: Optimality by $\lambda$ (lexicalized models).}\label{fig:byLambda-noPOS}
+	\caption{Study 1, replication with lexicalized models: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-noPOS}
 \end{figure}
 
 
@@ -1388,21 +1388,31 @@ We replicate the comparison between real and random grammars in Study 1.
 \subsection{Nondeterministic Baseline Grammars}
 
 In Study 1, we considered deterministic ordering grammars, even though real languages have some degree of word order freedom.
-Here, we show that deterministic baseline grammars provide conservative baselines: They have higher efficiency than baseline grammars with word order freedom comparable to real languages.
+Here, we show that deterministic baseline grammars provide conservative baselines: They have higher efficiency than baseline grammars with word order freedom comparable to the orders found in the original corpora, and thus provide conservative baselines for comparison with other grammars.
 
 
-In order to obtain baselines whose freedom is comparable to that of real languages, we constructed baselines that have the same Branching Direction Entropy \cite{futrell2015quantifying}:
-For every one of the 37 syntactic relations, we chose $a_\tau$ the direction entropy to be the same as observed in the actual orderings found in the UD corpus.
-We kept the relative ordering of siblings on one side deterministic, i.e., we considered the limit where the values $b_\tau$ for different $\tau$ are far apart.
+In order to obtain baselines whose freedom is comparable to that of real languages, we constructed baselines that have the same Branching Direction Entropy \cite{futrell2015quantifying} as observed in the original corpora.
+The Branching Direction Entropy measures the extent of freedom in choice between head-final and head-initial orderings, and it is a corpus-based quantitative measure of word order freedom \cite{futrell2015quantifying}.
+For a given syntactic relation, the \emph{branching direction entropy} measures the entropy of the Bernoulli variable that is $1$ whenever the head is ordered before the dependent, and $0$ if the dependent is ordered before the head.
+The branching direction entropy is $0$ if only one of the two orders can occur, and it is $\log 2$ if both orders are equally frequent.
 
-Results are shown in Figure~\ref{fig:nondeterministic-english}.
+We constructed baseline grammars that match the branching direction entropies found in the original orders found in the corpora.
+To this end, we converted the baseline grammars into differentiable ordering grammars (Section~\ref{sec:diff-gramm}).
+Such grammars have parameters $a_\tau, b_\tau$ for each relation $\tau$.
+For every one of the 37 syntactic relations, we chose $a_\tau$ so as to match the the direction entropy to that observed in the actual orderings found in the UD corpus.
+For $b_\tau$, we considered the limit where the values $b_\tau$ for different relations $\tau$ are very far apart, making the relative ordering of siblings on the same side of the head fully deterministic.
+That is, these ordering grammars match word order freedom as quantified by Branching Direction Entropy, and show no additional degrees of order freedom.
+
+We compared these nondeterministic baseline grammars to their deterministic versions, for one language with relatively free order (Czech), and for two languages with relatively fixed order (English and Japanese).
+Results are shown in Figure~\ref{fig:nondeterministic}.
 For every one of the baseline grammars, we show both its deterministic and its nondeterministic version.
-Nondeterministic grammars are strongly less efficient than deterministic grammars, showing that deterministic grammars constitute stronger baselines.
+Nondeterministic grammars are less efficient than deterministic grammars, in particular in language with greater degrees of word order freedom (Czech).
+This shows that deterministic grammars constitute stronger baselines.
 
 \begin{figure}
 	\centering
-	\includegraphics[width=0.4\textwidth]{../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle.pdf}
-	\caption{Parseability and predictability, including nondeterministic versions of the 50 baseline grammars.}\label{fig:nondeterministic-english}
+	\includegraphics[width=0.95\textwidth]{../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle.pdf}
+	\caption{Parseability and predictability for three languages, including both deterministic (green) and nondeterministic  (blue) versions of the 50 baseline grammars.}\label{fig:nondeterministic}
 \end{figure}
 
 
