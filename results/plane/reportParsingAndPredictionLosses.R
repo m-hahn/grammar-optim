@@ -17,14 +17,13 @@ dataS5 = read.csv("../../grammars/plane/plane-fixed-random3.tsv", sep="\t") %>% 
 dataS6 = read.csv("../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS7 = read.csv("../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
+#dataP = read.csv("../../grammars/plane/plane-parse-unified.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataP = read.csv("../../grammars/plane/plane-parse-redone.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean(Surp, na.rm=TRUE))
-dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE))
+dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE), LAS = mean(LAS, na.rm=TRUE), UAS = mean(UAS, na.rm=TRUE), ParsU = mean(ParsU, na.rm=TRUE))
 dataS = as.data.frame(dataS)
 dataP = as.data.frame(dataP)
 library(lme4)
-summary(lmer(Surprisal ~ Type + (1|Language), data=dataS %>% filter(grepl("langm", Type))))
-summary(lmer(Surprisal ~ Type + (1|Language), data=dataS %>% filter(grepl("RL", Type) | grepl("ground", Type))))
 dataS = dataS %>% mutate(Type = as.character(Type))
 dataP = dataP %>% mutate(Type = as.character(Type))
 dataS = dataS %>% mutate(Model = as.character(Model))
@@ -45,6 +44,7 @@ data = data %>% mutate(Type = ifelse(Type == "manual_output_funchead_RANDOM5", "
 
 dataComp = data
 dataCompBaseline = dataComp %>% filter(grepl("RANDOM", Type))
+dataCompReal = dataComp %>% filter(Type == "REAL_REAL") %>% select(Language, Surprisal, Pars) %>% rename(SurprisalGround = Surprisal) %>% rename(ParsGround = Pars) %>% mutate(EffGround = ParsGround + 0.9*SurprisalGround) %>% group_by(Language)
 dataCompGround = dataComp %>% filter(Type == "manual_output_funchead_ground_coarse_final") %>% select(Language, Surprisal, Pars) %>% rename(SurprisalGround = Surprisal) %>% rename(ParsGround = Pars) %>% mutate(EffGround = ParsGround + 0.9*SurprisalGround) %>% group_by(Language)
 dataComp = merge(dataCompBaseline, dataCompGround, by=c("Language"))
 
@@ -76,6 +76,7 @@ dataS = merge(dataS, dataSBest, by=c("Language", "Surprisal"))
 
 
 dataRandom = data %>% filter(grepl("RANDOM", Type))
+dataReal = data %>% filter(grepl("REAL_REAL", Type)) #%>% group_by(Language) %>% summarise(Surprisal = mean(Surprisal), Pars = mean(Pars))
 dataGround = data %>% filter(grepl("ground", Type)) #%>% group_by(Language) %>% summarise(Surprisal = mean(Surprisal), Pars = mean(Pars))
 
 
@@ -90,104 +91,35 @@ data = rbind(dataP, data2)
 data = rbind(data, dataS)
 data = rbind(data, dataRandom)
 data = rbind(data, dataGround)
-
-
-
-dataMean = data %>% group_by(Language, Type) %>% summarise(Surprisal=mean(Surprisal, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanSurprisal = mean(Surprisal, na.rm=TRUE), SDSurprisal = sd(Surprisal, na.rm=TRUE)+0.0001)
-data = merge(data, dataMean, by=c("Language"))
-dataMean = data %>% group_by(Language, Type) %>% summarise(Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE)+0.0001)
-data = merge(data, dataMean, by=c("Language"))
-
-dataMean = data %>% filter(grepl("RANDOM", Type)) %>% group_by(Language) %>% summarise(MeanSurprisalRand = mean(Surprisal, na.rm=TRUE), SDSurprisalRand = sd(Surprisal, na.rm=TRUE)+0.0001)
-data = merge(data, dataMean, by=c("Language"))
-dataMean = data %>% filter(grepl("RANDOM", Type)) %>% group_by(Language) %>% summarise(MeanParsRand = mean(Pars, na.rm=TRUE), SDParsRand = sd(Pars, na.rm=TRUE)+0.0001)
-data = merge(data, dataMean, by=c("Language"))
-
-
-
-D = data %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large") %>% select(Language, Type, Model, Pars, Surprisal)
-D = data %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced") %>% select(Language, Type, Model, Surprisal)
-D = data %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced") %>% select(Language, Type, Model, Pars)
+data = rbind(data, dataReal)
 
 
 
 
 
-data = data %>% mutate(Pars_z = (Pars-MeanPars)/SDPars, Surprisal_z=(Surprisal-MeanSurprisal)/SDSurprisal)
 
-subData = data %>% filter(Type %in% c("manual_output_funchead_two_coarse_parser_best_balanced", "manual_output_funchead_two_coarse_lambda09_best_large", "manual_output_funchead_langmod_coarse_best_balanced"))
+#corpusSize = read.csv("../corpus-size/corpus-sizes.tsv", sep="\t")
+#languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
+#
+#data$Language = factor(data$Language, levels=languagesOrdered)
+#subData$Language = factor(subData$Language, levels=languagesOrdered)
 
+   language = "English"
 
-#######################################
+library(stringr)
+sink("results-observed-and-mle.tex")
+for(language in unique(data$Language)) {
+   u = data %>% filter(Language == language)
+   
+   ground = (u %>% filter(Type == "manual_output_funchead_ground_coarse_final"))
+   observed = (u %>% filter(Type == "REAL_REAL"))
+   efficient = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))
+   
+   language2 = str_replace(language, "_", " ")
+   language2 = str_replace(language2, "_", " ")
 
-subData = subData[order(subData$Type),]
-
-Step = c()
-Surprisal = c()
-Pars = c()
-Language = c()
-for(language in unique(subData$Language)) {
-   u = subData %>% filter(Language == language)
-
-   # Pareto hull
-
-   pred = min(u$Surprisal)
-   pars = (u %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced"))$Pars[1]
-
-   Surprisal = c(Surprisal, pred)
-   Pars = c(Pars, pars)
-   Language = c(Language, language)
-   Step = c(Step, 1)
-
-   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Surprisal[1]
-   pars = (u %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large"))$Pars[1]
-
-   Surprisal = c(Surprisal, pred)
-   Pars = c(Pars, pars)
-   Language = c(Language, language)
-   Step = c(Step, 2)
-
-   pred = (u %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced"))$Surprisal[1]
-   pars = min(u$Pars)
-
-   Surprisal = c(Surprisal, pred)
-   Pars = c(Pars, pars)
-   Language = c(Language, language)
-   Step = c(Step, 3)
-
+   cat(paste(language2, round(observed$UAS[1], 3), round(observed$LAS[1], 3), round(observed$ParsU[1], 3), round(observed$Pars[1], 3), round(observed$Surprisal[1],3), round(ground$UAS[1], 3), round(ground$LAS[1], 3), round(observed$ParsU[1], 3), round(observed$Pars[1], 3),  round(ground$Surprisal[1],3), "\\\\ \n", sep="  &  "))
 }
-
-subData = data.frame(Language=Language, Surprisal=Surprisal, Pars=Pars)
-subData$Type = "Pareto"
-
-
-
-corpusSize = read.csv("../corpus-size/corpus-sizes.tsv", sep="\t")
-languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
-
-data$Language = factor(data$Language, levels=languagesOrdered)
-subData$Language = factor(subData$Language, levels=languagesOrdered)
-
-
-
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surprisal_z < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
-plot = plot + geom_point()
-plot = plot + geom_path(data=subData, aes(x=-Pars, y=-Surprisal, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
-plot = plot + facet_wrap(~Language, scales="free")
-plot = plot + theme_bw()
-plot = plot + scale_x_continuous(name="Negative Ambiguity (per word)") + scale_y_continuous(name="Predictability")
-plot = plot + theme(legend.title = element_blank())  
-plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
-plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
-plot = plot + theme(axis.title.x = element_text(size=17))
-plot = plot + theme(axis.title.y = element_text(size=17))
-plot = plot + theme(legend.text = element_text(size=12))
-plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
-plot = plot + theme(legend.position = "none")
-ggsave(plot, file="pareto-plane-perLanguage-raw.pdf", width=12, height=12)
-
-
-
+sink()
 
 
