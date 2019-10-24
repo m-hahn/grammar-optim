@@ -317,7 +317,7 @@ In the standard Information Bottleneck, complexity is modeled using a mutual inf
 The setting for the standard Information Bottleneck is a case where there is a random variable $X$ which contains information about some underlying variable of interest $Y$; the goal of the Information Bottleneck is to find a representation $\hat{X}$ of $X$ which maximizes $\operatorname{I}[\hat{X},Y]$ while minimizing $\operatorname{I}[\hat{X},X]$.
 One key property of the standard Information Bottleneck is that it results in codes $\hat{X}$ that are nondeterministic.
 
-The variant of the Information Bottleneck that we use has been explored in the machine learning literature by \citet{strouse2017deterministic} and dubbed the ``Deterministic Information Bottleneck'' because, in the setting studied by \citet{strouse2017efficient}, it results in codes that are a deterministic function of the information to be expressed.
+The variant of the Information Bottleneck that we use has been explored in the machine learning literature by \citet{strouse2017deterministic} and dubbed the ``Deterministic Information Bottleneck'' because, in the setting studied by \citet{strouse2017deterministic}, it results in codes that are a deterministic function of the information to be expressed.
 We use this version of the Information Bottleneck because (1) it has been proposed in previous literature as a generic formalization of efficiency \citep{ferreri2003least}, and (2) it is not clear what would count as the three variables $Y$, $X$, and $\hat{X}$ in our setting. In our setting we have unordered tree structures $\mathcal{T}$ to be conveyed, and utterances $\mathcal{U}$ representing them. It is not currently clear what would count as a third variable for the application of the standard Information Bottleneck, although we believe such formulations may be fruitful in the future.
 
 %We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
@@ -336,26 +336,33 @@ Most closely related to our work, \citet{kirby2015compression} model language ev
 Formally, their model studies a Bayesian language learner who infers a language $h$ from data $d$ according to $P(h|d) \propto P(d|h) P(h)$, where $P(h)$ defines a prior distribution over languages, and $P(d|h)$ is the likelihood of observed data $d$ under the grammar $h$, assuming that speakers produce utterances pragmatically.
 The prior $P(h)$ favors less complex languages; the likelihood $P(d|h)$ favors languages that communicate meanings unambiguously.
 We now show that this model instantiates the basic objective~(\ref{eq:eff-basic}). 
-If the dataset $d$ consists of observed pairs $(t,f)$ of meanings $t$ and forms $f$, and the language $h$ defines a set of possible pairs $(t,f)$, then the log-likelihood as defined by their model can be written as follows (up to constants)\footnote{We assume for simplicity that the error probability $\epsilon$ in the model is equal to $0$.}
-\begin{equation}
-\log P(d|h) = \sum_{(t,f) \in d} \log P(f|h,t) = \sum_{(t,f) \in d} \log P(f|h,t) \propto \sum_{(t,f) \in d} \log \frac{1}{|\{t' : (t', f) \in h\}|} = \sum_{(t,f) \in d} \log P(t|f)
-\end{equation}
+If the dataset $d$ consists of observed pairs $(t,f)$ of meanings $t$ and forms $f$, and the language $h$ defines a set of possible pairs $(t,f)$, then the log-likelihood as defined by their model can be written as follows (up to constants):\footnote{We assume for simplicity that the error probability $\epsilon$ in the model is equal to $0$.}
+\begin{align}
+  \nonumber
+  \log P(d|h) &= \sum_{(t,f) \in d} \log P(f|h,t) \\
+  \nonumber
+  & = \sum_{(t,f) \in d} \log P(f|h,t) \\
+  \nonumber
+  & \propto \sum_{(t,f) \in d} \log \frac{1}{|\{t' : (t', f) \in h\}|} \\
+  \nonumber
+  & = \sum_{(t,f) \in d} \log P(t|f),
+\end{align}
 where $P(t|f)$ is the probability that the observed form $f$ referred to meaning $t$, as the model assumes uniform meaning distributions and uniform choice of appropriate forms.
 Replacing the sum over the dataset $d$ by the expectation over the idealized full distribution over meaning-form pairs, this can be rewritten as 
 \begin{equation}
-- \operatorname{H}[t|f] = \operatorname{I}[t, f] - \operatorname{H}[t]
+- \operatorname{H}[t|f] = \operatorname{I}[t, f] - \operatorname{H}[t],
 \end{equation}
 where the first term is the mutual information between forms and meanings, as in our efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
-The second term, the entropy of meanings, is a constant independent of the form-meaning mapping.
-The overall log probablity assigned by the Bayesian learner thus comes out to (up to constants)
+The second term, the entropy of meanings, is a constant independent of the form--meaning mapping.
+The overall log probability assigned by the Bayesian learner thus comes out to (up to constants)
 \begin{equation}
-\log P(h|d) = \operatorname{I}[t, f] + \lambda \log P(h)
+\log P(h|d) = \operatorname{I}[t, f] + \lambda \log P(h),
 \end{equation}
 where the prior $P(h)$ favors simpler languages.
 This result shows that the model of \citet{kirby2015compression} predicts that language evolution favors languages optimizing a function of the form~(\ref{eq:eff-basic}), with an informativity term identical to that of our model~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 
 \paragraph{Relation to Formalizations of Pragmatics}
-In addition to these models, which model the efficiency and evolution of communication systems, there is closely related work formalizing the optimal choice of specific utterances in context.
+In addition to these models, which  the concernefficiency and evolution of communication systems, there is closely related work formalizing the optimal choice of specific utterances in context.
 Our work is most closely related to the Rational Speech Acts model of pragmatic reasoning \cite{frank2012predicting,goodman2013knowledge, kao2014nonliteral}.
 In line with the other models discussed here, it assumes that rational speakers choose utterances to optimize informativity about the referent object, and trade this off with the cost of the utterance, which is partly chosen to be the surprisal of the utterance \cite{bennett2018extremely, hahn2018information, peloquin2019interactions}.
 \citet{peloquin2019interactions} provide further discussion of the links between pragmatics and the efficiency metric (\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
@@ -434,7 +441,7 @@ We approximately estimate this frontier based on optimized grammars, by construc
 Among the eight grammars optimized for efficiency (at $\lambda=0.9$), we select the one with the highest estimated efficiency value; similarly for grammars optimized for parseability and predictability.
 Connecting these three grammars results in a piecewise linear curve that is guaranteed to be a lower bound on the true Pareto frontier (meaning that the true Pareto frontier can only lie above to the right of this curve).
 In cases where the grammar optimized for predictability (similarly parseability) has lower predictability (and parseability) than the grammar optimized for efficiency, we can replace its predictability value by that of the grammar optimized for efficiency: This is guaranteed to result in a point that is still Pareto-dominated by the grammar optimized for efficiency, and provides a tighter bound on the true curve.
-Th resulting frontier is guaranteed to provide a lower bound on the true Pareto frontier, but is nonetheless approximate: The actual curve may not be piecewise linear, and it may also extend beyond the estimated curve, as the grammar optimization method is approximate.
+The resulting frontier is guaranteed to provide a lower bound on the true Pareto frontier, but is nonetheless approximate: the actual curve may not be piecewise linear, and it may also extend beyond the estimated curve, as the grammar optimization method is approximate.
 
 
 
@@ -603,7 +610,7 @@ For instance, the real grammar of Czech does not improve over all baselines in p
 
 
 We further confirm this in Figure~\ref{fig:lambda-halfplane-09}:
-We plot the rean and optimized grammars together with a Kernel density estimate of the distribution of baseline grammars.
+We plot the real and optimized grammars together with a kernel density estimate of the distribution of baseline grammars.
 We add lines connecting those points that have the same efficiency $R_\lambda$ as the real grammar, at very low ($\lambda = 0.0$, dotted line) and very high ($\lambda = 0.9$, dashed line) values of $\lambda$.
 Grammars to the bottom/left of this lines have lower efficiency than the real grammar, at these two given values of $\lambda$.
 The distribution of baseline grammars is largely to the bottom/left of at least one of the two lines, and often to the bottom/left of both lines.
@@ -612,7 +619,7 @@ This highlights that, even when the real grammar does not appear strongly optimi
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf}
-	\caption[]{Per-Language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a Kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
+	\caption[]{Per-language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a Kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
 \end{figure}
 
 
@@ -674,7 +681,7 @@ Furthermore, it demonstrates that the tree structure distribution, and therefore
 \paragraph{Estimated Frontier and Corpus Properties}
 An anonymous reviewer notes that the shape of the estimated Pareto frontier (Figure~\ref{fig:pareto-per-lang}) seems to vary between languages, and asks how the tree structure distributions impact the shape of the estimated frontier.
 
-We conducted a series of linear regressions predicting (1) the predictability and parseability of the best grammar optimzied for efficiency, (2) the parseability and predictability difference between this end and the end optimized for predictability, (3) the difference between this end and the end optimized for parseability.
+We conducted a series of linear regressions predicting (1) the predictability and parseability of the best grammar optimized for efficiency, (2) the parseability and predictability difference between this end and the end optimized for predictability, (3) the difference between this end and the end optimized for parseability.
 For more meaningful comparison, we analyzed values normalized for sentence length as reported in Figure~\ref{fig:pareto-per-lang-raw}.
 
 We considered as independent variables the following quantities, computed on the training set: (1) median sentence length, (2) median tree depth, (3) mean arity, i.e., the mean number of dependents of each word\footnote{The \emph{median} is always 0 or 1 in the available corpora, we thus chose the mean as a more granular measure.}, (4) the unigram entropy, and (5) the logarithm of the overall number of sentences.
@@ -685,13 +692,13 @@ The resulting regressions are shown in Table~\ref{tab:corpus-frontier-regression
 Among factors measuring the complexity of syntactic structures (predictors (1)-(3)), the strongest effect is a positive effect of arity on predictability ($\beta=7.76$, $SE=1.51$, $p < 0.001$), suggesting that structures with more dependents per head lead to higher achievable predictability.
 In contrast, we observe little evidence for an impact of sentence length or tree depth.
 We also observe an effect of unigram entropy (4), showing that datasets with more diverse vocabulary reduce both predictability and parseability.\footnote{For predictability, a similar result about vocabulary size and estimated surprisal across many languages is reported by \cite{mielke-et-al-2019}.}
-Finally, larger amounts of training data (5) lead to higher estimated predictability and parseability -- this is expected, as more training data enables better statistical estimation of the distribution of sentences and syntactic structures.
+Finally, larger amounts of training data (5) lead to higher estimated predictability and parseability---this is expected, as more training data enables better statistical estimation of the distribution of sentences and syntactic structures.
 More training data also increases the difference between the efficiency-optimal and the predictability-optimal ends of the estimated curve, suggesting that more training data enables more precise estimation of the different extremes of the curve.
 
 
 These results show that general quantitative properties of the available syntactic structures partially account for variation in the achievable parseability and predictability values.
 Note that at least some of these quantitative properties are impacted by factors external to the syntax of a language, e.g., the unigram entropy may be impacted by the genre of available texts.
-This result again suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
+This result again suggests that it may not be possible to derive a language-independent bound on syntactic efficiency, in contrast with studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}).
 
 \begin{table}
 \centering
@@ -912,39 +919,39 @@ Giving similar weight to parseability and predictability -- that is, $\lambda$ c
 
 \subsection{Comparison to other Formalizations of Greenberg's Correlations}
 
-We followed \citet{dryer1992greenbergian} in treating Greenberg's correlations as pairwise correlations with verb-object order.
-While Greenberg's original study \cite{greenberg1963universals} also formalized most of these as correlations with verb-object order, a few were formalized as correlations between other relations that are only indirectly related to verb-object order (e.g., Universal 22 linking the position of the standard of comparison to the order of adpositions).
+We followed \citet{dryer1992greenbergian} in treating Greenberg's correlations as pairwise correlations with verb--object order.
+While Greenberg's original study \cite{greenberg1963universals} also formalized most of these as correlations with verb--object order, a few were formalized as correlations between other relations that are only indirectly related to verb-object order (e.g., Universal 22 linking the position of the standard of comparison to the order of adpositions).
 
-\citet{justeson1990explanation} conducted a log-linear analysis on typological judgments of 147 languages, constructing an undirected graphical model modeling correlations among any pair of six syntactic relations (verb-object, adposition-noun, noun-genitive, noun-relative clause, noun-adjective, verb-subject).
-Results from their analysis suggested that, while some relations are directly correlated with the verb-object order, whereas other relations are only indirectly correlated with it.
-In particular, in their analysis, the noun-genitive relation (corresponding to Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}} here) was not directly correlated with the verb-object correlation; instead, the typologically observed correlation was explained through correlations between the noun-genitive relation and other relations (such as the adposition-noun relation) that directly correlate with the verb-object relation.
-Note that this does not contradict the statement that verb-object and noun-genitive relations correlate; it shows that the observed correlation can be explained through a chain of other correlations.
+\citet{justeson1990explanation} conducted a log-linear analysis on typological judgments of 147 languages, constructing an undirected graphical model modeling correlations among any pair of six syntactic relations (verb--object, adposition--noun, noun--genitive, noun--relative clause, noun--adjective, verb--subject).
+Results from their analysis suggested that some relations are directly correlated with the verb--object order, whereas other relations are only indirectly correlated with it.
+In particular, in their analysis, the noun--genitive relation (corresponding to Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}} here) was not directly correlated with the verb--object correlation; instead, the typologically observed correlation was explained through correlations between the noun--genitive relation and other relations (such as the adposition--noun relation) that directly correlate with the verb--object relation.
+Note that this does not contradict the statement that verb--object and noun--genitive relations correlate; it shows that the observed correlation can be explained through a chain of other correlations.
 
 Since the set of syntactic relations examined here is different from that examined by \citet{justeson1990explanation}, we cannot directly compare the predictions of efficiency optimization with their results.
-Nonetheless, we can show that efficiency optimization is compatible with a picture of Greenberg's correlation as a network of pairwise correlations among different syntactic relations, and in particular the result that the correlation between the verb-object and noun-genitive relations is mediated through other correlations.
+Nonetheless, we can show that efficiency optimization is compatible with a picture of Greenberg's correlation as a network of pairwise correlations among different syntactic relations, and in particular the result that the correlation between the verb--object and noun--genitive relations is mediated through other correlations.
 
 First, we directly test the optimized grammars for two additional correlations found by \citet{justeson1990explanation}:
-For the relations examined here, beyond correlations with verb-object order, they found additional correlations between (1) the noun-genitive and adposition-noun dependencies, and (2) between the noun-relative clause and adposition-noun dependencies, \emph{beyond} the correlation mediated through the individual correlations with the verb-object dependency.
+For the relations examined here, beyond correlations with verb--object order, they found additional correlations between (1) the noun--genitive and adposition--noun dependencies, and (2) between the noun--relative clause and adposition--noun dependencies, \emph{beyond} the correlation mediated through the individual correlations with the verb--object dependency.
 %With their model, they found no evidence for a direct correlation V-O, G-N beyond that mediated through other correlations.
 We ran the same Bayesian logistic mixed-effects analysis for these two correlations.
 Results are shown in Figure~\ref{tab:corr-regression-implication}.
 Both correlations are very strongly supported by grammars optimized for efficiency.
 
 Second, we directly applied the log-linear analysis described by \citet{justeson1990explanation} to optimized grammars.
-We represent each grammar via the directions $v_1, \dots v_9$ of the nine relations indicated in Table 1 of the main paper (verb-object, and \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}), we coded these as $-0.5$ for Japanese-like order, and $+0.5$ for Arabic-like order.
+We represent each grammar via the directions $v_1, \dots v_9$ of the nine relations indicated in Table 1 of the main paper (verb--object, and \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}), we coded these as $-0.5$ for Japanese-like order, and $+0.5$ for Arabic-like order.
 This analysis models the relative frequency $p_{(v_1, \dots, v_9)}$ of a particular configuration of such a configuration $(v_1, \dots, v_9)$ by a log-linear model:
 \begin{equation}
 	\log p_{(v_1, \dots, v_9)} = u_0 + \sum_{i=1}^9 u_i v_i + \sum_{i, j \in C} u_{i,j} v_{i} v_{j}
 \end{equation}
 where $C$ is some set of (unordered) pairs of relations $\in \{1, \dots, 9\}$, modeling those pairs of relations that directly correlate with each other, and where $u_0, i_i, i_{i,j}$ are real-valued parameters.
-For instance, if all relations directly correlate with the verb-object order, and not with any other relation, $C$ would contain all the unordered pairs containing the verb-object relation.
+For instance, if all relations directly correlate with the verb--object order, and not with any other relation, $C$ would contain all the unordered pairs containing the verb--object relation.
 
 We inferred the best-fitting such model by selecting the pairs in $C$ via forward-selection using AIC.
 The best-fitting model includes a set $C$ of 13 correlating pairs, with $AIC=274.18$.
 This resulting model is shown in Figure~\ref{fig:loglinear}; following \cite{justeson1990explanation}, we show those links between nodes that are included in this selected model.
-In agreement with the results of \cite{justeson1990explanation}, a network is identified in which all relations are connected at least indirectly, but several relations are not directly connected to the verb-object relation:
-In particular, in accordance with the typological data analysed by \cite{justeson1990explanation}, the observed correlation between the verb-object and noun-genitive relation is entirely mediated through correlations with other relations (adposition-noun and verb-adpositional phrase) that directly correlate with the verb-object relation.
-A difference is that, in our analysis and unlike the analysis by \cite{justeson1990explanation}, the noun-relative clause dependency is not directly linked to the verb-object relation; this might be because our analysis takes a different set of relations into account compared to \cite{justeson1990explanation}.
+In agreement with the results of \cite{justeson1990explanation}, a network is identified in which all relations are connected at least indirectly, but several relations are not directly connected to the verb--object relation:
+In particular, in accordance with the typological data analysed by \cite{justeson1990explanation}, the observed correlation between the verb--object and noun--genitive relation is entirely mediated through correlations with other relations (adposition--noun and verb--adpositional phrase) that directly correlate with the verb--object relation.
+A difference is that, in our analysis and unlike the analysis by \cite{justeson1990explanation}, the noun--relative clause dependency is not directly linked to the verb--object relation; this might be because our analysis takes a different set of relations into account compared to \cite{justeson1990explanation}.
 
 
 We also note that, unlike our mixed-effects models, this log-linear model does not have random effects, as we found that adding random effects to the log-linear model led to nonconvergence.
@@ -965,7 +972,7 @@ Future work should replicate the analysis of \cite{justeson1990explanation} on a
 \end{tabular}
 \end{center}
 }
-	\caption{Detailed results for the two correlations found by \citet{justeson1990explanation} that do not involve the verb-object dependency, for grammars optimized for efficiency. Both correlations are strongly supported by optimized grammars, holding in about 90\% of optimized grammars. Compare Table~\ref{tab:corr-regression}.
+	\caption{Detailed results for the two correlations found by \citet{justeson1990explanation} that do not involve the verb--object dependency, for grammars optimized for efficiency. Both correlations are strongly supported by optimized grammars, holding in about 90\% of optimized grammars. Compare Table~\ref{tab:corr-regression}.
 }\label{tab:corr-regression-implication}
 \end{table}
 
@@ -974,7 +981,7 @@ Future work should replicate the analysis of \cite{justeson1990explanation} on a
 	\begin{center}
 	\includegraphics[width=0.8\textwidth]{../results/correlations/analysis/controls/loglinear-pairwise-correlations.pdf}
 	\end{center}
-	\caption{Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized for efficiency, identified using a log-linear model following \citet{justeson1990explanation}. The verb-object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.}\label{fig:loglinear}
+	\caption{Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized for efficiency, identified using a log-linear model following \citet{justeson1990explanation}. The verb--object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.}\label{fig:loglinear}
 \end{figure}
 
 
@@ -1009,8 +1016,13 @@ We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar p
 
 Note that the grammatical formalism simplifies some aspects of the word order regularities of natural languages.
 For instance, it does not represent cases where ordering varies between main and embedded clauses, as it does not condition ordering decisions on the larger context.
+<<<<<<< HEAD
+It also does not nonprojective orderings, which---while generally rare---do occur in many languages.
+More complex and powerful ordering grammar models have been proposed \cite{futrell2015experiments,wang2016galactic}; however, they have similar limitations, and for our purposes, the model adopted here has the advantage of being simple and interpretable.
+=======
 It also does not nonprojective orderings, which -- while generally rare -- do occur in many languages.
 More complex and powerful ordering grammar models have been proposed \cite{futrell2015experiments, wang2016galactic}; however, they have similar limitations, and for our purposes, the model adopted here has the advantage of being simple and interpretable.
+>>>>>>> 15eea12004cccabb88bb423f4984f28b47b42951
 
 
 
@@ -1039,7 +1051,7 @@ We then extract the posterior means for each parameter $a_\tau, b_\tau$, and con
 
 We validated the extracted grammars by comparing the dominant orders of six syntactic relations that are also annotated in the World Atlas of Linguistic Structures (WALS, \cite{haspelmath2005world}).
 Among the eight Greenbergian correlations that we were able to test, five are annotated in WALS: adpositions, complementizers, relative clauses, genitives, and oblique PPs.
-In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb-object relation.
+In Table~\ref{tab:grammars-wals}, we compare our grammars with WALS on these five relations, and the verb--object relation.
 WALS has data for 74\% of the entries\footnote{Serbian and Croatian are listed as a single language Serbian-Croatian in WALS. In the table, we compare those with the grammar we extracted for Croatian, noting that it fully agrees with the Serbian grammar.}, and lists a dominant order for 91\% of these.
 The grammars we extracted from the corpora agree with WALS in 96~\%  of these cases.
 
@@ -1110,7 +1122,7 @@ R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_{t \sim \mathcal{T}} \E_{u \sim p_{\
 \end{equation}
 In order to find an optimal grammar $\theta$, we thus need to compute 
 \begin{equation}\label{eq:efficiency}
-\argmax_\theta\	R_{\textit{Eff}}^{\theta} = \argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi} 
+\argmax_\theta\	R_{\textit{Eff}}^{\theta} = \argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi}.
 %= \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
 \end{equation}
 Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
@@ -1258,7 +1270,7 @@ The choice of optimization methods and the stopping criterion were fixed before 
 \paragraph{Optimized Grammars}
 As described in the main paper, for each language, we created 8 optimized languages for each optimization criterion.
 We enforced balanced distribution of object--verb and verb--object ordering among optimized languages by fixing $a_\tau$ for the \textit{obj} dependency to be 0.0 in four of these languages, and 1.0 in the other four.
-This maximizes statistical precision in detecting and quantifying correlations between the verb-object relation and other relations.
+This maximizes statistical precision in detecting and quantifying correlations between the verb--object relation and other relations.
 
 For efficiency optimization, for each grammar, we ran efficiency optimization with three different random seeds, selecting among these the seed that yielded the best overall efficiency value.
 We did this in order to control for possible variation across random seeds for the stochastic gradient descent optimization method.
@@ -1320,12 +1332,11 @@ Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more pars
 \subsection{Distorted graph-based parsers}
 \label{sec:distorted}
 
-In this section, we address the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings, and the question whether this might be responsible for our findings.
+In this section, we provide evidence against the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings.%, and the question whether this might be responsible for our findings.
 In particular, we address the idea that the graph-based parser might have a bias toward parses involving short dependencies, which we call a \key{locality bias}. 
-We address this by changing the order in which the parser sees words, in such a way that the distance between words in the input is not indicative of syntactic relations.
-
-
-
+We address this by changing the order in which the parser sees words, such that word adjacency in the input to the parser does not correspond to linear adjacency in the true utterance.
+If the parser has a locality bias, then this bias will be disrupted when it sees words in these distorted orders.
+We consider a number of possible distorted orders:
 
 \paragraph{Even--odd order.} A sequence of $n$ words originally ordered as $w_1 w_2 w_3 w_4 \cdots w_n$ is reordered by separating the even and odd indices: $w_2 w_4 w_6 \cdots w_{n-1} w_1 w_3 w_5 \cdots w_n$ (assuming $n$ odd). Therefore all words that are adjacent in the original order will be separated by a distance of $\approx n/2$ in the distorted order, while all words of distance 2 in the original order will become adjacent.
 
@@ -1564,12 +1575,12 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 
 Prior work has suggested \emph{Dependency Length Minimization} (DLM) as a characteristic of efficient word order~\cite{futrell2015largescale,ferrericancho2004euclidean,liu2017dependency,temperley2018minimizing}.
 This is the idea that word order minimizes the average distance between syntactically related words.
-It is known that human languages reduce dependency length compared to random baselines~\cite{liu2010dependency,futrell2015largescale,liu2017dependency,temperley2018minimizing}.
+It is known that human languages reduce dependency length compared to random baselines~\cite{liu2008dependency,futrell2015largescale,liu2017dependency,temperley2018minimizing}.
 Prior work has suggested principles akin to DLM as approximating efficiency optimization of grammars~\cite{hawkins1994performance,hawkins2004efficiency,futrell2017memory, futrell2017generalizing}.
 It is a heuristic formalization of the idea that long dependencies should create high memory requirements in parsing and prediction~\cite{hawkins1994performance,gibson1998linguistic,gibson2000dependency, futrell2017memory}.
 Indeed, \cite{futrell2017memory} argues specifically that it emerges from efficiency optimization.
 
-Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{futrell2015largescale}.
+Dependency length is typically quantified as the average distance between all pairs of syntactically related words, measured by the number of intervening words~\cite{liu2008dependency,futrell2015largescale}.
 Dependency length quantified in this manner is a heuristic measure of complexity:
 The actual empirically-measured processing complexity induced by long dependencies is not a linear function of length and depends crucially on the types of dependencies involved \cite{demberg2008data} and the specific elements intervening between the head and dependent \cite{gibson1998linguistic,gibson2000dependency,lewis2005activationbased}.
 
@@ -1626,7 +1637,7 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 
 
 
-\section{Simulation for Parseability and Correlating Orders}
+\section{Efficiency and correlating orders in toy grammars}
 
 %VP -> V
 %VP -> VP[head] VP[xcomp]
@@ -1635,11 +1646,11 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 %NP -> N
 %NP -> NP[head] VP[acl]
 
-When we optimize grammars for efficiency, we find that the optimized grammars exhibit dependency length minimization and the Greenbergian word order correlations. To some extent, this result is surprising, because previous functional explanations for DLM (and the Greenbergian correlations, which are predicted by DLM) have been based on the idea of limitations in working memory, and yet our models do not instantiate any explicit working memory pressures. Nor is it the case that our parsers have implicit locality biases, as demonstrated by the experiments in Section~\ref{sec:distorted} above. Our results therefore suggest that DLM and word order correlations might arise purely because they enable tree structures to be better recovered from trees, and/or they make sequences more predictable. 
+When we optimize grammars for efficiency, we find that the optimized grammars exhibit dependency length minimization and the Greenbergian word order correlations. To some extent, this result is surprising, because previous functional explanations for DLM (and the Greenbergian correlations, which have been argued to arise from DLM) have been based on the idea of limitations in working memory, and yet our models do not instantiate any explicit working memory pressures; see also Section~\ref{sec:distorted} above for evidence against the idea that a locality bias arises from our parsers. Our results therefore suggest that DLM and word order correlations might arise purely because they enable tree structures to be better recovered from trees, and/or they make sequences more predictable. 
 
 Here we perform some simulation studies to bolster the argument that DLM and word order correlations can enhance the recoverability of tree structures in a generic sense, without any appeal to memory limitations. To do so, we experiment with toy grammars that can be defined to either (1) exhibit word order correlations or (2) not, and we test whether the grammars of type (1) are more or less parseable than the grammars of type (2). We measure parseability using a CYK PCFG parser, thus removing any potential confounds arising from the neural network parsing model.
 
-Our toy grammar consists of the following head-outward generative model.
+Our toy grammar consists of the following head-outward generative model \citep{eisner1996three}.
 Verbs generate verb dependents (\emph{xcomp}) and noun dependents (\emph{obj}), independently.
 The overall number $N$ of dependents is $NB(1, p_\text{branching})$, the number of \emph{obj} dependents is $Binom(p_{obj}, N)$.
 Nouns can generate verb dependents (\emph{acl}), of number $NB(1, p_\text{acl})$.
@@ -1699,13 +1710,13 @@ For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ 
 \includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_3.pdf}
 \end{center}
 
-	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_\text{acl} = 0.0$ (left) and $p_\text{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars.}\label{fig:toy-parseability}
+	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_\text{acl} = 0.0$ (left) and $p_\text{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars, i.e. cases where the grammars that exhibit natural-language-like correlations are more parseable than grammars that do not.}\label{fig:toy-parseability}
 \end{figure}
 
 
 Results are shown in Figure~\ref{fig:toy-parseability}. For almost all parameter regimes, the correlating grammars have better parseability than the anti-correlating grammars. This is especially the case for grammars with high $p_\text{branching}$. 
 
-This simulation shows that correlations can in principle improve parseability in the controlled setting of such a model, without appeal to memory limitations; we leave a full graph-theoretical understanding to future work.
+This simulation shows that the Greenbergian word order correlations can in principle improve parseability in the controlled setting of such a model, without any appeal to memory limitations; we leave a full graph-theoretical understanding of this phenomenon to future work.
 
 
 \nocite{diessel2001ordering, dryer1980positional, wals} 
