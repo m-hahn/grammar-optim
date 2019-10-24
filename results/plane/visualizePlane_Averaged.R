@@ -16,7 +16,7 @@ dataS5 = read.csv("../../grammars/plane/plane-fixed-random3.tsv", sep="\t") %>% 
 dataS6 = read.csv("../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS7 = read.csv("../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
-dataP = read.csv("../../grammars/plane/plane-parse-redone.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../grammars/plane/plane-parse-unified.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
