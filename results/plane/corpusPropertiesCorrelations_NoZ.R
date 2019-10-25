@@ -1,11 +1,8 @@
 
 
-library(lme4)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-library(tidyr)
-library(dplyr)
 dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
@@ -19,9 +16,6 @@ dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
 dataP = as.data.frame(dataP)
-library(lme4)
-summary(lmer(Surprisal ~ Type + (1|Language), data=dataS %>% filter(grepl("langm", Type))))
-summary(lmer(Surprisal ~ Type + (1|Language), data=dataS %>% filter(grepl("RL", Type) | grepl("ground", Type))))
 dataS = dataS %>% mutate(Type = as.character(Type))
 dataP = dataP %>% mutate(Type = as.character(Type))
 dataS = dataS %>% mutate(Model = as.character(Model))
@@ -76,7 +70,6 @@ dataGround = data %>% filter(grepl("ground", Type)) #%>% group_by(Language) %>% 
 
 
 D = dataGround %>% select(Language, Type, Model)
-#write.csv(D, file="../strongest_models/models-mle.csv")
 
 
 
@@ -88,10 +81,8 @@ data = rbind(data, dataGround)
 
 
 dataMean = data %>% group_by(Language, Type) %>% summarise(Surprisal=mean(Surprisal, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanSurprisal = mean(Surprisal, na.rm=TRUE), SDSurprisal = sd(Surprisal, na.rm=TRUE)+0.0001)
-write.csv(dataMean, file="surp-z.csv")
 data = merge(data, dataMean, by=c("Language"))
 dataMean = data %>% group_by(Language, Type) %>% summarise(Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% summarise(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE)+0.0001)
-write.csv(dataMean, file="pars-z.csv")
 data = merge(data, dataMean, by=c("Language"))
 
 dataMean = data %>% filter(grepl("RANDOM", Type)) %>% group_by(Language) %>% summarise(MeanSurprisalRand = mean(Surprisal, na.rm=TRUE), SDSurprisalRand = sd(Surprisal, na.rm=TRUE)+0.0001)
@@ -102,13 +93,8 @@ data = merge(data, dataMean, by=c("Language"))
 
 
 D = data %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large") %>% select(Language, Type, Model, Pars, Surprisal)
-#write.csv(D, file="best-two-lambda09-best-balanced.csv")
-
 D = data %>% filter(Type == "manual_output_funchead_langmod_coarse_best_balanced") %>% select(Language, Type, Model, Surprisal)
-#write.csv(D, file="../strongest_models/best-langmod-best-balanced.csv")
-
 D = data %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced") %>% select(Language, Type, Model, Pars)
-#write.csv(D, file="best-parse-best-balanced.csv")
 
 
 
