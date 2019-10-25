@@ -5,10 +5,8 @@ library(lme4)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-depl = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
-depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", ModelName))
 dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
@@ -56,7 +54,6 @@ u = dataComp %>% group_by(Language) %>% summarise(BetterSurprisal = sum(Surprisa
 
 
 
-data = merge(data, depl %>% select(Language, Model,AverageLengthPerWord) %>% mutate(Model = as.character(Model)), by=c("Language", "Model"), all.x=TRUE)
 data = data %>% mutate(Two = 0.9*Surprisal+Pars)
 
 data2 = rbind(data)
