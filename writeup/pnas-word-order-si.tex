@@ -1417,7 +1417,7 @@ In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lam
 
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized-mle.pdf}
+\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
 	\caption[Predictability and Parseability]{Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-noPOS}
 \end{figure}
 
@@ -1428,7 +1428,7 @@ In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lam
 \begin{tabular}{l||ll|lll|lll}
 Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
 &  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
-\input{../results/plane/unlexicalized/per-language-statistics-unlexicalized-ground.tex}
+\input{../results/plane/unlexicalized/per-language-statistics-lexicalized.tex}
 \end{tabular}
 }
 	\caption{Study 1, replication with lexicalized models: Per-language results in Study 1, with \emph{lexicalized} parsers and word-level-only language models. Compare Table~\ref{fig:pareto-per-lang-stats}}\label{tab:pareto-plane-noPOS}
@@ -1437,7 +1437,7 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda-mle.pdf}
+	\includegraphics[width=\textwidth]{../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda.pdf}
 	\caption{Study 1, replication with lexicalized models: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-noPOS}
 \end{figure}
 
