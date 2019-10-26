@@ -6,4 +6,6 @@ cp ../results/correlations/figures/posteriors/posterior_Efficiency_*.pdf revised
 cp everything_mainPaper.bib revised-submission/
 cp figures/corr-full.png revised-submission/figures/
 cp figures/grammar-langs-fontsize-friends-rect.png revised-submission/figures/
-
+cp pnas-new.cls revised-submission/
+cp pnas-new.bst revised-submission/
+cp pnasresearcharticle.sty revised-submission/
