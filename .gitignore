@@ -11,6 +11,7 @@
 *.sh
 *.swp
 *.swo
+*.dep
 raw-results
 python27
 CS_SCR
