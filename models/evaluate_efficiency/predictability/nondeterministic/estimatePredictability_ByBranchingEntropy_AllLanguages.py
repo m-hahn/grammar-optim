@@ -78,7 +78,7 @@ while failures < 20000:
   language, model = random.choice(relevantModels)
   if languages is not None and language not in languages:
       continue
-  if language != "English":
+  if language not in ["English", "Japanese", "Czech"]:
      failures += 1
      continue
   existing = [x for x in existingFiles if x.startswith(language) and "_"+model+"_" in x]

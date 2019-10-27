@@ -108,7 +108,7 @@ while failures < 30000:
   if languages is not None and language not in languages:
       assert False
       continue
-  if language != "English":
+  if language not in ["English", "Japanese", "Czech"]:
      failures += 1
      continue
   existing = [x for x in existingFiles if x.startswith("performance-"+language+"_") and "_"+model+".txt" in x]

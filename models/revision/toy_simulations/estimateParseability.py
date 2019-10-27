@@ -17,7 +17,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument('--correlation_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--dlm_xcomp', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
 parser.add_argument('--correlation_acl', default=True, type=lambda x: (str(x).lower() == 'true')) # https://stackoverflow.com/questions/15008758/parsing-boolean-values-with-argparse
-parser.add_argument('--probVPBranching', default=0.5, type=float) 
+parser.add_argument('--probVPBranching', default=0.4, type=float) 
 parser.add_argument('--probObj', default=0.5, type=float) 
 parser.add_argument('--probNPBranching', default=0.0, type=float) 
 
@@ -676,6 +676,7 @@ while failures < 2:
        else:
           backward(loss, policyLoss)
        if printHere:
+           print(args)
            print " ".join(map(str,[FILE_NAME, language, myID, counter, epochs, len(partitions), "MODEL", model ]))
            print zip(names, params)
            print devLosses
