@@ -1,5 +1,5 @@
-data = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
-best = read.csv("../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/successful-seeds.tsv")
+data = read.csv("../../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/auto-summary-lstm.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+best = read.csv("../../../grammars/manual_output_funchead_two_coarse_lambda09_best_large/successful-seeds.tsv")
 
 library(forcats)
 library(dplyr)
@@ -9,7 +9,7 @@ data = data %>% mutate(Language = fct_recode(Language, "Ancient_Greek" = "Ancien
 
 data = merge(data %>% mutate(FileName = as.character(FileName)), best %>% rename(FileName = Model), by=c("Language", "FileName"))
 
-languages = read.csv("../languages/languages-iso_codes.tsv")
+languages = read.csv("../../languages/languages-iso_codes.tsv")
 data  = merge(data, languages, by=c("Language"), all.x=TRUE)
 library("brms")
 dependency = "nmod"
@@ -36,7 +36,7 @@ library(ggplot2)
 plot = ggplot(data = data.frame(satisfied=satisfied), aes(x=satisfied)) + geom_histogram() + theme_bw() + xlim(1,10.5)
 
 
-ggsave(plot=plot, filename="figures/posterior-satisfied-universals-efficiency-large.pdf")
+ggsave(plot=plot, filename="../figures/posterior-satisfied-universals-efficiency-large.pdf")
 
 
 write.csv(u, file="~/CS_SCR/posteriors/posterior-10-efficiency-large.csv")
