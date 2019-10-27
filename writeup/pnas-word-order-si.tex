@@ -553,7 +553,7 @@ Similar results hold for predictability and parseability individually.
 \end{tabular}
 \end{center}
 }
-	\caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines.}\label{tab:study1-glmer}
+\caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines in predictability, parseability, and overall efficiency. This model shows that the optimization observed in Study 1 cannot be attributed to family-specific effects.}\label{tab:study1-glmer}
 \end{table}
 
 \subsection{Quantifying Degree of Optimality}
@@ -653,7 +653,7 @@ We note that, while our parsing model is based on the strongest available depend
 \begin{figure}
 \centering
 	\includegraphics[width=0.7\textwidth]{../results/plane/pareto-plane-other-language.pdf}
-	\caption[]{Languages $L$ have grammars optimized specifically for the tree structure distributions of $L$: We show the real (cross) and baseline (dots) grammars for English and Japanese, together with the estimated Pareto frontier. Additionally, we plot the efficiency values obtained when applying the Japanese grammar to English tree structures (purple square, left), and when applying the English grammar to Japanese tree structures (purple square, right). In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares). This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.}\label{fig:english-japanese-crossed}
+	\caption[]{Languages $L$ have grammars optimized specifically for the tree structure distributions of $L$: We show the real (cross) and baseline (dots) grammars for English and Japanese, together with the estimated Pareto frontier. Additionally, we plot the efficiency values obtained when applying the Japanese grammar to English tree structures (purple square, left), and when applying the English grammar to Japanese tree structures (purple square, right). In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares), even though the grammar from the other language still is more efficient than the baselines. This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.}\label{fig:english-japanese-crossed}
 \end{figure}
 
 
@@ -668,8 +668,8 @@ The efficiency of a grammar crucially depends on the tree structure distribution
 %Here we show that different languages have different tree distributions, and provide evidence that languages are specifically optimized for their individual tree structure distributions.
 To show this, we compared the efficiency of the real grammar of English and Japanese with that obtained when applying the real grammar of \emph{the other} language.
 The results are shown in Figure~\ref{fig:english-japanese-crossed}.
-In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares).
-This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.
+In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares), even though the grammar from other language still is more efficient than the baseline grammars.
+This suggests that the grammars of languages, beyond reflecting generic optimization for efficiency across tree structures, may also be specifically optimized for their individual tree structure distributions.
 Furthermore, it demonstrates that the tree structure distribution, and therefore the optimality of a given grammar, is language-specific.
 
 %This result suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
