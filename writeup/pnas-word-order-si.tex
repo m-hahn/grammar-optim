@@ -556,7 +556,7 @@ Similar results hold for predictability and parseability individually.
 \caption{Models estimating the log-odds of a random baseline grammar improving over a real grammar in efficiency ($\lambda=0.9$), surprisal, or parseability, with random effects for languages and language families. The strongly negative estimates of $\beta$ confirm that, across languages and language families, real grammars improve over most baselines in predictability, parseability, and overall efficiency. This model shows that the optimization observed in Study 1 cannot be attributed to family-specific effects.}\label{tab:study1-glmer}
 \end{table}
 
-\subsection{Quantifying Degree of Optimality}
+\subsection{Quantifying Degree of Optimality for Overall Efficiency}
 
 %\begin{figure}
 %\centering
@@ -593,7 +593,7 @@ Similar results hold for predictability and parseability individually.
 %This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
 In the main paper (Study 1), we showed that languages tend to be optimized for parseability and/or predictability.
-Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency, i.e., the multi-objective optimization problem of optimizing for parseability and predictability.
+Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency as a multi-objective optimization problem of optimizing for parseability and predictability.
 Recall the efficiency metric
 \begin{equation}
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
@@ -606,6 +606,11 @@ For all languages, there are some values of $\lambda$ where the real grammar imp
 In about 40 of the languages, the real grammar improves over almost all baseline grammars and for all values of $\lambda$.
 This shows that, while many languages do not improve over \emph{all} baselines on \emph{both} individual components, they mostly improve over the large majority of baselines on the combined objective of efficiency, even across different values of $\lambda$.
 For instance, the real grammar of Czech does not improve over all baselines in predictability (see Figure~\ref{fig:pareto-per-lang}), but it has higher overall efficiency than the vast majority of baselines in efficiency, for all values $\lambda \in [0,1)$.
+There are also languages for which the degree of optimality does strongly depend on $\lambda$; however, we note that estimated optimimality is stronger when estimating efficiency using lexicalized parsers that can take morphology into account (Figures~\ref{fig:pareto-plane-noPOS}-\ref{fig:lambda-quantile-noPOS}).
+
+This analysis is similar to that reported by \citet{zaslavsky2018efficient} in a study of color names; they found that observed color naming systems have higher efficiency than almost all baseline systems at \emph{a specific value of $\lambda$}.
+Here, we have shown that grammars tend to be more efficient than baselines across most values of $\lambda$.
+
 
 
 We further confirm this in Figure~\ref{fig:lambda-halfplane-09}:
