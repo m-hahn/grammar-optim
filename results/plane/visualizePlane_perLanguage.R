@@ -191,5 +191,37 @@ ggsave(plot, file="pareto-plane-perLanguage.pdf", width=12, height=12)
 
 
 
+data = merge(data, corpusSize %>% rename(Language=language), by=c("Language"))
+subData = merge(subData, corpusSize %>% rename(Language=language), by=c("Language"))
+
+data$Language_ = paste(data$Language, "\nn = ", data$sents_train, sep="")
+subData$Language_ = paste(subData$Language, "\nn = ", subData$sents_train, sep="")
+corpusSize$Language_ = paste(corpusSize$language, "\nn = ", corpusSize$sents_train, sep="")
+
+
+languagesOrdered = corpusSize$Language[order(-corpusSize$sents_train)]
+
+data$Language_ = factor(data$Language_, levels=languagesOrdered)
+subData$Language_ = factor(subData$Language_, levels=languagesOrdered)
+
+
+
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surprisal_z < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Type, group=Type))
+plot = plot + geom_point()
+plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surprisal_z, group=1), size=1.5)
+plot = plot + geom_point(data=data %>% filter(Type %in% c("manual_output_funchead_ground_coarse_final")) %>% filter(Surprisal_z < 3), shape=4, size=1.5, stroke=2)
+plot = plot + facet_wrap(~Language_, scales="free")
+plot = plot + theme_bw()
+plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
+plot = plot + theme(legend.title = element_blank())  
+plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + theme(axis.title.x = element_text(size=17))
+plot = plot + theme(axis.title.y = element_text(size=17))
+plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
+plot = plot + theme(legend.position = "none")
+ggsave(plot, file="pareto-plane-perLanguage-WithN.pdf", width=12, height=12)
+
 
 

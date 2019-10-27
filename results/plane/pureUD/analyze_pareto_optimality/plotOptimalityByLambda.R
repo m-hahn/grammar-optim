@@ -34,7 +34,7 @@ data$Language = factor(data$Language, levels=languagesOrdered)
 
 
 plot = ggplot(data, aes(x=Lambda, y=Quantile)) + geom_line() + geom_line(aes(x=Lambda,y=UpperBound), linetype="dotted") + geom_line(aes(x=Lambda,y=LowerBound), linetype="dotted") + facet_wrap(~Language)
-
+plot = plot + theme(axis.text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1)) 
 
 ggsave(plot, file="figures/quantileByLambda.pdf")
 
