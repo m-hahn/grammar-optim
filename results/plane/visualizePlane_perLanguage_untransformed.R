@@ -1,14 +1,12 @@
-# per language
+# Produces visualization of efficiency plane, without z-transform
 
 
 library(lme4)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-depl = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
-depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", ModelName))
 dataS = read.csv("../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
@@ -17,7 +15,7 @@ dataS5 = read.csv("../../grammars/plane/plane-fixed-random3.tsv", sep="\t") %>% 
 dataS6 = read.csv("../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS7 = read.csv("../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
-dataP = read.csv("../../grammars/plane/plane-parse-redone.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../grammars/plane/plane-parse-unified.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean(Surp, na.rm=TRUE))
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
@@ -56,7 +54,6 @@ u = dataComp %>% group_by(Language) %>% summarise(BetterSurprisal = sum(Surprisa
 
 
 
-data = merge(data, depl %>% select(Language, Model,AverageLengthPerWord) %>% mutate(Model = as.character(Model)), by=c("Language", "Model"), all.x=TRUE)
 data = data %>% mutate(Two = 0.9*Surprisal+Pars)
 
 data2 = rbind(data)
@@ -187,6 +184,39 @@ plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
 plot = plot + theme(legend.position = "none")
 ggsave(plot, file="pareto-plane-perLanguage-raw.pdf", width=12, height=12)
 
+
+
+data = merge(data, corpusSize %>% rename(Language=language), by=c("Language"))
+subData = merge(subData, corpusSize %>% rename(Language=language), by=c("Language"))
+
+data$Language_ = paste(data$Language, "\nn = ", data$sents_train, sep="")
+subData$Language_ = paste(subData$Language, "\nn = ", subData$sents_train, sep="")
+corpusSize$Language_ = paste(corpusSize$language, "\nn = ", corpusSize$sents_train, sep="")
+
+
+languagesOrdered = corpusSize$Language[order(-corpusSize$sents_train)]
+
+data$Language_ = factor(data$Language_, levels=languagesOrdered)
+subData$Language_ = factor(subData$Language_, levels=languagesOrdered)
+
+
+
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")) %>% filter(Surprisal_z < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
+plot = plot + geom_point()
+plot = plot + geom_path(data=subData, aes(x=-Pars, y=-Surprisal, group=1), size=1.5)
+plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
+plot = plot + facet_wrap(~Language_, scales="free")
+plot = plot + theme_bw()
+plot = plot + scale_x_continuous(name="Negative Ambiguity (per word)") + scale_y_continuous(name="Predictability")
+plot = plot + theme(legend.title = element_blank())  
+plot = plot + guides(color=guide_legend(nrow=2,ncol=4,byrow=TRUE)) 
+plot = plot + theme(legend.title = element_blank(), legend.position="bottom")
+plot = plot + theme(axis.title.x = element_text(size=17))
+plot = plot + theme(axis.title.y = element_text(size=17))
+plot = plot + theme(legend.text = element_text(size=12))
+plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
+plot = plot + theme(legend.position = "none")
+ggsave(plot, file="pareto-plane-perLanguage-raw-WithN.pdf", width=12, height=12)
 
 
 

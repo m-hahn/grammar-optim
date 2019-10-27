@@ -25,11 +25,16 @@ data$pValue = pValue
 plot = ggplot(data, aes(x=Lambda, y=Quantile)) + geom_line() + geom_line(aes(x=Lambda,y=LowerBound)) + facet_wrap(~Language)
 
 
-#lambdas = c(0.0, 0.5, 0.98)
-#plot = ggplot(data %>% filter(Lambda %in% lambdas), aes(x=Lambda, y=Quantile)) + geom_line() + geom_line(aes(x=Lambda,y=LowerBound)) + facet_wrap(~Language)
+
+corpusSize = read.csv("../../corpus-size/corpus-sizes.tsv", sep="\t")
+languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
+
+data$Language = factor(data$Language, levels=languagesOrdered)
+
+
 
 plot = ggplot(data, aes(x=Lambda, y=Quantile)) + geom_line() + geom_line(aes(x=Lambda,y=UpperBound), linetype="dotted") + geom_line(aes(x=Lambda,y=LowerBound), linetype="dotted") + facet_wrap(~Language)
-
+plot = plot + theme(axis.text = element_text(size=10), axis.text.x = element_text(angle=90, hjust=1)) 
 
 ggsave(plot, file="figures/quantileByLambda.pdf")
 

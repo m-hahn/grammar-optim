@@ -5,10 +5,8 @@ library(lme4)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
-depl = read.csv("../../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
-depl = depl %>% filter(grepl("FuncHead", ModelName)) %>% filter(grepl("Coarse", ModelName))
 dataS  = read.csv("../../../grammars/plane/plane-fixed.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS2 = read.csv("../../../grammars/plane/plane-fixed-best.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS3 = read.csv("../../../grammars/plane/plane-fixed-best-large.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
@@ -17,9 +15,9 @@ dataS5 = read.csv("../../../grammars/plane/plane-fixed-random3.tsv", sep="\t") %
 dataS6 = read.csv("../../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS7 = read.csv("../../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model)) %>% mutate(FullSurp = NULL)
 dataS = rbind(dataS, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
-dataP = read.csv("../../../grammars/plane/plane-parse-redone.tsv", sep="\t") %>% mutate(Model = as.character(Model))
+dataP = read.csv("../../../grammars/plane/plane-parse-unified.tsv", sep="\t") %>% mutate(Model = as.character(Model))
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean(Surp, na.rm=TRUE))
-dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(ParsU, na.rm=TRUE))
+dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(Pars = mean(Pars, na.rm=TRUE))
 dataS = as.data.frame(dataS)
 dataP = as.data.frame(dataP)
 library(lme4)
@@ -54,7 +52,6 @@ u = dataComp %>% group_by(Language) %>% summarise(BetterSurprisal = sum(Surprisa
 
 
 
-data = merge(data, depl %>% select(Language, Model,AverageLengthPerWord) %>% mutate(Model = as.character(Model)), by=c("Language", "Model"), all.x=TRUE)
 data = data %>% mutate(Two = 0.9*Surprisal+Pars)
 
 data2 = rbind(data)
@@ -160,40 +157,20 @@ subData$Type = "Pareto"
 
 
 
+corpusSize = read.csv("../../corpus-size/corpus-sizes.tsv", sep="\t")
+languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
 
-dataGroundArrow = data %>% filter(grepl("ground", Type))
-#dataGroundArrow = dataGroundArrow %>% mutate(Pars_z = (Pars-MeanPars)/SDPars, Surprisal_z = (Surprisal-MeanSurprisal)/SDSurprisal)
-dataGroundArrow = dataGroundArrow %>% mutate(Pars_end = (MeanParsRand-MeanPars)/SDPars, Surprisal_end = (MeanSurprisalRand-MeanSurprisal)/SDSurprisal)
-dataGroundArrow = dataGroundArrow %>% mutate(Pars_dir = Pars_end - Pars, Surprisal_dir = Surprisal_end - Surprisal)
-dataGroundArrow = dataGroundArrow %>% mutate(z_length = sqrt(Pars_dir**2 + Surprisal_dir**2))
-dataGroundArrow = dataGroundArrow %>% mutate(Pars_dir = Pars_dir/z_length, Surprisal_dir = Surprisal_dir/z_length)
-dataGroundArrow = dataGroundArrow %>% mutate(Pars_end = Pars + 0.5 * Pars_dir, Surprisal_end = Surprisal + 0.5 * Surprisal_dir)
+data$Language = factor(data$Language, levels=languagesOrdered)
+subData$Language = factor(subData$Language, levels=languagesOrdered)
 
 
 
-
-
-
-#
-#data_pareto = read.csv("~/CS_SCR/posteriors/pareto-smooth/pareto-total.csv")
-#
-#
-#
-#data_pareto_ = data_pareto %>% group_by(Language) %>% summarise(bestLambdas_mean = 0.9, bestLambdas_sd = 0.01)
-#data_pareto_ = merge(data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), data_pareto_, by=c("Language"))
-#
-#Lambda = 0.9
-#
-#data_pareto_line1 = data_pareto_ %>% mutate(Pars = Pars + 1, Surprisal = Surprisal + 1*Lambda)
-#data_pareto_line2 = data_pareto_ %>% mutate(Pars = Pars - 1, Surprisal = Surprisal - 1*Lambda)
-#data_pareto_line = rbind(data_pareto_line1, data_pareto_line2)
-
-
-plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM", "manual_output_funchead_ground_coarse_final")) %>% filter(Surprisal < 3), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
+plot = ggplot(data %>% filter(Type %in% c("manual_output_funchead_RANDOM")), aes(x=-Pars, y=-Surprisal, color=Type, group=Type))
 plot = plot + geom_density_2d(data=data %>% filter(Type == "manual_output_funchead_RANDOM") %>% filter(Surprisal < 18), aes(x=-Pars, y=-Surprisal, color=Type, group=Type), size=0.3, bins=5)
 plot = plot + geom_path(data=subData, aes(x=-Pars, y=-Surprisal, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=3)
-plot = plot + geom_abline(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), aes(intercept=  -Surprisal - 1/((0.9+1e-10)) * Pars , slope=-1/((0.9+1e-10)), group=Language))
+plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
+plot = plot + geom_abline(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), aes(intercept=  -Surprisal - 1/((0.9+1e-10)) * Pars , slope=-1/((0.9+1e-10)), group=Language), linetype="dashed")
+plot = plot + geom_abline(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), aes(intercept=  -Surprisal - 1/((0.0+1e-10)) * Pars , slope=-1/((0.0+1e-10)), group=Language), linetype="dotted")
 plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
@@ -208,17 +185,6 @@ plot = plot + theme(legend.position = "none")
 ggsave(plot, file="pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf", width=12, height=12)
 
 
-#data_baselines = read.csv("pareto-data.tsv")
-#
-#data_baselines = merge(data_pareto_%>% select(Language, bestLambdas_mean), data_baselines, by=c("Language"))
-#data_baselines = data_baselines %>% mutate(Eff = Pars + bestLambdas_mean * Surprisal, EffGround = ParsGround + bestLambdas_mean * SurprisalGround)
-#
-#################################### TODO somehow this doesn't work yet
-#
-#plot = ggplot(data_baselines)
-#plot = plot + geom_density(aes(x=Eff, y=..scaled..))
-#plot = plot + geom_bar(data=data_baselines %>% group_by(Language) %>% summarise(EffGround = mean(EffGround)), stat="identity", aes(x=EffGround, y=1), size=0.5)
-#plot = plot + facet_wrap(~Language, scales="free")
-#
-#####################################
+
+
 
