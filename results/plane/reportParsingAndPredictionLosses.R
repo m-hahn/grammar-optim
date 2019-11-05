@@ -118,7 +118,7 @@ for(language in unique(data$Language)) {
    language2 = str_replace(language, "_", " ")
    language2 = str_replace(language2, "_", " ")
 
-   cat(paste(language2, round(observed$UAS[1], 3), round(observed$LAS[1], 3), round(observed$ParsU[1], 3), round(observed$Pars[1], 3), round(observed$Surprisal[1],3), round(ground$UAS[1], 3), round(ground$LAS[1], 3), round(observed$ParsU[1], 3), round(observed$Pars[1], 3),  round(ground$Surprisal[1],3), "\\\\ \n", sep="  &  "))
+   cat(paste(language2, round(observed$UAS[1], 3), round(observed$LAS[1], 3), round(observed$ParsU[1], 3), round(observed$Pars[1], 3), round(observed$Surprisal[1],3), round(ground$UAS[1], 3), round(ground$LAS[1], 3), round(ground$ParsU[1], 3), round(ground$Pars[1], 3),  round(ground$Surprisal[1],3), "\\\\ \n", sep="  &  "))
 }
 sink()
 

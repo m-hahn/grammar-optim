@@ -16,18 +16,18 @@ dataS6 = read.csv("../../../grammars/plane/plane-fixed-random4.tsv", sep="\t") %
 dataS7 = read.csv("../../../grammars/plane/plane-fixed-random5.tsv", sep="\t") %>% mutate(Model = as.character(Model), Type=as.character(Type)) %>% mutate(Type = ifelse(grepl("RANDOM", Type), "manual_output_funchead_RANDOM_det", Type)) %>% mutate(FullSurp=NULL) %>% mutate(Model = paste(Model, "det", sep="_"))
 dataS = rbind(dataS, dataS1, dataS2, dataS3, dataS4, dataS5, dataS6, dataS7)
 dataS = dataS %>% group_by(Language, Type, Model) %>% summarise(Surprisal = mean(Surp, na.rm=TRUE))
-#dataS = as.data.frame(dataS) %>% filter(Language %in% c("Czech", "English", "Japanese"))
+dataS = as.data.frame(dataS) %>% filter(Language %in% c("Czech", "English", "Japanese"))
 
 # Read parseability estimates
 dataP =  read.csv("../../../grammars/plane/controls/plane-parse-nondeterministic.tsv", sep="\t")  %>% mutate(Model = as.character(Model), Type=as.character(Type)) %>% mutate(Type = ifelse(grepl("RANDOM", Type), "manual_output_funchead_RANDOM_nondet", Type)) %>% mutate(FullSurprisal=NULL) %>% mutate(Model = paste(Model, "nondet", sep="_"))
 dataP2 = read.csv("../../../grammars/plane/plane-parse-redone.tsv", sep="\t")  %>% mutate(Model = as.character(Model), Type=as.character(Type)) %>% mutate(Type = ifelse(grepl("RANDOM", Type), "manual_output_funchead_RANDOM_det", Type)) %>% mutate(FullSurprisal=NULL) %>% mutate(Model = paste(Model, "det", sep="_"))
 dataP = rbind(dataP, dataP2) 
 dataP = dataP %>% group_by(Language, Type, Model) %>% summarise(UAS = mean(UAS, na.rm=TRUE), Pars = mean(Pars, na.rm=TRUE))
-#dataP = as.data.frame(dataP) %>% filter(Language %in% c("Czech", "English", "Japanese"))
+dataP = as.data.frame(dataP) %>% filter(Language %in% c("Czech", "English", "Japanese"))
 
 # Ensure everything is treated as a string, not a factor, to ensure the frames can be merged
-dataS = as.data.frame(dataS) %>% mutate(Type = as.character(Type))
-dataP = as.data.frame(dataP) %>% mutate(Type = as.character(Type))
+dataS = dataS %>% mutate(Type = as.character(Type))
+dataP = dataP %>% mutate(Type = as.character(Type))
 dataS = dataS %>% mutate(Model = as.character(Model))
 dataP = dataP %>% mutate(Model = as.character(Model))
 dataS = dataS %>% mutate(Language = as.character(Language))
@@ -73,8 +73,7 @@ dataS = merge(dataS, dataSBest, by=c("Language", "Surprisal"))
 
 
 dataRandom = data %>% filter(grepl("RANDOM", Type))
-dataGround = data %>% filter(grepl("ground", Type)) 
-dataReal = data %>% filter(grepl("REAL_REAL", Type)) 
+dataGround = data %>% filter(grepl("ground", Type)) #%>% group_by(Language) %>% summarise(Surprisal = mean(Surprisal), Pars = mean(Pars))
 
 
 D = dataGround %>% select(Language, Type, Model)
@@ -85,7 +84,6 @@ data = rbind(dataP, data2)
 data = rbind(data, dataS)
 data = rbind(data, dataRandom)
 data = rbind(data, dataGround)
-data = rbind(data, dataReal)
 
 
 
@@ -159,47 +157,11 @@ for(language in unique(subData$Language)) {
 subData = data.frame(Language=Language, Surprisal_z=Surprisal_z, Pars_z=Pars_z, Step=Step)
 subData$Type = "Pareto"
 
-#######################################
-
-
-corpusSize = read.csv("../../corpus-size/corpus-sizes.tsv", sep="\t")
-languagesOrdered = corpusSize$language[order(-corpusSize$sents_train)]
-
-data$Language = factor(data$Language, levels=languagesOrdered)
-subData$Language = factor(subData$Language, levels=languagesOrdered)
-
-
-
-data$Group = "det"
-data[data$Type==  "REAL_REAL",]$Group = "nondet"
-data[data$Type == "manual_output_funchead_RANDOM_nondet",]$Group = "nondet"
-data[data$Type == "manual_output_funchead_RANDOM_det",]$Group = "det"
-
-subData$Group = "Pareto"
-
-
-data = merge(data, corpusSize %>% rename(Language=language), by=c("Language"))
-subData = merge(subData, corpusSize %>% rename(Language=language), by=c("Language"))
-
-data$Language_ = paste(data$Language, "\nn = ", data$sents_train, sep="")
-subData$Language_ = paste(subData$Language, "\nn = ", subData$sents_train, sep="")
-corpusSize$Language_ = paste(corpusSize$language, "\nn = ", corpusSize$sents_train, sep="")
-
-
-languagesOrdered = corpusSize$Language[order(-corpusSize$sents_train)]
-
-data$Language_ = factor(data$Language_, levels=languagesOrdered)
-subData$Language_ = factor(subData$Language_, levels=languagesOrdered)
-
-
-
-plot = ggplot(data %>% filter(grepl("RANDOM", Type)) %>% filter(abs(Surprisal_z) < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Group, group=Type))
-plot = plot + geom_point(data = data  %>% filter(grepl("RANDOM_det", Type)) %>% filter(abs(Surprisal_z) < 3), size=0.5)
-plot = plot + geom_point(data = data  %>% filter(grepl("RANDOM_nondet", Type)) %>% filter(abs(Surprisal_z) < 3), size=1.0)
+plot = ggplot(data %>% filter(grepl("RANDOM", Type)) %>% filter(abs(Surprisal_z) < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Type, group=Type))
+plot = plot + geom_point()
 plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surprisal_z, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
-plot = plot + geom_point(data=data %>% filter(Type == "REAL_REAL"), shape=2, size=1.5, stroke=2)
-plot = plot + facet_wrap(~Language_, scales="free")
+plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), size=2)
+plot = plot + facet_wrap(~Language, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
 plot = plot + theme(legend.title = element_blank())  
@@ -210,7 +172,7 @@ plot = plot + theme(axis.title.y = element_text(size=17))
 plot = plot + theme(legend.text = element_text(size=12))
 plot = plot + theme(legend.margin=margin(t = 0, unit='cm'))
 plot = plot + theme(legend.position = "none")
-ggsave(plot, file="pareto-plane-perLanguage-nondeterministic-mle-allLanguages.pdf", width=12, height=12)
+ggsave(plot, file="pareto-plane-perLanguage-nondeterministic-mle.pdf", width=12, height=4)
 
 
 
