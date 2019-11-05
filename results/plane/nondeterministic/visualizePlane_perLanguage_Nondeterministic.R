@@ -48,16 +48,10 @@ u = dataComp %>% group_by(Language) %>% summarise(BetterSurprisal = sum(Surprisa
 
 
 
-
-
-
-
-
 data = data %>% mutate(Two = 0.9*Surprisal+Pars)
 
 data2 = rbind(data)
 data2 = data2 %>% group_by(Language, Type) %>% summarise(Surprisal=mean(Surprisal, na.rm=TRUE), Pars=mean(Pars, na.rm=TRUE)) %>% group_by(Language) %>% mutate(MeanSurprisal = mean(Surprisal, na.rm=TRUE), SDSurprisal = sd(Surprisal, na.rm=TRUE)) %>% mutate(MeanPars = mean(Pars, na.rm=TRUE), SDPars = sd(Pars, na.rm=TRUE))
-plot = ggplot(data2, aes(x=(Pars-MeanPars)/SDPars, y=(Surprisal-MeanSurprisal)/SDSurprisal, color=Type, group=Type)) +geom_point()
 
 dataPBest = data %>% filter(Type == "manual_output_funchead_two_coarse_parser_best_balanced") %>% group_by(Language) %>% summarise(Pars = min(Pars, na.rm=TRUE))
 data2Best = data %>% filter(Type == "manual_output_funchead_two_coarse_lambda09_best_large") %>% group_by(Language) %>% summarise(Two = min(Two, na.rm=TRUE))
@@ -73,7 +67,6 @@ dataS = merge(dataS, dataSBest, by=c("Language", "Surprisal"))
 
 
 dataRandom = data %>% filter(grepl("RANDOM", Type))
-dataGround = data %>% filter(grepl("ground", Type)) 
 dataReal = data %>% filter(grepl("REAL_REAL", Type)) 
 
 
@@ -84,7 +77,6 @@ D = dataGround %>% select(Language, Type, Model)
 data = rbind(dataP, data2)
 data = rbind(data, dataS)
 data = rbind(data, dataRandom)
-data = rbind(data, dataGround)
 data = rbind(data, dataReal)
 
 
@@ -192,13 +184,12 @@ data$Language_ = factor(data$Language_, levels=languagesOrdered)
 subData$Language_ = factor(subData$Language_, levels=languagesOrdered)
 
 
+data[data$Type == "REAL_REAL",]$Type = "manual_output_funchead_gREAL_REAL"
 
-plot = ggplot(data %>% filter(grepl("RANDOM", Type)) %>% filter(abs(Surprisal_z) < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Group, group=Type))
-plot = plot + geom_point(data = data  %>% filter(grepl("RANDOM_det", Type)) %>% filter(abs(Surprisal_z) < 3), size=0.5)
+plot = ggplot(data %>% filter(grepl("RANDOM_nondet", Type)) %>% filter(abs(Surprisal_z) < 3), aes(x=-Pars_z, y=-Surprisal_z, color=Type, group=Type))
 plot = plot + geom_point(data = data  %>% filter(grepl("RANDOM_nondet", Type)) %>% filter(abs(Surprisal_z) < 3), size=1.0)
 plot = plot + geom_path(data=subData, aes(x=-Pars_z, y=-Surprisal_z, group=1), size=1.5)
-plot = plot + geom_point(data=data %>% filter(Type == "manual_output_funchead_ground_coarse_final"), shape=4, size=1.5, stroke=2)
-plot = plot + geom_point(data=data %>% filter(Type == "REAL_REAL"), shape=2, size=1.5, stroke=2)
+plot = plot + geom_point(data=data %>% filter(grepl("REAL",Type)), shape=4, size=1.5, stroke=2)
 plot = plot + facet_wrap(~Language_, scales="free")
 plot = plot + theme_bw()
 plot = plot + scale_x_continuous(name="Parseability") + scale_y_continuous(name="Predictability")
