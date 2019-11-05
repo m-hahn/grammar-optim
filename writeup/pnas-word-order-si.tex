@@ -592,14 +592,18 @@ Similar results hold for predictability and parseability individually.
 %E.g., the real grammar of Czech does not improve over all baselines in predictability, but it is higher than the vast majority of baselines in efficiency, for all values $\lambda \in [0,1]$.
 %This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
+
+
+
 In the main paper (Study 1), we showed that languages tend to be optimized for parseability and/or predictability.
 Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency as a multi-objective optimization problem of optimizing for parseability and predictability.
+
 Recall the efficiency metric
 \begin{equation}
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
 \end{equation}
 with the tradeoff parameter $\lambda \in [0,1)$.
-For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify how many baseline grammars are less efficient than the real language.
+For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify what fraction of the baseline grammars are less efficient than the real language.
 
 The results are plotted in Figure~\ref{fig:lambda-quantile}.
 For all languages, there are some values of $\lambda$ where the real grammar improves at least half of the baseline grammars.
@@ -610,7 +614,6 @@ There are also languages for which the degree of optimality does strongly depend
 
 This analysis is similar to that reported by \citet{zaslavsky2018efficient} in a study of color names; they found that observed color naming systems have higher efficiency than almost all baseline systems at \emph{a specific value of $\lambda$}.
 Here, we have shown that grammars tend to be more efficient than baselines across most values of $\lambda$.
-
 
 
 We further confirm this in Figure~\ref{fig:lambda-halfplane-09}:
@@ -1020,7 +1023,7 @@ We provide an example in Figure~\ref{fig:grammar-sample}, illustrating grammar p
 
 Note that the grammatical formalism simplifies some aspects of the word order regularities of natural languages.
 For instance, it does not represent cases where ordering varies between main and embedded clauses, as it does not condition ordering decisions on the larger context.
-It also does not nonprojective orderings, which---while generally rare---do occur in many languages.
+It also does not model nonprojective orderings, which---while generally rare---do occur in many languages.
 More complex and powerful ordering grammar models have been proposed \cite{futrell2015experiments,wang2016galactic}; however, they have similar limitations, and for our purposes, the model adopted here has the advantage of being simple and interpretable.
 
 
@@ -1190,7 +1193,7 @@ The parseability of a sentence $u = u_1\dots u_n$ with syntactic structure $t$ i
 where $\text{head}_i \in \{\textsc{root}, 1,\dots,n\}$ is the index of the head of $u_i$ in the syntactic structure, and $\text{label}_i$ is its syntactic relation as formalized in UD; $\phi$ denotes the parameters estimated on the training data (see paragraph `Optimization Details').
 The overall parseability is estimated as a Monte Carlo estimate on held-out data:
 \begin{equation}\label{eq:rpars}
-	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p_\phi(t|u)}{p(t)} = \frac{1}{|\text{Heldout Data}|} \sum_{t,u \in \text{Heldout Data}} \log \frac{p_\phi(t|u)}{p(t)}
+	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p_\phi(t|u)}{p(t)} \approx \frac{1}{|\text{Heldout Data}|} \sum_{t,u \in \text{Heldout Data}} \log \frac{p_\phi(t|u)}{p(t)}
 \end{equation}
 The constant $p(t)$ only depends on the language (but not on the word order rules), and can thus be ignored when comparing different grammars applied to the same language, and when optimizing grammars for a given language; we therefore do not attempt to explicitly estimate it.
 
@@ -1483,10 +1486,10 @@ The results agree with those found on the converted versions; across languages, 
 
 \subsection{Nondeterministic Baseline Grammars}
 
-In Study 1, we considered deterministic ordering grammars, even though real languages have some degree of word order freedom.
-Here, we show that deterministic baseline grammars provide conservative baselines: They have higher efficiency than baseline grammars with word order freedom comparable to the orders found in the original corpora, and thus provide conservative baselines for comparison with other grammars.
+In Study 1, we considered deterministic ordering grammars, and represented real languages using deterministic grammars extracted from observed orderings.
+This allowed us to ensure that we only compare baseline and real grammars that have exactly the same representational constraints, and utilize the same information encoded in the tree structures.
 
-
+In this section, we consider baselines that allow word order freedom to degrees comparable to that found in orders observed in the actual corpus data.
 In order to obtain baselines whose freedom is comparable to that of real languages, we constructed baselines that have the same Branching Direction Entropy \cite{futrell2015quantifying} as observed in the original corpora.
 The Branching Direction Entropy measures the extent of freedom in choice between head-final and head-initial orderings, and it is a corpus-based quantitative measure of word order freedom \cite{futrell2015quantifying}.
 For a given syntactic relation, its branching direction entropy measures the entropy of the Bernoulli random variable that is $1$ whenever the head is ordered before the dependent, and $0$ if the dependent is ordered before the head.
@@ -1499,11 +1502,14 @@ For every one of the 37 syntactic relations, we chose $a_\tau$ so as to match th
 For $b_\tau$, we considered the limit where the values $b_\tau$ for different relations $\tau$ are very far apart, making the relative ordering of siblings on the same side of the head fully deterministic.
 That is, these ordering grammars match word order freedom as quantified by Branching Direction Entropy, and show no additional degrees of order freedom.
 
-We compared these nondeterministic baseline grammars to their deterministic versions, for one language with relatively free order (Czech), and for two languages with relatively fixed order (English and Japanese).
+\paragraph{Comparing deterministic and nondeterministic grammars}
+Here, we compared nondeterministic baseline grammars to their deterministic versions, for one language with relatively free order (Czech), and for two languages with relatively fixed order (English and Japanese).
 Results are shown in Figure~\ref{fig:nondeterministic}.
 For every one of the baseline grammars, we show both its deterministic and its nondeterministic version.
 Nondeterministic grammars are less efficient than deterministic grammars, in particular in languages with greater degrees of word order freedom (Czech).
-This shows that deterministic grammars constitute stronger baselines.
+%This shows that deterministic grammars constitute stronger baselines.
+This shows that deterministic baseline grammars provide conservative baselines:
+They have higher efficiency than baseline grammars with word order freedom comparable to the orders found in the original corpora, and thus provide conservative baselines for comparison with other deterministic grammars.
 
 \begin{figure}
 	\centering
@@ -1511,6 +1517,24 @@ This shows that deterministic grammars constitute stronger baselines.
 	\caption{Parseability and predictability for three languages, including both deterministic (green, light) and nondeterministic  (blue, dark) versions of the 50 baseline grammars.}\label{fig:nondeterministic}
 \end{figure}
 
+
+\paragraph{Comparing observed orders to baselines with matched degree of nondeterminism}
+Here, we compare the efficiency of the orders observed in the corpora with baselines whose degree of nondeterminism, quantified by branching direction entropy, is matched to that of the observed orders.
+We show results in Figures~\ref{fig:pareto-plane-nondet} and~\ref{fig:lambda-quantile-nondet}.
+Figure~\ref{fig:pareto-plane-nondet} shows that observed orders are mostly to the top and/or right of baselines with matched degree of nondetermminism.
+Figure~\ref{fig:lambda-quantile-nondet} shows that, with the exception of Telugu (a language with a small corpus), the observed orders have higher efficiency than most baselines at least for some values of $\lambda$.
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle-allLanguages.pdf}
+	\caption[Predictability and Parseability]{Comparing observed orders (red crosses) with baselines (green) whose degree of nondeterminism is matched to the observed order. Compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-nondet}
+\end{figure}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{../results/plane/nondeterministic/analyze_pareto_optimality/figures/quantileByLambda.pdf}
+	\caption{Optimality of observed orders for efficiency, compared to nondeterministic baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the observed orders at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-nondet}
+\end{figure}
 
 
 
