@@ -6,4 +6,4 @@ Code for Study 2.
 * `visualize_posterior`: code for visualizing the posterior
 * `figures`: figures produced by scripts in this directory
 * `plot_byLanguage`: visualize predictions by language
-
+* `correlationsByObjOrder.R`: Figure 5
