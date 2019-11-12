@@ -1,0 +1,81 @@
+% https://tex.stackexchange.com/questions/171982/how-to-make-table-floats-work-with-preview-standalone-environment/171983
+
+\documentclass[%
+    ,float=false % this is the new default and can be left away.
+    ,preview=true
+    ,class=scrartcl
+%    ,fontsize=20pt
+    ]{standalone}
+
+\usepackage{amsmath}
+\usepackage{tikz-dependency}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathop{\mathbb{E}}}
+
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xcite}
+\externalcitedocument{pnas-word-order-si}
+
+
+
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+\usepackage{siunitx}
+
+\usepackage{longtable}
+
+
+\usepackage[numbers]{natbib}
+
+
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{natbib}
+\usepackage{arydshln}
+
+\newcommand{\key}[1]{\textbf{#1}}
+
+
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
+
+
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceiling}{\lceil}{\rceil}
+
+
+\begin{document}
+{
+\centering{
+\begin{dependency}[theme = simple]
+   \begin{deptext}[column sep=1em]
+          She \& met \& friends  \\
+   \end{deptext}
+   \depedge{2}{1}{subject}
+   \depedge{2}{3}{object}
+\end{dependency}
+}
+}
+\end{document}
+

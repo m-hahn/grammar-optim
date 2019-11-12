@@ -1,0 +1,94 @@
+% https://tex.stackexchange.com/questions/171982/how-to-make-table-floats-work-with-preview-standalone-environment/171983
+
+\documentclass[%
+    ,float=false % this is the new default and can be left away.
+    ,preview=true
+    ,class=scrartcl
+%    ,fontsize=20pt
+    ]{standalone}
+
+\usepackage{amsmath}
+\usepackage{tikz-dependency}
+\DeclareMathOperator*{\argmax}{arg\,max}
+\DeclareMathOperator*{\argmin}{arg\,min}
+\DeclareMathOperator{\E}{\mathop{\mathbb{E}}}
+
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{xcite}
+\externalcitedocument{pnas-word-order-si}
+
+
+
+\usepackage{footnote}
+\makesavenoteenv{tabular}
+\makesavenoteenv{table}
+
+\usepackage{siunitx}
+
+\usepackage{longtable}
+
+
+\usepackage[numbers]{natbib}
+
+
+\usepackage{amssymb}% http://ctan.org/pkg/amssymb
+\usepackage{pifont}% http://ctan.org/pkg/pifont
+\newcommand{\cmark}{\ding{51}}%
+\newcommand{\xmark}{\ding{55}}%
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{bm}
+\usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{xcolor}
+\usepackage{url}
+\usepackage{rotating}
+\usepackage{multirow}
+\usepackage{natbib}
+\usepackage{arydshln}
+
+\newcommand{\key}[1]{\textbf{#1}}
+
+
+
+\renewcommand{\thefigure}{S\arabic{figure}}
+\renewcommand{\thetable}{S\arabic{table}}
+\renewcommand{\thesection}{S\arabic{section}}
+
+
+
+\usepackage{mathtools}
+\DeclarePairedDelimiter{\ceiling}{\lceil}{\rceil}
+
+
+\begin{document}
+\begin{tabular}{|c|ll|ll|}
+	\hline
+	&	\multicolumn{2}{c|}{\textbf{Arabic} (English, ...)}   &        \multicolumn{2}{c|}{\textbf{Japanese} (Turkish, ...)} \\ \hline\hline
+	& \multicolumn{2}{c|}{Correlates with...} & \multicolumn{2}{c|}{Correlates with...}  \\
+	&	Verb & Object     & Object & Verb    \\ \hline\hline
+	& kataba & ris{\= a}la 	&tegami-o & kaita \\
+	&	\emph{wrote} & \emph{letter} & 	\emph{letter} & \emph{wrote} \\ \hline 
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}	&	li    &    {\d s}ad{\= i}q       &	tomodachi & ni \\ % G3, G4
+	&		\emph{to}            & \emph{a friend} &		\emph{friend} & \emph{to} \\ \hline 
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}}	&k{\= a}na    &    {\d s}ad{\= i}q         &	tomodachi & datta \\ % not in Greenberg
+	&	\emph{was}        & \emph{a friend} 	&\emph{friend} & \emph{was} \\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}	&sawfa    &    yaktub       & 	kak- & -udesho \\ % G16, G13 TODO this should only be inflected auxiliaries, replace Arabic
+	&	\emph{will}          & \emph{write}  &    	\emph{write} & \emph{will} \\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}}	& {\d s}ad{\= i}q  &    John    & 	John no & tomodachi \\ % G2, G23
+	&	\emph{friend} &  \emph{of John}  &	\emph{John of} & \emph{friend} \\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}}	&kutub    &    taqra'uh{\= a}       & 	anata-ga yonda & hon \\ % G24
+	&	\emph{books} & \emph{that you read}  &	\emph{that you read} & \emph{book} \\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}	&'an    &    tu{\d s}il        & 	toochaku suru & koto \\ % 
+	&	\emph{that} & \emph{she arrives}  &	\emph{arrives} & \emph{that} \\ \hline
+	\multirow{2}{*}{	\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}	&dhahabt	    &    'il{\= a} lmadrasa     & 	gakkoo ni & itta \\ % G22
+	&	\emph{went} & \emph{to school}  &	\emph{school to} & \emph{went} \\ \hline
+	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}}	&'ur{\= i}d    &    'an 'ugh{\= a}dir         & 	ik- & -itai \\ % G15
+	& \emph{wants}   &  \emph{to leave}  &	\emph{to go} & \emph{want} \\ \hline 
+\end{tabular}
+\end{document}
+
