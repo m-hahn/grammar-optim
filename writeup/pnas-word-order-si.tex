@@ -243,7 +243,7 @@ Estonian and Finnish have finite relative clauses following nouns (\citep[p. 176
 	
 
 \item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
-In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{nmod} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
+In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{obl} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
 	
 \item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}} is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
 
@@ -787,7 +787,7 @@ We used MCMC sampling implemented in Stan \cite{carpenter2017stan, hoffman2014no
 We ran four chains, with 5000 samples each, of which the first 2500 were discarded as warmup samples.
 We confirmed convergence using $\hat{R}$ and visual inspection of chains \cite{gelman2013bayesian}.
 
-We obtained the posterior density plots in Table 2 (Main Paper) and in Figure (\ref{tab:all-predictions-1}) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\alpha_j$ (\ref{eq:mixed-effects}).
+We obtained the posterior density plots in Figure 6 (Main Paper) and in Figure (\ref{tab:all-predictions-1}) by applying the logistic transformation ($x \mapsto \frac{1}{1+\exp(-x)}$) to the posterior samples of $\alpha_j$ (\ref{eq:mixed-effects}).
 As the logistic transformation is inverse to the logit transform (\ref{eq:mixed-effects}), this corresponds to the posterior distribution of the prevalence (between 0.0 and 1.0) of each correlation, controlling for languages and language families.
 
 
@@ -869,7 +869,7 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 \caption{Predictions on UD relations with predictions from the typological literature.
 The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
 The `Real' column provides the prevalence among the 51 languages in the Universal Dependencies data.
-We provide posterior prevalences for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone, obtained from the Bayesian mixed-effects analysis controlling for languages and language families (as in Table 2 of the main paper).
+We provide posterior prevalences for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone, obtained from the Bayesian mixed-effects analysis controlling for languages and language families (as in Figure 6 of the main paper).
 In the last column, we indicate what prevalence is expected according to the typological literature. 
 }
 \label{tab:all-predictions-1}

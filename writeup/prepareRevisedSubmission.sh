@@ -9,6 +9,4 @@ cp figure1.pdf revised-submission/
 cp figure3.pdf revised-submission/
 cp figure6.pdf revised-submission/
 cp figure2.pdf revised-submission/
-cp table1.pdf revised-submission/
-cp table1.tex revised-submission/
 
