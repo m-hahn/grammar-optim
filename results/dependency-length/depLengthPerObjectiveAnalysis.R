@@ -1,15 +1,15 @@
+# This script evaluates, for each language, whether the grammar optimized for efficiency (i.e., the one among the 8 optimized ones with the highest efficiency) has significantly lower average dependency length than the mean of the baseline grammar distribution.
 
 library(lme4)
 library(tidyr)
 library(dplyr)
 library(ggplot2)
 
-# user@user-X510UAR:~/grammar-optim/grammars/dependency_length$ vimdiff total_summary_funchead_coarse.tsv /home/user/CS_SCR/deps/dependency_length/total_summary_funchead_coarse.tsv
 
 deplen = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 
 
-deplen = deplen %>% filter(Type %in% c("manual_output_funchead_coarse_depl", "manual_output_funchead_langmod_coarse_best_balanced","manual_output_funchead_RANDOM","manual_output_funchead_RANDOM2","manual_output_funchead_two_coarse_lambda09_best_balanced","manual_output_funchead_two_coarse_parser_best_balanced", "REAL_REAL"))
+deplen = deplen %>% filter(Type %in% c("manual_output_funchead_coarse_depl", "manual_output_funchead_langmod_coarse_best_balanced","manual_output_funchead_RANDOM","manual_output_funchead_two_coarse_lambda09_best_balanced","manual_output_funchead_two_coarse_parser_best_balanced", "REAL_REAL"))
 
 deplen$Temperature = NULL
 deplen$Counter = NULL
@@ -17,7 +17,7 @@ deplen$OriginalLoss = NULL
 deplen$OriginalCounter = NULL
 
 
-bestDepL = read.csv("../strongest_models/best-deplen.csv") %>% select(Language, Type, Model)
+bestDepL = read.csv("../strongest_models/best-depl.csv") %>% select(Language, Type, Model)
 bestLangmod = read.csv("../strongest_models/best-langmod-best-balanced.csv") %>% select(Language, Type, Model)
 bestParse = read.csv("../strongest_models/best-parse-best-balanced.csv") %>% select(Language, Type, Model)
 bestEff = read.csv("../strongest_models/best-two-lambda09-best-balanced.csv") %>% select(Language, Type, Model)
@@ -78,12 +78,12 @@ for(language in unique(data$Language)) {
 ps_eff
 ps_ground
 
-#
+# This result is referred to in the Discussin section of the main paper
 mean(ps_eff < 0.05)
-#
+# Verifying that real orders also improve over baselines
 mean(ps_ground < 0.05)
 
-# Robustness Check
+# Robustness Check using Binomial Test
 mean(ps_eff_binom < 0.05)
 mean(ps_ground_binom < 0.05)
 

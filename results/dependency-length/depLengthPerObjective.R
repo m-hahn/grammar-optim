@@ -10,12 +10,12 @@ library(ggplot2)
 
 
 
-
-depl = read.csv("/home/user/CS_SCR/deps/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
+# Read dependency length scores for each grammar
+depl = read.csv("../../grammars/dependency_length/total_summary_funchead_coarse.tsv", sep="\t")# %>% rename(Quality=AverageLength)
 library(tidyr)
 library(dplyr)
 
-
+# Subset to groups of interest (only considering 10 of the 50 random grammars)
 depl = depl %>% filter(Type %in% c("manual_output_funchead_coarse_depl", "manual_output_funchead_langmod_coarse_best_balanced","manual_output_funchead_RANDOM","manual_output_funchead_two_coarse_lambda09_best_balanced","manual_output_funchead_two_coarse_parser_best_balanced", "REAL_REAL"))
 
 depl$Temperature = NULL
@@ -55,7 +55,7 @@ depl3$TypeN = fct_recode(depl3$Type, DLM="manual_output_funchead_coarse_depl", E
 
 
 library(ggrepel)
-plot = ggplot(data=depl3, aes(x=TypeN, y=AverageLengthPerWord)) + geom_point() + geom_line(data=depl3 %>% group_by(TypeN) %>% summarise(AverageLengthPerWord = mean(AverageLengthPerWord)), aes(x=TypeN, y=AverageLengthPerWord, group=1)) + geom_text_repel(data=depl3 %>% filter(grepl("Real", TypeN)), aes(label=Language),hjust=0, vjust=0)
+#plot = ggplot(data=depl3, aes(x=TypeN, y=AverageLengthPerWord)) + geom_point() + geom_line(data=depl3 %>% group_by(TypeN) %>% summarise(AverageLengthPerWord = mean(AverageLengthPerWord)), aes(x=TypeN, y=AverageLengthPerWord, group=1)) + geom_text_repel(data=depl3 %>% filter(grepl("Real", TypeN)), aes(label=Language),hjust=0, vjust=0)
 
 
 # David Robinson
@@ -151,6 +151,9 @@ ggsave(plot, file="figures/depl-violin.pdf")
 
 
 
+#############################
+# Plot in SI
+#############################
 
 plot = ggplot(data=depl3, aes(x=TypeN, y=AverageLengthPerWord)) + geom_point() 
 plot = plot + geom_line(data=depl3 %>% group_by(TypeN) %>% summarise(AverageLengthPerWord = mean(AverageLengthPerWord)), aes(x=TypeN, y=AverageLengthPerWord, group=1))
@@ -166,11 +169,11 @@ ggsave(plot, file="figures/depl-violin-all.pdf")
 
 
 
-
-mean(depl2$REAL_REAL < depl2$manual_output_funchead_coarse_depl)
-mean(depl2$REAL_REAL < depl2$manual_output_funchead_langmod_coarse_best_balanced)
-mean(depl2$REAL_REAL < depl2$manual_output_funchead_RANDOM, na.rm=TRUE)
-mean(depl2$REAL_REAL < depl2$manual_output_funchead_two_coarse_parser_best_balanced, na.rm=TRUE)
-mean(depl2$REAL_REAL < depl2$manual_output_funchead_two_coarse_lambda09_best_balanced, na.rm=TRUE)
-
-
+#
+#mean(depl2$REAL_REAL < depl2$manual_output_funchead_coarse_depl)
+#mean(depl2$REAL_REAL < depl2$manual_output_funchead_langmod_coarse_best_balanced)
+#mean(depl2$REAL_REAL < depl2$manual_output_funchead_RANDOM, na.rm=TRUE)
+#mean(depl2$REAL_REAL < depl2$manual_output_funchead_two_coarse_parser_best_balanced, na.rm=TRUE)
+#mean(depl2$REAL_REAL < depl2$manual_output_funchead_two_coarse_lambda09_best_balanced, na.rm=TRUE)
+#
+#
