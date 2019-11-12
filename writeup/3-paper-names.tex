@@ -146,33 +146,10 @@ Greenberg also found that the order of verb and object is correlated with other 
 
 \begin{table}[ht]
 	\begin{center}
-\begin{tabular}{|c|ll|ll|}
-	\hline
-	&	\multicolumn{2}{c|}{\textbf{Arabic} (English, ...)}   &        \multicolumn{2}{c|}{\textbf{Japanese} (Turkish, ...)} \\ \hline\hline
-	& \multicolumn{2}{c|}{Correlates with...} & \multicolumn{2}{c|}{Correlates with...}  \\
-	&	Verb & Object     & Object & Verb    \\ \hline\hline
-	& kataba & ris{\= a}la 	&tegami-o & kaita \\
-	&	\emph{wrote} & \emph{letter} & 	\emph{letter} & \emph{wrote} \\ \hline 
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}}	&	li    &    {\d s}ad{\= i}q       &	tomodachi & ni \\ % G3, G4
-	&		\emph{to}            & \emph{a friend} &		\emph{friend} & \emph{to} \\ \hline 
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}}	&k{\= a}na    &    {\d s}ad{\= i}q         &	tomodachi & datta \\ % not in Greenberg
-	&	\emph{was}        & \emph{a friend} 	&\emph{friend} & \emph{was} \\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}	&sawfa    &    yaktub       & 	kak- & -udesho \\ % G16, G13 TODO this should only be inflected auxiliaries, replace Arabic
-	&	\emph{will}          & \emph{write}  &    	\emph{write} & \emph{will} \\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}}}	& {\d s}ad{\= i}q  &    John    & 	John no & tomodachi \\ % G2, G23
-	&	\emph{friend} &  \emph{of John}  &	\emph{John of} & \emph{friend} \\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}}}	&kutub    &    taqra'uh{\= a}       & 	anata-ga yonda & hon \\ % G24
-	&	\emph{books} & \emph{that you read}  &	\emph{that you read} & \emph{book} \\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {6}}}}	&'an    &    tu{\d s}il        & 	toochaku suru & koto \\ % 
-	&	\emph{that} & \emph{she arrives}  &	\emph{arrives} & \emph{that} \\ \hline
-	\multirow{2}{*}{	\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}}	&dhahabt	    &    'il{\= a} lmadrasa     & 	gakkoo ni & itta \\ % G22
-	&	\emph{went} & \emph{to school}  &	\emph{school to} & \emph{went} \\ \hline
-	\multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}}	&'ur{\= i}d    &    'an 'ugh{\= a}dir         & 	ik- & -itai \\ % G15
-	& \emph{wants}   &  \emph{to leave}  &	\emph{to go} & \emph{want} \\ \hline 
-\end{tabular}
+    \includegraphics[width=0.45\textwidth]{table1.pdf}
 	\end{center}
 	\caption{Greenberg's word order correlations, exemplified by Arabic (left) and Japanese (right) examples: Across the world, the orders of different constituents are strikingly correlated with that of verb and object.
-	Selection is based on a more recent typological study by Dryer~\cite{dryer1992greenbergian}, restricted to those correlations that are annotated in available corpus data. See SI Section S1 for more on Greenberg correlations.
+	Selection is based on a more recent typological study by Dryer~\cite{dryer1992greenbergian}, restricted to those correlations that are annotated in available corpus data. See SI Appendix, Section S1 for more on Greenberg correlations.
 	}\label{table:corr-dryer}
 \end{table}
 
@@ -222,17 +199,7 @@ computational methods for deriving such representations from other standard ling
 
 \begin{figure}[ht]
     \centering
-{
-\centering{
-\begin{dependency}[theme = simple]
-   \begin{deptext}[column sep=1em]
-          She \& met \& friends  \\
-   \end{deptext}
-   \depedge{2}{1}{subject}
-   \depedge{2}{3}{object}
-\end{dependency}
-}
-}
+    \includegraphics[width=0.2\textwidth]{figure2.pdf}
 	\caption{An English sentence with annotated syntactic relations.}
 	\label{fig:sent-dep}
 \end{figure}
@@ -285,16 +252,16 @@ Following the information-theoretical literature on language processing,
 we formalize the communicative efficiency of a language as a weighted combination of two terms:  the 
 amount of information that utterances contain about the underlying messages, and the  cost or difficulty of communication~\cite{ferreri2003least,frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge}.
 We model the informativity term as the 
- degree to which listeners can reconstruct syntactic structures from an utterance, i.e., the \key{parseability} of the language. We model the cost or complexity term as the 
- \key{predictability}, or negative entropy, of the utterances, since entropy is a standard measure of the complexity of any system of messages \cite{shannon1948mathematical}.
- We use standard neural network methods to estimate the numerical values of parseability and predictability from counterfactually ordered corpora.
- Efficiency is a weighted sum of parseability and predictability.
- See \textit{Materials and Methods} for details, and SI Section 7 for experiments demonstrating that our results are robust to different methods of estimating parseability and predictability.
+degree to which listeners can reconstruct syntactic structures from an utterance, i.e., the \key{parseability} of the language. We model the cost or complexity term as the 
+\key{predictability}, or negative entropy, of the utterances, since entropy is a standard measure of the complexity of any system of messages \cite{shannon1948mathematical}.
+We use standard neural network methods to estimate the numerical values of parseability and predictability from counterfactually ordered corpora.
+Efficiency is a weighted sum of parseability and predictability.
+See \textit{Materials and Methods} for details, and SI Appendix, Section S7 for experiments demonstrating that our results are robust to different methods of estimating parseability and predictability.
 
 For each language, we computationally construct grammars that are \emph{optimized} for efficiency (see \textit{Materials and Methods}).
 This optimization problem is challenging because both the parseability and predictability of a sentence can only be evaluated globally, in the context of an entire language.
 We address this challenge by introducing a simple, differentiable computational formalism for describing grammatical regularities. 
-Our formalism makes it possible to find optimal grammars by standard methods such as stochastic gradient descent (see SI Section S5).
+Our formalism makes it possible to find optimal grammars by standard methods such as stochastic gradient descent (see SI Appendix, Section S5).
 For each grammar, we report predictability and parseability as estimated on the data resulting from ordering the syntactic structures from the corpus according to the grammar.
 
 
@@ -310,13 +277,13 @@ This Pareto frontier is approximate because it is an average of the positions of
 To enable fair comparison with baselines and the estimated frontier, we represent real languages by grammars extracted from the actual orderings observed in the databases. 
 These extracted grammars have the same representational constraints as the baseline and optimized grammars,
 including the fact that the orders are purely a function of the tree structure, and do not take into account other factors, such as discourse structure, which are not annotated in the corpora.
-For a comparison of the raw word orders from corpora against appropriate baseline grammars, see SI Section 8.
+For a comparison of the raw word orders from corpora against appropriate baseline grammars, see SI Appendix, Section S8.
 
 In Figure~\ref{fig:pareto-plane}, we see that real grammars are attracted towards the approximate Pareto frontier and away from the region of the baseline grammars.
 The majority of real grammars are above and/or to the right of their baseline equivalents, demonstrating that they are relatively high in predictability and/or parseability.
 100\% of real grammars improve over their baselines on either predictability or parseability ($p<0.05$, by one-sided $t$-test, with Bonferroni correction and Hochberg's step-up procedure).  %\cite{hochberg1988sharper}).
 90\% of real grammars improve over the baselines in parseability ($p < 0.05$), and 80~\% improve in predictability ($p < 0.05$).
-See SI Section S3 for additional analyses.
+See SI Appendix, Section S3 for additional analyses.
 
 
 \section*{Study 2: Greenberg Word Order Correlations}
@@ -345,8 +312,9 @@ In contrast, baseline languages show no correlation.
 
 
 \begin{figure}
-    \centering
-    \includegraphics[width=0.48\textwidth]{figure5.pdf}
+	\begin{center}
+		\includegraphics[width=0.48\textwidth]{figure5.pdf}
+	\end{center}
     \caption{
     Efficiency optimization produces grammars where the orders of the eight relations in Table~\ref{table:corr-dryer} are strongly correlated with the order of verb and object. We arrange grammars (baseline, optimized, real) by the number of relations where the language patterns with Japanese (as opposed to with Arabic), and plot a kernel density estimate. Object-Verb order leads to grammars where object patterners precede (like Japanese); verb-object order leads to verb patterners preceding (like Arabic). Baseline grammars show no such correlation.
     }
@@ -359,28 +327,28 @@ In contrast, baseline languages show no correlation.
 We asked whether efficiency optimization predicts the eight correlations to hold in most languages.
 To answer this question, we constructed a Bayesian multivariate mixed-effects logistic regression model predicting which of the eight correlations an optimized grammar satisfies.
 We controlled for variation between the syntactic structures used in different languages and language families by entering the language and language family as random effects.
-See SI Section S4.3 for robustness to modeling choices.
+See SI Appendix, Section S4.3 for robustness to modeling choices.
 
 
-\begin{table}
+\begin{figure}
     \centering
-    \includegraphics[width=0.48\textwidth]{table2.pdf}
+    \includegraphics[width=0.48\textwidth]{figure6.pdf}
 
 \caption{Efficiency optimization accurately predicts the Greenbergian correlations.
 For each correlation, we provide its prevalence (between 0\% and 100\%) among the actual grammars of the 51 languages (left), and the posterior distribution of the prevalence among grammars optimized for efficiency (right) on datasets from the 51 languages.
 Efficiency optimization predicts all eight correlations to hold in the majority of grammars, matching the distribution observed in real languages. %\textcolor{red}{make visually clear that it's 51 languages}
 }\label{table:corr-resu}
-\end{table}
+\end{figure}
 
 
 
 
-In Table~\ref{table:corr-resu}, we compare the prevalence of the eight correlations in real and optimized languages.
+In Figure~\ref{table:corr-resu}, we compare the prevalence of the eight correlations in real and optimized languages.
 For the real languages, we indicate how many of the 51 languages satisfy a correlation.
 For the optimized languages, we indicate the posterior distribution of the proportion of satisfying languages, obtained from the mixed-effects analysis. % (see \textit{Materials and Methods}).
 Grammars optimized for efficiency predict all eight correlations to hold at prevalences significantly greater than 50\%, similar to actual human languages.
 In the multivariate mixed-effects analysis, efficiency optimization predicts all eight correlations to hold across languages (posterior probability $0.9911$). 
-Optimizing for only predicability or only parseability does not predict all of the correlations (See SI Section S4).
+Optimizing for only predicability or only parseability does not predict all of the correlations (See SI Appendix, Section S4).
 
 \section*{Discussion}
 
@@ -413,7 +381,7 @@ To some extent, the Greenberg correlations and dependency length minimization ar
 This ordering exhibits correlations (1) and (7) from Table~\ref{table:corr-dryer}.
 Among all possible ways of ordering this syntactic structure, this one also minimizes the average distance between any two syntactically related words: E.g., inverting `to' and `friends' would increase the distance between `wrote' and `to'.
 
-It may come as a surprise that grammars which are efficient according to our metric also have low dependency length, even though dependency length is never considered explicitly during the calculation of efficiency nor the procedure for optimizing grammars. The result is especially surprising given that our efficiency metric does not incorporate any kind of memory limitations, whereas previous functional explanations for dependency length minimization have typically been based on the idea of limited working memory resources available during language production and comprehension \citep{gibson1998linguistic,futrell2017noisycontext} (although see \citep{hawkins1994performance} for a motivation of dependency length minimization which is not based in memory limitations). Our results suggest that both Greenberg's correlations and dependency length minimization might be explainable purely in terms of maximizing the general parseability and predictability of utterances, without a need for further constraints. See SI Section S12 for further discussion along with some simulations demonstrating how grammars that satisfy Greenberg's correlations can be more efficient in a generic sense.
+It may come as a surprise that grammars which are efficient according to our metric also have low dependency length, even though dependency length is never considered explicitly during the calculation of efficiency nor the procedure for optimizing grammars. The result is especially surprising given that our efficiency metric does not incorporate any kind of memory limitations, whereas previous functional explanations for dependency length minimization have typically been based on the idea of limited working memory resources available during language production and comprehension \citep{gibson1998linguistic,futrell2017noisycontext} (although see \citep{hawkins1994performance} for a motivation of dependency length minimization which is not based in memory limitations). Our results suggest that both Greenberg's correlations and dependency length minimization might be explainable purely in terms of maximizing the general parseability and predictability of utterances, without a need for further constraints. See SI Appendix, Section S12 for further discussion along with some simulations demonstrating how grammars that satisfy Greenberg's correlations can be more efficient in a generic sense.
 
 
 An idea related to functional optimization as we have explored it here is the idea that grammars are biased towards simplicity in terms of the number of parameters required to specify the grammar \cite{culbertson2016simplicity}. 
@@ -424,7 +392,7 @@ Nevertheless, future research should examine whether there are more principled c
 A major question for functional explanations for linguistic universals is: \emph{how} do languages end up optimized? Do speakers actively seek out new communicative conventions that allow better efficiency? Or do languages change in response to biases that come into play during language acquisition \cite{fedzechkina2012language,culbertson2012learning}? Our work is neutral toward such questions. To the extent that language universals arise from biases in learning or in the representational capacity of the human brain, our results suggest that those biases tilt toward communicative efficiency. 
 
 Unlike crosslinguistic efficiency studies in the domain of lexical semantics~\cite{kemp2012kinship,regier2015word,zaslavsky2018efficient}, we did not derive a single universal bound for the efficiency across all 51 languages in Study 1; instead, we constructed optimized grammars individually for each language.
-Each language $L$ has its own distribution of tree structures that speakers communicate, and different grammars may be optimal for different tree structure distributions (see SI Section S3.5).
+Each language $L$ has its own distribution of tree structures that speakers communicate, and different grammars may be optimal for different tree structure distributions (see SI Appendix, Section S3.5).
 Our results show that the word order of each language $L$ is approximately optimal for the tree structures used in $L$.
 
 While our work has shown that certain word order universals can be explained by efficiency in communication, we have made a number of basic assumptions about how language works in constructing our word order grammars: for example, that sentences can be syntactically analyzed into trees of syntactic relations. We believe a promising avenue for future work is to determine whether these more basic properties themselves might also be explainable in terms of efficient communication.
@@ -450,12 +418,12 @@ Language-specific relation types were truncated to their universal counterparts 
 We adapt the grammar model of~\cite{gildea2007optimizing} to UD.
 A grammar assigns a parameter $x_\tau \in [-1,1]$ to every relation  $\tau$ belonging to the 37 universal syntactic relations defined by UD 2.1.
 A syntactic structure, consisting of a set of words and syntactic relations between them, is then ordered into a string of words recursively starting from the root; the dependents of a word then are ordered around the head according to the values $x_\tau$ corresponding to their syntactic relations; those dependents where $x_\tau < 0$ are ordered before the head; the others after the head.
-See SI Section S5.2 for the methodology used to extract the languages' actual grammars from datasets, and for validation against expert judgments.
+See SI Appendix, Section S5.2 for the methodology used to extract the languages' actual grammars from datasets, and for validation against expert judgments.
 
 \subsection*{Formalizing Efficiency}
 We adopt the formalization of language efficiency of \cite{ferreri2003least}, closely related to the Information Bottleneck \citep{strouse2017deterministic}, which has recently been successfully applied to model lexical semantics \cite{zaslavsky2018efficient}.
 Very similar formalizations of Zipf's ideas have been proposed across the information-theoretic literature on language~\cite{frank2012predicting,kemp2012kinship,regier2015word, xu2016historical}. 
-See SI Section S2.1 for discussion.
+See SI Appendix, Section S2.1 for discussion.
 
 In this framework, the overall efficiency of language is a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication  \cite{ferreri2003least,frank2012predicting,kemp2012kinship,regier2015word,zaslavsky2018efficient}. We model the first term as the 
  degree to which listeners can reconstruct syntactic structures from an utterance, i.e., the \key{parseability} of the language.
@@ -481,18 +449,18 @@ Maximizing one of the two scoring functions under a constraint on the other func
 \end{equation}
 with an interpolation weight $\lambda \in [0,1)$ that controls the relative strength of the two pressures.
 When optimizing grammars for efficiency, we set $\lambda := 0.9$ in Equation~\ref{eq:efficiency} in order to give approximately equal weight to both components.
-See SI Section S2.2 for mathematical discussion of $\lambda$, and robustness to other choices.
+See SI Appendix, Section S2.2 for mathematical discussion of $\lambda$, and robustness to other choices.
 
 We estimate predictability using LSTM recurrent neural networks~\citep{hochreiter1997long}, general sequence models that are the strongest known predictors of the surprisal effect on human processing effort~\citep{frank2011insensitivity,goodkind2018predictive}.
 We estimate parseability using a generic neural network architecture that casts recovery of syntactic structures as a minimum spanning tree problem \citep{dozat2017stanford, zhang2017dependency}.
 In order to reduce overfitting in the optimization process, we use an unlexicalized parsing setup, and add POS tags when estimating predictability.
 Grammars are optimized for efficiency by simultaneous gradient descent on the parameters of the grammar and these neural models.
 All parseability and predictability values are reported on the held-out (\emph{dev}) partitions from the predefined split for each UD corpus.
-See SI Sections S5--S8 for details and for robustness of our results to modeling choices, including evidence that our results are not specific to any particular language model or parser.
+See SI Appendix, Sections S5--S8 for details and for robustness of our results to modeling choices, including evidence that our results are not specific to any particular language model or parser.
 
 \subsection*{Data Availability}
 Code and results are available at \url{https://github.com/m-hahn/grammar-optim}.
-The efficiency optimization results from Table~\ref{table:corr-resu} were preregistered: \url{ http://aspredicted.org/blind.php?x=ya4qf8} (see also SI Section S4.6). 
+The efficiency optimization results from Figure~\ref{table:corr-resu} were preregistered: \url{ http://aspredicted.org/blind.php?x=ya4qf8} (see also SI Appendix, Section S4.6). 
 }
 
 

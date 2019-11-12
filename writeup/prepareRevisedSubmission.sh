@@ -5,7 +5,10 @@ cp paper-revised.bib revised-submission/
 cp pnas-new.cls revised-submission/
 cp pnas-new.bst revised-submission/
 cp pnasresearcharticle.sty revised-submission/
-cp figures/figure1.pdf revised-submission/
-cp figures/figure3.pdf revised-submission/
-cp table2.pdf revised-submission/
+cp figure1.pdf revised-submission/
+cp figure3.pdf revised-submission/
+cp figure6.pdf revised-submission/
+cp figure2.pdf revised-submission/
+cp table1.pdf revised-submission/
+cp table1.tex revised-submission/
 
