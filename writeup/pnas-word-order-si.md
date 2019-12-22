@@ -467,7 +467,7 @@ Recall the efficiency metric
 ```math
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
 ```
-with the tradeoff parameter $\lambda \in [0,1)$.
+with the tradeoff parameter $`\lambda \in [0,1)`$.
 For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify what fraction of the baseline grammars are less efficient than the real language.
 
 The results are plotted in Figure~\ref{fig:lambda-quantile}.
