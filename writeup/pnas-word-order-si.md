@@ -447,18 +447,11 @@ Similar results hold for predictability and parseability individually.
 
 ### Quantifying Degree of Optimality for Overall Efficiency
 
-%\begin{figure}
-%\centering
-%		\includegraphics[width=0.5\textwidth]{lambda-explanation.png}
-%
-%	\caption{For $\lambda=0$ and $\lambda=0.9$, we provide lines connecting points that have the same efficiency value as the real language (red cross). Points to the bottom right of the lines have lower efficiency under the respective values of $\lambda$. In this example, all baseline samples (green dots) have lower efficiency than the real language, even though the real language does not outperform every baselines on both components of efficiency.}\label{fig:opt-lambda-explanation}
-%\end{figure}
 
 
-![alt text](../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf Quantiles)
+![alt text](../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf "Quantiles")
 
-	\caption[]{Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test.}\label{fig:lambda-quantile}
-\end{figure}
+Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test.
 
 
 
