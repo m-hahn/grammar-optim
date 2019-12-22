@@ -1,4 +1,4 @@
-#Supplemental Materials for ``Universals of word order reflect optimization of grammars for efficient communication''
+# Supplemental Materials for ``Universals of word order reflect optimization of grammars for efficient communication''
 
 ## Section S1: Formalization of Greenberg Correlation Universals
 
