@@ -96,8 +96,7 @@ An anonymous reviewer notes that the mapping between Dryer's relations and UD is
 Here we provide evidence that this is not impact our conclusions, since the ordering of the various relations subsumed under the UD label strongly agree typologically.
 
 
-\begin{enumerate}
-	\item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}} captures correlations with inflected tense, aspect, and negation auxiliaries as stated by \citet{dryer1992greenbergian}; however, *aux* aso encompasses other types of auxiliaires, such as modals.
+1. Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}} captures correlations with inflected tense, aspect, and negation auxiliaries as stated by \citet{dryer1992greenbergian}; however, *aux* aso encompasses other types of auxiliaires, such as modals.
 We note that other authors, including \citet{greenberg1963universals}, have stated the correlation for all inflected auxiliaries; for further references, we refer to \citet[Number 501]{plank2000universals}.
 
 We used the UD treebanks to confirm that different auxiliaries tend to pattern together, and that the most frequent order of the \emph{aux} relation coincides with that of inflected tense-aspect or negation auxiliaries.
@@ -114,10 +113,10 @@ Taken together, this shows that the dominant order of the \emph{aux} relation st
 
 
 
-\item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {4}}} is formalized using \emph{nmod} which covers not only genitives, but also all other noun-modifying NPs and PPs.
+2. Correlation (4) is formalized using \emph{nmod} which covers not only genitives, but also all other noun-modifying NPs and PPs.
 The evaluation of extracted grammars against WALS (Table~\ref{tab:grammars-wals}) shows that, among the 37 languages where WALS has an entry, the dominant direction of \emph{nmod} agrees with that of genitives, with two exceptions (Danish and Swedish\footnote{Danish and Swedish have genitives preceding the head marked with -\emph{s} similar to English (reflected in the WALS entry), while noun-modifying PPs, including phrases similar to English \emph{of} phrases, follow the head. In these two languages, the order of adnominal PPs, agreeing with the more frequent order of \emph{nmod} relations, agrees with the verb-object relation, whereas prenominal -s genitives show the opposite ordering.}.
 
-\item Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {5}}} is formalized using \emph{acl}, which covers not just relative clauses, but also other adnominal clauses.
+3. Correlation (5) is formalized using \emph{acl}, which covers not just relative clauses, but also other adnominal clauses.
 In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{acl} agrees with the WALS entry for relative clauses in all but three languages (Estonian, Finnish, Tamil) out of the 36 languages for which WALS has an entry.
 Also, UD provides a specific \emph{acl:relcl} sub-label for relative clauses in 21 of the languages.
 In all but three languages, the dominant order is the same for the general \emph{acl} label as for the specific \emph{acl:relcl} one (exceptions: Estonian, Finnish, Hindi).
@@ -126,13 +125,13 @@ The exceptions mainly arise because some languages have multiple common word ord
 Hindi uses correlatives that can precede or follow the coreferent noun \citep[3.1.3]{montaut2004grammar} and relatives following the noun \citep[4.3]{montaut2004grammar}.
 Estonian and Finnish have finite relative clauses following nouns (\citep[p. 176]{karlsson2013finnish}, \citep[p. 256]{tauli1983standard}) and nonfinite participial modifiers preceding it \citep[Chapter 18]{karlsson2013finnish}.
 
-		Finally, in Tamil, the divergence is caused by the treebank annotation convention for Tamil, where the label \emph{acl} is used to mark certain elements of compounds, not for the participial phrases that correspond most closely to relative clauses of other languages.\footnote{In the original HamleDT \citep{zeman2012hamledt, Ramasamy:2011:TDP:1964799.1964808} version of the Tamil treebank, these relations were labeled as CC, marking compounds (\url{http://ufal.mff.cuni.cz/~ramasamy/tamiltb/0.1/dependency_annotation.html}). We did not attempt to modify this labeling convention.}
+Finally, in Tamil, the divergence is caused by the treebank annotation convention for Tamil, where the label \emph{acl} is used to mark certain elements of compounds, not for the participial phrases that correspond most closely to relative clauses of other languages.\footnote{In the original HamleDT \citep{zeman2012hamledt, Ramasamy:2011:TDP:1964799.1964808} version of the Tamil treebank, these relations were labeled as CC, marking compounds (\url{http://ufal.mff.cuni.cz/~ramasamy/tamiltb/0.1/dependency_annotation.html}). We did not attempt to modify this labeling convention.}
 	
 
-\item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {7}}}} is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
+4. Correlation (7) is formalized using \emph{obl}, which covers not only PPs and standards of comparison, but also adjunct NPs.
 In the WALS evaluation (Table~\ref{tab:grammars-wals}), the dominant order of \emph{obl} agrees with that annotated for obliques in all 18 languages for which WALS has an entry.
 	
-\item Correlation {\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}} is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
+5. Correlation (8) is formalized using \emph{xcomp}, which covers other control verbs, not just verbs of volition (`want').
 
 We used the UD treebanks to investigate whether there are differences in the ordering of `want' and other verbs using the \emph{xcomp} dependency.
 
@@ -145,7 +144,6 @@ In three historical languages (Ancient Greek, Latin, and Old Church Slavonic), v
 Finally, in Gothic, the verb of volition (\emph{wiljan}) has opposite dominant order, resulting in an apparent violation of Correlation \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}.
 
 Taken together, the order of `want' and its complement tends to agree with that of most other \emph{xcomp} dependencies, with the sole exception of Gothic.
-\end{enumerate}
 
 ## Formalizing Communicative Efficiency
 ### Derivation and Relation to Other Work
@@ -733,22 +731,10 @@ This means that it does not account for differences in the tree structures betwe
 Future work should replicate the analysis of \cite{justeson1990explanation} on a larger typological database and with more relations, to enable a direct comparison with the network structure predicted by  efficiency optimization.
 
 
-\begin{table}
-\small{
-\begin{center}
-\begin{tabular}{|ll||l|lll|llll|ll|llllll}
-\hline
-	& &Prevalence & Mean & SD & $p(\beta \leq 0)$  \\
-\hline\hline
-	G-N (nmod) & N-Adp (lifted\_case)  & 0.919 & 4.482 & 1.058 & $<$ \num{1e-4} \\
-	Rel-N (acl) & N-Adp (lifted\_case) & 0.898 & 4.653 & 1.286 & $<$ \num{1e-4} \\
-\hline
-\end{tabular}
-\end{center}
-}
-	\caption{Detailed results for the two correlations found by \citet{justeson1990explanation} that do not involve the verb--object dependency, for grammars optimized for efficiency. Both correlations are strongly supported by optimized grammars, holding in about 90\% of optimized grammars. Compare Table~\ref{tab:corr-regression}.
-}\label{tab:corr-regression-implication}
-\end{table}
+| | Prevalence | Mean | SD | $`p(\beta \leq 0)`$
+	G-N (nmod) | N-Adp (lifted\_case)  | 0.919 | 4.482 | 1.058 | $`<`$ \num{1e-4}
+	Rel-N (acl) | N-Adp (lifted\_case) | 0.898 | 4.653 | 1.286 | $`<`$ \num{1e-4}
+Detailed results for the two correlations found by \citet{justeson1990explanation} that do not involve the verb--object dependency, for grammars optimized for efficiency. Both correlations are strongly supported by optimized grammars, holding in about 90\% of optimized grammars. Compare Table~\ref{tab:corr-regression}.
 
 
 ![alt text](../results/correlations/analysis/controls/loglinear-pairwise-correlations.pdf Network)
@@ -790,18 +776,13 @@ More complex and powerful ordering grammar models have been proposed \cite{futre
 
 
 
-\begin{figure}
-	\begin{center}
-\begin{tabular}{l||l|ll||l|lllll}
-	& \multicolumn{3}{c||}{English}    &  \multicolumn{3}{c}{Japanese}  \\ 
-	Relation                     &  Par.   & $a_\tau$ & $b_\tau$            & Par.   & $a_\tau$ & $b_\tau$     \\ \hline \hline
-	object (\textit{obj})        &  $0.1$   &   $0.04$   & $-1.46$            & $-0.1$  & $0.99$ & $-0.7$2 \\
-	oblique (\textit{obl})       &  $0.3$   &   $0.13$     & $1.25$             & $-0.3$  & $0.99$ & $0.73$ \\
-	case (\textit{lifted\_case}) &  $0.2$   &   $0.07$       &   $-0.89$         & $-0.2$  &  $0.92$ & $0.02$  \\
-\end{tabular}
-	\end{center}
-	\caption{Sample Coefficients from grammars extracted from the real English and Japanese orderings (Section~\ref{sec:extract-grammars}), for the relations occurring in Figure 3 (Main Paper). We show parameters in $[-1,1]$ for deterministic word order grammars as described in \emph{Materials and Methods}, and the coefficients ($a_\tau, b_\tau$) for corresponding differentiable ordering grammars. For the deterministic grammars (`Par.'), positive coefficients indicate that the dependent will be placed after the head. For the differentiable grammars, $a_\tau > 0.5$ indicates predominance of ordering of dependents before heads, and larger $b_\tau$ indicates greater distance between head and dependent.}\label{fig:grammar-sample}
-\end{figure}
+	|English | |     |Japanese | |  
+	Relation                     |  Par.    | $a_\tau$ | $b_\tau$     |  Par.    | $a_\tau$ | $b_\tau$   
+	object (\textit{obj})        |  $0.1$   |   $0.04$ | $-1.46$      |  $-0.1$  | $0.99$   | $-0.7$2 
+	oblique (\textit{obl})       |  $0.3$   |   $0.13$ | $1.25$       |  $-0.3$  | $0.99$   | $0.73$ 
+	case (\textit{lifted\_case}) |  $0.2$   |   $0.07$ |   $-0.89$    |  $-0.2$  |  $0.92$  | $0.02$ 
+
+Sample Coefficients from grammars extracted from the real English and Japanese orderings (Section~\ref{sec:extract-grammars}), for the relations occurring in Figure 3 (Main Paper). We show parameters in $[-1,1]$ for deterministic word order grammars as described in \emph{Materials and Methods}, and the coefficients ($a_\tau, b_\tau$) for corresponding differentiable ordering grammars. For the deterministic grammars (`Par.'), positive coefficients indicate that the dependent will be placed after the head. For the differentiable grammars, $a_\tau > 0.5$ indicates predominance of ordering of dependents before heads, and larger $b_\tau$ indicates greater distance between head and dependent.
 
 
 ### Extracting Grammars from Datasets
@@ -975,29 +956,22 @@ All word and POS embeddings are randomly initialized with uniform values from $[
 We do not use pretrained embeddings \citep{peters2018deep}; while these could improve performance of language models and parsers, they would introduce confounds from the languages' actual word orders as found in the unlabeled data.
 
 
-\begin{table}[]
-    \centering
-    \begin{tabular}{|l|l|l|}
-\hline
-\multirow{2}{*}{Optimization}&    Learning Rate     & 5e-6, 1e-5, 2e-5, 5e-5 \\
-&    Momentum & 0.8, 0.9 \\ \hline
-\multirow{6}{*}{Language Model} &    Learning Rate  & 0.5, 0.1, 0.2 \\
-&    Dropout Rate& 0.0, 0.3, 0.5 \\
-& Embedding Size (Words) & 50 \\
-& Embedding Size (POS) & 20 \\
-&    LSTM Layers  & 2 \\
-&    LSTM Dimensions  & 128 \\
- \hline
-\multirow{5}{*}{Parser}&    Learning Rate  & 0.001 \\
-&    Dropout Rate  & 0.2 \\
-&    Embedding Size  & 100 \\
-&    LSTM Layers  & 2 \\
-&    LSTM Dimensions  & 200 \\
-\hline
-    \end{tabular}
-    \caption{Hyperparameters}
-    \label{tab:hyperparameters}
-\end{table}
+ Optimization|     Learning Rate     | 5e-6, 1e-5, 2e-5, 5e-5
+|    Momentum | 0.8, 0.9 
+Language Model |    Learning Rate  | 0.5, 0.1, 0.2 
+|    Dropout Rate& 0.0, 0.3, 0.5 
+| Embedding Size (Words) | 50 
+| Embedding Size (POS) | 20 
+|    LSTM Layers  | 2 
+|    LSTM Dimensions  | 128 
+Parser |    Learning Rate  | 0.001
+|    Dropout Rate  | 0.2 \\
+|    Embedding Size  | 100 
+|    LSTM Layers  | 2 
+|    LSTM Dimensions  | 200 
+
+Hyperparameters
+
 
 #### Improved Unbiased Gradient Estimator
 We employ two common variance reduction methods to improve the estimator~(\ref{eq:dtheta}), while keeping it unbiased.
