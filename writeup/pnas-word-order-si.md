@@ -455,23 +455,7 @@ Optimality of real grammars for efficiency, compared to baselines, across values
 
 
 
-%In Analysis 2, we quantify what fraction of baseline languages \emph{Pareto-dominates} the real language, showing that -- while not all real languages may be strongly optimized for both objectives individually -- at most a very small fraction of baseline grammars improve on the real language on both components.
-%\paragraph{Analysis 1: Optimality by $\lambda$}
-%Second, we quantify how many baseline languages are more efficient across all values of $\lambda$.
-%Recall the efficiency metric
-%\begin{equation}
-%	R_\lambda := R_{Pars} + \lambda R_{Pred}
-%\end{equation}
-% with the tradeoff parameter $\lambda \in [0,1)$.
-%For each $\lambda$, we quantify the fraction of baselines that have better efficiency than the real language:
-%\begin{equation}
-%	O_\lambda := \frac{\# \{b \in B: R_{\lambda}(b) > R_{\lambda}(r)\}}{\# B}
-%\end{equation}
-%where $B$ is the set of baseline languages.
-%We illustrate this in Figure~\ref{fig:opt-lambda-explanation}.
 
-%E.g., the real grammar of Czech does not improve over all baselines in predictability, but it is higher than the vast majority of baselines in efficiency, for all values $\lambda \in [0,1]$.
-%This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
 
 
@@ -480,9 +464,9 @@ In the main paper (Study 1), we showed that languages tend to be optimized for p
 Efficiency is a combination of both components; in this section we address the question whether languages are generally optimized for efficiency as a multi-objective optimization problem of optimizing for parseability and predictability.
 
 Recall the efficiency metric
-\begin{equation}
+```math
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
-\end{equation}
+```
 with the tradeoff parameter $\lambda \in [0,1)$.
 For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify what fraction of the baseline grammars are less efficient than the real language.
 
