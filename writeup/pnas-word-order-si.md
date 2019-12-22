@@ -782,16 +782,13 @@ These experiments all had the same setup described in Section~\ref{sec:neural-ar
 Results across all three experiments agree; jointly optimizing grammars for parseability and predictability produces all eight correlations.
 
 
-\begin{table}[hbt!]
 
-	\begin{center}
-\includegraphics[width=0.4\textwidth]{si-table-perrel-3-1.png}  
-\end{center}
+![alt text](si-table-perrel-3-1.png "Predictions")
 
 	\begin{center}
 \begin{tabular}{cccc}
 $\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
-	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-parseability.pdf}&
+![alt text](../results/correlations/figures/posterior-satisfied-universals-parseability.pdf "Predictions")   &
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf}&
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-efficiency-large.pdf}&
 	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
