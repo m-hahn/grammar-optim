@@ -752,18 +752,13 @@ Additionally, in Table~\ref{tab:all-predictions-2} we present data for the other
 
 
 
-\begin{table*} 
-	\begin{center}	
-\includegraphics[width=0.8\textwidth]{si-table-perrel-1a-1.png}
-\end{center}
-\caption{Predictions on UD relations with predictions from the typological literature.
+![alt text](si-table-perrel-1a-1.png "Predictions")
+
+Predictions on UD relations with predictions from the typological literature.
 The first section contains the eight correlations discussed in the main paper (See Section~\ref{sec:correlations}); the second section provides other relations for which predictions are available.
 The `Real' column provides the prevalence among the 51 languages in the Universal Dependencies data.
 We provide posterior prevalences for grammars optimized for Efficiency, and for grammars optimized for Pars(eability) and Pred(ictability) alone, obtained from the Bayesian mixed-effects analysis controlling for languages and language families (as in Figure 6 of the main paper).
 In the last column, we indicate what prevalence is expected according to the typological literature. 
-}
-\label{tab:all-predictions-1}
-\end{table*}
 
 
 
