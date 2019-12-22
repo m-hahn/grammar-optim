@@ -344,12 +344,13 @@ The resulting frontier is guaranteed to provide a lower bound on the true Pareto
 
 
 ![alt text](../results/plane/pareto-plane-perLanguage-WithN.pdf Plane)
-	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish). Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars. All data are $z$-scored.}\label{fig:pareto-per-lang}
-\end{figure}
+
+Predictability and Parseability]{Predictability and parseability of 51 languages, ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish). Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars. All data are $z$-scored.}\label{fig:pareto-per-lang}
 
 
 
 ![alt text](../results/plane/pareto-plane-perLanguage-raw-WithN.pdf Plane)
+
 	\caption[Predictability and Parseability]{Raw numerical values estimated for Predictability (negative surprisal), and negative syntactic ambiguity $-H[T|U]$, before $z$-scoring. For more meaningful comparison, both quantities are normalized by the number of words in the corpus, i.e., we plot per-word negative surprisal and per-word difficulty in recovering syntactic structures.  Note that the negative syntactic ambiguity $-H[T|U]$ equals parseability $I[T,U] = H[T] - H[T|U]$ up to a per-language constant $H[T]$, which we do not attempt to estimate. Further note that we use different scales in the different panels. }\label{fig:pareto-per-lang-raw}
 \end{figure}
 
@@ -455,6 +456,7 @@ Similar results hold for predictability and parseability individually.
 
 
 ![alt text](../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf Quantiles)
+
 	\caption[]{Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test.}\label{fig:lambda-quantile}
 \end{figure}
 
@@ -510,6 +512,7 @@ The distribution of baseline grammars is largely to the bottom/left of at least 
 This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
 ![alt text](../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf Plane)
+
 Per-language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.
 
 
