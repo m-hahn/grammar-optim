@@ -33,8 +33,7 @@ For clarity, we refer to these reversed relations as \emph{lifted\_case}, \emph{
 \begin{tabular}{|l|ll|l|l|}
 	\hline
 &	\multicolumn{2}{c|}{Correlates with...}   &          \multirow{2}{*}{UD Relation}   & \multirow{2}{*}{\citet{greenberg1963universals}}    \\ 
-&	verb & object & &   \\ \hline \hline % \textsc{verb} $\xrightarrow{obj}$ \textsc{noun}
-%adp. &
+&	verb & object & &   \\ \hline \hline
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}&adposition    &    NP    &  $\xrightarrow{lifted\_case}$   & 3, 4   \\ \hline
 \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {2}}}&copula  verb  &    predicate    &    $\xrightarrow{lifted\_cop}$   & --    \\\hline
 \multirow{2}{*}{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}}&tense/aspect auxiliary    &    VP    &    \multirow{2}{*}{$\xleftarrow{aux}$}   & 16, 13  \\
@@ -80,8 +79,6 @@ We therefore excluded this correlation here.
 
 
 
-%croft2011greenbergian
-%dryer2011evidence
 
 
 \paragraph{Other Greenberg Universals}
@@ -111,8 +108,6 @@ In 43 languages, all extracted auxiliaries had the same dominant order, with the
 In three languages (Ancient Greek, Russian), there were other auxiliaries with different dominant order, but these were modal or passive auxiliaries.
 Finally, in three languages (Afrikaans, Old Church Slavonic, and Persian), not all tense-aspect auxiliaries showed the same dominant order as the \emph{aux} dependency overall.
 For instance, in Persian, the perfect auxiliary \emph{budan} follows the main verb, whereas the future auxiliary \emph{xaastan xaah-} precedes it~\citep[pp. 117, 121]{mace2015persian}.
-%		(1) In Afrikaans, the past auxiliary \emph{het} shows dominant aux-head order, whereas the overall most common order of auxiliaries is head-aux (e.g. future auxiliary \emph{sal}).
-%		Finally, in Old Church Slavonic, most aux dependencies have the reflexive \emph{sebe} which tends to precede the head, whereas inflected verbal auxiliaries (primarily, forms of \emph{byti}) have opposite order, leading to a seeming violation of the correlation  \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {3}}}.
 
 
 Taken together, this shows that the dominant order of the \emph{aux} relation strongly coincides with that of inflected tense-aspect auxiliaries, except for a small number of languages where different tense-aspect auxiliaries show different orders.
@@ -157,41 +152,37 @@ Taken together, the order of `want' and its complement tends to agree with that 
 
 
 
-%The efficiency of any information-theoretic communication protocol depends on (1) how costly encoding and transmission are, and (2) how precisely messages can be recovered from codes~\cite{shannon1948mathematical}.
-%Accordingly, computational tests of functional explanations in linguistics have formalized the overall efficiency of language as a weighted combination of terms representing the amount of information that utterances contain about the underlying messages, and the cost of communication.
 
 Here we discuss how our formalization of communicative efficiency relates to formalizations that have been proposed in the information-theoretic literature on language.
 Across the literature, the core idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms:
-\begin{equation}\label{eq:eff-basic}
+```
 \text{Informativity} - \lambda \cdot \text{Complexity},
-\end{equation}
+```
 with some differences in the precise formalization of these two quantities \cite{ferreri2003least,ferrericancho2007global,kemp2012kinship,frank2012predicting,goodman2013knowledge,kao2014nonliteral,xu2014numeral,kirby2015compression,regier2015word,xu2016historical,futrell2017memory,zaslavsky2018efficient,bennett2018extremely,hahn2018information, peloquin2019interactions,zaslavsky2019semantic}.
 
 \paragraph{Derivation of our Formalization}
 The basis for our precise formalization is the function proposed in \cite{ferreri2003least,ferrericancho2007global,futrell2017memory,peloquin2019interactions} as a general efficiency metric for communicative systems.
-%The key idea is to maximize the \key{amount of information} that linguistic forms provide about meanings, while constraining \key{complexity and diversity} of forms. %; there are some differences in the formalization of complexity.
 If $S$ denotes signals (e.g., words, sentences) and $R$ denotes their referents (e.g., objects in a reference game), then this efficiency metric takes the form (notation slightly varies across these publications):
-\begin{equation}\label{eq:eff-general}
+```
 \operatorname{I}[S, R] - \lambda \cdot \operatorname{H}[S],
-\end{equation}
+```
 where $\operatorname{I}[S, R]$ describes the \key{informativity} of the signals $S$ about their referents $R$, and $\operatorname{H}[S]$ describes the \key{complexity} of the communication system, and $\lambda \geq 0$ trades off the two aspects of efficiency.
 While prior studies \cite{ferreri2003least, kemp2012kinship,regier2015word,zaslavsky2018efficient} mostly considered settings where the signals $S$ are individual words without further structure, the signals are entire sentences $\utterance$ in our setting.
 The underlying messages $R$ which the speaker aims to convey are the syntactic structures $\tree$.
 By the principle of compositionality \cite{frege1892sinn}, the meaning of a sentence is a function of the meanings of the parts and how they are combined.
 The syntactic structure specifies how the meanings of words are combined; therefore, recovering the syntactic structure is a prerequisite to understanding a sentence correctly.
-%The idea that efficient languages will permit the listener to infer grammati
 Hence, substituting utterances $\utterance$ for signals $S$, and syntactic structures $\tree$ for underlying messages $R$, into (\ref{eq:eff-general}), we  arrive at the following efficiency metric for word order:
-\begin{equation}\label{eq:efficiency-derived}
+```
 	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda \cdot R_\textit{Pred},
-\end{equation}
+```
 where \key{parseability} is the amount of information that utterances provide about their underlying syntactic structures:
-\begin{equation}
+```
 	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)},
-\end{equation}
+```
 and \key{predictability} is the negative entropy or surprisal of the language:
-\begin{equation}
+```
 	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p(u).
-\end{equation}
+```
 Parseability $\operatorname{I}[\utterance,\tree]$ is higher if utterances provide more information about their underlying syntactic structure.
 Due to the identity $\operatorname{I}[\utterance, \tree] = \operatorname{H}[\tree] - \operatorname{H}[\tree|\utterance]$, parseability is maximized if every utterance can be parsed unambiguously---that is, if the listener's uncertainty about syntactic structures given received utterances, $\operatorname{H}[\tree|\utterance]$, is zero.
 Predictability $- \operatorname{H}[\utterance]$ is higher if the distribution over utterances is concentrated on a few utterances, and is maximized if there is just a single utterance.
@@ -211,14 +202,10 @@ One key property of the standard Information Bottleneck is that it results in co
 The variant of the Information Bottleneck that we use has been explored in the machine learning literature by \citet{strouse2017deterministic} and dubbed the ``Deterministic Information Bottleneck'' because, in the setting studied by \citet{strouse2017deterministic}, it results in codes that are a deterministic function of the information to be expressed.
 We use this version of the Information Bottleneck because (1) it has been proposed in previous literature as a generic formalization of efficiency \citep{ferreri2003least}, and (2) it is not clear what would count as the three variables $Y$, $X$, and $\hat{X}$ in our setting. In our setting we have unordered tree structures $\mathcal{T}$ to be conveyed, and utterances $\mathcal{U}$ representing them. It is not currently clear what would count as a third variable for the application of the standard Information Bottleneck, although we believe such formulations may be fruitful in the future.
 
-%We assume deterministic grammars that transduce every underlying syntactic structure into one surface order; our model therefore corresponds to the deterministic version of the Information Bottleneck, which arises when the encoder is deterministic, and which uses the entropy as the complexity measure~\cite{strouse2017deterministic}.
 
 A few other approaches to formalizing efficiency share the mutual information term for informativity in (\ref{eq:eff-general}), while using complexity measures that are not explicitly information-theoretic.
 In studies of semantic typology by \citet{regier2007color, xu2014numeral, xu2016historical}, the complexity function is the number of different forms.
 As the entropy of a finite and uniform distribution is the logarithm of the number of objects, this complexity function arises from the entropy measure $\operatorname{H}[S]$~(\ref{eq:eff-general}) in the special case where all forms are used at equal frequency.
-%In \citet{kemp2012kinship} it is the complexity of defining the concepts that are encoded.
-%The number of forms is not applicable as a complexity metric in our case, as languages will typically have infinitely many sentences.
-%As the logarithm of the number of forms upper-bounds the entropy, entropy $\operatorname{H}[S]$ can nevertheless be seen as a generalization of 
 Notably, the models of \citet{regier2007color} and \citet{xu2016historical} have since been reformulated successfully in the Information Bottleneck formalism \cite{zaslavsky2018efficient, zaslavsky2019semantic}, bringing them even closer to our formalization of efficiency.
 
 \paragraph{Relation to Models of Language Evolution}
@@ -240,15 +227,15 @@ If the dataset $d$ consists of observed pairs $(t,f)$ of meanings $t$ and forms 
 \end{align}
 where $P(t|f)$ is the probability that the observed form $f$ referred to meaning $t$, as the model assumes uniform meaning distributions and uniform choice of appropriate forms.
 Replacing the sum over the dataset $d$ by the expectation over the idealized full distribution over meaning-form pairs, this can be rewritten as 
-\begin{equation}
+```
 - \operatorname{H}[t|f] = \operatorname{I}[t, f] - \operatorname{H}[t],
-\end{equation}
+```
 where the first term is the mutual information between forms and meanings, as in our efficiency metric~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 The second term, the entropy of meanings, is a constant independent of the form--meaning mapping.
 The overall log probability assigned by the Bayesian learner thus comes out to (up to constants)
-\begin{equation}
+```
 \log P(h|d) = \operatorname{I}[t, f] + \lambda \log P(h),
-\end{equation}
+```
 where the prior $P(h)$ favors simpler languages.
 This result shows that the model of \citet{kirby2015compression} predicts that language evolution favors languages optimizing a function of the form~(\ref{eq:eff-basic}), with an informativity term identical to that of our model~(\ref{eq:eff-general}-\ref{eq:efficiency-derived}).
 
@@ -266,34 +253,22 @@ The Infomax principle derives parsimonious data representations by maximizing th
 A family of Infomax models called ``Coherent Infomax'' has been proposed by \citet{kay2011coherent}; our efficiency metric is a special case within this framework.
 
 
-% J. W. Kay, W. A. Phillips, Coherent Infomax as a computational goal for neural systems., Bull Math Biol 73 (2) (2011) 344–372. doi:10.1007/s11538-010-9564-x. URL http://dx.doi.org/10.1007/s11538-010-9564-x
-
-%\textcolor{red}{also mention \cite{piantadosi2012communicative,fedzechkina2012language}}
-
-
-%Other metrics very similar to~(\ref{eq:eff-general}) have been proposed in other computational work formalizing Zipf's ideas~\cite{frank2012predicting,zaslavsky2018efficient,kemp2012kinship,regier2015word,goodman2013knowledge,piantadosi2012communicative}.
-%The idea of formalizing informativity using the mutual information $\operatorname{I}[S, R]$ is common to all these approaches.
-
-%These information-theoretic accounts vary somewhat in the formalizations of complexity.
-%Like our model, \cite{ferreri2003least,ferrericancho2007global,futrell2017memory} model the complexity as the \key{entropy} of the distribution of forms, which .
-%This model is closely related to the Information Bottleneck approach \cite{zaslavsky2018efficient, zaslavsky2019semantic}, which models complexity as the mutual information between forms (e.g., words) and their referents (e.g., individual objects).
-
 
 
 ### Choice of $\lambda$
 
 In the efficiency objective (\ref{eq:efficiency-derived})
-\begin{equation}\label{eq:efficiency}
+```
 	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda R_\textit{Pred},
-\end{equation}
+```
 the value of $\lambda$ is constrained to be in $[0,1)$.
 This means, surprisal must be weighted less strongly than parseability.
 
 The reason is that greater values of $\lambda$ can mathematically result in degenerate solutions.
 To show this, note that the following inequality always holds:
-\begin{equation}
+```
 \operatorname{I}[\utterance; \tree] \leq \operatorname{H}[\utterance].
-\end{equation}
+```
 Therefore, if $\lambda \geq 1$, the efficiency objective satisfies 
 $R_{\textit{Eff}} = \operatorname{I}[\utterance; \tree] - \lambda \operatorname{H}[\utterance] \leq 0$,
 and it takes the maximal possible value of zero if there is only a single utterance $\utterance$, in which case both $\operatorname{I}[\utterance; \tree]$ and $\operatorname{H}[\utterance]$ are zero.
@@ -336,11 +311,8 @@ The resulting frontier is guaranteed to provide a lower bound on the true Pareto
 
 
 
-%Note that the predictability scores are considerably worse than the state-of-the art in Natural Language Processing; this is because most of the corpora are much smaller than those typically used in language modeling work (CITE a few things on large corpora; also cite language modeling work on many small corpora).
 
 
-%$\sum_{t \in C} \log p(t|u) \approx |C| H[P|T]  $
-%$\sum_{t \in C} \sum_{i} \log p(t|u) \approx |C| H[P|T]  $
 
 
 ![alt text](../results/plane/pareto-plane-perLanguage-WithN.pdf Plane)
@@ -356,16 +328,6 @@ Predictability and Parseability]{Predictability and parseability of 51 languages
 
 
 
-%\begin{figure}
-%\centering
-%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-arrows-smoothed.pdf}
-%\caption[Predictability and Parseability]{Smoothed version with arrows. Is this useful?}\label{fig:pareto-per-lang-arrows}
-%\end{figure}
-%
-
-
-
-%\footnotetext{}
 
 \paragraph{Further Analysis of Optimality}
 In the main paper, we tested whether real grammars are more efficient than the mean of baseline grammars, using a $t$-test.
@@ -387,21 +349,6 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 \caption{Per-language results in Study 1. For each language, we show the following: (1) $p$-values obtained from a one-sided $t$-test, for the null that the mean predictability/parseability of random grammars is at least as high as that of the real grammar. (2) Results from one-sided binomial tests, for the null that the the real grammar is better than at most $50 \%$ of random grammars. In addition to the $p$-value, we report point estimate and 95\% confidence interval for the fraction of random grammars that have values below real grammars.}\label{fig:pareto-per-lang-stats}
 \end{table}
 
-%
-%
-%\begin{table}
-%\centering
-%\small{
-%\begin{tabular}{l||ll|lll|lll}
-%Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \multicolumn{3}{c}{Parseab. (Binomial)} \\ 
-%&  $p$ & $p$ &  Est. &CI & $p$ & Est. & CI & $p$  \\ \hline \hline
-%\input{../results/plane/per-language-statistics.tex}
-%\end{tabular}
-%}
-%\caption{Per-language results in Study 1. For each language, we show the following: (1) $p$-values obtained from a one-sided $t$-test, for the null that the mean predictability/parseability of random grammars is at least as high as that of the real grammar. (2) Results from one-sided binomial tests, for the null that the the real grammar is better than at most $50 \%$ of random grammars. In addition to the $p$-value, we report point estimate and 95\% confidence interval for the fraction of random grammars that have values below real grammars.}\label{fig:pareto-per-lang-stats}
-%\end{table}
-%
-%
 
 
 ### Analysis controlling for Families
@@ -411,10 +358,10 @@ This raises the question of whether the relative optimality of real grammars obs
 We address this question in this section, by estimating the overall degree of optimization of languages for efficiency, controlling for differences between families.
 To this end, we constructed a Bayesian logistic mixed-effects model estimating, for each language $L$ among the 51 UD languages, the rate $q_L \in [0,1]$ of random baseline grammars that have \emph{higher} efficiency (parseability, predictability) than the real grammar.
 We entered languages and language families as random effects:
-\begin{equation}\label{eq:mixed-effects-study1}
+```
 logit(q_{L}) = \beta + u_{L} + v_{f_L}
-\end{equation}
-where $f_L$ is the language family of $L$.
+```
+where $`f_L`$ is the language family of $L$.
 Here, $\beta$ models the overall probability $logit(q_{L})$ of a baseline grammar having higher efficiency than the real grammar, controlling for differences in the tree structures and real grammars of different languages and language families.
 If optimality of real grammars holds generally across families, and exceptions are due to to language- or family-specific effects, we expect $\beta$ to be $<0$ significantly.
 On the other hand, if optimality of real grammars does not generally hold across families, and the observed optimality is due to family-specific effects, then we expect $\beta \geq 0$.
@@ -426,7 +373,6 @@ For all three models, $\beta$ is estimated to be $< 0$, showing that the observe
 For instance, for efficiency, the posterior mean estimate $\beta=-5.88$ corresponds to  less than $1\%$ of baseline grammars showing higher efficiency than the real grammar, when controlling for language- and family-specific effects.
 Similar results hold for predictability and parseability individually.
 
-%TODO also report glmer, posterior plots, transformed probabilities
 
 \begin{table}
 \small{
@@ -468,7 +414,7 @@ Recall the efficiency metric
 	R_\lambda := R_{Pars} + \lambda R_{Pred}
 ```
 with the tradeoff parameter $`\lambda \in [0,1)`$.
-For each possible value of $\lambda \in [0,1)$ trading off parseability and predictability, we quantify what fraction of the baseline grammars are less efficient than the real language.
+For each possible value of $`\lambda \in [0,1)`$ trading off parseability and predictability, we quantify what fraction of the baseline grammars are less efficient than the real language.
 
 The results are plotted in Figure~\ref{fig:lambda-quantile}.
 For all languages, there are some values of $\lambda$ where the real grammar improves at least half of the baseline grammars.
@@ -521,29 +467,21 @@ We note that, while our parsing model is based on the strongest available depend
 
 ### Impact of Tree Structures on Optimality and Estimated Frontier
 
-\begin{figure}
-\centering
-	\includegraphics[width=0.7\textwidth]{../results/plane/pareto-plane-other-language.pdf}
-	\caption[]{Languages $L$ have grammars optimized specifically for the tree structure distributions of $L$: We show the real (cross) and baseline (dots) grammars for English and Japanese, together with the estimated Pareto frontier. Additionally, we plot the efficiency values obtained when applying the Japanese grammar to English tree structures (purple square, left), and when applying the English grammar to Japanese tree structures (purple square, right). In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares), even though the grammar from the other language still is more efficient than the baselines. This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.}\label{fig:english-japanese-crossed}
-\end{figure}
+![alt text](../results/plane/pareto-plane-other-language.pdf "Plane")
 
+	\caption[]{Languages $L$ have grammars optimized specifically for the tree structure distributions of $L$: We show the real (cross) and baseline (dots) grammars for English and Japanese, together with the estimated Pareto frontier. Additionally, we plot the efficiency values obtained when applying the Japanese grammar to English tree structures (purple square, left), and when applying the English grammar to Japanese tree structures (purple square, right). In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares), even though the grammar from the other language still is more efficient than the baselines. This suggests that the grammars of languages are specifically optimized for their individual tree structure distributions.}\label{fig:english-japanese-crossed}
 
 
 \paragraph{Language-Dependence of Tree Structure Distribution}
 Unlike similar efficiency studies in the domain of lexical semantics~\cite{kemp2012kinship,regier2015word,zaslavsky2018efficient}, we did not derive a single universal bound for the efficiency across all 51 languages in Study 1; instead, we constructed optimized grammars individually for each language.
 In this section, we show why this is necessary:
 The efficiency of a grammar crucially depends on the tree structure distribution, and this tree structure distribution is language-specific.
-%Each language $L$ has its own distribution of tree structures; our results show that the grammar of each language $L$ is optimized to reflect the tree structures used in $L$ (see SI Section TODO).
-%Nonetheless, exploring ways of deriving universal bounds is an interesting problem for future work.
-%Figure~\ref{fig:english-japanese-crossed}
-%Here we show that different languages have different tree distributions, and provide evidence that languages are specifically optimized for their individual tree structure distributions.
 To show this, we compared the efficiency of the real grammar of English and Japanese with that obtained when applying the real grammar of \emph{the other} language.
 The results are shown in Figure~\ref{fig:english-japanese-crossed}.
 In both languages, the respective real grammars (crosses) are more efficient than grammars from the other language (squares), even though the grammar from other language still is more efficient than the baseline grammars.
 This suggests that the grammars of languages, beyond reflecting generic optimization for efficiency across tree structures, may also be specifically optimized for their individual tree structure distributions.
 Furthermore, it demonstrates that the tree structure distribution, and therefore the optimality of a given grammar, is language-specific.
 
-%This result suggests that deriving a language-independent bound on efficiency, as is possible in studies of semantic typology where there is a language-invariant parameterization of the possible meanings (e.g., \cite{kemp2012kinship,xu2014numeral,zaslavsky2018efficient}), is not possible in general for syntactic typology.
 
 
 
@@ -585,7 +523,6 @@ This result again suggests that it may not be possible to derive a language-inde
 
 
 
-%summary(lm(A2Minus1 ~ MedianSentenceLength + UnigramEntropy + MedianTreeDepth + log(SentenceCount) +MeanArity , data=pars__))
 
 
 ## Supplementary Analyses for Study 2
@@ -596,16 +533,12 @@ In Figure~\ref{fig:corr-eff-corr}, we plot efficiency, parseability, and predict
 We found very similar results using Spearman's rank correlation (Efficiency: $\rho=0.59$, $p = 9.8 \cdot 10^{-6}$; Parseability: $\rho=0.55$, $p=4.7 \cdot 10^{-5}$; Predictability: $\rho=0.36$, $p=0.012$).
 
 
-\begin{figure}[ht]
-    \centering
-    
-    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf}
-    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf}
-    \includegraphics[width=.3\textwidth]{../results/correlations/correlations-by-grammar/ground-corrs-predictability.pdf}
+   
+![alt text](../results/correlations/correlations-by-grammar/ground-corrs-efficiency.pdf "Efficiency")
+![alt text](../results/correlations/correlations-by-grammar/ground-corrs-parseability.pdf "Parseability")
+![alt text](../results/correlations/correlations-by-grammar/ground-corrs-predictability.pd "Predictability")
 
-	\caption{Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.}
-    \label{fig:corr-eff-corr}
-\end{figure}
+Correlation between the number of satisfied correlations ($x$-axis) and efficiency, parseability, and predictability ($y$-axis), for the 51 real languages.
 
 
 
@@ -618,12 +551,9 @@ For each language and each of the objective functions (efficiency, predictabilit
 We interpreted this grammar as verb-object or object-verb depending on the order in the real grammar of the language.
 
 
-\begin{figure} 
-	\begin{center}
-	\includegraphics[width=0.7\textwidth]{../results/correlations/figures/pred-eff-pred-pars-families-2.pdf} 
-	\end{center}
-	\caption{Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.}\label{fig:per-lang}
-\end{figure}
+![alt text](../results/correlations/figures/pred-eff-pred-pars-families-2.pdf "Order" )
+
+Order of the eight correlates across 51 languages, in the real grammars (left) and predicted by optimizing for efficiency, predictability, parseability (right). Dark blue: Verb patterner \emph{precedes} object patterner (English, Arabic, ...). Light blue: Verb patterner \emph{follows} object patterner (Japanese, Hindi , ...). White cells indicate that the relation is not annotated in the dataset for the given language.
 
 ### Regression for Predicted Correlations
 
@@ -631,16 +561,16 @@ We interpreted this grammar as verb-object or object-verb depending on the order
 #### Bayesian Mixed-Effects Regression
 We modeled the probabilities $p_{L,j}$ that a grammar optimized for data from language $L$ satisfies the $j$-th correlation ($j=1,...,8$) using a multilevel logistic model \cite{gelman2013bayesian}, with random intercepts for the language for whose data the grammar had been optimized, and for its language family, annotated according to \url{http://universaldependencies.org/}.
 Formally,
-\begin{equation}\label{eq:mixed-effects}
+```math
 logit(p_{L,j}) = \alpha_j + u_{L,j} + v_{f_L,j}
-\end{equation}
-where $f_L$ is the language family of $L$.
-The intercepts $\alpha_j$ ($j=1,...8$) encode the population-level prevalence of the correlations when controlling for differences between datasets from different languages and language families; $u_{L,j}$, $v_{f_L,j}$ encode per-language and per-family deviations from the population-level intercept $\alpha_j$.
+```
+where $`f_L`$ is the language family of $`L`$.
+The intercepts $`\alpha_j`$ ($`j=1,...8`$) encode the population-level prevalence of the correlations when controlling for differences between datasets from different languages and language families; $u_{L,j}$, $v_{f_L,j}$ encode per-language and per-family deviations from the population-level intercept $\alpha_j$.
 
 
 
 Following the recommendations of \cite{ghosh2018use, burkner2018advanced}, we used as a very weakly informative prior a Student's $t$ prior with $\nu=3$ degrees of freedom, mean 0, and scale $\sigma=10$ (i.e., the PDF $p$ is $\frac{1}{\sigma} p_3(x/\sigma)$, where $p_3$ is the PDF of the $t$-distribution with $\nu=3$).
-We used this prior for $\alpha_j, \sigma_{L,j}, \tau_{L,j}$.
+We used this prior for $`\alpha_j, \sigma_{L,j}, \tau_{L,j}`$.
 A correlation that holds in 90\% of cases would correspond to an intercept $\alpha \approx 2.19$ in the logistic model, well within the main probability mass of the prior.
 
 We modeled full covariance matrices of per-language and per-family random intercepts over all eight correlations. We placed an LKJ prior ($\eta=1$) on these matrices, as described in \cite{burkner2018advanced}.
@@ -700,12 +630,9 @@ In the figure, we plot the fraction of posterior samples in which a given number
 In addition to grammars optimized for efficiency, we also report the result for grammars optimized for predictability and for parseability alone.
 Efficiency predicts all eight correlations with high posterior probability; predictability and parseability alone do not.
 
-\begin{figure}[ht]
-	\begin{center}
-	\includegraphics[width=0.98\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf}
-	\end{center}
-	\caption{Posterior of the number of correlations correctly predicted by efficiency and its components, in the Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families. We show results for grammars optimized for only Predictability (left), only Parseability (center), and full Efficiency (right).}\label{fig:posterior}
-\end{figure}
+![alt text](../results/correlations/figures/posterior-satisfied-universals-together-large-three.pdf "Universals")
+
+Posterior of the number of correlations correctly predicted by efficiency and its components, in the Bayesian multivariate mixed-effects logistic regression with random effects for languages and language families. We show results for grammars optimized for only Predictability (left), only Parseability (center), and full Efficiency (right).
 
 
 
@@ -768,7 +695,7 @@ Giving similar weight to parseability and predictability -- that is, $\lambda$ c
 
 
 
-\subsection{Comparison to other Formalizations of Greenberg's Correlations}
+### Comparison to other Formalizations of Greenberg's Correlations
 
 We followed \citet{dryer1992greenbergian} in treating Greenberg's correlations as pairwise correlations with verb--object order.
 While Greenberg's original study \cite{greenberg1963universals} also formalized most of these as correlations with verb--object order, a few were formalized as correlations between other relations that are only indirectly related to verb-object order (e.g., Universal 22 linking the position of the standard of comparison to the order of adpositions).
@@ -783,7 +710,6 @@ Nonetheless, we can show that efficiency optimization is compatible with a pictu
 
 First, we directly test the optimized grammars for two additional correlations found by \citet{justeson1990explanation}:
 For the relations examined here, beyond correlations with verb--object order, they found additional correlations between (1) the noun--genitive and adposition--noun dependencies, and (2) between the noun--relative clause and adposition--noun dependencies, \emph{beyond} the correlation mediated through the individual correlations with the verb--object dependency.
-%With their model, they found no evidence for a direct correlation V-O, G-N beyond that mediated through other correlations.
 We ran the same Bayesian logistic mixed-effects analysis for these two correlations.
 Results are shown in Figure~\ref{tab:corr-regression-implication}.
 Both correlations are very strongly supported by grammars optimized for efficiency.
@@ -791,9 +717,9 @@ Both correlations are very strongly supported by grammars optimized for efficien
 Second, we directly applied the log-linear analysis described by \citet{justeson1990explanation} to optimized grammars.
 We represent each grammar via the directions $v_1, \dots v_9$ of the nine relations indicated in Table 1 of the main paper (verb--object, and \raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {1}}}-\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {8}}}), we coded these as $-0.5$ for Japanese-like order, and $+0.5$ for Arabic-like order.
 This analysis models the relative frequency $p_{(v_1, \dots, v_9)}$ of a particular configuration of such a configuration $(v_1, \dots, v_9)$ by a log-linear model:
-\begin{equation}
-	\log p_{(v_1, \dots, v_9)} = u_0 + \sum_{i=1}^9 u_i v_i + \sum_{i, j \in C} u_{i,j} v_{i} v_{j}
-\end{equation}
+```math
+\log p_{(v_1, \dots, v_9)} = u_0 + \sum_{i=1}^9 u_i v_i + \sum_{i, j \in C} u_{i,j} v_{i} v_{j}
+```
 where $C$ is some set of (unordered) pairs of relations $\in \{1, \dots, 9\}$, modeling those pairs of relations that directly correlate with each other, and where $u_0, i_i, i_{i,j}$ are real-valued parameters.
 For instance, if all relations directly correlate with the verb--object order, and not with any other relation, $C$ would contain all the unordered pairs containing the verb--object relation.
 
@@ -834,10 +760,9 @@ Network of pairwise correlations among the nine syntactic relations examined in 
 
 
 
-\section{Creating Optimized Grammars}
+## Creating Optimized Grammars
 
 In this section, we describe the method we employ for creating grammars that are optimized for efficiency, and how we extract grammars describing the actual ordering rules of languages.
-%Our method will be applicable more generally to the task of optimizing grammars for a broad class of objective functions.
 We carry out grammar optimization in an extended space of grammars that interpolates continuously between different grammars (Section~\ref{sec:diff-gramm}).
 More specifically, we include probabilistic relaxations of grammars, which describe probability distributions over different ways of ordering a syntactic structure into a sentence.
 This makes efficiency a \emph{differentiable} function of the grammar parameters, and enables efficient optimization with stochastic gradient descent, as we describe in Section~\ref{sec:optim-eff}.
@@ -848,7 +773,7 @@ Such a method would be computationally prohibitive for efficiency optimization, 
 Our method, by allowing for the use of stochastic gradient descent, addresses this challenge, as we describe in Section~\ref{sec:optim-eff}.
 
 
-\subsection{Differentiable Ordering Grammars}\label{sec:diff-gramm}
+### Differentiable Ordering Grammars
 
 We extended the parameter space of grammars by continuously interpolating between grammars, making efficiency a \emph{differentiable} function of grammar parameters.
 The parameters of such a \key{differentiable word order grammar} are as follows. 
@@ -882,7 +807,7 @@ More complex and powerful ordering grammar models have been proposed \cite{futre
 \end{figure}
 
 
-\subsection{Extracting Grammars from Datasets}\label{sec:extract-grammars}
+### Extracting Grammars from Datasets
 We extract grammars for each actual language by fitting a differentiable ordering grammar maximizing the likelihood of the observed orderings.
 To prevent overfitting, we regularize each $a_\tau$, $b_\tau$ with a simple Bayesian prior $logit(a_\tau) \sim \mathcal{N}(0,1)$, $b_\tau \sim \mathcal{N}(0,1)$.
 We implemented this regularized optimization as mean-field ELBO variational inference in Pyro~\cite{bingham2018pyro}.
@@ -924,7 +849,7 @@ Finally, `--' indicates that the relation does not occur in the Universal Depend
 
 
 
-\subsection{Optimizing Grammars for Efficiency}\label{sec:optim-eff}
+### Optimizing Grammars for Efficiency
 
 In this section, we describe how we optimized grammar parameters for efficiency.
 A word order grammar can be viewed as a function $\mathcal{L}_\theta$, whose behavior is specified by parameters $\theta$, which takes an unordered dependency tree $t$ as input and produces as output an ordered sequence of words $u = \mathcal{L}_\theta(t)$ linearizing the tree.
@@ -932,53 +857,52 @@ More generally, if $\mathcal{L}_\theta$ is a differentiable ordering grammar (Se
 In the limit where $\mathcal{L}_\theta$ becomes deterministic, the distribution $p_{\mathcal{L}_\theta}(u|t)$ concentrates on a single ordering $u$.
 
 Recall the definition of efficiency
-\begin{equation}\label{eq:efficiency-recall}
-	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda R_\textit{Pred},
-\end{equation}
+```
+	R_{\textit{Eff}} := R_{\textit{Pars}} + \lambda R_\textit{Pred}
+```
 where
-\begin{equation}\label{eq:rpars}
+```
 	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p(t|u)}{p(t)} 
-\end{equation}
-\begin{equation}
+```
+```
 	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p(u),
-\end{equation}
+```
 where $t \sim \tree$ is the distribution over syntactic structures as found in databases of the language, and $u \sim p_{\mathcal{L}_\theta}(u|t)$ denotes the corresponding linearized sentences.
 
 These quantities are estimated using two neural models, as described in Section~\ref{sec:neural-architectures}:
 A \key{parser} recovers syntactic structures from utterances by computing a distribution $p_\phi(t|u)$, parameterized via parser parameters $\phi$.
 The degree to which a parser with parameters $\phi$ succeeds in parsing a sentence $u$ with structure $t$ is\footnote{Note that, in the definition of $R_{Pars}$ (\ref{eq:rpars}), the term $p(t)$ is a constant independent of $\phi$ and the word order grammar $\mathcal{L}_\theta$; it can therefore be ignored in the optimization process.} 
-\begin{equation}
+```
 	R_{Pars}^{\phi}(u,t) =  \log p_\phi(t|u).
-\end{equation}
+```
 A \key{language model}, with some parameters $\psi$, calculates the word-by-word surprisal of an utterance:
-\begin{equation}
+```
 	R_{Pred}^{\psi}(u) = \sum_{i=1}^{|u|} \log p_\psi(u_i|u_{1\dots i-1}).
-\end{equation}
+```
 Using this and Gibbs' inequality~\cite{cover2006elements}, we can rewrite Efficiency~(\ref{eq:efficiency-recall}), for a given grammar $\theta$, equivalently into the parseability and predictability achieved with the best parser and language models:
-\begin{equation}
+```
 	R_{\textit{Eff}}^{\theta} := \max_{\phi,\psi} R_{\textit{Eff}}^{\theta, \phi, \psi},
-\end{equation}\label{eq:efficiency-rewrite}
+```
 where we have written
-\begin{equation}
+```
 R_{\textit{Eff}}^{\theta, \phi, \psi} := \E_{t \sim \mathcal{T}} \E_{u \sim p_{\mathcal{L}_\theta}(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right].
-\end{equation}
+```
 In order to find an optimal grammar $\theta$, we thus need to compute 
-\begin{equation}\label{eq:efficiency}
+```
 \argmax_\theta\	R_{\textit{Eff}}^{\theta} = \argmax_\theta\	\max_{\phi, \psi} R_{\textit{Eff}}^{\theta, \phi, \psi}.
-%= \argmax_\theta\	\max_{\phi, \psi} \E_t \E_{u \sim p_\theta(u|t)} \left[R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right]
-\end{equation}
-Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: %, and we can apply stochastic gradient descent to carry out this optimization.
-\begin{align}
+```
+Importantly, $R_{\textit{Eff}}^{\theta, \phi, \psi}$ is differentiable in $\theta, \phi, \psi$: 
+```
 \partial_\theta R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)} \left[  \left[\partial_\theta \log p_{\mathcal{L}_\theta}(u|t)\right] \cdot    \left(R_{Pars}^{\phi}(u,t) + \lambda R_{Pred}^{\psi}(u)\right) \right] \label{eq:dtheta}\\ 
 \partial_\phi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)}  \left[\partial_\phi R_{Pars}^{\phi}(u,t)\right] \\
 \partial_\psi R_{\textit{Eff}}^{\theta, \phi, \psi} &= \E_t \E_{u \sim p_{\mathcal{L}_\theta}(u|t)}  \left[\lambda \cdot \partial_\psi R_{Pred}^{\psi}(u)\right] \label{eq:dpsi},
-\end{align}
+```
 where (\ref{eq:dtheta}) is derived using the \emph{score-function} or \emph{REINFORCE} theorem~\cite{williams1992simple}.
 Note that the derivatives inside the expectations on the right hand sides can all be computed using backpropagation for our neural network architectures.
 
 We can therefore apply stochastic gradient descent to jointly optimize $\theta, \phi, \psi$:
 In each optimization step, we sample a dependency tree $t$ from the database, then sample an ordering from the current setting of $\theta$ to obtain a linearized sentence ${\bf w} \sim p_{\theta}(\cdot|t)$.
-Then we %update $\thetal$ with ordinary gradient descent, and $\thetad$ with the REINFORCE estimator~\ref{williams-simple-1992}.
+Then we 
 do a gradient descent step using the estimator given by the expressions in the square brackets in (\ref{eq:dtheta}-\ref{eq:dpsi}).
 
 
@@ -993,7 +917,7 @@ See Section~\ref{sec:neural-architectures}, paragraph `Optimization Details' for
 
 
 
-\section{Neural Network Architectures}\label{sec:neural-architectures}
+## Neural Network Architectures
 
 In this section, we describe the details of the neural network architectures.
 Choices follow standard practice in machine learning.
@@ -1003,16 +927,16 @@ All choices, except where explicitly noted otherwise, were made before evaluatin
 \paragraph{Estimating Predictability}
 We choose a standard LSTM language model \citep{goldberg2017neural, hochreiter1997long}, as such recurrent neural models are the strongest known predictors of the surprisal effect on human processing effort~\cite{frank2011insensitivity,goodkind2018predictive}.
 This model uses a recurrent neural network to compute the predictability of a sentence $u = u_1...u_n$\footnote{Technically, $u_1...u_{n-1}$ are words, and $u_n$ is an end-of-sentence token, to ensure the probability distribution over all sentences is normalized.}:
-\begin{equation}
+```
 \log p_\psi(u) = \sum_{i=1}^n \log p_\psi(u_i|u_{1\dots i-1})
-\end{equation}
+```
 where $\psi$ are the parameters of the recurrent LSTM network, optimized on training data (see paragraph `Optimization Details').
 
 
 We estimate the average predictability of a language as a Monte Carlo estimate on held-out data:
-\begin{equation}
+```
 	R_{Pred} := - \operatorname{H}[\utterance] = \sum_{u} p(u) \log p_\psi(u) \approx \frac{1}{|\text{Heldout Data}|} \sum_{u \in \text{Heldout Data}} \log p_\psi(u)
-\end{equation}
+```
 by averaging over all sentences $u$ occurring in the corpus.
 
 
@@ -1027,14 +951,14 @@ This choice was made before evaluating the efficiency of real grammars, and befo
 \paragraph{Estimating Parseability}
 We use a biaffine attention parser architecture \citep{kiperwasser2016simple,zhang2017dependency,dozat2017stanford}. This architecture is remarkably simple: the words of a sentence are encoded into context-sensitive embeddings using bidirectional LSTMs, then a classifier is trained to predict the head for each work. The classifier works by calculating a score for every pair of word embeddings $(w_i, w_j)$, indicating the likelihood that the $j$th word is the head of the $i$th word. This is a highly generic architecture for recovering graph structures from strings, and is a simplification of graph-based parsers which reduce the parsing problem to a minimal spanning tree problem \citep{mcdonald2005nonprojective}.
 The parseability of a sentence $u = u_1\dots u_n$ with syntactic structure $t$ is computed as
-\begin{equation}
+```
 	\log p_\phi(t|u) = \sum_{i=1}^n \log p_\phi(\text{head}_i, \text{label}_i | u, i)
-\end{equation}\label{eq:pars-obj}
+```
 where $\text{head}_i \in \{\textsc{root}, 1,\dots,n\}$ is the index of the head of $u_i$ in the syntactic structure, and $\text{label}_i$ is its syntactic relation as formalized in UD; $\phi$ denotes the parameters estimated on the training data (see paragraph `Optimization Details').
 The overall parseability is estimated as a Monte Carlo estimate on held-out data:
-\begin{equation}\label{eq:rpars}
+```
 	R_{Pars} := \operatorname{I}[\utterance,\tree] = \sum_{t,u} p(t,u) \log \frac{p_\phi(t|u)}{p(t)} \approx \frac{1}{|\text{Heldout Data}|} \sum_{t,u \in \text{Heldout Data}} \log \frac{p_\phi(t|u)}{p(t)}
-\end{equation}
+```
 The constant $p(t)$ only depends on the language (but not on the word order rules), and can thus be ignored when comparing different grammars applied to the same language, and when optimizing grammars for a given language; we therefore do not attempt to explicitly estimate it.
 
 
@@ -1100,7 +1024,7 @@ All corpora have a predefined split in training and held-out (development) sets.
 We use the training set for optimizing parameters, and apply Early Stopping~\citep{prechelt1998early} using the held-out set.
 
 For \key{estimating the parseability or predictability} of a given grammar, we optimize the neural model on data ordered according to this grammar, and report the parseability/predictability on the held-out set to avoid overfitting to the training set.
-For Early Stopping, we evaluate on the held-out set at the end of every epoch. %run through the training set.
+For Early Stopping, we evaluate on the held-out set at the end of every epoch. 
 
 For \key{optimizing grammars}, we jointly apply gradient descent to the grammar parameters and the neural models, using the gradient estimator (\ref{eq:dtheta}-\ref{eq:dpsi}).
 For Early Stopping, we evaluate on the held-out set in intervals of 50,000 sentences, using a Monte-Carlo estimate of $R_{\textit{Eff}}^{\theta, \phi, \psi}$ (\ref{eq:efficiency-rewrite}), sampling a single linearized sentence for each syntactic structure in the held-out set.
@@ -1121,7 +1045,7 @@ As described in our preregistration \url{http://aspredicted.org/blind.php?x=ya4q
 
 
 
-\section{Robustness to different language models and parsers}
+## Robustness to different language models and parsers
 
 
 Here we take up the question of the extent to which our results are dependent on the particular parser and language model used in the optimization process. We want to know: when we optimize a word order grammar for efficiency, have we produced a language which is highly efficient \emph{in general}, or one which is highly efficient \emph{for a specific parser}? We wish to argue that natural language syntax is optimized for efficiency in general, meaning that syntactic trees are highly recoverable from word orders in principle. If it turns out that our optimized languages are only optimal for a certain parser from the NLP literature, then we run the risk of circularity: it may be that the reason this parser was successful in the NLP literature was because it implicitly encoded word order universals in its inductive biases, and thus it would be no surprise that languages which are optimized for parseability also show those universals.
@@ -1130,10 +1054,8 @@ In this connection, we note that the parser and language model architectures we 
 
 Here we address this question by demonstrating that our languages optimized for efficiency are also optimal under a range of different language models and parsers. These results show that our optimization process creates languages in which strings are generally predictable and informative about trees, without dependence on particular prediction and parsing algorithms.
 
-%TODO also mention: As we estimate parseability and predictability using cross-entropies, our models constitute variational approximations to the true parseability and predictability values, similar to previous work quantifying other aspects of linguistic complexity \citep{cotterell2019complexity}.
-%TODO
 
-\subsection{CKY Parsers}
+### CKY Parsers
 
 
 We constructed simple Probabilistic Context-Free Grammars (PCFGs) from corpora and word order grammars, using a simplified version of the models of \cite{collins2003head} (Model 1).
@@ -1167,10 +1089,9 @@ Parsing loss $\operatorname{H}[\tree|\utterance]$ (lower is better) computed by 
 
 
 
-\subsection{Distorted graph-based parsers}
-\label{sec:distorted}
+### Distorted graph-based parsers
 
-In this section, we provide evidence against the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings.%, and the question whether this might be responsible for our findings.
+In this section, we provide evidence against the idea that the graph-based parser might have a built-in bias toward certain kinds of orderings.
 In particular, we address the idea that the graph-based parser might have a bias toward parses involving short dependencies, which we call a \key{locality bias}. 
 We address this by changing the order in which the parser sees words, such that word adjacency in the input to the parser does not correspond to linear adjacency in the true utterance.
 If the parser has a locality bias, then this bias will be disrupted when it sees words in these distorted orders.
@@ -1248,7 +1169,6 @@ We compare real and baseline grammars; here, we do not have an estimate of the P
 In agreement with the previous results (Figure~\ref{fig:pareto-per-lang}), real grammars are mostly to the top right of their corresponding baselines.
 We further confirm this in Figure~\ref{fig:lambda-quantile-noPOS}, which shows that most real grammars have higher efficiency than most baselines across permissible values of $\lambda$.
 In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lambda-quantile} suggests that optimality of real grammars is \emph{more} pronounced when modeling predictability and parseability fully on the level of word forms.
-%This might be because such word-level models can account for morphology.
 
 ![alt text](../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf Plane)
 Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.
@@ -1271,7 +1191,7 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 Study 1, replication with lexicalized models: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.
 
 
-\subsection{Original UD Format}
+### Original UD Format
 
 As described in \emph{Materials and Methods}, we follow \cite{futrell2015largescale} in applying automated conversion of tree structures to a more standard formalism, modifying each treebank by inverting dependencies of types \textit{cc}, \textit{case}, \textit{cop}, and \textit{mark}.
 This converted version is intended to more closely reflect assumptions about syntactic structure shared across a wide range of linguistic theories, addressing criticism of the Universal Dependencies representation \cite{osborne2019status}.
@@ -1283,7 +1203,6 @@ Results are shown in Figures~\ref{fig:pareto-per-lang-pureUD} and~\ref{fig:lambd
 The results agree with those found on the converted versions; across languages, real grammars are at the top-right of the baseline distributions, and (with the exception of Telugu, a language with a small corpus) 
 
 
-%we also computed held-out likelihood for the extracted ordering grammars for the original UD structures and the converted version. Likelihood is higher for the converted version in 47 out of 51 languages (exceptions: Japanese, Korean, Hindi, Urdu).
 
 
 
@@ -1299,7 +1218,7 @@ Study 1, replication with the original UD format: Optimality of real grammars fo
 
 
 
-\subsection{Nondeterministic Baseline Grammars}
+### Nondeterministic Baseline Grammars
 
 In Study 1, we considered deterministic ordering grammars, and represented real languages using deterministic grammars extracted from observed orderings.
 This allowed us to ensure that we only compare baseline and real grammars that have exactly the same representational constraints, and utilize the same information encoded in the tree structures.
@@ -1322,7 +1241,6 @@ Here, we compared nondeterministic baseline grammars to their deterministic vers
 Results are shown in Figure~\ref{fig:nondeterministic}.
 For every one of the baseline grammars, we show both its deterministic and its nondeterministic version.
 Nondeterministic grammars are less efficient than deterministic grammars, in particular in languages with greater degrees of word order freedom (Czech).
-%This shows that deterministic grammars constitute stronger baselines.
 This shows that deterministic baseline grammars provide conservative baselines:
 They have higher efficiency than baseline grammars with word order freedom comparable to the orders found in the original corpora, and thus provide conservative baselines for comparison with other deterministic grammars.
 
@@ -1345,7 +1263,7 @@ Optimality of observed orders for efficiency, compared to nondeterministic basel
 
 
 
-\section{Effects of data sparsity}
+## Effects of data sparsity
 
 Here, we investigate whether the difference between real and baseline grammars is affected by the size of available datasets.
 We are addressing the following confound: It is conceivable that with enough data, our neural network language models and parsers would do equally well on real grammars and baseline grammars.
@@ -1359,7 +1277,6 @@ Furthermore, for the random grammar, we varied the number of neurons in the BiLS
 
 
 The resulting curves are shown in Figure~\ref{fig:learning-czech}.
-%A gap in parsing accuracy of about 0.07-0.1 appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
 A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
 This shows that the observed efficiency differences between grammars cannot be attributed to data sparsity. 
 
@@ -1373,13 +1290,10 @@ Parsing loss ($\operatorname{H}[\tree|\utterance]$, normalized by sentence lengt
 
 
 
-\section{Languages and Corpus Sizes}
+## Languages and Corpus Sizes
 In Table~\ref{tab:langs-iso-sizes}, we list the 51 languages with ISO codes and families, with the size of the available data per language.
 We included all UD 2.1 languages for which a training partition was available.
 
-%Among UD 2.1 corpora, three treebanks require a special license (Arabic-NYUAD, French-FTB).
-%For a few UD corpora, only the syntactic annotation is freely available, while the individual words require a license.
-%For the lexicalized experiment, we had access to the individual words for 
 
 \begin{table}[ht]
 \small{
@@ -1393,7 +1307,7 @@ Language & ISO Code & Family & Sentences (train/held-out) & Words (train/held-ou
 
 
 
-\section{Dependency Length Minimization}\label{sec:DLM}
+## Dependency Length Minimization
 
 
 
@@ -1447,14 +1361,8 @@ Furthermore, optimizing for dependency length correctly predicts a range of word
 
 
 
-\section{Efficiency and correlating orders in toy grammars}
+## Efficiency and correlating orders in toy grammars
 
-%VP -> V
-%VP -> VP[head] VP[xcomp]
-%VP -> VP[head] NP[obj]
-%
-%NP -> N
-%NP -> NP[head] VP[acl]
 
 When we optimize grammars for efficiency, we find that the optimized grammars exhibit dependency length minimization and the Greenbergian word order correlations. To some extent, this result is surprising, because previous functional explanations for DLM (and the Greenbergian correlations, which have been argued to arise from DLM) have been based on the idea of limitations in working memory, and yet our models do not instantiate any explicit working memory pressures; see also Section~\ref{sec:distorted} above for evidence against the idea that a locality bias arises from our parsers. Our results therefore suggest that DLM and word order correlations might arise purely because they enable tree structures to be better recovered from trees, and/or they make sequences more predictable. 
 
