@@ -343,17 +343,13 @@ The resulting frontier is guaranteed to provide a lower bound on the true Pareto
 %$\sum_{t \in C} \sum_{i} \log p(t|u) \approx |C| H[P|T]  $
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-WithN.pdf}
+![alt text](../results/plane/pareto-plane-perLanguage-WithN.pdf Plane)
 	\caption[Predictability and Parseability]{Predictability and parseability of 51 languages, ordered by corpus size, measured by the number of sentences in the training partition, from largest (Czech) to smallest (Irish). Green: random baselines, Red: real grammar, blue: approximate Pareto frontier, computed from the optimized grammars. All data are $z$-scored.}\label{fig:pareto-per-lang}
 \end{figure}
 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-raw-WithN.pdf}
+![alt text](../results/plane/pareto-plane-perLanguage-raw-WithN.pdf Plane)
 	\caption[Predictability and Parseability]{Raw numerical values estimated for Predictability (negative surprisal), and negative syntactic ambiguity $-H[T|U]$, before $z$-scoring. For more meaningful comparison, both quantities are normalized by the number of words in the corpus, i.e., we plot per-word negative surprisal and per-word difficulty in recovering syntactic structures.  Note that the negative syntactic ambiguity $-H[T|U]$ equals parseability $I[T,U] = H[T] - H[T|U]$ up to a per-language constant $H[T]$, which we do not attempt to estimate. Further note that we use different scales in the different panels. }\label{fig:pareto-per-lang-raw}
 \end{figure}
 
@@ -458,9 +454,7 @@ Similar results hold for predictability and parseability individually.
 %\end{figure}
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf}
+![alt text](../results/plane/analyze_pareto_optimality/figures/quantileByLambda.pdf Quantiles)
 	\caption[]{Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test.}\label{fig:lambda-quantile}
 \end{figure}
 
@@ -515,11 +509,8 @@ Grammars to the bottom/left of this lines have lower efficiency than the real gr
 The distribution of baseline grammars is largely to the bottom/left of at least one of the two lines, and often to the bottom/left of both lines.
 This highlights that, even when the real grammar does not appear strongly optimized at all for one individual component, it may still be more efficient than all baselines.
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf}
-	\caption[]{Per-language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.}\label{fig:lambda-halfplane-09}
-\end{figure}
+![alt text](../results/plane/analyze_pareto_optimality/pareto-plane-perLanguage-arrows-smoothed-halfspace-untransformed.pdf Plane)
+Per-language results as in Figure~\ref{fig:pareto-per-lang-raw}, representing the distribution of baseline grammars with a kernel density estimate. We add lines connecting those points that have the same efficiency as the real grammar at $\lambda = 0.0$ (dotted) and $\lambda = 0.9$ (dashed). Points to the bottom/left of these line have lower efficiency than the real grammar, at the given value of $\lambda$.
 
 
 
@@ -788,16 +779,12 @@ Results across all three experiments agree; jointly optimizing grammars for pars
 	\begin{center}
 \begin{tabular}{cccc}
 $\lambda=0.0$ & $\lambda=0.9$ & $\lambda=0.9$ & $\lambda=1.0$ \\
-![alt text](../results/correlations/figures/posterior-satisfied-universals-parseability.pdf "Predictions")   &
-	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf}&
-	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-efficiency-large.pdf}&
-	\includegraphics[width=0.15\textwidth]{../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf}
-\end{tabular}
-	\end{center}
-	\caption{Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (center left) and the final experiment (center right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
+![alt text](../results/correlations/figures/posterior-satisfied-universals-parseability.pdf "Predictions")  
+![alt text](../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency09.pdf "Predictions")
+![alt text](../results/correlations/figures/posterior-satisfied-universals-efficiency-large.pdf "Predictions")
+![alt text](../results/correlations/figures/posterior-satisfied-universals-together-large-prior-efficiency10.pdf "Predictions")
+Results from optimization experiments for different values of $\lambda$, including our two previous preregistered experiments (Section~\ref{sec:previous-exps}). For comparison, we also show results for $\lambda=0$, corresponding to optimizing for parseability only (same results as reported in Tables (\ref{tab:all-predictions-1}-\ref{tab:all-predictions-2})). For $\lambda=0.9$, we report results from one preliminary preregistered experiment (center left) and the final experiment (center right). For $\lambda=1.0$, we report the other preliminary preregistered experiment.
 Giving similar weight to parseability and predictability -- that is, $\lambda$ close to $1$ -- results in more accurate word order predictions than choosing a small value of $\lambda$ such as $\lambda=0.0$. Note that $\lambda$ cannot take values smaller than zero, or greater than one, see Section \ref{sec:lambda}.
-}\label{table:corr-resu-previous}
-\end{table}
 
 
 
@@ -861,12 +848,8 @@ Future work should replicate the analysis of \cite{justeson1990explanation} on a
 \end{table}
 
 
-\begin{figure}
-	\begin{center}
-	\includegraphics[width=0.8\textwidth]{../results/correlations/analysis/controls/loglinear-pairwise-correlations.pdf}
-	\end{center}
-	\caption{Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized for efficiency, identified using a log-linear model following \citet{justeson1990explanation}. The verb--object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.}\label{fig:loglinear}
-\end{figure}
+![alt text](../results/correlations/analysis/controls/loglinear-pairwise-correlations.pdf Network)
+Network of pairwise correlations among the nine syntactic relations examined in this study, estimated from grammars optimized for efficiency, identified using a log-linear model following \citet{justeson1990explanation}. The verb--object relation is at the center of the network. Relations between verbs and their dependents are colored in blue; relations between nouns and their dependents are colored in red; other relations are colored in green.
 
 
 
@@ -1199,12 +1182,8 @@ We used the CKY algorithm to compute the syntactic ambiguity $\operatorname{H}[\
 Results (Figure~\ref{fig:cky-parser}) show that optimized grammars are more parseable than baseline grammars, for exact parsing of a simple PCFG.
 
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=.7]{../results/cky/cky-parse.pdf} 
-	\caption{Parsing loss $\operatorname{H}[\tree|\utterance]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $\operatorname{H}[\tree|\utterance]$ normalized by sentence length.}
-    \label{fig:cky-parser}
-\end{figure}
+![alt text](../results/cky/cky-parse.pdf Parsing Loss) 
+Parsing loss $\operatorname{H}[\tree|\utterance]$ (lower is better) computed by a simple CKY parser, for random word order grammars (red) and word order grammars optimized for efficiency (blue). We report $\operatorname{H}[\tree|\utterance]$ normalized by sentence length.
 
 
 
@@ -1246,21 +1225,15 @@ Using English and Japanese data, we trained parsers for ten random word order gr
 Resulting parsing scores are shown in Figure~\ref{fig:distorted-parser}.
 In all settings, the language optimized for efficiency achieved lower parsing loss (i.e., higher parseability) than random ordering grammars, showing that the parser's preference for optimized languages cannot be attributed to a locality bias.
 
-\begin{figure}
-    \centering
-    English
+   
+![alt text](../results/permuted/adversarial-parse-loss-english.pdf English)
     
-    \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-english.pdf}
     
-    Japanese
-    
-    \includegraphics[scale=.5]{../results/permuted/adversarial-parse-loss-japanese.pdf}
-	\caption{Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $\operatorname{H}[\tree|\utterance]$ (lower is better), for the four distorted orderings, and the actual orderings (`real'). We report $\operatorname{H}[\tree|\utterance]$ normalized by sentence length.}
-    \label{fig:distorted-parser}
-\end{figure}
+![alt text](../results/permuted/adversarial-parse-loss-japanese.pdf Japanese)
+Parseability of baseline grammars and grammars optimized for efficiency, in English (top) and Japanese (bottom), measured by parsing loss $\operatorname{H}[\tree|\utterance]$ (lower is better), for the four distorted orderings, and the actual orderings (`real'). We report $\operatorname{H}[\tree|\utterance]$ normalized by sentence length.
 
 
-\subsection{$n$-gram language models}
+### $n$-gram language models
 
 We model predictability using LSTM language models, which are are the strongest known predictors of the surprisal effect on human processing effort~\citep{frank2011insensitivity,goodkind2018predictive}.
 In previous work, such as \cite{gildea2015human}, predictability has often been measured using $n$-gram models.
@@ -1275,18 +1248,15 @@ We estimated language models on the training partitions, and used the validation
 We conducted this for ten random and the best optimized ordering grammars on English and Japanese data.
 Results (Figure~\ref{fig:bigrams}) show that languages optimized for efficiency are also optimal for a bigram language model.
 
-\begin{figure}
-    \centering
-    \includegraphics[scale=.6]{../results/bigrams/bigrams.pdf} 
-	\caption{Surprisal (i.e., negative predictability, lower is better) computed from Bigram model, on English and Japanese data ordered according to random ordering grammars (red) and ordering grammars optimized for efficiency (blue).}
-    \label{fig:bigrams}
-\end{figure}
+
+![alt text](../results/bigrams/bigrams.pdf Surprisal)
+Surprisal (i.e., negative predictability, lower is better) computed from Bigram model, on English and Japanese data ordered according to random ordering grammars (red) and ordering grammars optimized for efficiency (blue).
 
 
 
-\section{Other Methods of Estimating Efficiency and Constructing Baselines in Study 1}
+## Other Methods of Estimating Efficiency and Constructing Baselines in Study 1
 
-\subsection{Lexicalized Models}
+### Lexicalized Models
 
 
 In Study 1, we calculate parseability on the part-of-speech level, and also add part-of-speech tags when calculating predictability.
@@ -1300,11 +1270,8 @@ We further confirm this in Figure~\ref{fig:lambda-quantile-noPOS}, which shows t
 In fact, comparing Figure~\ref{fig:lambda-quantile-noPOS} to Figure~\ref{fig:lambda-quantile} suggests that optimality of real grammars is \emph{more} pronounced when modeling predictability and parseability fully on the level of word forms.
 %This might be because such word-level models can account for morphology.
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf}
-	\caption[Predictability and Parseability]{Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-noPOS}
-\end{figure}
+![alt text](../results/plane/unlexicalized/pareto-plane-perLanguage-lexicalized.pdf Plane)
+Study 1, replication with lexicalized models: Predictability and parseability of 51 languages, for \emph{lexicalized} models, compare Figure~\ref{fig:pareto-per-lang}.
 
 
 \begin{table}
@@ -1320,11 +1287,8 @@ Language & Pred. (t) & Parse. (t) & \multicolumn{3}{c|}{Pred. (Binomial)} & \mul
 \end{table}
 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\textwidth]{../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda.pdf}
-	\caption{Study 1, replication with lexicalized models: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-noPOS}
-\end{figure}
+![alt text](../results/plane/unlexicalized/analyze_pareto_optimality/figures/quantileByLambda.pdf Replication)
+Study 1, replication with lexicalized models: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.
 
 
 \subsection{Original UD Format}
@@ -1343,20 +1307,14 @@ The results agree with those found on the converted versions; across languages, 
 
 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/pureUD/pareto-plane-perLanguage-pureUD-mle.pdf}
-	\caption[Predictability and Parseability]{Study 1, replication with the original UD format: Predictability and parseability of real and baseline grammars in 51 languages, compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-per-lang-pureUD}
-\end{figure}
+![alt text](../results/plane/pureUD/pareto-plane-perLanguage-pureUD-mle.pdf Plane)
+Study 1, replication with the original UD format: Predictability and parseability of real and baseline grammars in 51 languages, compare Figure~\ref{fig:pareto-per-lang}.
 
 
 
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\textwidth]{../results/plane/pureUD/analyze_pareto_optimality/figures/quantileByLambda.pdf}
-	\caption{Study 1, replication with the original UD format: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-pureUD}
-\end{figure}
+![alt text](../results/plane/pureUD/analyze_pareto_optimality/figures/quantileByLambda.pdf Quantile)
+Study 1, replication with the original UD format: Optimality of real grammars for efficiency, compared to baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the real grammar at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.
 
 
 
@@ -1388,11 +1346,8 @@ Nondeterministic grammars are less efficient than deterministic grammars, in par
 This shows that deterministic baseline grammars provide conservative baselines:
 They have higher efficiency than baseline grammars with word order freedom comparable to the orders found in the original corpora, and thus provide conservative baselines for comparison with other deterministic grammars.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=0.95\textwidth]{../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle.pdf}
-	\caption{Parseability and predictability for three languages, including both deterministic (green, light) and nondeterministic  (blue, dark) versions of the 50 baseline grammars.}\label{fig:nondeterministic}
-\end{figure}
+![alt text](../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle.pdf Plane)
+Parseability and predictability for three languages, including both deterministic (green, light) and nondeterministic  (blue, dark) versions of the 50 baseline grammars.
 
 
 \paragraph{Comparing observed orders to baselines with matched degree of nondeterminism}
@@ -1401,18 +1356,11 @@ We show results in Figures~\ref{fig:pareto-plane-nondet} and~\ref{fig:lambda-qua
 Figure~\ref{fig:pareto-plane-nondet} shows that observed orders are mostly to the top and/or right of baselines with matched degree of nondetermminism.
 Figure~\ref{fig:lambda-quantile-nondet} shows that, with the exception of Telugu (a language with a small corpus), the observed orders have higher efficiency than most baselines at least for some values of $\lambda$.
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle-allLanguages.pdf}
-	\caption[Predictability and Parseability]{Comparing observed orders (red crosses) with baselines (green) whose degree of nondeterminism is matched to the observed order. Compare Figure~\ref{fig:pareto-per-lang}.}\label{fig:pareto-plane-nondet}
-\end{figure}
+![alt text](../results/plane/nondeterministic/pareto-plane-perLanguage-nondeterministic-mle-allLanguages.pdf Plane)
+Comparing observed orders (red crosses) with baselines (green) whose degree of nondeterminism is matched to the observed order. Compare Figure~\ref{fig:pareto-per-lang}.
 
-\begin{figure}
-	\centering
-	\includegraphics[width=\textwidth]{../results/plane/nondeterministic/analyze_pareto_optimality/figures/quantileByLambda.pdf}
-	\caption{Optimality of observed orders for efficiency, compared to nondeterministic baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the observed orders at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.}\label{fig:lambda-quantile-nondet}
-\end{figure}
-
+![alt text](../results/plane/nondeterministic/analyze_pareto_optimality/figures/quantileByLambda.pdf Quantile)
+Optimality of observed orders for efficiency, compared to nondeterministic baselines, across values of $\lambda$: The $x$-axis shows $\lambda \in [0,1)$, the $y$-axis shows the fraction of baselines that have lower efficiency than the observed orders at this value of $\lambda$, with 95\% confidence bands obtained from a two-sided binomial test. Compare Figure~\ref{fig:lambda-quantile}.
 
 
 
@@ -1435,14 +1383,9 @@ The resulting curves are shown in Figure~\ref{fig:learning-czech}.
 A gap in parsing loss of about 0.2 nats appears already at 0.01 \% of the training data (2000 words), and persists for larger amounts of training data.
 This shows that the observed efficiency differences between grammars cannot be attributed to data sparsity. 
 
-\begin{figure}[ht]
-    \centering
-%    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech.pdf} 
-    \includegraphics[scale=.4]{../results/learning-curves/figures/learning-parser-czech-logloss.pdf} 
+![alt text](../results/learning-curves/figures/learning-parser-czech-logloss.pdf Parsing loss) 
 
-	\caption{Parsing loss ($\operatorname{H}[\tree|\utterance]$, normalized by sentence length) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.}
-    \label{fig:learning-czech}
-\end{figure}
+Parsing loss ($\operatorname{H}[\tree|\utterance]$, normalized by sentence length) for optimized (light blue) and random (black) ordering grammar on Czech data, as a function of the fraction of total training data provided.
 
 
 
@@ -1497,20 +1440,11 @@ We also plot more detailed results for four languages in Figure~\ref{fig:dlm-4la
 Optiziming grammars for efficiency produces dependency lengths similar to those found in the actual orderings.
 
 
-\begin{figure}[ht]
-    \centering
-     \includegraphics[width=0.5\textwidth]{depl-violin-all-1.png} 
-        \caption{Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the mean points for each of the 51 languages in our sample.}
-    \label{fig:dlm-avg}
-\end{figure}
+![alt text](depl-violin-all-1.png Dependency length)
+Average dependency length for grammars optimized to minimize dependency length (DLM, left), optimized for efficiency (second), the real orderings found in corpora (third), and random baseline grammars (right). The lines connect the mean points for each of the 51 languages in our sample.
 
-\begin{figure}[ht]
-    \centering
-	\includegraphics[width=0.9\textwidth]{depLength-facet-1.png} 
-        \caption{Total dependency length as a function of sentence length, for four diverse languages. We show results for optimized grammars (parseability, predictability, efficiency), for grammars specifically optimized to minimize dependency length, of the actual real orderings, and of the baseline grammars.}
-    \label{fig:dlm-4langs}
-\end{figure}
-
+![alt text](depLength-facet-1.png Dependency length)
+Total dependency length as a function of sentence length, for four diverse languages. We show results for optimized grammars (parseability, predictability, efficiency), for grammars specifically optimized to minimize dependency length, of the actual real orderings, and of the baseline grammars.
 
 Next, we examined the word order properties of grammars optimized for DLM.
 In Table~\ref{tab:all-predictions-1b}, we report the posterior prevalence of word order correlations in grammars optimized for DLM; our results show that optimizing for DLM makes predictions similar to efficiency optimization.
@@ -1521,14 +1455,9 @@ However, it predicts strong correlations with \textit{amod} (adjectival modifier
 In these cases, efficiency optimization predicts prevalences closer to 50\%, in line with typological data.
 
 
-\begin{table}[ht] 
-	\begin{center}	
-\includegraphics[width=0.7\textwidth]{si-table-perrel-1b-1.png}
-\end{center}
-\caption{Predictions on UD relations with predictions from the typological literature (compare Table~\ref{tab:all-predictions-1}), for languages optimized for Efficiency and Dependency Length Minimization.
-}
-\label{tab:all-predictions-1b}
-\end{table}
+
+![alt text](si-table-perrel-1b-1.png Predictions)
+Predictions on UD relations with predictions from the typological literature (compare Table~\ref{tab:all-predictions-1}), for languages optimized for Efficiency and Dependency Length Minimization.
 
 In conclusion, these results suggest that the phenomenon of dependency length minimization is a by-product of efficiency optimization, providing support to theoretical arguments from the linguistic literature~\cite{hawkins1994performance,futrell2017memory, futrell2017generalizing}.
 Furthermore, optimizing for dependency length correctly predicts a range of word order facts, though it appears to \emph{overpredict} correlations when compared to direct optimization for communicative efficiency.
@@ -1605,15 +1534,10 @@ For these settings, we computed the difference in $I[\mathcal{T}, \mathcal{U}]$ 
 
 
 
-\begin{figure}
-	\begin{center}	
-\includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_0.pdf}
-\includegraphics[width=0.4\textwidth]{../models/revision/toy_simulations/result_NPBranching0_3.pdf}
-\end{center}
+![alt text](../models/revision/toy_simulations/result_NPBranching0_0.pdf Parseability Difference}
+![alt text](../models/revision/toy_simulations/result_NPBranching0_3.pdf Parseability Difference}
 
-	\caption{Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_\text{acl} = 0.0$ (left) and $p_\text{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars, i.e. cases where the grammars that exhibit natural-language-like correlations are more parseable than grammars that do not.}\label{fig:toy-parseability}
-\end{figure}
-
+Difference in parseability $I[\mathcal{T}, \mathcal{U}]$ (normalized by sentence length) between the correlating and anti-correlating grammars, for $p_\text{acl} = 0.0$ (left) and $p_\text{acl} = 0.3$ (right). Positive values indicate greater values of $I[\mathcal{T}, \mathcal{U}]$ for correlating grammars, i.e. cases where the grammars that exhibit natural-language-like correlations are more parseable than grammars that do not.
 
 Results are shown in Figure~\ref{fig:toy-parseability}. For almost all parameter regimes, the correlating grammars have better parseability than the anti-correlating grammars. This is especially the case for grammars with high $p_\text{branching}$. 
 
@@ -1629,144 +1553,5 @@ This simulation shows that the Greenbergian word order correlations can in princ
 
 \end{document}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-%\paragraph{Analysis 2: Quantifying Degree of Pareto Optimality}
-%
-%TODO maybe we can scrap this part as it is harder to explain well, if Analysis 1 sufficient.
-%
-%
-%\begin{figure}
-%\centering
-%	\begin{tabular}{llll}
-%		(a) & (b) & (c) & (d) \\
-%		\includegraphics[width=0.22\textwidth]{figures/isocline1.png}&
-%		\includegraphics[width=0.22\textwidth]{figures/isocline2.png}&
-%		\includegraphics[width=0.22\textwidth]{figures/isocline3.png}&
-%\includegraphics[width=0.22\textwidth]{figures/isocline4.png}
-%	\end{tabular}
-%
-%	\caption{Isolines: (a) The set of all possible baseline grammars forms a distribution in the parseability-predictability space.
-%	The Pareto frontier consists of those points that are not dominated by any baseline grammar -- that is, those for which $P=0$: For points on this curve, no baseline grammar is both to their top and their right.
-%	(b) Other grammars are dominated by some fractions $P > 0$ of baseline grammars. The two green crosses mark grammars that both are dominated by $P=0.05$ of baseline grammars. A blue curve connects all grammars dominated by exactly $P=0.05$ of baseline grammars.
-%	(c) We observe a sample of $N=50$ baseline grammars, sampled uniformly from the set of baseline grammars. Samples will tend to concentrate in the high-density regions of the baseline distribution.
-%	We also observe the efficiency of the real language (red cross) and an estimate of the Pareto frontier (blue line).
-%	(d) We use the $50$ samples from the baseline grammar distribution to construct an estimate of the full abseline distibution, using the Dirichlet Process Gaussian Mixture Model. Using this inferred distribution, we estimate what fraction $P$ of baseline grammars dominate the real language, and the curve connecting all grammars dominated by the same fraction $P$ of baselines.
-%	}\label{fig:isoline-explanation}
-%\end{figure}
-%
-%
-%\begin{figure}
-%\centering
-%\includegraphics[width=\textwidth]{../results/plane/pareto-plane-perLanguage-isoCurve-smooth-interval.pdf}
-%	\caption{Real languages, even those that are not at the estimated Pareto frontier, are Pareto-dominated by very few other hypothetical grammars. Green curves: Baseline distribution, estimated using Kernel Density estimation. Black numbers indicate the fraction of baselines dominating the real language, with a 95\% credible interval, estimated using a nonparametric Bayesian method (see text). Orange curves connect points estimated to be dominated by the same fraction of baselines as the real language, estimated using the same Bayesian method (see text). }\label{fig:isoline}
-%\end{figure}
-%
-%
-%%The Pareto curve is formed by those grammars such that no grammar simultaneously achieves higher parseability and higher predictability.
-%%This motivates 
-%
-%We quantify the Pareto-optimality of the language $r$ as the fraction of baselines that Pareto-dominate $r$ -- that is, baselines that are at least as good as $r$ on \emph{both} parseability and predictability:
-%\begin{equation}
-%P := \frac{\# \{b \in B: R_{Pars}(b) \geq R_{eff}(r) \text{ and }  R_{Pred}(b) \geq R_{Pred}(r) \}}{\#B}
-%\end{equation}
-%%This quantifies how many hypothetical grammars are more efficient than $r$ for \emph{all} choices of $\lambda$ (make a figure).
-%%This quantity is also known as the joint (or bivariate) exceedance probability.
-%If we have access to the full distribution over baseline grammars, then the Pareto frontier is formed by exactly those grammars where $P=0$ (make a figure).
-%(TODO slight subtlety: $r$ itself is part of $B$, so $P > 0$ TODO change definition)
-%Small values of $P$ indicate that only few baseline grammars are better than $r$.
-%%In practice, we only have a limited sample of $50$ baseline grammar samples; so only an approximation of $P$ is actually observable, and this approximation will be $0$ in a larger region of the plane (make a figure).
-%
-%In this section, we aim to estimate $P$, provide uncertainty intervals.
-%In order to also compare with the values of $P$ attained by baseline languages, we also estimated the isoline (cotour line) of grammars having the same $P$ value as the real language.
-%
-%%$P$ is also known as the \emph{joint} or \emph{bivariate} \emph{exceedance probability}, and there are a range of methods for estimating it.
-%
-%We used a simple nonparametric Bayesian approach to estimate $P$ from the 50 observed baseline samples.
-%The baseline languages form a distribution in the parseability-predictability plane, from which 50 independent samples are known.
-%We model the underlying distribution using the Dirichlet Process Gaussian Mixture Model (DPGMM), a flexible nonparametric model that can accomodate multimodal and other non-normal distributions \citep{rasmussen2000infinite, escobar1995bayesian, muller1996bayesian}.
-%This model is a Gaussian mixture model where the number of components itself is a latent parameter inferred from the data.
-%DPGMMs can be seen as a Bayesian version of Kernel Density Smoothing.\footnote{A potential objection to using such Kernel Density Estimation is that it models a continuous distribution with support everywhere, while the distribution of grammars is discrete and finite, in particular bounded by a Pareto frontier. We believe that this does not cause problems for this analysis. First, the number of possible grammars is extremey large, exceeding $37!$, which is more than $10^{43}$, suggesting that the distribution in the parseability-predictability plane is closely approximated by a continuous distribution. Second, the approximate Pareto frontier tends to be clearly separated from the high-density regions of the baseline distribution, in which most sampled baselines fall, showing that the baseline distribution has very small density around and beyond the Pareto frontier.}
-%In our context here, the reason for using DPGMMs instead of Kernel Density Smoothing is that Bayesian inference using the DPGMM provides a straightforward method of deriving estimates and credible intervals for $PO$ and the isoline.
-%
-%% http://mlg.eng.cam.ac.uk/pub/pdf/GoeRas10.pdf
-%% TODO report prior
-%
-%The DPGMM defines a prior over possible baseline distributions in the parseability-predictability plane.
-%%Under this prior, each possible distribution is parameterized by a number $n$ of components, $n$ bivariate Gaussians $\mu_i, \Sigma_i$, and $n$ weights $w_i$ for these components ($\sum_{i=1}^n w_i=1$).
-%Each possible distribution is parameterized as $\sum_{i=1}^n w_i p_{\mu_i, \Sigma_i}(x)$ where $p_{\mu_i, \Sigma_i}$ is the bivariate Gaussian density.
-%The number $n$ of components is inferred from the data together with the weights $w_i$, the means $\mu_i$, and the covariance matrices $\Sigma_i$.
-%A Dirichlet process prior (TODO) is placed on $n$, favoring models with smaller numbers of components unless the data provides evidence for more components.
-%We use the $50$ observed baseline samples to infer a posterior distribution over such mixture distributions.
-%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples, from which we selected an evenly spaced subset of 100 samples.
-%
-%For each of these samples, we then computed $P$ of the real language, and the isoline.
-%The collection of these results provides a set of samples from the posterior distribution over the true value of $P$ and the true isoline.
-%We plot the posterior means of $P$ and the isoline in Figure~\ref{fig:isoline}.
-%
-%
-%
-%
-%
-
-
-
-
-% paretoByFamily.R
-
-
-%\paragraph{Inferring $\lambda$}
-%We choose $\lambda$ to minimize the number of baselines that have better values of $R_\lambda := R_{Pars} + \lambda R_{Pred}$ than the real language:
-%\begin{equation}
-%	O := \min_\lambda \# \{b \in B: R_{eff}(b) > R_{eff}(r)\}
-%\end{equation}
-%where $r$ is the real language, and $B$ is the set of baselines.
-%Naively choosing $\lambda$ to minimize this quantity from the observed $50$ baseline samples will bias $O$ towards overestimating the optimality of the real language.
-%
-%TODO maybe add a figure explaining the Bayesian story a bit more -- how we're using a continuous distribution to smooth out the observed samples?
-%
-%We eliminate this anti-conservative bias by conducting joint Bayesian inference of $\lambda$ of $O$, using the Dirichlet Gaussian Process, a Bayesian version of Kernel Density Smoothing.
-%The 50 samples represent an underlying baseline distribution in the predictability-parseability plane.
-%We approximate this underlying distribution as a continuous distribution from the Dirichlet Gaussian Process, and infer its parameters using Bayesian inference.
-%We use this method to obtain a Bayesian estimate of the distribution of baseline distributions in the Surprisal-Parseability plane.
-%The Dirichlet Gaussian Process (CITE) defines a prior over possible baseline distributions.
-%Under this prior, each possible distribution is parameterized by a number $n$ of components, and $n$ Gaussians $\mu_n, \sigma^2_n$.
-%Due to the flexible number of components, this nonparametric prior can accomodate a wide range of continuous probability distributions, including multimodal ones.
-%We use the $50$ observed baseline samples to infer a posterior distribution over such smooth distributions.
-%We then use MCMC to obtain 1,000 samples from the posterior, based on these samples.
-%We used the MCMC implementation provided by the \texttt{R} \citep{R2013} package \texttt{dirichletprocess}~\citep{ross2018dirichletprocess}, discarding the first 1,000 samples as warmup samples, and obtaining another 1,000 samples.
-%
-%For every sampled distribution -- consisting of a component number $n$ and $n$ Gaussians, we then computed 
-%\begin{equation}
-%	O := \min_\lambda P(R_{eff}(b) > R_{eff}(r))\}
-%\end{equation}
-%where we considered $\lambda \in (0,1)$ in steps of $0.5$.
-%
-%By taking the values $O, \lambda$ for the 1,000 posterior samples, we obtained an estimate of the posterior of $O$ and $\lambda$.
 
 
