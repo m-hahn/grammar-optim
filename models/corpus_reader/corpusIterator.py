@@ -10,32 +10,32 @@ def readUDCorpus(language, partition):
       files = []
       while len(files) == 0:
         if len(basePaths) == 0:
-           print "No files found"
+           print("No files found")
            raise IOError
         basePath = basePaths[0]
         del basePaths[0]
         files = os.listdir(basePath)
-        files = filter(lambda x:x.startswith("UD_"+language), files)
+        files = list(filter(lambda x:x.startswith("UD_"+language), files))
       data = []
       for name in files:
         if "Sign" in name:
-           print "Skipping "+name
+           print("Skipping "+name)
            continue
         assert ("Sign" not in name)
         if "Chinese-CFL" in name:
-           print "Skipping "+name
+           print("Skipping "+name)
            continue
         suffix = name[len("UD_"+language):]
         subDirectory =basePath+"/"+name
         subDirFiles = os.listdir(subDirectory)
         partitionHere = partition
             
-        candidates = filter(lambda x:"-ud-"+partitionHere+"." in x and x.endswith(".conllu"), subDirFiles)
+        candidates = list(filter(lambda x:"-ud-"+partitionHere+"." in x and x.endswith(".conllu"), subDirFiles))
         if len(candidates) == 0:
-           print "Did not find "+partitionHere+" file in "+subDirectory
+           print("Did not find "+partitionHere+" file in "+subDirectory)
            continue
         if len(candidates) == 2:
-           candidates = filter(lambda x:"merged" in x, candidates)
+           candidates = list(filter(lambda x:"merged" in x, candidates))
         assert len(candidates) == 1, candidates
         try:
            dataPath = subDirectory+"/"+candidates[0]
@@ -44,7 +44,7 @@ def readUDCorpus(language, partition):
               assert len(newData) > 1
               data = data + newData
         except IOError:
-           print "Did not find "+dataPath
+           print("Did not find "+dataPath)
 
       assert len(data) > 0, (language, partition, files)
 
@@ -76,7 +76,7 @@ class CorpusIterator():
    def length(self):
       return len(self.data)
    def processSentence(self, sentence):
-        sentence = map(lambda x:x.split("\t"), sentence.split("\n"))
+        sentence = list(map(lambda x:x.split("\t"), sentence.split("\n")))
         result = []
         for i in range(len(sentence)):
 #           print sentence[i]
